@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="gvectest" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Option virtualFolders="genvector/;munit/;" />
+		<Build>
+			<Target title="Test Static">
+				<Option output="gvectest" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-std=c99" />
+					<Add option="-g" />
+					<Add option="-fprofile-arcs" />
+					<Add option="-ftest-coverage" />
+					<Add option="-DGVEC_INSERT_NO_REALLOC" />
+				</Compiler>
+				<Linker>
+					<Add option="-fprofile-arcs" />
+					<Add option="-ftest-coverage" />
+				</Linker>
+			</Target>
+			<Target title="Test Modular">
+				<Option output="gvectest" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-std=c99" />
+					<Add option="-g" />
+					<Add option="-fprofile-arcs" />
+					<Add option="-ftest-coverage" />
+					<Add option="-DGVEC_MODULAR_APPROACH" />
+				</Compiler>
+				<Linker>
+					<Add option="-fprofile-arcs" />
+					<Add option="-ftest-coverage" />
+				</Linker>
+			</Target>
+			<Target title="Check C89 Static">
+				<Option output="gvectest" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Wno-unused-function" />
+					<Add option="-DGVTEST_CHECK_ONLY_C89" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+			<Target title="Check C89 Modular">
+				<Option output="gvectest" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-Wno-unused-function" />
+					<Add option="-DGVTEST_CHECK_ONLY_C89" />
+					<Add option="-DGVEC_MODULAR_APPROACH" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-fomit-frame-pointer" />
+			<Add option="-fexpensive-optimizations" />
+			<Add option="-O3" />
+			<Add option="-pedantic-errors" />
+			<Add option="-pedantic" />
+			<Add option="-Wextra" />
+			<Add option="-Wall" />
+			<Add option="-ansi" />
+		</Compiler>
+		<Linker>
+			<Add option="-s" />
+		</Linker>
+		<Unit filename="../genvector.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="genvector/" />
+		</Unit>
+		<Unit filename="../genvector.h">
+			<Option virtualFolder="genvector/" />
+		</Unit>
+		<Unit filename="gvec_general.h" />
+		<Unit filename="gvec_modular.c">
+			<Option compilerVar="CC" />
+			<Option target="Test Modular" />
+			<Option target="Check C89 Modular" />
+		</Unit>
+		<Unit filename="gvec_modular.h">
+			<Option target="Test Modular" />
+			<Option target="Check C89 Modular" />
+		</Unit>
+		<Unit filename="gvec_static.h">
+			<Option target="Test Static" />
+			<Option target="Check C89 Static" />
+		</Unit>
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="munit/munit.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="munit/" />
+			<Option target="Test Static" />
+			<Option target="Test Modular" />
+		</Unit>
+		<Unit filename="munit/munit.h">
+			<Option virtualFolder="munit/" />
+			<Option target="Test Static" />
+			<Option target="Test Modular" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
