@@ -2,8 +2,10 @@
 
 #include "gvmacro.h"
 
-#define __GV_GVEC_USE_VAL_RET *
-#define __GV_GVEC_USE_REF_RET
+#define __GVVAL_OP
+#define __GVREF_OP *
+#define __GVVAL_IOP *
+#define __GVREF_IOP
 
 /*
   __GVONCEFUNC is necessary to prevent multiple declarations if
@@ -31,6 +33,9 @@
   #define GVEC_C_DEFINE GVEC_INSTANTIATE
 
   #define GVEC_H_DECLARE( gvTypename, gvVecName, gvPassBy, gvRetBy ) \
+    __GVHDECLARE( gvTypename, gvVecName, gvPassBy, gvRetBy )
+
+  #define __GVHDECLARE( gvTypename, gvVecName, gvPassBy, gvRetBy ) \
   \
     typedef gvTypename* gvec_##gvVecName##_t; \
   \
@@ -38,18 +43,18 @@
       size_t min_count ); \
     extern gvec_##gvVecName##_t gvec_##gvVecName##_assign( \
       gvec_##gvVecName##_t hgvec, size_t count, \
-      const gvTypename gvPassBy value ); \
+      const gvTypename gvPassBy##OP value ); \
     extern gvec_##gvVecName##_t gvec_##gvVecName##_resize( \
       gvec_##gvVecName##_t hgvec, size_t new_count, \
-      const gvTypename gvPassBy value ); \
+      const gvTypename gvPassBy##OP value ); \
     extern gvec_##gvVecName##_t gvec_##gvVecName##_insert( \
       gvec_##gvVecName##_t hgvec, size_t pos, size_t count, \
-      const gvTypename gvPassBy value ); \
+      const gvTypename gvPassBy##OP value ); \
     extern gvec_##gvVecName##_t gvec_##gvVecName##_push( \
-      gvec_##gvVecName##_t hgvec, const gvTypename gvPassBy value ); \
-    extern gvTypename gvRetBy gvec_##gvVecName##_front( \
+      gvec_##gvVecName##_t hgvec, const gvTypename gvPassBy##OP value ); \
+    extern gvTypename gvRetBy##OP gvec_##gvVecName##_front( \
       gvec_##gvVecName##_t hgvec ); \
-    extern gvTypename gvRetBy gvec_##gvVecName##_back( \
+    extern gvTypename gvRetBy##OP gvec_##gvVecName##_back( \
       gvec_##gvVecName##_t hgvec ); \
   \
   __GV_REQUIRE_SEMICOLON_OUTDOOR
@@ -59,6 +64,9 @@
 /******************************************************************************/
 
 #define GVEC_INSTANTIATE( gvTypename, gvVecName, gvPassBy, gvRetBy ) \
+  __GVINSTANTIATE( gvTypename, gvVecName, gvPassBy, gvRetBy )
+
+#define __GVINSTANTIATE( gvTypename, gvVecName, gvPassBy, gvRetBy ) \
 \
   __GVVECTYPE( gvTypename, gvVecName ); \
 /********************************************************************/ \
@@ -74,14 +82,14 @@
   gvec_##gvVecName##_assign( \
     gvec_##gvVecName##_t hgvec, \
     size_t count, \
-    const gvTypename gvPassBy value \
+    const gvTypename gvPassBy##OP value \
   ) { \
     size_t i; \
   { \
     hgvec = gvec_resize( hgvec, count ); \
     if (GVEC_NO_ERROR(hgvec)) { \
       for(i = 0; i < count; ++i) { \
-        hgvec[i] = gvPassBy value; \
+        hgvec[i] = gvPassBy##OP value; \
       } \
     } \
     return hgvec; \
@@ -91,7 +99,7 @@
   gvec_##gvVecName##_resize( \
     gvec_##gvVecName##_t hgvec, \
     size_t new_count, \
-    const gvTypename gvPassBy value \
+    const gvTypename gvPassBy##OP value \
   ) { \
     size_t i; \
   { \
@@ -100,7 +108,7 @@
     hgvec = gvec_resize( hgvec, new_count ); \
     if (GVEC_NO_ERROR(hgvec)) { \
       for(; i < new_count; ++i) { \
-        hgvec[i] = gvPassBy value; \
+        hgvec[i] = gvPassBy##OP value; \
       } \
     } \
     return hgvec; \
@@ -111,14 +119,14 @@
     gvec_##gvVecName##_t hgvec, \
     size_t pos, \
     size_t count, \
-    const gvTypename gvPassBy value \
+    const gvTypename gvPassBy##OP value \
   ) { \
     size_t i; \
   { \
     hgvec = gvec_insert( hgvec, pos, count ); \
     if (GVEC_NO_ERROR(hgvec)) { \
       for(i = 0; i < count; ++i) { \
-        hgvec[i] = gvPassBy value; \
+        hgvec[i] = gvPassBy##OP value; \
       } \
     } \
     return hgvec; \
@@ -127,30 +135,30 @@
   __GVONCEFUNC gvec_##gvVecName##_t \
   gvec_##gvVecName##_push( \
     gvec_##gvVecName##_t hgvec, \
-    const gvTypename gvPassBy value \
+    const gvTypename gvPassBy##OP value \
   ) { \
   { \
     hgvec = gvec_push( hgvec ); \
     if (GVEC_NO_ERROR(hgvec)) { \
-      hgvec[gvec_count(hgvec)-1] = gvPassBy value; \
+      hgvec[gvec_count(hgvec)-1] = gvPassBy##OP value; \
     } \
     return hgvec; \
   }} \
 /********************************************************************/ \
-  __GVONCEFUNC gvTypename gvRetBy \
+  __GVONCEFUNC gvTypename gvRetBy##OP \
   gvec_##gvVecName##_front( \
     gvec_##gvVecName##_t hgvec \
   ) { \
   { \
-    return __GV_##gvRetBy##_RET (gvTypename*) gvec_front( hgvec ); \
+    return gvRetBy##IOP (gvTypename*) gvec_front( hgvec ); \
   }} \
 /********************************************************************/ \
-  __GVONCEFUNC gvTypename gvRetBy \
+  __GVONCEFUNC gvTypename gvRetBy##OP \
   gvec_##gvVecName##_back( \
     gvec_##gvVecName##_t hgvec \
   ) { \
   { \
-    return __GV_##gvRetBy##_RET (gvTypename*) gvec_back( hgvec ); \
+    return gvRetBy##IOP (gvTypename*) gvec_back( hgvec ); \
   }} \
 /********************************************************************/ \
   __GV_REQUIRE_SEMICOLON_OUTDOOR

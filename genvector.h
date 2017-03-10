@@ -83,8 +83,8 @@ extern void* gvec_back( gvec_t hgvec );
 
 #define GVEC_NO_ERROR(hgvec) GVEC_ERROR_SAFE(gvec_error(hgvec))
 
-#define GVEC_USE_VAL
-#define GVEC_USE_REF *
+#define GVEC_USE_VAL __GVVAL_
+#define GVEC_USE_REF __GVREF_
 
 #include "gvec_template.inc"
 
