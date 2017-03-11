@@ -118,20 +118,21 @@ gvec_t gvec_set( gvec_t hgvec_dest, gvec_t hgvec_src ) {
 }}
 
 gvec_t gvec_copy( gvec_t hgvec ) {
+  void* buffer;
   gvhead_p src_hdr, dest_hdr;
-  gvec_t new_gvec;
 {
   assert( hgvec != NULL );
 
   src_hdr = GVEC_HDR(hgvec);
-  new_gvec = gvec_new( src_hdr->count, src_hdr->unitsz );
-  if (new_gvec == NULL) { return NULL; }
+  buffer = set_storage( src_hdr->size, src_hdr->unitsz, NULL );
+  if (buffer == NULL) { return NULL; }
 
-  dest_hdr = GVEC_HDR(new_gvec);
+  dest_hdr = (gvhead_p)buffer;
   dest_hdr->count = src_hdr->count;
   dest_hdr->error = src_hdr->error;
 
-  return memcpy( new_gvec, hgvec, dest_hdr->count * dest_hdr->unitsz );
+  return memcpy( ADDHDR_PTR(buffer), hgvec,
+      dest_hdr->count * dest_hdr->unitsz );
 }}
 
 void gvec_free( gvec_t hgvec ) {
