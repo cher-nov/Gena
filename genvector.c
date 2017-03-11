@@ -36,11 +36,23 @@
 /******************************************************************************/
 
 static inline size_t calc_size( size_t count ) {
+#ifdef GVEC_CALC_SIZE_MATH
   return (size_t)pow(
       GVEC_GROWTH_FACTOR,
       ceil( log( (count>0) ?count :1 ) / log(GVEC_GROWTH_FACTOR) )
     );
 }
+#else
+  size_t size = 1;
+{
+  while (size < count) {
+    /* GROWTH_FACTOR == 1.5: size = (size << 1) - (size >> 1);
+       GROWTH_FACTOR == 2.0: size <<= 1; */
+    size = (size_t)ceil( size * GVEC_GROWTH_FACTOR );
+  }
+  return size;
+}}
+#endif
 
 static void* set_storage( size_t size, size_t unitsz, gvec_t origin ) {
   void* buffer;
