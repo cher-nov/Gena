@@ -30,8 +30,8 @@
 #else /* GVEC_MODULAR_APPROACH */
 
   #define __GVONCEFUNC
-  #define __GVVECTYPE( gvTypename, gvVecName ) \
-    __GV_REQUIRE_SEMICOLON_OUTDOOR
+
+  #define __GVVECTYPE( gvTypename, gvVecName ) __GV_REQUIRE_SEMICOLON_OUTDOOR
 
   #define GVEC_C_DEFINE __GVINSTANTIATE
 
@@ -63,6 +63,8 @@
   __GV_REQUIRE_SEMICOLON_OUTDOOR
 
 #endif /* GVEC_MODULAR_APPROACH */
+
+#define GVEC_APPLY_TYPESET(macro, typeset) macro typeset
 
 /******************************************************************************/
 

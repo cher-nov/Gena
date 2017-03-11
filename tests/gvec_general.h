@@ -3,9 +3,6 @@
 
 #include "../genvector.h"
 
-#define __GVT_TYPESET_TO_ARGS(template, typeset) \
-  template typeset
-
 #define __GVTEST_TYPESET_INTV \
   (int, intv, GVEC_USE_VAL, GVEC_USE_VAL)
 
