@@ -24,18 +24,21 @@
   #define __GVVECTYPE( gvTypename, gvVecName ) \
     typedef gvTypename* gvec_##gvVecName##_t
 
+  #define GVEC_INSTANTIATE( gvTypename, gvVecName, gvPassBy, gvRetBy ) \
+    __GVINSTANTIATE( gvTypename, gvVecName, gvPassBy, gvRetBy )
+
 #else /* GVEC_MODULAR_APPROACH */
 
   #define __GVONCEFUNC
   #define __GVVECTYPE( gvTypename, gvVecName ) \
     __GV_REQUIRE_SEMICOLON_OUTDOOR
 
-  #define GVEC_C_DEFINE GVEC_INSTANTIATE
+  #define GVEC_C_DEFINE __GVINSTANTIATE
 
   #define GVEC_H_DECLARE( gvTypename, gvVecName, gvPassBy, gvRetBy ) \
-    __GVHDECLARE( gvTypename, gvVecName, gvPassBy, gvRetBy )
+    __GVDECLAREFUNC( gvTypename, gvVecName, gvPassBy, gvRetBy )
 
-  #define __GVHDECLARE( gvTypename, gvVecName, gvPassBy, gvRetBy ) \
+  #define __GVDECLAREFUNC( gvTypename, gvVecName, gvPassBy, gvRetBy ) \
   \
     typedef gvTypename* gvec_##gvVecName##_t; \
   \
@@ -62,9 +65,6 @@
 #endif /* GVEC_MODULAR_APPROACH */
 
 /******************************************************************************/
-
-#define GVEC_INSTANTIATE( gvTypename, gvVecName, gvPassBy, gvRetBy ) \
-  __GVINSTANTIATE( gvTypename, gvVecName, gvPassBy, gvRetBy )
 
 #define __GVINSTANTIATE( gvTypename, gvVecName, gvPassBy, gvRetBy ) \
 \
