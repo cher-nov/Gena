@@ -35,24 +35,30 @@
 
 /******************************************************************************/
 
-static inline size_t calc_size( size_t count ) {
-#ifdef GVEC_CALC_SIZE_MATH
-  return (size_t)pow(
-      GVEC_GROWTH_FACTOR,
-      ceil( log( (count>0) ?count :1 ) / log(GVEC_GROWTH_FACTOR) )
-    );
-}
-#else
-  size_t size = 1;
+static inline size_t calc_size( size_t current_size, size_t min_add ) {
+  size_t size;
 {
-  while (size < count) {
+  size = (current_size > 0) ? current_size : 1;
+
+  #ifdef GVEC_CALC_SIZE_MATH
+
+  size = (size_t)pow(
+      GVEC_GROWTH_FACTOR,
+      ceil( log( size+min_add ) / log(GVEC_GROWTH_FACTOR) )
+    );
+
+  #else
+
+  while (size < current_size+min_add) {
     /* GROWTH_FACTOR == 1.5: size = (size << 1) - (size >> 1);
        GROWTH_FACTOR == 2.0: size <<= 1; */
     size = (size_t)ceil( size * GVEC_GROWTH_FACTOR );
   }
+
+  #endif
+
   return size;
 }}
-#endif
 
 static void* set_storage( size_t size, size_t unitsz, gvec_t origin ) {
   void* buffer;
@@ -80,7 +86,7 @@ gvec_t gvec_new( size_t min_count, size_t unitsz ) {
 {
   assert( unitsz > 0 );
 
-  buffer = set_storage( calc_size(min_count), unitsz, NULL );
+  buffer = set_storage( calc_size(0, min_count), unitsz, NULL );
   if (buffer == NULL) { return NULL; }
 
   header = (gvhead_p)buffer;
@@ -171,7 +177,7 @@ gvec_t gvec_reserve( gvec_t hgvec, size_t count ) {
 
   RETURN_GVEC_ERROR( (count == 0), header, GVEC_ERR_IDLE, hgvec );
 
-  new_size = calc_size( header->size + count );
+  new_size = calc_size( header->size, count );
   new_buffer = set_storage( new_size, header->unitsz, hgvec );
   RETURN_GVEC_ERROR( (new_buffer == NULL), header, GVEC_ERR_MEMORY, hgvec );
 
@@ -186,7 +192,7 @@ gvec_t gvec_shrink( gvec_t hgvec ) {
   assert( hgvec != NULL );
   INIT_GVHEAD_PTR(header, hgvec);
 
-  new_size = calc_size(header->count);
+  new_size = calc_size(0, header->count);
   RETURN_GVEC_ERROR( (header->size <= new_size), header, GVEC_ERR_IDLE, hgvec );
 
   new_buffer = set_storage( new_size, header->unitsz, hgvec );
