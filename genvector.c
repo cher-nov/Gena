@@ -21,15 +21,9 @@
 #define ADDHDR_INT(x) (x + sizeof(gvhead_s))
 #define ADDHDR_PTR(x) VOIDP_ADD(x, sizeof(gvhead_s))
 
-#define INIT_GVHEAD_PTR(var, hgvec) \
-  var = GVEC_HDR(hgvec); \
-  var->error = GVEC_ERR_NO
-
-#define RETURN_GVEC_ERROR(cond, header, errcode, retval) \
-  if (cond) { \
-    header->error = errcode; \
-    return retval; \
-  } __GV_REQUIRE_SEMICOLON_INDOOR
+#define ASSERT_PHANDLE(phandle) \
+  assert( phandle != NULL ); \
+  assert( *phandle != NULL )
 
 #define RETVOID
 
@@ -60,159 +54,149 @@ static inline size_t calc_size( size_t current_size, size_t min_add ) {
   return size;
 }}
 
-static void* set_storage( size_t size, size_t unitsz, gvec_t origin ) {
+static gvhead_p set_storage( gvec_t* phandle, size_t size, size_t unitsz ) {
   void* buffer;
   gvhead_p header;
-  size_t buf_sz;
 {
-  buffer = (origin == NULL) ? NULL : GVEC_HDR(origin);
-  buf_sz = (size == 0) ? 0 : ADDHDR_INT(size*unitsz);
-  buffer = realloc( buffer, buf_sz );
+  assert( phandle != NULL );
+  assert( size > 0 );
+  assert( unitsz > 0 );
+
+  buffer = (*phandle == NULL) ? NULL : GVEC_GET_BUFFER(*phandle);
+
+  if (buffer != NULL) {
+    header = (gvhead_p)buffer;
+    if (size == header->size) { return header; }
+  }
+
+  buffer = realloc( buffer, ADDHDR_INT(size*unitsz) );
   if (buffer == NULL) { return NULL; }
 
+  *phandle = ADDHDR_PTR(buffer);
+
   header = (gvhead_p)buffer;
-  /* if (header->count > size) { header->count = size; } */
   header->size = size;
   header->unitsz = unitsz;
 
-  return buffer;
+  return header;
 }}
 
 /******************************************************************************/
 
 gvec_t gvec_new( size_t min_count, size_t unitsz ) {
-  void* buffer;
+  gvec_t handle = NULL;
   gvhead_p header;
 {
-  assert( unitsz > 0 );
+  header = set_storage( &handle, calc_size(0, min_count), unitsz );
+  if (header == NULL) { return NULL; }
 
-  buffer = set_storage( calc_size(0, min_count), unitsz, NULL );
-  if (buffer == NULL) { return NULL; }
-
-  header = (gvhead_p)buffer;
   header->count = 0;
-  header->error = GVEC_ERR_NO;
-
-  return ADDHDR_PTR(buffer);
+  return handle;
 }}
 
-gvec_t gvec_set( gvec_t hgvec_dest, gvec_t hgvec_src ) {
+void __gvec_set( gvec_t* phandle, gvec_t source ) {
   gvhead_p dest_hdr, src_hdr;
 {
-  assert( hgvec_dest != NULL );
+  assert( phandle != NULL );
 
-  if (hgvec_src == NULL) {
-    gvec_free( hgvec_dest );
-    return NULL;
+  if (source == NULL) {
+    gvec_free( *phandle );
+    return;
   }
 
-  INIT_GVHEAD_PTR(dest_hdr, hgvec_dest);
-  src_hdr = GVEC_HDR(hgvec_src);
+  if (*phandle == NULL) {
+    *phandle = gvec_copy(source);
+    return;
+  }
+
+  dest_hdr = GVEC_GET_HEADER(*phandle);
+  src_hdr = GVEC_GET_HEADER(source);
 
   if (
-      (dest_hdr->unitsz == src_hdr->unitsz) &&
-      (dest_hdr->count >= src_hdr->count)
+      (dest_hdr->size * dest_hdr->unitsz) >= (src_hdr->size * src_hdr->unitsz)
   ) {
-    memcpy( hgvec_dest, hgvec_src, src_hdr->count * src_hdr->unitsz );
+    memcpy( *phandle, source, src_hdr->count * src_hdr->unitsz );
     dest_hdr->count = src_hdr->count;
+    dest_hdr->unitsz = src_hdr->unitsz;
   } else {
-    gvec_free( hgvec_dest );
-    hgvec_dest = gvec_copy( hgvec_src );
+    gvec_free( phandle );
+    *phandle = gvec_copy(source);
   }
-
-  return hgvec_dest;
 }}
 
-gvec_t gvec_copy( gvec_t hgvec ) {
-  void* buffer;
+gvec_t gvec_copy( gvec_t handle ) {
+  gvec_t dest_handle = NULL;
   gvhead_p src_hdr, dest_hdr;
 {
-  assert( hgvec != NULL );
+  assert( handle != NULL );
+  src_hdr = GVEC_GET_HEADER(handle);
 
-  src_hdr = GVEC_HDR(hgvec);
-  buffer = set_storage( src_hdr->size, src_hdr->unitsz, NULL );
-  if (buffer == NULL) { return NULL; }
+  dest_hdr = set_storage( &dest_handle, src_hdr->size, src_hdr->unitsz );
+  if (dest_hdr == NULL) { return NULL; }
 
-  dest_hdr = (gvhead_p)buffer;
   dest_hdr->count = src_hdr->count;
-  dest_hdr->error = src_hdr->error;
-
-  return memcpy( ADDHDR_PTR(buffer), hgvec,
-      dest_hdr->count * dest_hdr->unitsz );
+  return memcpy( dest_handle, handle, src_hdr->count * src_hdr->unitsz );
 }}
 
-void gvec_free( gvec_t hgvec ) {
+void gvec_free( gvec_t handle ) {
 {
-  /* it should accept NULL as well as free() does */
-  set_storage( 0, 0, hgvec );
+  if (handle != NULL) { free( GVEC_GET_BUFFER(handle) ); }
 }}
 
 /******************************************************************************/
 
-gvec_t gvec_resize( gvec_t hgvec, size_t new_count ) {
+gvec_error_e __gvec_resize( gvec_t* phandle, size_t new_count ) {
   gvhead_p header;
 {
-  assert( hgvec != NULL );
-  INIT_GVHEAD_PTR(header, hgvec);
+  ASSERT_PHANDLE(phandle);
+  header = GVEC_GET_HEADER(*phandle);
 
-  RETURN_GVEC_ERROR( (header->count == new_count),
-                     header, GVEC_ERR_IDLE, hgvec );
-
-  if (new_count > header->size) {
-    hgvec = gvec_insert( hgvec, header->count, new_count - header->count );
-  } else {
+  if (new_count <= header->size) {
     header->count = new_count;
+    return GVEC_ERR_NO;
   }
 
-  return hgvec;
+  return gvec_insert( phandle, header->count, new_count - header->count );
 }}
 
-gvec_t gvec_reserve( gvec_t hgvec, size_t count ) {
-  void* new_buffer;
+gvec_error_e __gvec_reserve( gvec_t* phandle, size_t count ) {
   gvhead_p header;
   size_t new_size;
 {
-  assert( hgvec != NULL );
-  INIT_GVHEAD_PTR(header, hgvec);
-
-  RETURN_GVEC_ERROR( (count == 0), header, GVEC_ERR_IDLE, hgvec );
+  ASSERT_PHANDLE(phandle);
+  header = GVEC_GET_HEADER(*phandle);
 
   new_size = calc_size( header->size, count );
-  new_buffer = set_storage( new_size, header->unitsz, hgvec );
-  RETURN_GVEC_ERROR( (new_buffer == NULL), header, GVEC_ERR_MEMORY, hgvec );
-
-  return ADDHDR_PTR(new_buffer);
+  return (set_storage( phandle, new_size, header->unitsz ) != NULL)
+         ? GVEC_ERR_NO
+         : GVEC_ERR_MEMORY;
 }}
 
-gvec_t gvec_shrink( gvec_t hgvec ) {
-  void* new_buffer;
+gvec_error_e __gvec_shrink( gvec_t* phandle ) {
   gvhead_p header;
   size_t new_size;
 {
-  assert( hgvec != NULL );
-  INIT_GVHEAD_PTR(header, hgvec);
+  ASSERT_PHANDLE(phandle);
+  header = GVEC_GET_HEADER(*phandle);
 
-  new_size = calc_size(0, header->count);
-  RETURN_GVEC_ERROR( (header->size <= new_size), header, GVEC_ERR_IDLE, hgvec );
-
-  new_buffer = set_storage( new_size, header->unitsz, hgvec );
-  RETURN_GVEC_ERROR( (new_buffer == NULL), header, GVEC_ERR_MEMORY, hgvec );
-
-  return ADDHDR_PTR(new_buffer);
+  new_size = calc_size( 0, header->count );
+  return (set_storage( phandle, new_size, header->unitsz ) != NULL)
+         ? GVEC_ERR_NO
+         : GVEC_ERR_MEMORY;
 }}
 
 /******************************************************************************/
 
-gvec_t gvec_insert( gvec_t hgvec, size_t pos, size_t count ) {
+gvec_error_e __gvec_insert( gvec_t* phandle, size_t pos, size_t count ) {
   gvec_t dest_gvec;
   gvhead_p header;
   size_t unitsz, old_count, new_count;
 {
-  assert( hgvec != NULL );
-  INIT_GVHEAD_PTR(header, hgvec);
+  ASSERT_PHANDLE(phandle);
+  header = GVEC_GET_HEADER(*phandle);
   assert( pos <= header->count );
 
-  RETURN_GVEC_ERROR( (count == 0), header, GVEC_ERR_IDLE, hgvec );
+  if (count == 0) { return GVEC_ERR_NO; }
 
   unitsz = header->unitsz;
   old_count = header->count;
@@ -221,12 +205,12 @@ gvec_t gvec_insert( gvec_t hgvec, size_t pos, size_t count ) {
   #ifndef GVEC_INSERT_NO_REALLOC
 
   if (new_count > header->size) {
-    hgvec = gvec_reserve( hgvec, new_count - header->size );
-    header = GVEC_HDR(hgvec);
-    if (header->error != GVEC_ERR_NO) { return hgvec; }
+    gvec_error_e errorcode = gvec_reserve( phandle, new_count - header->size );
+    if (errorcode != GVEC_ERR_NO) { return errorcode; }
+    header = GVEC_GET_HEADER(*phandle);
   }
 
-  dest_gvec = hgvec;
+  dest_gvec = *phandle;
 
   #else
 
@@ -234,81 +218,95 @@ gvec_t gvec_insert( gvec_t hgvec, size_t pos, size_t count ) {
   arbitrary positions, in theory. */
   if (new_count > header->size) {
     dest_gvec = gvec_new( new_count, unitsz );
-    RETURN_GVEC_ERROR( (dest_gvec == NULL), header, GVEC_ERR_MEMORY, hgvec );
-    header = GVEC_HDR(dest_gvec);
-    memmove( dest_gvec, hgvec, pos*unitsz );
+    if (dest_gvec == NULL) { return GVEC_ERR_MEMORY; }
+    header = GVEC_GET_HEADER(dest_gvec);
+    memmove( dest_gvec, *phandle, pos*unitsz );
   } else {
-    dest_gvec = hgvec;
+    dest_gvec = *phandle;
   }
 
   #endif
 
   memmove( VOIDP_ADD( dest_gvec, (pos+count)*unitsz ),
-           VOIDP_ADD( hgvec, pos*unitsz ), (old_count-pos)*unitsz );
+           VOIDP_ADD( *phandle, pos*unitsz ), (old_count-pos)*unitsz );
 
   header->count = new_count;
 
   #ifdef GVEC_INSERT_NO_REALLOC
-  if (dest_gvec != hgvec) { gvec_free(hgvec); }
+  if (*phandle != dest_gvec) {
+    gvec_free(*phandle);
+    *phandle = dest_gvec;
+  }
   #endif
 
-  return dest_gvec;
+  return GVEC_ERR_NO;
 }}
 
-void gvec_erase( gvec_t hgvec, size_t pos, size_t count ) {
+void gvec_erase( gvec_t handle, size_t pos, size_t count ) {
   gvhead_p header;
   size_t unitsz, tail_size;
 {
-  assert( hgvec != NULL );
-  INIT_GVHEAD_PTR(header, hgvec);
+  assert( handle != NULL );
+  header = GVEC_GET_HEADER(handle);
   assert( pos+count <= header->count );
 
-  RETURN_GVEC_ERROR( (count == 0), header, GVEC_ERR_IDLE, RETVOID );
+  if (count == 0) { return; }
 
   unitsz = header->unitsz;
   tail_size = (header->count-(pos+count)) * unitsz;
 
-  memmove( VOIDP_ADD( hgvec, pos*unitsz ),
-           VOIDP_ADD( hgvec, (pos+count)*unitsz ), tail_size );
+  memmove( VOIDP_ADD( handle, pos*unitsz ),
+           VOIDP_ADD( handle, (pos+count)*unitsz ), tail_size );
 
   header->count -= count;
 }}
 
-gvec_t gvec_push( gvec_t hgvec ) {
+gvec_error_e __gvec_push( gvec_t* phandle ) {
 {
-  assert( hgvec != NULL );
-  return gvec_resize( hgvec, gvec_count(hgvec)+1 );
+  ASSERT_PHANDLE(phandle);
+  return gvec_resize( phandle, gvec_count(*phandle)+1 );
 }}
 
-void gvec_pop( gvec_t hgvec ) {
-  assert( hgvec != NULL );
-  gvec_resize( hgvec, gvec_count(hgvec)-1 );
+void gvec_pop( gvec_t handle ) {
+  assert( handle != NULL );
+  gvec_erase( handle, gvec_count(handle)-1, 1 );
 }
 
 /******************************************************************************/
 
-void* gvec_at( gvec_t hgvec, size_t pos ) {
+void* gvec_at( gvec_t handle, size_t pos ) {
   gvhead_p header;
 {
-  assert( hgvec != NULL );
-  INIT_GVHEAD_PTR(header, hgvec);
-
-  RETURN_GVEC_ERROR( (pos >= header->count), header, GVEC_ERR_IDLE, NULL );
-  return VOIDP_ADD( hgvec, pos * header->unitsz );
+  assert( handle != NULL );
+  header = GVEC_GET_HEADER(handle);
+  return (pos < header->count)
+         ? VOIDP_ADD( handle, pos * header->unitsz )
+         : NULL;
 }}
 
-void* gvec_front( gvec_t hgvec ) {
+void* gvec_front( gvec_t handle ) {
 {
-  assert( hgvec != NULL );
-  /* actually equals to 'hgvec', but this is more clearly */
-  return VOIDP_ADD( hgvec, 0 );
+  assert( handle != NULL );
+  /* actually equals to 'handle', but this is more clearly */
+  return VOIDP_ADD( handle, 0 );
 }}
 
-void* gvec_back( gvec_t hgvec ) {
+void* gvec_back( gvec_t handle ) {
   gvhead_p header;
 {
-  assert( hgvec != NULL );
-  INIT_GVHEAD_PTR(header, hgvec);
-
-  return VOIDP_ADD( hgvec, (header->count-1)*header->unitsz );
+  assert( handle != NULL );
+  header = GVEC_GET_HEADER(handle);
+  return VOIDP_ADD( handle, (header->count-1)*header->unitsz );
 }}
+
+/******************************************************************************/
+
+size_t gvec_count( gvec_t handle ) {
+  assert( handle != NULL );
+  return GVEC_GET_HEADER(handle)->count;
+}
+
+size_t gvec_size( gvec_t handle ) {
+  assert( handle != NULL );
+  return GVEC_GET_HEADER(handle)->size;
+}

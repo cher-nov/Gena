@@ -44,21 +44,21 @@
   \
     extern gvec_##gvVecName##_t gvec_##gvVecName##_new( \
       size_t min_count ); \
-    extern gvec_##gvVecName##_t gvec_##gvVecName##_assign( \
-      gvec_##gvVecName##_t hgvec, size_t count, \
+    extern gvec_error_e gvec_##gvVecName##_assign( \
+      gvec_##gvVecName##_t* phandle, size_t count, \
       const gvTypename gvPassBy##OP value ); \
-    extern gvec_##gvVecName##_t gvec_##gvVecName##_resize( \
-      gvec_##gvVecName##_t hgvec, size_t new_count, \
+    extern gvec_error_e gvec_##gvVecName##_resize( \
+      gvec_##gvVecName##_t* phandle, size_t new_count, \
       const gvTypename gvPassBy##OP value ); \
-    extern gvec_##gvVecName##_t gvec_##gvVecName##_insert( \
-      gvec_##gvVecName##_t hgvec, size_t pos, size_t count, \
+    extern gvec_error_e gvec_##gvVecName##_insert( \
+      gvec_##gvVecName##_t* phandle, size_t pos, size_t count, \
       const gvTypename gvPassBy##OP value ); \
-    extern gvec_##gvVecName##_t gvec_##gvVecName##_push( \
-      gvec_##gvVecName##_t hgvec, const gvTypename gvPassBy##OP value ); \
+    extern gvec_error_e gvec_##gvVecName##_push( \
+      gvec_##gvVecName##_t* phandle, const gvTypename gvPassBy##OP value ); \
     extern gvTypename gvRetBy##OP gvec_##gvVecName##_front( \
-      gvec_##gvVecName##_t hgvec ); \
+      gvec_##gvVecName##_t handle ); \
     extern gvTypename gvRetBy##OP gvec_##gvVecName##_back( \
-      gvec_##gvVecName##_t hgvec ); \
+      gvec_##gvVecName##_t handle ); \
   \
   __GV_REQUIRE_SEMICOLON_OUTDOOR
 
@@ -80,87 +80,91 @@
     return gvec_new( min_count, sizeof(gvTypename) ); \
   }} \
 /********************************************************************/ \
-  __GVONCEFUNC gvec_##gvVecName##_t \
+  __GVONCEFUNC gvec_error_e \
   gvec_##gvVecName##_assign( \
-    gvec_##gvVecName##_t hgvec, \
+    gvec_##gvVecName##_t* phandle, \
     size_t count, \
     const gvTypename gvPassBy##OP value \
   ) { \
+    gvec_error_e errorcode; \
     size_t i; \
   { \
-    hgvec = gvec_resize( hgvec, count ); \
-    if (GVEC_NO_ERROR(hgvec)) { \
+    errorcode = gvec_resize( phandle, count ); \
+    if (errorcode == GVEC_ERR_NO) { \
       for(i = 0; i < count; ++i) { \
-        hgvec[i] = gvPassBy##OP value; \
+        (*phandle)[i] = gvPassBy##OP value; \
       } \
     } \
-    return hgvec; \
+    return errorcode; \
   }} \
 /********************************************************************/ \
-  __GVONCEFUNC gvec_##gvVecName##_t \
+  __GVONCEFUNC gvec_error_e \
   gvec_##gvVecName##_resize( \
-    gvec_##gvVecName##_t hgvec, \
+    gvec_##gvVecName##_t* phandle, \
     size_t new_count, \
     const gvTypename gvPassBy##OP value \
   ) { \
+    gvec_error_e errorcode; \
     size_t i; \
   { \
-    assert( hgvec != NULL ); \
-    i = gvec_count(hgvec); \
-    hgvec = gvec_resize( hgvec, new_count ); \
-    if (GVEC_NO_ERROR(hgvec)) { \
+    assert( phandle != NULL ); \
+    i = gvec_count(*phandle); \
+    errorcode = gvec_resize( phandle, new_count ); \
+    if (errorcode == GVEC_ERR_NO) { \
       for(; i < new_count; ++i) { \
-        hgvec[i] = gvPassBy##OP value; \
+        (*phandle)[i] = gvPassBy##OP value; \
       } \
     } \
-    return hgvec; \
+    return errorcode; \
   }} \
 /********************************************************************/ \
-  __GVONCEFUNC gvec_##gvVecName##_t \
+  __GVONCEFUNC gvec_error_e \
   gvec_##gvVecName##_insert( \
-    gvec_##gvVecName##_t hgvec, \
+    gvec_##gvVecName##_t* phandle, \
     size_t pos, \
     size_t count, \
     const gvTypename gvPassBy##OP value \
   ) { \
+    gvec_error_e errorcode; \
     size_t i; \
   { \
-    hgvec = gvec_insert( hgvec, pos, count ); \
-    if (GVEC_NO_ERROR(hgvec)) { \
+    errorcode = gvec_insert( phandle, pos, count ); \
+    if (errorcode == GVEC_ERR_NO) { \
       for(i = 0; i < count; ++i) { \
-        hgvec[i] = gvPassBy##OP value; \
+        (*phandle)[i] = gvPassBy##OP value; \
       } \
     } \
-    return hgvec; \
+    return errorcode; \
   }} \
 /********************************************************************/ \
-  __GVONCEFUNC gvec_##gvVecName##_t \
+  __GVONCEFUNC gvec_error_e \
   gvec_##gvVecName##_push( \
-    gvec_##gvVecName##_t hgvec, \
+    gvec_##gvVecName##_t* phandle, \
     const gvTypename gvPassBy##OP value \
   ) { \
+    gvec_error_e errorcode; \
   { \
-    hgvec = gvec_push( hgvec ); \
-    if (GVEC_NO_ERROR(hgvec)) { \
-      hgvec[gvec_count(hgvec)-1] = gvPassBy##OP value; \
+    errorcode = gvec_push(phandle); \
+    if (errorcode == GVEC_ERR_NO) { \
+      (*phandle)[gvec_count(*phandle)-1] = gvPassBy##OP value; \
     } \
-    return hgvec; \
+    return errorcode; \
   }} \
 /********************************************************************/ \
   __GVONCEFUNC gvTypename gvRetBy##OP \
   gvec_##gvVecName##_front( \
-    gvec_##gvVecName##_t hgvec \
+    gvec_##gvVecName##_t handle \
   ) { \
   { \
-    return gvRetBy##IOP (gvTypename*) gvec_front( hgvec ); \
+    return gvRetBy##IOP (gvTypename*) gvec_front(handle); \
   }} \
 /********************************************************************/ \
   __GVONCEFUNC gvTypename gvRetBy##OP \
   gvec_##gvVecName##_back( \
-    gvec_##gvVecName##_t hgvec \
+    gvec_##gvVecName##_t handle \
   ) { \
   { \
-    return gvRetBy##IOP (gvTypename*) gvec_back( hgvec ); \
+    return gvRetBy##IOP (gvTypename*) gvec_back(handle); \
   }} \
 /********************************************************************/ \
   __GV_REQUIRE_SEMICOLON_OUTDOOR

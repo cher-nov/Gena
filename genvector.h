@@ -33,7 +33,6 @@ typedef void* gvec_t;
 
 typedef enum {
   GVEC_ERR_NO,
-  GVEC_ERR_IDLE,
   GVEC_ERR_MEMORY
 } gvec_error_e;
 
@@ -41,47 +40,52 @@ typedef struct __gvhead_s {
   size_t count;
   size_t size;
   size_t unitsz;
-  gvec_error_e error;
 } gvhead_s, *gvhead_p;
 
-#define GVEC_HDR(hgvec) \
-  ((gvhead_p)((char*)hgvec - sizeof(gvhead_s)))
+#define GVEC_GET_BUFFER(handle) \
+  ((void*)((char*)handle - sizeof(gvhead_s)))
+
+#define GVEC_GET_HEADER(handle) \
+  ((gvhead_p)GVEC_GET_BUFFER(handle))
 
 /******************************************************************************/
 
-#define gvec_count(hgvec) (GVEC_HDR(hgvec)->count)
-#define gvec_size(hgvec) (GVEC_HDR(hgvec)->size)
-#define gvec_error(hgvec) (GVEC_HDR(hgvec)->error)
+#define gvec_empty(handle) (gvec_count(handle) == 0)
+#define gvec_clear(handle) (gvec_resize(&handle, 0))
 
-#define gvec_empty(hgvec) (gvec_count(hgvec) == 0)
-#define gvec_clear(hgvec) (gvec_resize(hgvec, 0))
+/******************************************************************************/
+
+extern void __gvec_set( gvec_t* phandle, gvec_t source );
+extern gvec_error_e __gvec_resize( gvec_t* phandle, size_t new_count );
+extern gvec_error_e __gvec_reserve( gvec_t* phandle, size_t count );
+extern gvec_error_e __gvec_shrink( gvec_t* phandle );
+extern gvec_error_e __gvec_insert( gvec_t* phandle, size_t pos, size_t count );
+extern gvec_error_e __gvec_push( gvec_t* phandle );
 
 /******************************************************************************/
 
 extern gvec_t gvec_new( size_t min_count, size_t unitsz );
-extern gvec_t gvec_set( gvec_t hgvec_dest, gvec_t hgvec_src );
-extern gvec_t gvec_copy( gvec_t hgvec );
-extern void gvec_free( gvec_t hgvec );
+#define gvec_set(phandle, source) __gvec_set( (gvec_t*)phandle, source )
+extern gvec_t gvec_copy( gvec_t handle );
+extern void gvec_free( gvec_t handle );
 
-extern gvec_t gvec_resize( gvec_t hgvec, size_t new_count );
-extern gvec_t gvec_reserve( gvec_t hgvec, size_t count );
-extern gvec_t gvec_shrink( gvec_t hgvec );
+#define gvec_resize(phandle, new_count) __gvec_resize( (gvec_t*)phandle, new_count )
+#define gvec_reserve(phandle, count) __gvec_reserve( (gvec_t*)phandle, count )
+#define gvec_shrink(phandle) __gvec_shrink( (gvec_t*)phandle );
 
-extern gvec_t gvec_insert( gvec_t hgvec, size_t pos, size_t count );
-extern void gvec_erase( gvec_t hgvec, size_t pos, size_t count );
-extern gvec_t gvec_push( gvec_t hgvec );
-extern void gvec_pop( gvec_t hgvec );
+#define gvec_insert(phandle, pos, count) __gvec_insert( (gvec_t*)phandle, pos, count )
+extern void gvec_erase( gvec_t handle, size_t pos, size_t count );
+#define gvec_push(phandle) __gvec_push( (gvec_t*)phandle )
+extern void gvec_pop( gvec_t handle );
 
-extern void* gvec_at( gvec_t hgvec, size_t pos );
-extern void* gvec_front( gvec_t hgvec );
-extern void* gvec_back( gvec_t hgvec );
+extern void* gvec_at( gvec_t handle, size_t pos );
+extern void* gvec_front( gvec_t handle );
+extern void* gvec_back( gvec_t handle );
+
+extern size_t gvec_count( gvec_t handle );
+extern size_t gvec_size( gvec_t handle );
 
 /******************************************************************************/
-
-#define GVEC_ERROR_SAFE(error) \
-  ((error == GVEC_ERR_NO) || (error == GVEC_ERR_IDLE))
-
-#define GVEC_NO_ERROR(hgvec) GVEC_ERROR_SAFE(gvec_error(hgvec))
 
 #define GVEC_USE_VAL __GVVAL_
 #define GVEC_USE_REF __GVREF_
