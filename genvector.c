@@ -94,7 +94,7 @@ gvec_t gvec_new( size_t min_count, size_t unitsz ) {
   return handle;
 }}
 
-void __gvec_set( gvec_t* phandle, gvec_t source ) {
+static void __gvec_set( gvec_t* phandle, gvec_t source ) {
   gvhead_p dest_hdr, src_hdr;
 {
   assert( phandle != NULL );
@@ -145,7 +145,7 @@ void gvec_free( gvec_t handle ) {
 
 /******************************************************************************/
 
-gvec_error_e __gvec_resize( gvec_t* phandle, size_t new_count ) {
+static gvec_error_e __gvec_resize( gvec_t* phandle, size_t new_count ) {
   gvhead_p header;
 {
   ASSERT_PHANDLE(phandle);
@@ -159,7 +159,7 @@ gvec_error_e __gvec_resize( gvec_t* phandle, size_t new_count ) {
   return gvec_insert( phandle, header->count, new_count - header->count );
 }}
 
-gvec_error_e __gvec_reserve( gvec_t* phandle, size_t count ) {
+static gvec_error_e __gvec_reserve( gvec_t* phandle, size_t count ) {
   gvhead_p header;
   size_t new_size;
 {
@@ -172,7 +172,7 @@ gvec_error_e __gvec_reserve( gvec_t* phandle, size_t count ) {
          : GVEC_ERR_MEMORY;
 }}
 
-gvec_error_e __gvec_shrink( gvec_t* phandle ) {
+static gvec_error_e __gvec_shrink( gvec_t* phandle ) {
   gvhead_p header;
   size_t new_size;
 {
@@ -187,7 +187,7 @@ gvec_error_e __gvec_shrink( gvec_t* phandle ) {
 
 /******************************************************************************/
 
-gvec_error_e __gvec_insert( gvec_t* phandle, size_t pos, size_t count ) {
+static gvec_error_e __gvec_insert( gvec_t* phandle, size_t pos, size_t count ) {
   gvec_t dest_gvec;
   gvhead_p header;
   size_t unitsz, old_count, new_count;
@@ -261,14 +261,14 @@ void gvec_erase( gvec_t handle, size_t pos, size_t count ) {
   header->count -= count;
 }}
 
-gvec_error_e __gvec_push( gvec_t* phandle ) {
+static gvec_error_e __gvec_push( gvec_t* phandle ) {
 {
   ASSERT_PHANDLE(phandle);
   return gvec_resize( phandle, gvec_count(*phandle)+1 );
 }}
 
 void gvec_pop( gvec_t handle ) {
-  assert( handle != NULL );
+  assert( handle != NULL ); /* not really necessary here */
   gvec_erase( handle, gvec_count(handle)-1, 1 );
 }
 
@@ -310,3 +310,26 @@ size_t gvec_size( gvec_t handle ) {
   assert( handle != NULL );
   return GVEC_GET_HEADER(handle)->size;
 }
+
+/******************************************************************************/
+
+/* Typecasting wrappers for functions that take argument of gvec_p* (phandle).
+We don't use macros to preserve ability to obtain pointer to a function. */
+
+void gvec_set( gvec_ptr phandle, gvec_t source )
+  { __gvec_set( (gvec_t*)phandle, source ); }
+
+gvec_error_e gvec_resize( gvec_ptr phandle, size_t new_count )
+  { return __gvec_resize( (gvec_t*)phandle, new_count ); }
+
+gvec_error_e gvec_reserve( gvec_ptr phandle, size_t count )
+  { return __gvec_reserve( (gvec_t*)phandle, count ); }
+
+gvec_error_e gvec_shrink( gvec_ptr phandle )
+  { return __gvec_shrink( (gvec_t*)phandle ); }
+
+gvec_error_e gvec_insert( gvec_ptr phandle, size_t pos, size_t count )
+  { return __gvec_insert( (gvec_t*)phandle, pos, count ); }
+
+gvec_error_e gvec_push( gvec_ptr phandle )
+  { return __gvec_push( (gvec_t*)phandle ); }
