@@ -21,6 +21,13 @@
 
 #include <stddef.h>
 
+#if __STDC_VERSION__ < 199901L
+  typedef int gvbool;
+#else
+  #include <stdbool.h>
+  typedef bool gvbool;
+#endif
+
 /*
   TODO:
   1. 'type' field in header
@@ -51,11 +58,6 @@ typedef struct __gvhead_s {
 
 /******************************************************************************/
 
-#define gvec_empty(handle) (gvec_count(handle) == 0)
-#define gvec_clear(handle) (gvec_resize(&handle, 0))
-
-/******************************************************************************/
-
 extern gvec_t gvec_new( size_t min_count, size_t unitsz );
 extern void gvec_set( gvec_ptr phandle, gvec_t source );
 extern gvec_t gvec_copy( gvec_t handle );
@@ -76,6 +78,8 @@ extern void* gvec_back( gvec_t handle );
 
 extern size_t gvec_count( gvec_t handle );
 extern size_t gvec_size( gvec_t handle );
+extern gvbool gvec_empty( gvec_t handle );
+extern void gvec_clear( gvec_t handle );
 
 /******************************************************************************/
 

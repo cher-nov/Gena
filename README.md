@@ -29,7 +29,7 @@ By default, library provides only the next set of functions:
 
 1. Functions to manage `gvec_t`. They are basic for functions that will be specialized.
 2. General-purpose functions (i.e. those that don't take or return values of user type, like as `gvec_erase()` and `gvec_free()`).
-3. Instantiation and shorthand macros.
+3. Instantiation macros.
 
 To create a type *"vector of T"* and specialize management functions for it, you should *instantiate* it using instantiation macros.
 These are two and a half approaches in instantiation: *static* and *modular*, supplied with *typesets*.
@@ -48,8 +48,8 @@ GVEC_INSTANTIATE( gvTypename, gvVecName, gvPassBy, gvRetBy );
 * *gvRetBy* – specifies how values should be returned from specialized functions
 
 Possible values both for *gvPassBy* and *gvRetBy* are:
-* `GVEC_USE_VAL` – pass by value
-* `GVEC_USE_REF` – pass by reference
+* `GVEC_USE_VAL` – pass/receive by value
+* `GVEC_USE_REF` – pass/receive by reference
 
 It is also a good practice to place library header inclusion and vector types instantiation in a separate header.
 
@@ -102,7 +102,9 @@ GVEC_APPLY_TYPESET( GVEC_C_DEFINE, __GVEC_TYPESET_VECNAME );
 
 ## Functions
 
-### 1. Functions to manage `gvec_t`, and specialized versions of them
+**Please note:** `gvbool` type is fully compatible with `bool` from *stdbool.h* in C99 and later, so it's preferred not to use `gvbool` if possible.
+
+### Functions to manage `gvec_t`, and specialized versions of them
 
 Notation:
 * `NAME`: value of `gvVecName`
@@ -165,7 +167,7 @@ Add an element to the end of a vector.
 * `GVEC_ERR_NO`: operation performed successfully
 * `GVEC_ERR_MEMORY`: element wasn't added due to a memory error
 
-#### Specialized-only functions
+### Specialized-only functions
 
 ```c
 gvec_error_e gvec_NAME_assign( gvec_NAME_t* phandle, size_t count, const PASSVAR value )
@@ -200,7 +202,7 @@ Get the last element of a vector.
 * `gvRetVal` is `GVEC_USE_VAL`: a value of the element (if vector is empty, it's undefined)
 * `gvRetVal` is `GVEC_USE_REF`: a reference to the element, or `NULL` if vector is empty
 
-### 2. General-purpose functions
+### General-purpose functions
 
 ```c
 void gvec_set( gvec_t* phandle, gvec_t source )
@@ -313,15 +315,13 @@ Get size of a vector storage.
 
 *Return value:* current size of a vector storage
 
-### 3. Shorthand macros
-
 ```c
-gvec_empty( handle )
+gvbool gvec_empty( gvec_t handle )
 ```
 Shorthand for `gvec_count( handle ) == 0`.
 
 ```c
-gvec_clear( handle )
+void gvec_clear( gvec_t handle )
 ```
 Shorthand for `gvec_resize( &handle, 0 )`.
 

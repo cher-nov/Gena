@@ -311,6 +311,14 @@ size_t gvec_size( gvec_t handle ) {
   return GVEC_GET_HEADER(handle)->size;
 }
 
+gvbool gvec_empty( gvec_t handle ) {
+  return (gvec_count(handle) == 0);
+}
+
+void gvec_clear( gvec_t handle ) {
+  gvec_resize( &handle, 0 );
+}
+
 /******************************************************************************/
 
 /* Typecasting wrappers for functions that take argument of gvec_p* (phandle).
