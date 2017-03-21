@@ -25,8 +25,6 @@
   assert( phandle != NULL ); \
   assert( *phandle != NULL )
 
-#define RETVOID
-
 /******************************************************************************/
 
 static inline size_t calc_size( size_t current_size, size_t min_add ) {
