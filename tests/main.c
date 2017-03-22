@@ -1,5 +1,5 @@
 /* Please note that test framework written in C99, when genvector is C89
-by design, so these tests doesn't check standard compliance.
+by design, so these tests don't check standard compliance.
 To check it, compile with GVTEST_CHECK_ONLY_C89 defined. */
 
 #ifndef GVTEST_CHECK_ONLY_C89
