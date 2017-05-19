@@ -345,8 +345,3 @@ Don't perform storage relocation using `realloc()` on elements insertion.
 This prevents excess memory copying when inserting elements not at the end of a vector.  
   
 It's also recommended to compile with `NDEBUG` defined, to disable assertion checks.
-
-## License
-
-This library is free software; you can redistribute it and/or modify it under the terms of the MIT license.  
-See [LICENSE](LICENSE) for details.
