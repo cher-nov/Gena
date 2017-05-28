@@ -33,7 +33,8 @@
 
   #define __GVVECTYPE( gvTypename, gvVecName ) __GV_REQUIRE_SEMICOLON_OUTDOOR
 
-  #define GVEC_C_DEFINE __GVINSTANTIATE
+  #define GVEC_C_DEFINE( gvTypename, gvVecName, gvPassBy, gvRetBy ) \
+    __GVINSTANTIATE( gvTypename, gvVecName, gvPassBy, gvRetBy )
 
   #define GVEC_H_DECLARE( gvTypename, gvVecName, gvPassBy, gvRetBy ) \
     __GVDECLAREFUNC( gvTypename, gvVecName, gvPassBy, gvRetBy )
