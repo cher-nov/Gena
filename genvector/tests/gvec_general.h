@@ -4,9 +4,9 @@
 #include "../genvector.h"
 
 #define __GVTEST_TYPESET_INTV \
-  (int, intv, GVEC_USE_VAL, GVEC_USE_VAL)
+  (int, intv, GENA_USE_VAL, GENA_USE_VAL)
 
 #define __GVTEST_TYPESET_INTR \
-  (int, intr, GVEC_USE_REF, GVEC_USE_REF)
+  (int, intr, GENA_USE_REF, GENA_USE_REF)
 
 #endif /*__GVEC_GENERAL_H__*/

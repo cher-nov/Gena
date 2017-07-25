@@ -3,7 +3,7 @@ by design, so these tests don't check standard compliance.
 To check it, compile with GVTEST_CHECK_ONLY_C89 defined. */
 
 #ifndef GVTEST_CHECK_ONLY_C89
-  #include "munit/munit.h"
+  #include "../../internals/munit/munit.h"
 #else
   #include <stdlib.h>
   #include <stdio.h>
@@ -53,7 +53,7 @@ MunitResult gvt1( const MunitParameter params[], void* user_data_or_fixture ) {
   gvec_intr_t v_ref;
   size_t i;
   int* rpint;
-  gvec_error_e errorcode;
+  gena_error_e errorcode;
   GVTEST_UNUSED(params);
   GVTEST_UNUSED(user_data_or_fixture);
 {
@@ -63,12 +63,12 @@ MunitResult gvt1( const MunitParameter params[], void* user_data_or_fixture ) {
   munit_assert_not_null( v_ref );
 
   errorcode = gvec_intv_assign( &v_val, TEST_SET_LEN, CUSTOM_VALUE_1 );
-  munit_assert_true( errorcode == GVEC_ERR_NO );
+  munit_assert_true( errorcode == GENA_ERR_NO );
   gvec_set( &v_ref, v_val );
 
   munit_assert_size( gvec_count(v_val), ==, gvec_count(v_ref) );
   munit_assert_size( gvec_size(v_val), ==, gvec_size(v_ref) );
-  munit_assert_size( GVEC_GET_HEADER(v_val)->unitsz, ==, GVEC_GET_HEADER(v_ref)->unitsz );
+  munit_assert_size( IGVEC_GET_HEADER(v_val)->unitsz, ==, IGVEC_GET_HEADER(v_ref)->unitsz );
 
   munit_assert_memory_equal( sizeof(TEST_SET), v_val, v_ref );
 
@@ -78,14 +78,14 @@ MunitResult gvt1( const MunitParameter params[], void* user_data_or_fixture ) {
   }
 
   errorcode = gvec_shrink(&v_ref);
-  munit_assert_true( errorcode == GVEC_ERR_NO );
+  munit_assert_true( errorcode == GENA_ERR_NO );
   munit_assert_size( gvec_size(v_ref), ==, 1 );
   errorcode = gvec_reserve( &v_ref, TEST_SET_LEN-gvec_size(v_ref) );
-  munit_assert_true( errorcode == GVEC_ERR_NO );
+  munit_assert_true( errorcode == GENA_ERR_NO );
 
   for(i = 0; i < TEST_SET_LEN; ++i) {
     errorcode = gvec_intr_push( &v_ref, &CUSTOM_VALUE_2 );
-    munit_assert_true( errorcode == GVEC_ERR_NO );
+    munit_assert_true( errorcode == GENA_ERR_NO );
     munit_assert_size( gvec_count(v_ref), ==, i+1 );
   }
 
@@ -93,9 +93,9 @@ MunitResult gvt1( const MunitParameter params[], void* user_data_or_fixture ) {
   munit_assert_size( gvec_count(v_val), ==, 0 );
   errorcode = gvec_shrink(&v_val);
   munit_assert_size( gvec_size(v_val), ==, 1 );
-  munit_assert_true( errorcode == GVEC_ERR_NO );
+  munit_assert_true( errorcode == GENA_ERR_NO );
   errorcode = gvec_intv_resize( &v_val, TEST_SET_LEN, CUSTOM_VALUE_2 );
-  munit_assert_true( errorcode == GVEC_ERR_NO );
+  munit_assert_true( errorcode == GENA_ERR_NO );
   munit_assert_size( gvec_count(v_val), ==, TEST_SET_LEN );
   munit_assert_memory_equal( sizeof(TEST_SET), v_val, v_ref );
 

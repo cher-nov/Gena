@@ -1,0 +1,27 @@
+NAMING CONVENTION:
+
+  SEMANTIC PREFIXES:
+
+    g####_* - user routines of a particular data structure
+        (# - lowercase identifier of a data structure, from 3 to 5 chars, first
+        letter is consonant)
+    ig####_* - internal routines of a particular data structure
+        (# - lowercase identifier of a data structure, from 3 to 5 chars, first
+        letter is consonant)
+    gena_* - user library routines
+    igena_* - internal library routines
+    __* - local and/or temporary names (e.g. in struct typedefs)
+    tp* - template parameter (rest must be in CamelCase, e.g. tpVecName)
+
+  TYPE SUFFIXES:
+
+    *_e - enum
+    *_s - struct
+    *_p - pointer
+    *_t - typedef to another typedef or void*
+    *_ptr - pointer to type with *_t suffix
+    *_s_typedef - for struct names in typedefs
+
+  NOTES:
+
+    1. Names of the defines and macros must be uppercase.

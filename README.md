@@ -40,16 +40,16 @@ Let's examine them more closely.
 This approach is good when vector is used only in one translation unit (*module*). It is easier and set by default.  
 Just include library header into module source and instantiate vector for types you need, using `GVEC_INSTANTIATE()`:
 ```c
-GVEC_INSTANTIATE( gvTypename, gvVecName, gvPassBy, gvRetBy );
+GVEC_INSTANTIATE( tpTypename, tpVecName, tpPassBy, tpRetBy );
 ```
-* *gvTypename* – type for which vector should be instantiated
-* *gvVecName* – unique vector name that will be placed into names of specialized functions, for example: `gvec_mystruct_new()`
-* *gvPassBy* – specifies how values should be passed to specialized functions
-* *gvRetBy* – specifies how values should be returned from specialized functions
+* *tpTypename* – type for which vector should be instantiated
+* *tpVecName* – unique vector name that will be placed into names of specialized functions, for example: `gvec_mystruct_new()`
+* *tpPassBy* – specifies how values should be passed to specialized functions
+* *tpRetBy* – specifies how values should be returned from specialized functions
 
-Possible values both for *gvPassBy* and *gvRetBy* are:
-* `GVEC_USE_VAL` – pass/receive by value
-* `GVEC_USE_REF` – pass/receive by reference
+Possible values both for *tpPassBy* and *tpRetBy* are:
+* `GENA_USE_VAL` – pass/receive by value
+* `GENA_USE_REF` – pass/receive by reference
 
 It is also a good practice to place library header inclusion and vector types instantiation in a separate header.
 
@@ -64,14 +64,14 @@ For the next code template let's assume that wrapper module is called *gvec_wrap
 #define GVEC_MODULAR_APPROACH
 #include "genvector.h"
 
-GVEC_H_DECLARE( gvTypename, gvVecName, gvPassBy, gvRetBy );
+GVEC_H_DECLARE( tpTypename, tpVecName, tpPassBy, tpRetBy );
 ```
 
 ***gvec_wrapper.c***
 ```c
 #include "gvec_wrapper.h"
 
-GVEC_C_DEFINE( gvTypename, gvVecName, gvPassBy, gvRetBy );
+GVEC_C_DEFINE( tpTypename, tpVecName, tpPassBy, tpRetBy );
 ```
 
 The arguments for `GVEC_H_DECLARE()` and `GVEC_C_DEFINE()` are the same as for `GVEC_INSTANTIATE()`.
@@ -88,28 +88,28 @@ To prevent this, *typesets* were introduced. Let's consider them using the modif
 #include "genvector.h"
 
 #define __GVEC_TYPESET_VECNAME \
-  (gvTypename, gvVecName, gvPassBy, gvRetBy)
+  (tpTypename, tpVecName, tpPassBy, tpRetBy)
 
-GVEC_APPLY_TYPESET( GVEC_H_DECLARE, __GVEC_TYPESET_VECNAME );
+GENA_APPLY_TYPESET( GVEC_H_DECLARE, __GVEC_TYPESET_VECNAME );
 ```
   
 ***gvec_wrapper.c***
 ```c
 #include "gvec_wrapper.h"
 
-GVEC_APPLY_TYPESET( GVEC_C_DEFINE, __GVEC_TYPESET_VECNAME );
+GENA_APPLY_TYPESET( GVEC_C_DEFINE, __GVEC_TYPESET_VECNAME );
 ```
 
 ## Functions
 
-**Please note:** `gvbool` type is fully compatible with `bool` from *stdbool.h* in C99 and later, so it's preferred not to use `gvbool` if possible.
+**Please note:** `gena_bool` type is fully compatible with `bool` from *stdbool.h* in C99 and later, so it's preferred not to use `gena_bool` if possible.
 
 ### Functions to manage `gvec_t`, and specialized versions of them
 
 Notation:
-* `NAME`: value of `gvVecName`
-* `PASSVAR`: `gvTypename` if `gvPassBy` is `GVEC_USE_VAL`, and `gvTypename*` otherwise
-* `RETVAR`: `gvTypename` if `gvRetBy` is `GVEC_USE_VAL`, and `gvTypename*` otherwise
+* `NAME`: value of `tpVecName`
+* `PASSVAR`: `tpTypename` if `tpPassBy` is `GENA_USE_VAL`, and `tpTypename*` otherwise
+* `RETVAR`: `tpTypename` if `tpRetBy` is `GENA_USE_VAL`, and `tpTypename*` otherwise
 
 ```c
 gvec_t gvec_new( size_t min_count, size_t unitsz )
@@ -134,8 +134,8 @@ Resize a vector.
 
 *Return value:*
 
-* `GVEC_ERR_NO`: operation performed successfully
-* `GVEC_ERR_MEMORY`: a vector wasn't resized due to a memory error
+* `GENA_ERR_NO`: operation performed successfully
+* `GENA_ERR_MEMORY`: a vector wasn't resized due to a memory error
 
 ```c
 gvec_error_e gvec_insert( gvec_t* phandle, size_t pos, size_t count )
@@ -150,8 +150,8 @@ Insert elements into a vector.
 
 *Return value:*
 
-* `GVEC_ERR_NO`: operation performed successfully
-* `GVEC_ERR_MEMORY`: elements weren't inserted due to a memory error
+* `GENA_ERR_NO`: operation performed successfully
+* `GENA_ERR_MEMORY`: elements weren't inserted due to a memory error
 
 ```c
 gvec_error_e gvec_push( gvec_t* phandle )
@@ -164,8 +164,8 @@ Add an element to the end of a vector.
 
 *Return value:*
 
-* `GVEC_ERR_NO`: operation performed successfully
-* `GVEC_ERR_MEMORY`: element wasn't added due to a memory error
+* `GENA_ERR_NO`: operation performed successfully
+* `GENA_ERR_MEMORY`: element wasn't added due to a memory error
 
 ### Specialized-only functions
 
@@ -188,8 +188,8 @@ Get the first element of a vector.
 * *handle* – a handle to a vector
 
 *Return value:*
-* `gvRetVal` is `GVEC_USE_VAL`: a value of the element (if vector is empty, it's undefined)
-* `gvRetVal` is `GVEC_USE_REF`: a reference to the element, or `NULL` if vector is empty
+* `tpRetVal` is `GENA_USE_VAL`: a value of the element (if vector is empty, it's undefined)
+* `tpRetVal` is `GENA_USE_REF`: a reference to the element, or `NULL` if vector is empty
 
 ```c
 RETVAL gvec_NAME_back( gvec_NAME_t handle )
@@ -199,8 +199,8 @@ Get the last element of a vector.
 * *handle* – a handle to a vector
 
 *Return value:*
-* `gvRetVal` is `GVEC_USE_VAL`: a value of the element (if vector is empty, it's undefined)
-* `gvRetVal` is `GVEC_USE_REF`: a reference to the element, or `NULL` if vector is empty
+* `tpRetVal` is `GENA_USE_VAL`: a value of the element (if vector is empty, it's undefined)
+* `tpRetVal` is `GENA_USE_REF`: a reference to the element, or `NULL` if vector is empty
 
 ### General-purpose functions
 
@@ -238,8 +238,8 @@ Reserve a space in a vector storage, at least for specified count of elements.
 
 *Return value:*
 
-* `GVEC_ERR_NO`: operation performed successfully
-* `GVEC_ERR_MEMORY`: chunks weren't reserved due to a memory error
+* `GENA_ERR_NO`: operation performed successfully
+* `GENA_ERR_MEMORY`: chunks weren't reserved due to a memory error
 
 ```c
 gvec_error_e gvec_shrink( gvec_t* phandle )
@@ -250,8 +250,8 @@ Free memory that isn't used by a vector now.
 
 *Return value:*
 
-* `GVEC_ERR_NO`: operation performed successfully
-* `GVEC_ERR_MEMORY`: a size wasn't reduced due to a memory error
+* `GENA_ERR_NO`: operation performed successfully
+* `GENA_ERR_MEMORY`: a size wasn't reduced due to a memory error
 
 ```c
 void gvec_erase( gvec_t handle, size_t pos, size_t count )
@@ -316,7 +316,7 @@ Get size of a vector storage.
 *Return value:* current size of a vector storage
 
 ```c
-gvbool gvec_empty( gvec_t handle )
+gena_bool gvec_empty( gvec_t handle )
 ```
 Shorthand for `gvec_count( handle ) == 0`.
 
