@@ -47,13 +47,15 @@ static inline size_t calc_size( size_t current_size, size_t min_add ) {
   return size;
 }}
 
-static igvec_head_p set_storage( gvec_t* phandle, size_t size, size_t unitsz ) {
+static igvec_head_p set_storage( gvec_t* phandle, size_t size,
+  size_t entry_size )
+{
   void* buffer;
   igvec_head_p header;
 {
   assert( phandle != NULL );
   assert( size > 0 );
-  assert( unitsz > 0 );
+  assert( entry_size > 0 );
 
   buffer = (*phandle == NULL) ? NULL : IGVEC_GET_BUFFER(*phandle);
 
@@ -62,25 +64,25 @@ static igvec_head_p set_storage( gvec_t* phandle, size_t size, size_t unitsz ) {
     if (size == header->size) { return header; }
   }
 
-  buffer = realloc( buffer, ADDHDR_INT(size*unitsz) );
+  buffer = realloc( buffer, ADDHDR_INT(size*entry_size) );
   if (buffer == NULL) { return NULL; }
 
   *phandle = ADDHDR_PTR(buffer);
 
   header = (igvec_head_p)buffer;
   header->size = size;
-  header->unitsz = unitsz;
+  header->entry_size = entry_size;
 
   return header;
 }}
 
 /******************************************************************************/
 
-gvec_t gvec_new( size_t min_count, size_t unitsz ) {
+gvec_t gvec_new( size_t min_count, size_t entry_size ) {
   gvec_t handle = NULL;
   igvec_head_p header;
 {
-  header = set_storage( &handle, calc_size(0, min_count), unitsz );
+  header = set_storage( &handle, calc_size(0, min_count), entry_size );
   if (header == NULL) { return NULL; }
 
   header->count = 0;
@@ -105,12 +107,12 @@ static void __gvec_set( gvec_t* phandle, gvec_t source ) {
   dest_hdr = IGVEC_GET_HEADER(*phandle);
   src_hdr = IGVEC_GET_HEADER(source);
 
-  if (
-      (dest_hdr->size * dest_hdr->unitsz) >= (src_hdr->size * src_hdr->unitsz)
+  if ( (dest_hdr->size * dest_hdr->entry_size) >=
+       (src_hdr->size * src_hdr->entry_size)
   ) {
-    memcpy( *phandle, source, src_hdr->count * src_hdr->unitsz );
+    memcpy( *phandle, source, src_hdr->count * src_hdr->entry_size );
     dest_hdr->count = src_hdr->count;
-    dest_hdr->unitsz = src_hdr->unitsz;
+    dest_hdr->entry_size = src_hdr->entry_size;
   } else {
     gvec_free( phandle );
     *phandle = gvec_copy(source);
@@ -124,11 +126,11 @@ gvec_t gvec_copy( gvec_t handle ) {
   assert( handle != NULL );
   src_hdr = IGVEC_GET_HEADER(handle);
 
-  dest_hdr = set_storage( &dest_handle, src_hdr->size, src_hdr->unitsz );
+  dest_hdr = set_storage( &dest_handle, src_hdr->size, src_hdr->entry_size );
   if (dest_hdr == NULL) { return NULL; }
 
   dest_hdr->count = src_hdr->count;
-  return memcpy( dest_handle, handle, src_hdr->count * src_hdr->unitsz );
+  return memcpy( dest_handle, handle, src_hdr->count * src_hdr->entry_size );
 }}
 
 void gvec_free( gvec_t handle ) {
@@ -160,7 +162,7 @@ static gena_error_e __gvec_reserve( gvec_t* phandle, size_t count ) {
   header = IGVEC_GET_HEADER(*phandle);
 
   new_size = calc_size( header->size, count );
-  return (set_storage( phandle, new_size, header->unitsz ) != NULL)
+  return (set_storage( phandle, new_size, header->entry_size ) != NULL)
          ? GENA_ERR_NO
          : GENA_ERR_MEMORY;
 }}
@@ -173,7 +175,7 @@ static gena_error_e __gvec_shrink( gvec_t* phandle ) {
   header = IGVEC_GET_HEADER(*phandle);
 
   new_size = calc_size( 0, header->count );
-  return (set_storage( phandle, new_size, header->unitsz ) != NULL)
+  return (set_storage( phandle, new_size, header->entry_size ) != NULL)
          ? GENA_ERR_NO
          : GENA_ERR_MEMORY;
 }}
@@ -183,7 +185,7 @@ static gena_error_e __gvec_shrink( gvec_t* phandle ) {
 static gena_error_e __gvec_insert( gvec_t* phandle, size_t pos, size_t count ) {
   gvec_t dest_gvec;
   igvec_head_p header;
-  size_t unitsz, old_count, new_count;
+  size_t entry_size, old_count, new_count;
 {
   ASSERT_PHANDLE(phandle);
   header = IGVEC_GET_HEADER(*phandle);
@@ -191,7 +193,7 @@ static gena_error_e __gvec_insert( gvec_t* phandle, size_t pos, size_t count ) {
 
   if (count == 0) { return GENA_ERR_NO; }
 
-  unitsz = header->unitsz;
+  entry_size = header->entry_size;
   old_count = header->count;
   new_count = old_count + count;
 
@@ -210,18 +212,19 @@ static gena_error_e __gvec_insert( gvec_t* phandle, size_t pos, size_t count ) {
   /* This one doesn't use memory relocation and better for many insertions at
   arbitrary positions, in theory. */
   if (new_count > header->size) {
-    dest_gvec = gvec_new( new_count, unitsz );
+    dest_gvec = gvec_new( new_count, entry_size );
     if (dest_gvec == NULL) { return GENA_ERR_MEMORY; }
     header = IGVEC_GET_HEADER(dest_gvec);
-    memmove( dest_gvec, *phandle, pos*unitsz );
+    memmove( dest_gvec, *phandle, pos*entry_size );
   } else {
     dest_gvec = *phandle;
   }
 
   #endif
 
-  memmove( __IGENA_VOIDP_ADD( dest_gvec, (pos+count)*unitsz ),
-           __IGENA_VOIDP_ADD( *phandle, pos*unitsz ), (old_count-pos)*unitsz );
+  memmove( __IGENA_VOIDP_ADD( dest_gvec, (pos+count) * entry_size ),
+           __IGENA_VOIDP_ADD( *phandle, pos * entry_size ),
+          (old_count-pos) * entry_size );
 
   header->count = new_count;
 
@@ -237,7 +240,7 @@ static gena_error_e __gvec_insert( gvec_t* phandle, size_t pos, size_t count ) {
 
 void gvec_erase( gvec_t handle, size_t pos, size_t count ) {
   igvec_head_p header;
-  size_t unitsz, tail_size;
+  size_t entry_size, tail_size;
 {
   assert( handle != NULL );
   header = IGVEC_GET_HEADER(handle);
@@ -245,11 +248,12 @@ void gvec_erase( gvec_t handle, size_t pos, size_t count ) {
 
   if (count == 0) { return; }
 
-  unitsz = header->unitsz;
-  tail_size = (header->count-(pos+count)) * unitsz;
+  entry_size = header->entry_size;
+  tail_size = (header->count-(pos+count)) * entry_size;
 
-  memmove( __IGENA_VOIDP_ADD( handle, pos*unitsz ),
-           __IGENA_VOIDP_ADD( handle, (pos+count)*unitsz ), tail_size );
+  memmove( __IGENA_VOIDP_ADD( handle, pos * entry_size ),
+           __IGENA_VOIDP_ADD( handle, (pos+count) * entry_size ),
+           tail_size );
 
   header->count -= count;
 }}
@@ -273,7 +277,7 @@ void* gvec_at( gvec_t handle, size_t pos ) {
   assert( handle != NULL );
   header = IGVEC_GET_HEADER(handle);
   return (pos < header->count)
-         ? __IGENA_VOIDP_ADD( handle, pos * header->unitsz )
+         ? __IGENA_VOIDP_ADD( handle, pos * header->entry_size )
          : NULL;
 }}
 
@@ -289,7 +293,7 @@ void* gvec_back( gvec_t handle ) {
 {
   assert( handle != NULL );
   header = IGVEC_GET_HEADER(handle);
-  return __IGENA_VOIDP_ADD( handle, (header->count-1)*header->unitsz );
+  return __IGENA_VOIDP_ADD( handle, (header->count-1) * header->entry_size );
 }}
 
 /******************************************************************************/

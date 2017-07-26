@@ -15,7 +15,7 @@ typedef void* gvec_ptr; /* because void** is not a generic pointer */
 typedef struct {
   size_t count;
   size_t size;
-  size_t unitsz;
+  size_t entry_size;
 } igvec_head_s, *igvec_head_p;
 
 #define IGVEC_GET_BUFFER(handle) \
@@ -26,7 +26,7 @@ typedef struct {
 
 /******************************************************************************/
 
-extern gvec_t gvec_new( size_t min_count, size_t unitsz );
+extern gvec_t gvec_new( size_t min_count, size_t entry_size );
 extern void gvec_set( gvec_ptr phandle, gvec_t source );
 extern gvec_t gvec_copy( gvec_t handle );
 extern void gvec_free( gvec_t handle );

@@ -1,7 +1,7 @@
 # genvector – Generalized Vector
 
-An implementation of *vector* – dynamic linear array – in pure C89.  
-This one is competently generalized with macros (*pseudo-templated*), so you can create vector of **any** datatype supported in C – i.e. primitive types, structs and unions. Just preliminarily instantiate it for needed types and you're on.  
+An implementation of *vector* – dynamic linear array – in pure C89.
+This one is competently generalized with macros (*pseudo-templated*), so you can create vector of **any** datatype supported in C – i.e. primitive types, structs and unions. Just preliminarily instantiate it for needed types and you're on.
 Interface is based mostly on the design of `std::vector` from C++11.
 
 ## Features in a nutshell
@@ -37,7 +37,7 @@ Let's examine them more closely.
 
 ### Static approach
 
-This approach is good when vector is used only in one translation unit (*module*). It is easier and set by default.  
+This approach is good when vector is used only in one translation unit (*module*). It is easier and set by default.
 Just include library header into module source and instantiate vector for types you need, using `GVEC_INSTANTIATE()`:
 ```c
 GVEC_INSTANTIATE( tpTypename, tpVecName, tpPassBy, tpRetBy );
@@ -55,8 +55,8 @@ It is also a good practice to place library header inclusion and vector types in
 
 ### Modular approach
 
-The main disadvantage about static approach is that vector type and it's corresponding specialized functions will be instantiated every time you use `GVEC_INSTANTIATE()`. This is bad if same vector type is used in different modules – it will be instantiated for all of them, increasing output code size.  
-To prevent this problem, a modular approach should be used. Its idea is derived from the recommendation about separate header in the static approach: let's instantiate necessary vector types in a separate wrapper module, and use it instead of library itself every time you need a vector.  
+The main disadvantage about static approach is that vector type and it's corresponding specialized functions will be instantiated every time you use `GVEC_INSTANTIATE()`. This is bad if same vector type is used in different modules – it will be instantiated for all of them, increasing output code size.
+To prevent this problem, a modular approach should be used. Its idea is derived from the recommendation about separate header in the static approach: let's instantiate necessary vector types in a separate wrapper module, and use it instead of library itself every time you need a vector.
 For the next code template let's assume that wrapper module is called *gvec_wrapper*.
 
 ***gvec_wrapper.h***
@@ -79,9 +79,9 @@ Please note that modular approach is disabled by default, so you must define `GV
 
 #### Typesets
 
-As you might have noticed, arguments for every pair of `GVEC_H_DECLARE()` and `GVEC_C_DEFINE()` are always the same. It's a sort of code duplication that may be considered undesirable.  
-To prevent this, *typesets* were introduced. Let's consider them using the modified version of the previous code template:  
-  
+As you might have noticed, arguments for every pair of `GVEC_H_DECLARE()` and `GVEC_C_DEFINE()` are always the same. It's a sort of code duplication that may be considered undesirable.
+To prevent this, *typesets* were introduced. Let's consider them using the modified version of the previous code template:
+
 ***gvec_wrapper.h***
 ```c
 #define GVEC_MODULAR_APPROACH
@@ -92,7 +92,7 @@ To prevent this, *typesets* were introduced. Let's consider them using the modif
 
 GENA_APPLY_TYPESET( GVEC_H_DECLARE, __GVEC_TYPESET_VECNAME );
 ```
-  
+
 ***gvec_wrapper.c***
 ```c
 #include "gvec_wrapper.h"
@@ -112,15 +112,15 @@ Notation:
 * `RETVAR`: `tpTypename` if `tpRetBy` is `GENA_USE_VAL`, and `tpTypename*` otherwise
 
 ```c
-gvec_t gvec_new( size_t min_count, size_t unitsz )
+gvec_t gvec_new( size_t min_count, size_t entry_size )
 gvec_NAME_t gvec_NAME_new( size_t min_count )
 ```
 Create a vector.
 
 * *min_count* – a minimum count of elements that can be stored without storage relocation
-* ***unitsz*** – a size of one element
+* ***entry_size*** – a size of one element
 
-*Return value:* a handle to the new vector, or `NULL` on error  
+*Return value:* a handle to the new vector, or `NULL` on error
 
 ```c
 gvec_error_e gvec_resize( gvec_t* phandle, size_t new_count )
@@ -329,19 +329,19 @@ Shorthand for `gvec_resize( &handle, 0 )`.
 
 ### Before header inclusion
 
-* `GVEC_MODULAR_APPROACH`  
+* `GVEC_MODULAR_APPROACH`
 Read ***Usage / Modular approach*** section above.
 
 ### At compile-time
 
-* `GVEC_GROWTH_FACTOR` (1.5 by default)  
+* `GVEC_GROWTH_FACTOR` (1.5 by default)
 Growth factor of vectors storages.
 
-* `GVEC_CALC_SIZE_MATH`  
+* `GVEC_CALC_SIZE_MATH`
 Use math function for size calculation, instead of loop-based.
 
-* `GVEC_INSERT_NO_REALLOC`  
-Don't perform storage relocation using `realloc()` on elements insertion.  
-This prevents excess memory copying when inserting elements not at the end of a vector.  
-  
+* `GVEC_INSERT_NO_REALLOC`
+Don't perform storage relocation using `realloc()` on elements insertion.
+This prevents excess memory copying when inserting elements not at the end of a vector.
+
 It's also recommended to compile with `NDEBUG` defined, to disable assertion checks.

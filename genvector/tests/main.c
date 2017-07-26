@@ -68,7 +68,7 @@ MunitResult gvt1( const MunitParameter params[], void* user_data_or_fixture ) {
 
   munit_assert_size( gvec_count(v_val), ==, gvec_count(v_ref) );
   munit_assert_size( gvec_size(v_val), ==, gvec_size(v_ref) );
-  munit_assert_size( IGVEC_GET_HEADER(v_val)->unitsz, ==, IGVEC_GET_HEADER(v_ref)->unitsz );
+  munit_assert_size( IGVEC_GET_HEADER(v_val)->entry_size, ==, IGVEC_GET_HEADER(v_ref)->entry_size );
 
   munit_assert_memory_equal( sizeof(TEST_SET), v_val, v_ref );
 
