@@ -133,6 +133,11 @@ gvec_t gvec_copy( gvec_t handle ) {
   return memcpy( dest_handle, handle, src_hdr->count * src_hdr->entry_size );
 }}
 
+void gvec_clear( gvec_t handle ) {
+{
+  igvec_resize( &handle, 0 );
+}}
+
 void gvec_free( gvec_t handle ) {
 {
   if (handle != NULL) { free( IGVEC_GET_BUFFER(handle) ); }
@@ -267,9 +272,10 @@ static gena_error_e __igvec_push( gvec_t* phandle ) {
 }}
 
 void gvec_pop( gvec_t handle ) {
+{
   assert( handle != NULL ); /* not really necessary here */
   gvec_erase( handle, gvec_count(handle)-1, 1 );
-}
+}}
 
 /******************************************************************************/
 
@@ -301,22 +307,21 @@ void* gvec_back( gvec_t handle ) {
 /******************************************************************************/
 
 size_t gvec_count( gvec_t handle ) {
+{
   assert( handle != NULL );
   return IGVEC_GET_HEADER(handle)->count;
-}
+}}
 
 size_t gvec_size( gvec_t handle ) {
+{
   assert( handle != NULL );
   return IGVEC_GET_HEADER(handle)->size;
-}
+}}
 
 gena_bool gvec_empty( gvec_t handle ) {
+{
   return (gvec_count(handle) == 0);
-}
-
-void gvec_clear( gvec_t handle ) {
-  igvec_resize( &handle, 0 );
-}
+}}
 
 /******************************************************************************/
 

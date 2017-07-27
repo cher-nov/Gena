@@ -54,8 +54,8 @@ typedef enum {
 
 /******************************************************************************/
 
-#define __IGENA_REQUIRE_SEMICOLON_INDOOR \
-  (void)0
+#define __IGENA_BLOCK_REQUIRE_SEMICOLON(block) \
+  do {block} while(0)
 
 #define __IGENA_REQUIRE_SEMICOLON_OUTDOOR \
   extern void \

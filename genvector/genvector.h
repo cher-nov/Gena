@@ -29,6 +29,7 @@ typedef struct {
 extern gvec_t igvec_new( size_t min_count, size_t entry_size );
 extern void gvec_set( gvec_ptr phandle, gvec_t source );
 extern gvec_t gvec_copy( gvec_t handle );
+extern void gvec_clear( gvec_t handle );
 extern void gvec_free( gvec_t handle );
 
 extern gena_error_e igvec_resize( gvec_ptr phandle, size_t new_count );
@@ -47,7 +48,6 @@ extern void* gvec_back( gvec_t handle );
 extern size_t gvec_count( gvec_t handle );
 extern size_t gvec_size( gvec_t handle );
 extern gena_bool gvec_empty( gvec_t handle );
-extern void gvec_clear( gvec_t handle );
 
 /******************************************************************************/
 
