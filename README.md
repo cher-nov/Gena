@@ -112,7 +112,7 @@ Notation:
 * `RETVAR`: `tpTypename` if `tpRetBy` is `GENA_USE_VAL`, and `tpTypename*` otherwise
 
 ```c
-gvec_t gvec_new( size_t min_count, size_t entry_size )
+gvec_t igvec_new( size_t min_count, size_t entry_size )
 gvec_NAME_t gvec_NAME_new( size_t min_count )
 ```
 Create a vector.
@@ -123,7 +123,7 @@ Create a vector.
 *Return value:* a handle to the new vector, or `NULL` on error
 
 ```c
-gvec_error_e gvec_resize( gvec_t* phandle, size_t new_count )
+gvec_error_e igvec_resize( gvec_t* phandle, size_t new_count )
 gvec_error_e gvec_NAME_resize( gvec_NAME_t* phandle, size_t new_count, const PASSVAR value )
 ```
 Resize a vector.
@@ -138,7 +138,7 @@ Resize a vector.
 * `GENA_ERR_MEMORY`: a vector wasn't resized due to a memory error
 
 ```c
-gvec_error_e gvec_insert( gvec_t* phandle, size_t pos, size_t count )
+gvec_error_e igvec_insert( gvec_t* phandle, size_t pos, size_t count )
 gvec_error_e gvec_NAME_insert( gvec_NAME_t* phandle, size_t pos, size_t count, const PASSVAR value )
 ```
 Insert elements into a vector.
@@ -154,7 +154,7 @@ Insert elements into a vector.
 * `GENA_ERR_MEMORY`: elements weren't inserted due to a memory error
 
 ```c
-gvec_error_e gvec_push( gvec_t* phandle )
+gvec_error_e igvec_push( gvec_t* phandle )
 gvec_error_e gvec_NAME_push( gvec_NAME_t* phandle, const PASSVAR value )
 ```
 Add an element to the end of a vector.
@@ -178,7 +178,7 @@ Resize a vector to specified count of elements and assign a value to them all.
 * *count* – a new count of elements in a vector
 * *value* – a value to be assigned to elements
 
-*Return value:* see `gvec_resize()`
+*Return value:* see `gvec_NAME_resize()`
 
 ```c
 RETVAL gvec_NAME_front( gvec_NAME_t handle )
@@ -323,7 +323,7 @@ Shorthand for `gvec_count( handle ) == 0`.
 ```c
 void gvec_clear( gvec_t handle )
 ```
-Shorthand for `gvec_resize( &handle, 0 )`.
+Shorthand for `igvec_resize( &handle, 0 )`.
 
 ## Library adjustment using optional defines
 

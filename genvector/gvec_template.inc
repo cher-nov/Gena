@@ -71,7 +71,7 @@
     size_t min_count \
   ) { \
   { \
-    return gvec_new( min_count, sizeof(tpTypename) ); \
+    return igvec_new( min_count, sizeof(tpTypename) ); \
   }} \
 /********************************************************************/ \
   __IGVEC_FUNC_ONCE gena_error_e \
@@ -83,7 +83,7 @@
     gena_error_e errorcode; \
     size_t i; \
   { \
-    errorcode = gvec_resize( phandle, count ); \
+    errorcode = igvec_resize( phandle, count ); \
     if (errorcode == GENA_ERR_NO) { \
       for(i = 0; i < count; ++i) { \
         (*phandle)[i] = tpPassBy##OP value; \
@@ -103,7 +103,7 @@
   { \
     assert( phandle != NULL ); \
     i = gvec_count(*phandle); \
-    errorcode = gvec_resize( phandle, new_count ); \
+    errorcode = igvec_resize( phandle, new_count ); \
     if (errorcode == GENA_ERR_NO) { \
       for(; i < new_count; ++i) { \
         (*phandle)[i] = tpPassBy##OP value; \
@@ -122,7 +122,7 @@
     gena_error_e errorcode; \
     size_t i; \
   { \
-    errorcode = gvec_insert( phandle, pos, count ); \
+    errorcode = igvec_insert( phandle, pos, count ); \
     if (errorcode == GENA_ERR_NO) { \
       for(i = 0; i < count; ++i) { \
         (*phandle)[i] = tpPassBy##OP value; \
@@ -138,7 +138,7 @@
   ) { \
     gena_error_e errorcode; \
   { \
-    errorcode = gvec_push(phandle); \
+    errorcode = igvec_push(phandle); \
     if (errorcode == GENA_ERR_NO) { \
       (*phandle)[gvec_count(*phandle)-1] = tpPassBy##OP value; \
     } \

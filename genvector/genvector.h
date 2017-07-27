@@ -26,18 +26,18 @@ typedef struct {
 
 /******************************************************************************/
 
-extern gvec_t gvec_new( size_t min_count, size_t entry_size );
+extern gvec_t igvec_new( size_t min_count, size_t entry_size );
 extern void gvec_set( gvec_ptr phandle, gvec_t source );
 extern gvec_t gvec_copy( gvec_t handle );
 extern void gvec_free( gvec_t handle );
 
-extern gena_error_e gvec_resize( gvec_ptr phandle, size_t new_count );
+extern gena_error_e igvec_resize( gvec_ptr phandle, size_t new_count );
 extern gena_error_e gvec_reserve( gvec_ptr phandle, size_t count );
 extern gena_error_e gvec_shrink( gvec_ptr phandle );
 
-extern gena_error_e gvec_insert( gvec_ptr phandle, size_t pos, size_t count );
+extern gena_error_e igvec_insert( gvec_ptr phandle, size_t pos, size_t count );
 extern void gvec_erase( gvec_t handle, size_t pos, size_t count );
-extern gena_error_e gvec_push( gvec_ptr phandle );
+extern gena_error_e igvec_push( gvec_ptr phandle );
 extern void gvec_pop( gvec_t handle );
 
 extern void* gvec_at( gvec_t handle, size_t pos );

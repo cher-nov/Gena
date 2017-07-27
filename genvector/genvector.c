@@ -78,7 +78,7 @@ static igvec_head_p set_storage( gvec_t* phandle, size_t size,
 
 /******************************************************************************/
 
-gvec_t gvec_new( size_t min_count, size_t entry_size ) {
+gvec_t igvec_new( size_t min_count, size_t entry_size ) {
   gvec_t handle = NULL;
   igvec_head_p header;
 {
@@ -140,7 +140,7 @@ void gvec_free( gvec_t handle ) {
 
 /******************************************************************************/
 
-static gena_error_e __gvec_resize( gvec_t* phandle, size_t new_count ) {
+static gena_error_e __igvec_resize( gvec_t* phandle, size_t new_count ) {
   igvec_head_p header;
 {
   ASSERT_PHANDLE(phandle);
@@ -151,7 +151,7 @@ static gena_error_e __gvec_resize( gvec_t* phandle, size_t new_count ) {
     return GENA_ERR_NO;
   }
 
-  return gvec_insert( phandle, header->count, new_count - header->count );
+  return igvec_insert( phandle, header->count, new_count - header->count );
 }}
 
 static gena_error_e __gvec_reserve( gvec_t* phandle, size_t count ) {
@@ -182,7 +182,9 @@ static gena_error_e __gvec_shrink( gvec_t* phandle ) {
 
 /******************************************************************************/
 
-static gena_error_e __gvec_insert( gvec_t* phandle, size_t pos, size_t count ) {
+static gena_error_e __igvec_insert( gvec_t* phandle, size_t pos,
+  size_t count )
+{
   gvec_t dest_gvec;
   igvec_head_p header;
   size_t entry_size, old_count, new_count;
@@ -212,7 +214,7 @@ static gena_error_e __gvec_insert( gvec_t* phandle, size_t pos, size_t count ) {
   /* This one doesn't use memory relocation and better for many insertions at
   arbitrary positions, in theory. */
   if (new_count > header->size) {
-    dest_gvec = gvec_new( new_count, entry_size );
+    dest_gvec = igvec_new( new_count, entry_size );
     if (dest_gvec == NULL) { return GENA_ERR_MEMORY; }
     header = IGVEC_GET_HEADER(dest_gvec);
     memmove( dest_gvec, *phandle, pos*entry_size );
@@ -258,10 +260,10 @@ void gvec_erase( gvec_t handle, size_t pos, size_t count ) {
   header->count -= count;
 }}
 
-static gena_error_e __gvec_push( gvec_t* phandle ) {
+static gena_error_e __igvec_push( gvec_t* phandle ) {
 {
   ASSERT_PHANDLE(phandle);
-  return gvec_resize( phandle, gvec_count(*phandle)+1 );
+  return igvec_resize( phandle, gvec_count(*phandle)+1 );
 }}
 
 void gvec_pop( gvec_t handle ) {
@@ -313,7 +315,7 @@ gena_bool gvec_empty( gvec_t handle ) {
 }
 
 void gvec_clear( gvec_t handle ) {
-  gvec_resize( &handle, 0 );
+  igvec_resize( &handle, 0 );
 }
 
 /******************************************************************************/
@@ -324,8 +326,8 @@ We don't use macros to preserve ability to obtain pointer to a function. */
 void gvec_set( gvec_ptr phandle, gvec_t source )
   { __gvec_set( (gvec_t*)phandle, source ); }
 
-gena_error_e gvec_resize( gvec_ptr phandle, size_t new_count )
-  { return __gvec_resize( (gvec_t*)phandle, new_count ); }
+gena_error_e igvec_resize( gvec_ptr phandle, size_t new_count )
+  { return __igvec_resize( (gvec_t*)phandle, new_count ); }
 
 gena_error_e gvec_reserve( gvec_ptr phandle, size_t count )
   { return __gvec_reserve( (gvec_t*)phandle, count ); }
@@ -333,8 +335,8 @@ gena_error_e gvec_reserve( gvec_ptr phandle, size_t count )
 gena_error_e gvec_shrink( gvec_ptr phandle )
   { return __gvec_shrink( (gvec_t*)phandle ); }
 
-gena_error_e gvec_insert( gvec_ptr phandle, size_t pos, size_t count )
-  { return __gvec_insert( (gvec_t*)phandle, pos, count ); }
+gena_error_e igvec_insert( gvec_ptr phandle, size_t pos, size_t count )
+  { return __igvec_insert( (gvec_t*)phandle, pos, count ); }
 
-gena_error_e gvec_push( gvec_ptr phandle )
-  { return __gvec_push( (gvec_t*)phandle ); }
+gena_error_e igvec_push( gvec_ptr phandle )
+  { return __igvec_push( (gvec_t*)phandle ); }
