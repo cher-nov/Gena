@@ -19,7 +19,7 @@
     typedef tpTypename* gvec_##tpVecName##_t
 
   #define GVEC_INSTANTIATE( tpTypename, tpVecName, tpPassBy, tpRetBy ) \
-    __IGVEC_INSTANTIATE( tpTypename, tpVecName, tpPassBy, tpRetBy )
+    _impl_GVEC_C_DEFINE( tpTypename, tpVecName, tpPassBy, tpRetBy )
 
 #else /* GVEC_MODULAR_APPROACH */
 
@@ -29,40 +29,42 @@
     __IGENA_REQUIRE_SEMICOLON_OUTDOOR
 
   #define GVEC_C_DEFINE( tpTypename, tpVecName, tpPassBy, tpRetBy ) \
-    __IGVEC_INSTANTIATE( tpTypename, tpVecName, tpPassBy, tpRetBy )
+    _impl_GVEC_C_DEFINE( tpTypename, tpVecName, tpPassBy, tpRetBy )
 
   #define GVEC_H_DECLARE( tpTypename, tpVecName, tpPassBy, tpRetBy ) \
-    __IGVEC_DECLARE( tpTypename, tpVecName, tpPassBy, tpRetBy )
-
-  #define __IGVEC_DECLARE( tpTypename, tpVecName, tpPassBy, tpRetBy ) \
-  \
-    typedef tpTypename* gvec_##tpVecName##_t; \
-  \
-    extern gvec_##tpVecName##_t gvec_##tpVecName##_new( \
-      size_t min_count ); \
-    extern gena_error_e gvec_##tpVecName##_assign( \
-      gvec_##tpVecName##_t* phandle, size_t count, \
-      const tpTypename tpPassBy##OP value ); \
-    extern gena_error_e gvec_##tpVecName##_resize( \
-      gvec_##tpVecName##_t* phandle, size_t new_count, \
-      const tpTypename tpPassBy##OP value ); \
-    extern gena_error_e gvec_##tpVecName##_insert( \
-      gvec_##tpVecName##_t* phandle, size_t pos, size_t count, \
-      const tpTypename tpPassBy##OP value ); \
-    extern gena_error_e gvec_##tpVecName##_push( \
-      gvec_##tpVecName##_t* phandle, const tpTypename tpPassBy##OP value ); \
-    extern tpTypename tpRetBy##OP gvec_##tpVecName##_front( \
-      gvec_##tpVecName##_t handle ); \
-    extern tpTypename tpRetBy##OP gvec_##tpVecName##_back( \
-      gvec_##tpVecName##_t handle ); \
-  \
-  __IGENA_REQUIRE_SEMICOLON_OUTDOOR
+    _impl_GVEC_H_DECLARE( tpTypename, tpVecName, tpPassBy, tpRetBy )
 
 #endif /* GVEC_MODULAR_APPROACH */
 
 /******************************************************************************/
 
-#define __IGVEC_INSTANTIATE( tpTypename, tpVecName, tpPassBy, tpRetBy ) \
+#define _impl_GVEC_H_DECLARE( tpTypename, tpVecName, tpPassBy, tpRetBy ) \
+\
+  typedef tpTypename* gvec_##tpVecName##_t; \
+\
+  extern gvec_##tpVecName##_t gvec_##tpVecName##_new( \
+    size_t min_count ); \
+  extern gena_error_e gvec_##tpVecName##_assign( \
+    gvec_##tpVecName##_t* phandle, size_t count, \
+    const tpTypename tpPassBy##OP value ); \
+  extern gena_error_e gvec_##tpVecName##_resize( \
+    gvec_##tpVecName##_t* phandle, size_t new_count, \
+    const tpTypename tpPassBy##OP value ); \
+  extern gena_error_e gvec_##tpVecName##_insert( \
+    gvec_##tpVecName##_t* phandle, size_t pos, size_t count, \
+    const tpTypename tpPassBy##OP value ); \
+  extern gena_error_e gvec_##tpVecName##_push( \
+    gvec_##tpVecName##_t* phandle, const tpTypename tpPassBy##OP value ); \
+  extern tpTypename tpRetBy##OP gvec_##tpVecName##_front( \
+    gvec_##tpVecName##_t handle ); \
+  extern tpTypename tpRetBy##OP gvec_##tpVecName##_back( \
+    gvec_##tpVecName##_t handle ); \
+\
+  __IGENA_REQUIRE_SEMICOLON_OUTDOOR
+
+/******************************************************************************/
+
+#define _impl_GVEC_C_DEFINE( tpTypename, tpVecName, tpPassBy, tpRetBy ) \
 \
   __IGVEC_DEFINE_TYPE( tpTypename, tpVecName ); \
 /********************************************************************/ \

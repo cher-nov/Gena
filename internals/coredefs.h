@@ -53,8 +53,8 @@ typedef enum {
 
 /******************************************************************************/
 
-#define __impl_IGENA_MACRO_CONCAT(x, y) x##y
-#define __IGENA_MACRO_CONCAT(x, y) __impl_IGENA_MACRO_CONCAT(x, y)
+#define _impl_IGENA_MACRO_CONCAT(x, y) x##y
+#define __IGENA_MACRO_CONCAT(x, y) _impl_IGENA_MACRO_CONCAT(x, y)
 
 /******************************************************************************/
 

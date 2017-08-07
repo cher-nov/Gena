@@ -11,15 +11,26 @@ NAMING CONVENTION:
     gena_* - user library routines
     igena_* - internal library routines
     __* - local and/or temporary names (e.g. in struct typedefs)
+    _impl_* - wrapped routine
     tp* - template parameter (rest must be in CamelCase, e.g. tpVecName)
+
+  VARIABLE SUFFIXES:
+
+    *_c - const
+
+  ARGUMENT PREFIXES:
+
+    p* - handle passed by pointer
+    ptr_* - argument is a pointer (for macros arguments ONLY!)
+    OUT_* - pointer to an output value
 
   TYPE SUFFIXES:
 
     *_e - enum
     *_s - struct
     *_p - pointer
-    *_t - typedef to another typedef or void*
-    *_ptr - pointer to type with *_t suffix
+    *_t - handle type / type alias
+    *_ptr - handle pointer
     *_s_typedef - for struct names in typedefs
 
   NOTES:

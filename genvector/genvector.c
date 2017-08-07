@@ -86,7 +86,7 @@ gvec_t igvec_new( size_t min_count, size_t entry_size ) {
   return handle;
 }}
 
-static void __gvec_set( gvec_t* phandle, gvec_t source ) {
+static void _impl_gvec_set( gvec_t* phandle, gvec_t source ) {
   igvec_head_p dest_hdr, src_hdr;
 {
   assert( phandle != NULL );
@@ -142,7 +142,7 @@ void gvec_free( gvec_t handle ) {
 
 /******************************************************************************/
 
-static gena_error_e __igvec_resize( gvec_t* phandle, size_t new_count ) {
+static gena_error_e _impl_igvec_resize( gvec_t* phandle, size_t new_count ) {
   igvec_head_p header;
 {
   ASSERT_PHANDLE(phandle);
@@ -156,7 +156,7 @@ static gena_error_e __igvec_resize( gvec_t* phandle, size_t new_count ) {
   return igvec_insert( phandle, header->count, new_count - header->count );
 }}
 
-static gena_error_e __gvec_reserve( gvec_t* phandle, size_t count ) {
+static gena_error_e _impl_gvec_reserve( gvec_t* phandle, size_t count ) {
   igvec_head_p header;
   size_t new_size;
 {
@@ -169,7 +169,7 @@ static gena_error_e __gvec_reserve( gvec_t* phandle, size_t count ) {
          : GENA_ERR_MEMORY;
 }}
 
-static gena_error_e __gvec_shrink( gvec_t* phandle ) {
+static gena_error_e _impl_gvec_shrink( gvec_t* phandle ) {
   igvec_head_p header;
   size_t new_size;
 {
@@ -184,7 +184,7 @@ static gena_error_e __gvec_shrink( gvec_t* phandle ) {
 
 /******************************************************************************/
 
-static gena_error_e __igvec_insert( gvec_t* phandle, size_t pos,
+static gena_error_e _impl_igvec_insert( gvec_t* phandle, size_t pos,
   size_t count )
 {
   gvec_t dest_gvec;
@@ -262,7 +262,7 @@ void gvec_erase( gvec_t handle, size_t pos, size_t count ) {
   header->count -= count;
 }}
 
-static gena_error_e __igvec_push( gvec_t* phandle ) {
+static gena_error_e _impl_igvec_push( gvec_t* phandle ) {
 {
   ASSERT_PHANDLE(phandle);
   return igvec_resize( phandle, gvec_count(*phandle)+1 );
@@ -326,19 +326,19 @@ gena_bool gvec_empty( gvec_t handle ) {
 We don't use macros to preserve ability to obtain pointer to a function. */
 
 void gvec_set( gvec_ptr phandle, gvec_t source )
-  { __gvec_set( (gvec_t*)phandle, source ); }
+  { _impl_gvec_set( (gvec_t*)phandle, source ); }
 
 gena_error_e igvec_resize( gvec_ptr phandle, size_t new_count )
-  { return __igvec_resize( (gvec_t*)phandle, new_count ); }
+  { return _impl_igvec_resize( (gvec_t*)phandle, new_count ); }
 
 gena_error_e gvec_reserve( gvec_ptr phandle, size_t count )
-  { return __gvec_reserve( (gvec_t*)phandle, count ); }
+  { return _impl_gvec_reserve( (gvec_t*)phandle, count ); }
 
 gena_error_e gvec_shrink( gvec_ptr phandle )
-  { return __gvec_shrink( (gvec_t*)phandle ); }
+  { return _impl_gvec_shrink( (gvec_t*)phandle ); }
 
 gena_error_e igvec_insert( gvec_ptr phandle, size_t pos, size_t count )
-  { return __igvec_insert( (gvec_t*)phandle, pos, count ); }
+  { return _impl_igvec_insert( (gvec_t*)phandle, pos, count ); }
 
 gena_error_e igvec_push( gvec_ptr phandle )
-  { return __igvec_push( (gvec_t*)phandle ); }
+  { return _impl_igvec_push( (gvec_t*)phandle ); }
