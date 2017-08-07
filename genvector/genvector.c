@@ -13,9 +13,6 @@
   #define GVEC_GROWTH_FACTOR 1.5
 #endif
 
-#define ADDHDR_INT(x) (x + sizeof(igvec_head_s))
-#define ADDHDR_PTR(x) __IGENA_VOIDP_ADD(x, sizeof(igvec_head_s))
-
 #define ASSERT_PHANDLE(phandle) \
   assert( phandle != NULL ); \
   assert( *phandle != NULL )
@@ -64,10 +61,10 @@ static igvec_head_p set_storage( gvec_t* phandle, size_t size,
     if (size == header->size) { return header; }
   }
 
-  buffer = realloc( buffer, ADDHDR_INT(size*entry_size) );
+  buffer = realloc( buffer, sizeof(igvec_head_s) + size * entry_size );
   if (buffer == NULL) { return NULL; }
 
-  *phandle = ADDHDR_PTR(buffer);
+  *phandle = __IGENA_VOIDP_ADD( buffer, sizeof(igvec_head_s) );
 
   header = (igvec_head_p)buffer;
   header->size = size;
