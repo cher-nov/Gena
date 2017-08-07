@@ -11,9 +11,13 @@
 
 #if __STDC_VERSION__ < 199901L
   typedef int gena_bool;
+  #define GENA_TRUE (1)
+  #define GENA_FALSE (0)
 #else
   #include <stdbool.h>
   typedef bool gena_bool;
+  #define GENA_TRUE (true)
+  #define GENA_FALSE (false)
 #endif
 
 #if __STDC_VERSION__ < 199901L
