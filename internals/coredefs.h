@@ -36,11 +36,27 @@ typedef enum {
 #define GENA_USE_VAL __IGENA_VAL_
 #define GENA_USE_REF __IGENA_REF_
 
-/* OP - operation, IOP - inverse operation */
+/* TODO: improve naming */
+/* OP - operation, IOP - inverse operation, AOF - address of */
 #define __IGENA_VAL_OP
 #define __IGENA_REF_OP *
 #define __IGENA_VAL_IOP *
 #define __IGENA_REF_IOP
+#define __IGENA_VAL_AOF &
+#define __IGENA_REF_AOF
+
+/******************************************************************************/
+
+#define GENA_COMPARE_NAIVE __IGENA_COMPARE_NAIVE
+#define GENA_COMPARE_MEMCMP __IGENA_COMPARE_MEMCMP
+
+#define __IGENA_COMPARE_NAIVE( ptr_user_data, ptr_entry_data ) \
+  ( (*(ptr_user_data) < *(ptr_entry_data)) ? (-1) \
+  : (*(ptr_user_data) > *(ptr_entry_data)) ? (1) \
+  : (0) )
+
+#define __IGENA_COMPARE_MEMCMP( ptr_user_data, ptr_entry_data ) \
+  ( memcmp( ptr_user_data, ptr_entry_data, sizeof(*ptr_user_data) ) )
 
 /******************************************************************************/
 
@@ -48,8 +64,8 @@ typedef enum {
 
 /******************************************************************************/
 
-#define __IGENA_VOIDP_ADD(x, a) ((void*)((char*)x + a))
-#define __IGENA_VOIDP_SUB(x, a) ((void*)((char*)x - a))
+#define __IGENA_VOIDP_ADD(x, a) ( (void*)( (char*)(x) + (a) ) )
+#define __IGENA_VOIDP_SUB(x, a) ( (void*)( (char*)(x) - (a) ) )
 
 /******************************************************************************/
 
