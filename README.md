@@ -4,6 +4,23 @@ An implementation of *vector* – dynamic linear array – in pure C89.
 This one is competently generalized with macros (*pseudo-templated*), so you can create vector of **any** datatype supported in C – i.e. primitive types, structs and unions. Just preliminarily instantiate it for needed types and you're on.
 Interface is based mostly on the design of `std::vector` from C++11.
 
+## Table of contents
+
+* [Features in a nutshell](#features-in-a-nutshell)
+* [Example (C99)](#example-c99)
+* [Design notes](#design-notes)
+* [Usage](#usage)
+  - [Static approach](#static-approach)
+  - [Modular approach](#modular-approach)
+    * [Typesets](#typesets)
+* [Functions](#functions)
+  - [Functions to manage `gvec_t`, and specialized versions of them](#functions-to-manage-gvec_t-and-specialized-versions-of-them)
+  - [Specialized-only functions](#specialized-only-functions)
+  - [General-purpose functions](#general-purpose-functions)
+* [Library adjustment using optional defines](#library-adjustment-using-optional-defines)
+  - [Before header inclusion](#before-header-inclusion)
+  - [At compile-time](#at-compile-time)
+
 ## Features in a nutshell
 
 1. Access vector elements just like plain C arrays: `vec[k]`.
