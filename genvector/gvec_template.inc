@@ -18,8 +18,8 @@
   #define __IGVEC_DEFINE_TYPE( tpTypename, tpVecName ) \
     typedef tpTypename* gvec_##tpVecName##_t
 
-  #define GVEC_INSTANTIATE( tpTypename, tpVecName, tpPassBy, tpRetBy ) \
-    _impl_GVEC_C_DEFINE( tpTypename, tpVecName, tpPassBy, tpRetBy )
+  #define GVEC_INSTANTIATE( tpTypename, tpVecName, tpPassBy, tpReturnBy ) \
+    _impl_GVEC_C_DEFINE( tpTypename, tpVecName, tpPassBy, tpReturnBy )
 
 #else /* GVEC_MODULAR_APPROACH */
 
@@ -28,17 +28,17 @@
   #define __IGVEC_DEFINE_TYPE( tpTypename, tpVecName ) \
     __IGENA_REQUIRE_SEMICOLON_OUTDOOR
 
-  #define GVEC_C_DEFINE( tpTypename, tpVecName, tpPassBy, tpRetBy ) \
-    _impl_GVEC_C_DEFINE( tpTypename, tpVecName, tpPassBy, tpRetBy )
+  #define GVEC_C_DEFINE( tpTypename, tpVecName, tpPassBy, tpReturnBy ) \
+    _impl_GVEC_C_DEFINE( tpTypename, tpVecName, tpPassBy, tpReturnBy )
 
-  #define GVEC_H_DECLARE( tpTypename, tpVecName, tpPassBy, tpRetBy ) \
-    _impl_GVEC_H_DECLARE( tpTypename, tpVecName, tpPassBy, tpRetBy )
+  #define GVEC_H_DECLARE( tpTypename, tpVecName, tpPassBy, tpReturnBy ) \
+    _impl_GVEC_H_DECLARE( tpTypename, tpVecName, tpPassBy, tpReturnBy )
 
 #endif /* GVEC_MODULAR_APPROACH */
 
 /******************************************************************************/
 
-#define _impl_GVEC_H_DECLARE( tpTypename, tpVecName, tpPassBy, tpRetBy ) \
+#define _impl_GVEC_H_DECLARE( tpTypename, tpVecName, tpPassBy, tpReturnBy ) \
 \
   typedef tpTypename* gvec_##tpVecName##_t; \
 \
@@ -55,16 +55,16 @@
     const tpTypename tpPassBy##OP value ); \
   extern gena_error_e gvec_##tpVecName##_push( \
     gvec_##tpVecName##_t* phandle, const tpTypename tpPassBy##OP value ); \
-  extern tpTypename tpRetBy##OP gvec_##tpVecName##_front( \
+  extern tpTypename tpReturnBy##OP gvec_##tpVecName##_front( \
     gvec_##tpVecName##_t handle ); \
-  extern tpTypename tpRetBy##OP gvec_##tpVecName##_back( \
+  extern tpTypename tpReturnBy##OP gvec_##tpVecName##_back( \
     gvec_##tpVecName##_t handle ); \
 \
   __IGENA_REQUIRE_SEMICOLON_OUTDOOR
 
 /******************************************************************************/
 
-#define _impl_GVEC_C_DEFINE( tpTypename, tpVecName, tpPassBy, tpRetBy ) \
+#define _impl_GVEC_C_DEFINE( tpTypename, tpVecName, tpPassBy, tpReturnBy ) \
 \
   __IGVEC_DEFINE_TYPE( tpTypename, tpVecName ); \
 /********************************************************************/ \
@@ -147,20 +147,20 @@
     return errorcode; \
   }} \
 /********************************************************************/ \
-  __IGVEC_FUNC_ONCE tpTypename tpRetBy##OP \
+  __IGVEC_FUNC_ONCE tpTypename tpReturnBy##OP \
   gvec_##tpVecName##_front( \
     gvec_##tpVecName##_t handle \
   ) { \
   { \
-    return tpRetBy##IOP (tpTypename*) gvec_front(handle); \
+    return tpReturnBy##IOP (tpTypename*) gvec_front(handle); \
   }} \
 /********************************************************************/ \
-  __IGVEC_FUNC_ONCE tpTypename tpRetBy##OP \
+  __IGVEC_FUNC_ONCE tpTypename tpReturnBy##OP \
   gvec_##tpVecName##_back( \
     gvec_##tpVecName##_t handle \
   ) { \
   { \
-    return tpRetBy##IOP (tpTypename*) gvec_back(handle); \
+    return tpReturnBy##IOP (tpTypename*) gvec_back(handle); \
   }} \
 /********************************************************************/ \
   __IGENA_REQUIRE_SEMICOLON_OUTDOOR

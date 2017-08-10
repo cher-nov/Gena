@@ -40,14 +40,14 @@ Let's examine them more closely.
 This approach is good when vector is used only in one translation unit (*module*). It is easier and set by default.
 Just include library header into module source and instantiate vector for types you need, using `GVEC_INSTANTIATE()`:
 ```c
-GVEC_INSTANTIATE( tpTypename, tpVecName, tpPassBy, tpRetBy );
+GVEC_INSTANTIATE( tpTypename, tpVecName, tpPassBy, tpReturnBy );
 ```
 * *tpTypename* – type for which vector should be instantiated
 * *tpVecName* – unique vector name that will be placed into names of specialized functions, for example: `gvec_mystruct_new()`
 * *tpPassBy* – specifies how values should be passed to specialized functions
-* *tpRetBy* – specifies how values should be returned from specialized functions
+* *tpReturnBy* – specifies how values should be returned from specialized functions
 
-Possible values both for *tpPassBy* and *tpRetBy* are:
+Possible values both for *tpPassBy* and *tpReturnBy* are:
 * `GENA_USE_VAL` – pass/receive by value
 * `GENA_USE_REF` – pass/receive by reference
 
@@ -64,14 +64,14 @@ For the next code template let's assume that wrapper module is called *gvec_wrap
 #define GVEC_MODULAR_APPROACH
 #include "genvector.h"
 
-GVEC_H_DECLARE( tpTypename, tpVecName, tpPassBy, tpRetBy );
+GVEC_H_DECLARE( tpTypename, tpVecName, tpPassBy, tpReturnBy );
 ```
 
 ***gvec_wrapper.c***
 ```c
 #include "gvec_wrapper.h"
 
-GVEC_C_DEFINE( tpTypename, tpVecName, tpPassBy, tpRetBy );
+GVEC_C_DEFINE( tpTypename, tpVecName, tpPassBy, tpReturnBy );
 ```
 
 The arguments for `GVEC_H_DECLARE()` and `GVEC_C_DEFINE()` are the same as for `GVEC_INSTANTIATE()`.
@@ -88,7 +88,7 @@ To prevent this, *typesets* were introduced. Let's consider them using the modif
 #include "genvector.h"
 
 #define __GVEC_TYPESET_VECNAME \
-  (tpTypename, tpVecName, tpPassBy, tpRetBy)
+  (tpTypename, tpVecName, tpPassBy, tpReturnBy)
 
 GENA_APPLY_TYPESET( GVEC_H_DECLARE, __GVEC_TYPESET_VECNAME );
 ```
@@ -108,8 +108,8 @@ GENA_APPLY_TYPESET( GVEC_C_DEFINE, __GVEC_TYPESET_VECNAME );
 
 Notation:
 * `NAME`: value of `tpVecName`
-* `PASSVAR`: `tpTypename` if `tpPassBy` is `GENA_USE_VAL`, and `tpTypename*` otherwise
-* `RETVAR`: `tpTypename` if `tpRetBy` is `GENA_USE_VAL`, and `tpTypename*` otherwise
+* `PASSVAL`: `tpTypename` if `tpPassBy` is `GENA_USE_VAL`, and `tpTypename*` otherwise
+* `RETVAL`: `tpTypename` if `tpReturnBy` is `GENA_USE_VAL`, and `tpTypename*` otherwise
 
 ```c
 gvec_t igvec_new( size_t min_count, size_t entry_size )
@@ -124,7 +124,7 @@ Create a vector.
 
 ```c
 gvec_error_e igvec_resize( gvec_t* phandle, size_t new_count )
-gvec_error_e gvec_NAME_resize( gvec_NAME_t* phandle, size_t new_count, const PASSVAR value )
+gvec_error_e gvec_NAME_resize( gvec_NAME_t* phandle, size_t new_count, const PASSVAL value )
 ```
 Resize a vector.
 
@@ -139,7 +139,7 @@ Resize a vector.
 
 ```c
 gvec_error_e igvec_insert( gvec_t* phandle, size_t pos, size_t count )
-gvec_error_e gvec_NAME_insert( gvec_NAME_t* phandle, size_t pos, size_t count, const PASSVAR value )
+gvec_error_e gvec_NAME_insert( gvec_NAME_t* phandle, size_t pos, size_t count, const PASSVAL value )
 ```
 Insert elements into a vector.
 
@@ -155,7 +155,7 @@ Insert elements into a vector.
 
 ```c
 gvec_error_e igvec_push( gvec_t* phandle )
-gvec_error_e gvec_NAME_push( gvec_NAME_t* phandle, const PASSVAR value )
+gvec_error_e gvec_NAME_push( gvec_NAME_t* phandle, const PASSVAL value )
 ```
 Add an element to the end of a vector.
 
@@ -170,7 +170,7 @@ Add an element to the end of a vector.
 ### Specialized-only functions
 
 ```c
-gvec_error_e gvec_NAME_assign( gvec_NAME_t* phandle, size_t count, const PASSVAR value )
+gvec_error_e gvec_NAME_assign( gvec_NAME_t* phandle, size_t count, const PASSVAL value )
 ```
 Resize a vector to specified count of elements and assign a value to them all.
 
@@ -188,8 +188,8 @@ Get the first element of a vector.
 * *handle* – a handle to a vector
 
 *Return value:*
-* `tpRetVal` is `GENA_USE_VAL`: a value of the element (if vector is empty, it's undefined)
-* `tpRetVal` is `GENA_USE_REF`: a reference to the element, or `NULL` if vector is empty
+* `tpReturnBy` is `GENA_USE_VAL`: a value of the element (if vector is empty, it's undefined)
+* `tpReturnBy` is `GENA_USE_REF`: a reference to the element, or `NULL` if vector is empty
 
 ```c
 RETVAL gvec_NAME_back( gvec_NAME_t handle )
@@ -199,8 +199,8 @@ Get the last element of a vector.
 * *handle* – a handle to a vector
 
 *Return value:*
-* `tpRetVal` is `GENA_USE_VAL`: a value of the element (if vector is empty, it's undefined)
-* `tpRetVal` is `GENA_USE_REF`: a reference to the element, or `NULL` if vector is empty
+* `tpReturnBy` is `GENA_USE_VAL`: a value of the element (if vector is empty, it's undefined)
+* `tpReturnBy` is `GENA_USE_REF`: a reference to the element, or `NULL` if vector is empty
 
 ### General-purpose functions
 
