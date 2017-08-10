@@ -13,6 +13,43 @@ Interface is based mostly on the design of `std::vector` from C++11.
 5. You can choose how to pass values into a vector and how to receive them from it: by value or by reference.
 6. No code reduplication: only functions that take or return values of user type are specialized.
 
+## Example (C99)
+
+```c
+#include <stdlib.h>
+#include <stdio.h>
+
+#include "genvector/genvector.h"
+
+typedef struct {
+  char Name[32];
+  int Age;
+} person_s;
+
+#define C_PERSON(name, age) ( (person_s){ .Name=name, .Age=age } )
+
+GVEC_INSTANTIATE( person_s, society, GENA_USE_VAL, GENA_USE_REF );
+
+int main() {
+  gvec_society_t family = gvec_society_new(0);
+  if (family == NULL) { return EXIT_FAILURE; }
+
+  gvec_society_push( &family, C_PERSON("Alice", 30) );
+  gvec_society_push( &family, C_PERSON("Bob", 32) );
+  gvec_society_push( &family, C_PERSON("Kate", 10) );
+
+  printf( "%zu\n", gvec_count( family ) );
+  while ( gvec_count( family ) > 0 ) {
+    person_s member = *gvec_society_back( family );
+    printf( "name %s, age %d\n", member.Name, member.Age );
+    gvec_pop( family );
+  }
+
+  gvec_free( family );
+  return EXIT_SUCCESS;
+}
+```
+
 ## Design notes
 
 1. All indices and positions are zero-based.
