@@ -73,6 +73,7 @@ structures that use AVL-tree can be instantiated with same names. */
   ) { \
     igena_avl_retstate_e retstate; \
     int compare_result; \
+    gena_bool can_balance = GENA_TRUE; \
   { \
     if (*pnode == NULL) { return IGENA_AVL_RETST_NOTHING; } \
 \
@@ -88,12 +89,11 @@ structures that use AVL-tree can be instantiated with same names. */
         &(*pnode)->right, key ); \
       if (retstate == IGENA_AVL_RETST_BALANCE) { --((*pnode)->factor); } \
     } else { \
-      if (igena_avl_node_discard( pnode )) { \
-        return IGENA_AVL_RETST_BALANCE; \
-      } \
+      can_balance = !igena_avl_node_discard( pnode ); \
+      retstate = IGENA_AVL_RETST_BALANCE; \
     } \
 \
-    if (retstate == IGENA_AVL_RETST_BALANCE) { \
+    if ( (can_balance) && (retstate == IGENA_AVL_RETST_BALANCE) ) { \
       igena_avl_node_balance( pnode ); \
       if ( (*pnode)->factor != 0 ) { return IGENA_AVL_RETST_RETURN; } \
     } \
