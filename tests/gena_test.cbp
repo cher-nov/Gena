@@ -2,13 +2,13 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="gvectest" />
+		<Option title="gena_test" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="genvector/;munit/;" />
+		<Option virtualFolders="munit/;genvector/;tests/;tests/gvec_common/;" />
 		<Build>
 			<Target title="Test Static">
-				<Option output="gvectest" prefix_auto="1" extension_auto="1" />
+				<Option output="gena_test" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -25,7 +25,7 @@
 				</Linker>
 			</Target>
 			<Target title="Test Modular">
-				<Option output="gvectest" prefix_auto="1" extension_auto="1" />
+				<Option output="gena_test" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -42,28 +42,29 @@
 				</Linker>
 			</Target>
 			<Target title="Check C89 Static">
-				<Option output="gvectest" prefix_auto="1" extension_auto="1" />
+				<Option output="gena_test" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-Wno-unused-function" />
-					<Add option="-DGVTEST_CHECK_ONLY_C89" />
+					<Add option="-DGENATEST_CHECK_ONLY_C89" />
+					<Add option="-DGVEC_INSERT_NO_REALLOC" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 				</Linker>
 			</Target>
 			<Target title="Check C89 Modular">
-				<Option output="gvectest" prefix_auto="1" extension_auto="1" />
+				<Option output="gena_test" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-Wno-unused-function" />
-					<Add option="-DGVTEST_CHECK_ONLY_C89" />
+					<Add option="-DGENATEST_CHECK_ONLY_C89" />
 					<Add option="-DGVEC_MODULAR_APPROACH" />
 				</Compiler>
 				<Linker>
@@ -84,37 +85,63 @@
 		<Linker>
 			<Add option="-s" />
 		</Linker>
-		<Unit filename="../genvector.c">
+		<Unit filename="../genvector/genvector.c">
 			<Option compilerVar="CC" />
 			<Option virtualFolder="genvector/" />
 		</Unit>
-		<Unit filename="../genvector.h">
+		<Unit filename="../genvector/genvector.h">
 			<Option virtualFolder="genvector/" />
 		</Unit>
-		<Unit filename="gvec_general.h" />
-		<Unit filename="gvec_modular.c">
+		<Unit filename="genatest_common.c">
 			<Option compilerVar="CC" />
+			<Option virtualFolder="tests/" />
+			<Option target="Test Static" />
+			<Option target="Test Modular" />
+		</Unit>
+		<Unit filename="genatest_common.h">
+			<Option virtualFolder="tests/" />
+			<Option target="Test Static" />
+			<Option target="Test Modular" />
+		</Unit>
+		<Unit filename="gvec_common/gvec_general.h">
+			<Option virtualFolder="tests/gvec_common/" />
+		</Unit>
+		<Unit filename="gvec_common/gvec_modular.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="tests/gvec_common/" />
 			<Option target="Test Modular" />
 			<Option target="Check C89 Modular" />
 		</Unit>
-		<Unit filename="gvec_modular.h">
+		<Unit filename="gvec_common/gvec_modular.h">
+			<Option virtualFolder="tests/gvec_common/" />
 			<Option target="Test Modular" />
 			<Option target="Check C89 Modular" />
 		</Unit>
-		<Unit filename="gvec_static.h">
+		<Unit filename="gvec_common/gvec_static.h">
+			<Option virtualFolder="tests/gvec_common/" />
 			<Option target="Test Static" />
 			<Option target="Check C89 Static" />
 		</Unit>
+		<Unit filename="gvec_tests.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="tests/" />
+			<Option target="Test Static" />
+			<Option target="Test Modular" />
+		</Unit>
+		<Unit filename="gvec_tests.h">
+			<Option virtualFolder="tests/" />
+		</Unit>
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
+			<Option virtualFolder="tests/" />
 		</Unit>
-		<Unit filename="../../internals/munit/munit.c">
+		<Unit filename="munit/munit.c">
 			<Option compilerVar="CC" />
 			<Option virtualFolder="munit/" />
 			<Option target="Test Static" />
 			<Option target="Test Modular" />
 		</Unit>
-		<Unit filename="../../internals/munit/munit.h">
+		<Unit filename="munit/munit.h">
 			<Option virtualFolder="munit/" />
 			<Option target="Test Static" />
 			<Option target="Test Modular" />
