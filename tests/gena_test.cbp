@@ -13,8 +13,8 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-std=c99" />
 					<Add option="-g" />
+					<Add option="-std=gnu99" />
 					<Add option="-fprofile-arcs" />
 					<Add option="-ftest-coverage" />
 					<Add option="-DGVEC_INSERT_NO_REALLOC" />
@@ -30,8 +30,8 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-std=c99" />
 					<Add option="-g" />
+					<Add option="-std=gnu99" />
 					<Add option="-fprofile-arcs" />
 					<Add option="-ftest-coverage" />
 					<Add option="-DGVEC_MODULAR_APPROACH" />
@@ -48,6 +48,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-ansi" />
 					<Add option="-Wno-unused-function" />
 					<Add option="-DGENATEST_CHECK_ONLY_C89" />
 					<Add option="-DGVEC_INSERT_NO_REALLOC" />
@@ -63,6 +64,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-ansi" />
 					<Add option="-Wno-unused-function" />
 					<Add option="-DGENATEST_CHECK_ONLY_C89" />
 					<Add option="-DGVEC_MODULAR_APPROACH" />
@@ -80,7 +82,6 @@
 			<Add option="-pedantic" />
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
-			<Add option="-ansi" />
 		</Compiler>
 		<Linker>
 			<Add option="-s" />
