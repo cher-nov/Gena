@@ -44,5 +44,5 @@ size_t gmap_count( gmap_t handle ) {
 
 gena_bool gmap_empty( gmap_t handle ) {
 {
-  return (gmap_count(handle) == 0);
+  return (handle->avltree_root == NULL);
 }}
