@@ -13,8 +13,7 @@
 
 #include "munit/munit.h"
 
-extern MunitResult gvt1( const MunitParameter params[],
-  void* user_data_or_fixture );
+extern MunitResult gvectests_1_general();
 
 #endif /* GENATEST_CHECK_ONLY_C89 */
 

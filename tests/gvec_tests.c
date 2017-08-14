@@ -2,14 +2,12 @@
 
 #include "genatest_common.h"
 
-MunitResult gvt1( const MunitParameter params[], void* user_data_or_fixture ) {
+MunitResult gvectests_1_general() {
   gvec_intv_t v_val;
   gvec_intr_t v_ref;
   size_t i;
   int* rpint;
   gena_error_e errorcode;
-  GENATEST_UNUSED(params);
-  GENATEST_UNUSED(user_data_or_fixture);
 {
   v_val = gvec_intv_new( GENATEST_INT_SET_LEN );
   munit_assert_not_null( v_val );
