@@ -36,4 +36,9 @@ static inline int gmaptest_compare_cb( const gmaptest_key_s* a,
    callback, gmaptest_compare_cb, \
    GENA_USE_REF, GENA_USE_REF)
 
+#define __GMAPTEST_TYPESET_EX_STRING_BUF \
+  (genatest_str_t, genatest_str_t, string, \
+   GENA_ASSIGN_STRCPY, GENA_ASSIGN_STRCPY, GENA_COMPARE_STRCMP, \
+   GENA_USE_BUF, GENA_USE_BUF)
+
 #endif /*__GMAP_GENERAL_H__*/
