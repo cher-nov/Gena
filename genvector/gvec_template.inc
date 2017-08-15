@@ -45,16 +45,21 @@
   extern gvec_##tpVecName##_t gvec_##tpVecName##_new( \
     size_t min_count ); \
   extern gena_error_e gvec_##tpVecName##_assign( \
-    gvec_##tpVecName##_t* phandle, size_t count, \
+    gvec_##tpVecName##_t* phandle, \
+    size_t count, \
     const tpTypename tpPassBy##OP value ); \
   extern gena_error_e gvec_##tpVecName##_resize( \
-    gvec_##tpVecName##_t* phandle, size_t new_count, \
+    gvec_##tpVecName##_t* phandle, \
+    size_t new_count, \
     const tpTypename tpPassBy##OP value ); \
   extern gena_error_e gvec_##tpVecName##_insert( \
-    gvec_##tpVecName##_t* phandle, size_t pos, size_t count, \
+    gvec_##tpVecName##_t* phandle, \
+    size_t pos, \
+    size_t count, \
     const tpTypename tpPassBy##OP value ); \
   extern gena_error_e gvec_##tpVecName##_push( \
-    gvec_##tpVecName##_t* phandle, const tpTypename tpPassBy##OP value ); \
+    gvec_##tpVecName##_t* phandle, \
+    const tpTypename tpPassBy##OP value ); \
   extern tpTypename tpReturnBy##OP gvec_##tpVecName##_front( \
     gvec_##tpVecName##_t handle ); \
   extern tpTypename tpReturnBy##OP gvec_##tpVecName##_back( \
