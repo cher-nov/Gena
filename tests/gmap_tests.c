@@ -2,8 +2,6 @@
 
 #include <string.h>
 
-#include "genatest_common.h"
-
 #define C_SKEY(x) ( (gmaptest_key_s){x, x} )
 #define C_SVALUE(x) ( (gmaptest_value_s){x} )
 

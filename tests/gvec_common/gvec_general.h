@@ -3,6 +3,8 @@
 
 #include "../../genvector/genvector.h"
 
+#include "../genatest_common.h"
+
 #define __GVECTEST_TYPESET_INTV \
   (int, intv, GENA_USE_VAL, GENA_USE_VAL)
 

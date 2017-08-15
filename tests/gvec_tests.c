@@ -1,7 +1,5 @@
 #include "gvec_tests.h"
 
-#include "genatest_common.h"
-
 MunitResult gvectests_1_general() {
   gvec_intv_t v_val;
   gvec_intr_t v_ref;

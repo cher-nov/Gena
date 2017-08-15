@@ -3,6 +3,8 @@
 
 #include "../../genmap/genmap.h"
 
+#include "../genatest_common.h"
+
 /* This struct should have alignment bytes for testing memcmp() comparison */
 typedef struct {
   char for_alignment;
