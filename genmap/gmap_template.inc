@@ -21,8 +21,15 @@
   #define GMAP_INSTANTIATE( tpKeyType, tpValueType, tpMapName, tpKeyCompareBy, \
     tpKeyPassBy, tpValuePassBy ) \
 \
-    _impl_GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, tpKeyCompareBy, \
-      tpKeyPassBy, tpValuePassBy )
+    _impl_GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, GENA_ASSIGN_NAIVE, \
+      GENA_ASSIGN_NAIVE, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy )
+
+  #define GMAP_INSTANTIATE_EX( tpKeyType, tpValueType, tpMapName, \
+    tpKeyAssignBy, tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, \
+    tpValuePassBy ) \
+\
+    _impl_GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
+      tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy )
 
 #else /* GMAP_MODULAR_APPROACH */
 
@@ -34,11 +41,23 @@
   #define GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, tpKeyCompareBy, \
     tpKeyPassBy, tpValuePassBy ) \
 \
-    _impl_GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, tpKeyCompareBy, \
-      tpKeyPassBy, tpValuePassBy )
+    _impl_GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, GENA_ASSIGN_NAIVE, \
+      GENA_ASSIGN_NAIVE, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy )
+
+  #define GMAP_C_DEFINE_EX( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
+    tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy ) \
+\
+    _impl_GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
+      tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy )
 
   #define GMAP_H_DECLARE( tpKeyType, tpValueType, tpMapName, tpKeyCompareBy, \
     tpKeyPassBy, tpValuePassBy ) \
+\
+    _impl_GMAP_H_DECLARE( tpKeyType, tpValueType, tpMapName, tpKeyPassBy, \
+      tpValuePassBy )
+
+  #define GMAP_H_DECLARE_EX( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
+    tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy ) \
 \
     _impl_GMAP_H_DECLARE( tpKeyType, tpValueType, tpMapName, tpKeyPassBy, \
       tpValuePassBy )
@@ -67,12 +86,12 @@
 
 /******************************************************************************/
 
-#define _impl_GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, \
-  tpKeyCompareBy, tpKeyPassBy, tpValuePassBy ) \
+#define _impl_GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
+  tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy ) \
 \
   __IGMAP_DEFINE_TYPE( tpMapName ); \
   IGENA_AVL_SUBTREE_INSTANTIATE( gmap, tpMapName, tpKeyType, \
-    sizeof(tpValueType), tpKeyCompareBy, tpKeyPassBy ); \
+    sizeof(tpValueType), tpKeyAssignBy, tpKeyCompareBy, tpKeyPassBy ); \
 /********************************************************************/ \
   __IGMAP_FUNC_ONCE tpValueType* \
   gmap_##tpMapName##_add( \
@@ -91,7 +110,11 @@
     node_value = IGENA_AVL_NODE_GET_VALUE( final_node, tpKeyType, \
       tpValueType ); \
     if (retstate != IGENA_AVL_RETST_NOTHING) { \
-      *node_value = tpValuePassBy##OP value; \
+      tpValueAssignBy ( \
+        tpValuePassBy##GET node_value, \
+        tpValuePassBy##AOF value, \
+        sizeof(tpValueType) \
+      ); \
       ++(handle->count); \
     } \
     return node_value; \
