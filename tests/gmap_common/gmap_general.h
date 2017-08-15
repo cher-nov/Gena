@@ -64,4 +64,9 @@ static inline int gmaptest_str_compare_cb( const genatest_str_t a,
    gmaptest_str_assign_cb, gmaptest_str_assign_cb, gmaptest_str_compare_cb, \
    GENA_USE_BUF, GENA_USE_BUF)
 
+#define __GMAPTEST_TYPESET_EX_ARRAY_BUF \
+  (genatest_buf_t, genatest_buf_t, array, \
+   GENA_ASSIGN_MEMCPY, GENA_ASSIGN_MEMCPY, GENA_COMPARE_MEMCMP, \
+   GENA_USE_BUF, GENA_USE_BUF)
+
 #endif /*__GMAP_GENERAL_H__*/
