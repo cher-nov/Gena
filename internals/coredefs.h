@@ -66,7 +66,7 @@ typedef enum {
   ( memcpy( ptr_destination, ptr_source, data_size ) )
 
 #define __IGENA_ASSIGN_STRCPY( ptr_destination, ptr_source, data_size ) \
-  ( strcpy( (char*)ptr_destination, (char*)ptr_source ) )
+  ( strncpy( (char*)ptr_destination, (char*)ptr_source, data_size ) )
 
 /******************************************************************************/
 
