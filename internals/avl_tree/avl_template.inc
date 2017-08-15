@@ -48,7 +48,8 @@ structures that use AVL-tree can be instantiated with same names. */
 \
     compare_result = tpKeyCompareBy ( \
       tpKeyPassBy##AOF key, \
-      tpKeyPassBy##GET IGENA_AVL_NODE_GET_KEY(*pnode, tpKeyType) \
+      tpKeyPassBy##GET IGENA_AVL_NODE_GET_KEY(*pnode, tpKeyType), \
+      sizeof(tpKeyType) \
     ); \
 \
     if (compare_result < 0) { \
@@ -85,7 +86,8 @@ structures that use AVL-tree can be instantiated with same names. */
 \
     compare_result = tpKeyCompareBy ( \
       tpKeyPassBy##AOF key, \
-      tpKeyPassBy##GET IGENA_AVL_NODE_GET_KEY(*pnode, tpKeyType) \
+      tpKeyPassBy##GET IGENA_AVL_NODE_GET_KEY(*pnode, tpKeyType), \
+      sizeof(tpKeyType) \
     ); \
 \
     if (compare_result < 0) { \
@@ -119,7 +121,8 @@ structures that use AVL-tree can be instantiated with same names. */
     while (node != NULL) { \
       compare_result = tpKeyCompareBy ( \
         tpKeyPassBy##AOF key, \
-        tpKeyPassBy##GET IGENA_AVL_NODE_GET_KEY(node, tpKeyType) \
+        tpKeyPassBy##GET IGENA_AVL_NODE_GET_KEY(node, tpKeyType), \
+        sizeof(tpKeyType) \
       ); \
       if (compare_result < 0) { \
         node = node->left; \
