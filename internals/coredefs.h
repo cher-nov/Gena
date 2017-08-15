@@ -33,22 +33,46 @@ typedef enum {
 
 /******************************************************************************/
 
+/* VAL - value, REF - reference (pointer), BUF - buffer (array) */
 #define GENA_USE_VAL __IGENA_VAL_
 #define GENA_USE_REF __IGENA_REF_
+#define GENA_USE_BUF __IGENA_BUF_
 
 /* TODO: improve naming */
-/* OP - operation, IOP - inverse operation, AOF - address of */
+/* OP - operation, IOP - inverse operation, AOF - address of, GET - get */
 #define __IGENA_VAL_OP
-#define __IGENA_REF_OP *
 #define __IGENA_VAL_IOP *
-#define __IGENA_REF_IOP
 #define __IGENA_VAL_AOF &
+#define __IGENA_VAL_GET
+#define __IGENA_REF_OP *
+#define __IGENA_REF_IOP
 #define __IGENA_REF_AOF
+#define __IGENA_REF_GET
+#define __IGENA_BUF_OP
+#define __IGENA_BUF_IOP
+#define __IGENA_BUF_AOF
+#define __IGENA_BUF_GET *
+
+/******************************************************************************/
+
+#define GENA_ASSIGN_NAIVE __IGENA_ASSIGN_NAIVE
+#define GENA_ASSIGN_MEMCPY __IGENA_ASSIGN_MEMCPY
+#define GENA_ASSIGN_STRCPY __IGENA_ASSIGN_STRCPY
+
+#define __IGENA_ASSIGN_NAIVE( ptr_destination, ptr_source, data_size ) \
+  ( *(ptr_destination) = *(ptr_source) )
+
+#define __IGENA_ASSIGN_MEMCPY( ptr_destination, ptr_source, data_size ) \
+  ( memcpy( ptr_destination, ptr_source, data_size ) )
+
+#define __IGENA_ASSIGN_STRCPY( ptr_destination, ptr_source, data_size ) \
+  ( strcpy( (char*)ptr_destination, (char*)ptr_source ) )
 
 /******************************************************************************/
 
 #define GENA_COMPARE_NAIVE __IGENA_COMPARE_NAIVE
 #define GENA_COMPARE_MEMCMP __IGENA_COMPARE_MEMCMP
+#define GENA_COMPARE_STRCMP __IGENA_COMPARE_STRCMP
 
 #define __IGENA_COMPARE_NAIVE( ptr_user_data, ptr_entry_data ) \
   ( (*(ptr_user_data) < *(ptr_entry_data)) ? (-1) \
@@ -57,6 +81,9 @@ typedef enum {
 
 #define __IGENA_COMPARE_MEMCMP( ptr_user_data, ptr_entry_data ) \
   ( memcmp( ptr_user_data, ptr_entry_data, sizeof(*ptr_user_data) ) )
+
+#define __IGENA_COMPARE_STRCMP( ptr_user_data, ptr_entry_data ) \
+  ( strcmp( (char*)ptr_user_data, (char*)ptr_entry_data ) )
 
 /******************************************************************************/
 
