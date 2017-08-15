@@ -14,3 +14,33 @@ const size_t GENATEST_INT_SET_LEN =
 
 const int GENATEST_CUSTOM_INT_1 = 234;
 const int GENATEST_CUSTOM_INT_2 = 749;
+
+const genatest_str_t GENATEST_STR_SET[] = {
+  "a", "ab", "abc", "abcd", "abcde", "abcdef", "abcdefg", "abcdefgh",
+  "abcdefghi", "abcdefghij", "abcdefghijk", "abcdefghijkl", "abcdefghijklm",
+  "abcdefghijklmn", "abcdefghijklmno",
+  "b", "bc", "bcd", "bcde", "bcdef", "bcdefg", "bcdefgh", "bcdefghi",
+  "bcdefghij", "bcdefghijk", "bcdefghijkl", "bcdefghijklm", "bcdefghijklmn",
+  "bcdefghijklmno", "bcdefghijklmnop",
+  "c", "cd", "cde", "cdef", "cdefg", "cdefgh", "cdefghi", "cdefghij",
+  "cdefghijk", "cdefghijkl", "cdefghijklm", "cdefghijklmn", "cdefghijklmno",
+  "cdefghijklmnop", "cdefghijklmnopa",
+  "d", "de", "def", "defg", "defgh", "defghi", "defghij", "defghijk",
+  "defghijkl", "defghijklm", "defghijklmn", "defghijklmno", "defghijklmnop",
+  "defghijklmnopa", "defghijklmnopab",
+  "e", "ef", "efg", "efgh", "efghi", "efghij", "efghijk", "efghijkl",
+  "efghijklm", "efghijklmn", "efghijklmno", "efghijklmnop", "efghijklmnopa",
+  "efghijklmnopab", "efghijklmnopabc",
+  "f", "fg", "fgh", "fghi", "fghij", "fghijk", "fghijkl", "fghijklm",
+  "fghijklmn", "fghijklmno", "fghijklmnop", "fghijklmnopa", "fghijklmnopab",
+  "fghijklmnopabc", "fghijklmnopabcd",
+  "g", "gh", "ghi", "ghij", "ghijk", "ghijkl", "ghijklm", "ghijklmn",
+  "ghijklmno", "ghijklmnop", "ghijklmnopa", "ghijklmnopab", "ghijklmnopabc",
+  "ghijklmnopabcd", "ghijklmnopabcde",
+  "h", "hi", "hij", "hijk", "hijkl", "hijklm", "hijklmn", "hijklmno",
+  "hijklmnop", "hijklmnopa", "hijklmnopab", "hijklmnopabc", "hijklmnopabcd",
+  "hijklmnopabcde", "hijklmnopabcdef"
+};
+
+const size_t GENATEST_STR_SET_LEN =
+  sizeof(GENATEST_STR_SET) / sizeof(GENATEST_STR_SET[0]);
