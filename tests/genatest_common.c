@@ -44,3 +44,13 @@ const genatest_str_t GENATEST_STR_SET[] = {
 
 const size_t GENATEST_STR_SET_LEN =
   sizeof(GENATEST_STR_SET) / sizeof(GENATEST_STR_SET[0]);
+
+const genatest_buf_t GENATEST_BUF_SET[] = {
+  {0,1,2,3}, {0,1,3,2}, {0,2,1,3}, {0,2,3,1}, {0,3,1,2}, {0,3,2,1},
+  {1,0,2,3}, {1,0,3,2}, {1,2,0,3}, {1,2,3,0}, {1,3,0,2}, {1,3,2,0},
+  {2,0,1,3}, {2,0,3,1}, {2,1,0,3}, {2,1,3,0}, {2,3,0,1}, {2,3,1,0},
+  {3,0,1,2}, {3,0,2,1}, {3,1,0,2}, {3,1,2,0}, {3,2,0,1}, {3,2,1,0}
+};
+
+const size_t GENATEST_BUF_SET_LEN =
+  sizeof(GENATEST_BUF_SET) / sizeof(GENATEST_BUF_SET[0]);
