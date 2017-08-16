@@ -38,14 +38,17 @@ typedef enum {
 #define GENA_USE_BUF __IGENA_BUF__    /* buffer (array) */
 
 #define __IGENA_VAL__TYPE       /* type modifier */
+#define __IGENA_VAL__RETBY      /* return by */
 #define __IGENA_VAL__UNREF *    /* unreference */
 #define __IGENA_VAL__BYREF &    /* by reference */
 #define __IGENA_VAL__LVREF      /* lvalue reference */
 #define __IGENA_REF__TYPE *
+#define __IGENA_REF__RETBY *
 #define __IGENA_REF__UNREF
 #define __IGENA_REF__BYREF
 #define __IGENA_REF__LVREF
 #define __IGENA_BUF__TYPE
+#define __IGENA_BUF__RETBY *
 #define __IGENA_BUF__UNREF
 #define __IGENA_BUF__BYREF
 #define __IGENA_BUF__LVREF *

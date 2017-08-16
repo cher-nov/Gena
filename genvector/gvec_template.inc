@@ -81,9 +81,9 @@
   extern gena_error_e gvec_##tpVecName##_push( \
     gvec_##tpVecName##_t* phandle, \
     const tpTypename tpPassBy##TYPE value ); \
-  extern tpTypename tpReturnBy##TYPE gvec_##tpVecName##_front( \
+  extern tpTypename tpReturnBy##RETBY gvec_##tpVecName##_front( \
     gvec_##tpVecName##_t handle ); \
-  extern tpTypename tpReturnBy##TYPE gvec_##tpVecName##_back( \
+  extern tpTypename tpReturnBy##RETBY gvec_##tpVecName##_back( \
     gvec_##tpVecName##_t handle ); \
 \
   __IGENA_REQUIRE_SEMICOLON_OUTDOOR
@@ -193,7 +193,7 @@
     return errorcode; \
   }} \
 /********************************************************************/ \
-  __IGVEC_FUNC_ONCE tpTypename tpReturnBy##TYPE \
+  __IGVEC_FUNC_ONCE tpTypename tpReturnBy##RETBY \
   gvec_##tpVecName##_front( \
     gvec_##tpVecName##_t handle \
   ) { \
@@ -201,7 +201,7 @@
     return tpReturnBy##UNREF (tpTypename*) gvec_front(handle); \
   }} \
 /********************************************************************/ \
-  __IGVEC_FUNC_ONCE tpTypename tpReturnBy##TYPE \
+  __IGVEC_FUNC_ONCE tpTypename tpReturnBy##RETBY \
   gvec_##tpVecName##_back( \
     gvec_##tpVecName##_t handle \
   ) { \
