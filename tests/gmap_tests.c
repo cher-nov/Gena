@@ -1,15 +1,5 @@
 #include "gmap_tests.h"
 
-#include <string.h>
-
-#define C_SKEY(x) ( (gmaptest_key_s){x, x} )
-#define C_SVALUE(x) ( (gmaptest_value_s){x} )
-
-static void set_key_safe( gmaptest_key_p key, int x ) {
-  memset( key, 0, sizeof(gmaptest_key_s) );
-  key->key = x;
-}
-
 /******************************************************************************/
 
 MunitResult gmaptests_1_create() {
@@ -68,7 +58,7 @@ MunitResult gmaptests_2_modify() {
   gmap_array_t map_array;
   gena_bool del_result;
   int* ptr_int;
-  gmaptest_value_p ptr_svalue;
+  genatest_svalue_p ptr_svalue;
   genatest_str_t* ptr_str;
   genatest_buf_t* ptr_array;
   int i;
@@ -101,20 +91,21 @@ MunitResult gmaptests_2_modify() {
   map_memcmp = gmap_new();
 
   for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
-    gmaptest_key_s safe_skey;
-    set_key_safe( &safe_skey, GENATEST_INT_SET[i] );
+    genatest_skey_s safe_skey;
+    genatest_set_skey_safe( &safe_skey, GENATEST_INT_SET[i] );
 
-    ptr_svalue = gmap_memcmp_add( map_memcmp, &safe_skey, &C_SVALUE(i) );
+    ptr_svalue = gmap_memcmp_add( map_memcmp, &safe_skey,
+      &GENATEST_C_SVALUE(i) );
     munit_assert_not_null( ptr_svalue );
-    munit_assert_memory_equal( sizeof(gmaptest_value_s), ptr_svalue,
-      &C_SVALUE(i) );
+    munit_assert_memory_equal( sizeof(genatest_svalue_s), ptr_svalue,
+      &GENATEST_C_SVALUE(i) );
     munit_assert_size( gmap_count(map_memcmp), ==, i+1 );
     munit_assert( !gmap_empty(map_memcmp) );
   }
 
   for( i = (int)GENATEST_INT_SET_LEN; i-- > 1; ) {
-    gmaptest_key_s safe_skey;
-    set_key_safe( &safe_skey, GENATEST_INT_SET[i] );
+    genatest_skey_s safe_skey;
+    genatest_set_skey_safe( &safe_skey, GENATEST_INT_SET[i] );
 
     del_result = gmap_memcmp_delete( map_memcmp, &safe_skey );
     munit_assert( del_result );
@@ -132,8 +123,8 @@ MunitResult gmaptests_2_modify() {
   map_callback = gmap_new();
 
   for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
-    ptr_svalue = gmap_callback_add( map_callback, &C_SKEY(GENATEST_INT_SET[i]),
-      &C_SVALUE(i) );
+    ptr_svalue = gmap_callback_add( map_callback,
+      &GENATEST_C_SKEY(GENATEST_INT_SET[i]), &GENATEST_C_SVALUE(i) );
     munit_assert_not_null( ptr_svalue );
     munit_assert_int( ptr_svalue->value, ==, i );
     munit_assert_size( gmap_count(map_callback), ==, i+1 );
@@ -142,7 +133,7 @@ MunitResult gmaptests_2_modify() {
 
   for( i = (int)GENATEST_INT_SET_LEN; i-- > 1; ) {
     del_result = gmap_callback_delete( map_callback,
-      &C_SKEY(GENATEST_INT_SET[i]) );
+      &GENATEST_C_SKEY(GENATEST_INT_SET[i]) );
     munit_assert( del_result );
     munit_assert_size( gmap_count(map_callback), ==, i );
     munit_assert( !gmap_empty(map_callback) );
@@ -218,11 +209,11 @@ MunitResult gmaptests_3_lookup() {
   gmap_string_t map_string;
   gmap_array_t map_array;
   int* ptr_int;
-  gmaptest_value_p ptr_svalue;
+  genatest_svalue_p ptr_svalue;
   genatest_str_t* ptr_str;
   genatest_buf_t* ptr_array;
   int i, k;
-  gmaptest_key_s safe_skey;
+  genatest_skey_s safe_skey;
 {
   /********************************************************************/
   map_naive = gmap_new();
@@ -263,15 +254,15 @@ MunitResult gmaptests_3_lookup() {
   /********************************************************************/
   map_memcmp = gmap_new();
 
-  set_key_safe( &safe_skey, 0 );
+  genatest_set_skey_safe( &safe_skey, 0 );
   ptr_svalue = gmap_memcmp_find( map_memcmp, &safe_skey );
   munit_assert_null( ptr_svalue );
 
   for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
-    set_key_safe( &safe_skey, GENATEST_INT_SET[i] );
-    gmap_memcmp_add( map_memcmp, &safe_skey, &C_SVALUE(i) );
+    genatest_set_skey_safe( &safe_skey, GENATEST_INT_SET[i] );
+    gmap_memcmp_add( map_memcmp, &safe_skey, &GENATEST_C_SVALUE(i) );
     for( k = 0; k <= i; ++k ) {
-      set_key_safe( &safe_skey, GENATEST_INT_SET[k] );
+      genatest_set_skey_safe( &safe_skey, GENATEST_INT_SET[k] );
       ptr_svalue = gmap_memcmp_find( map_memcmp, &safe_skey );
       munit_assert_not_null( ptr_svalue );
       munit_assert_int( ptr_svalue->value, ==, k );
@@ -279,10 +270,10 @@ MunitResult gmaptests_3_lookup() {
   }
 
   for( i = 0; i < (int)GENATEST_INT_SET_LEN; i += 2 ) {
-    set_key_safe( &safe_skey, GENATEST_INT_SET[i] );
+    genatest_set_skey_safe( &safe_skey, GENATEST_INT_SET[i] );
     gmap_memcmp_delete( map_memcmp, &safe_skey );
     for( k = 0; k <= i; ++k ) {
-      set_key_safe( &safe_skey, GENATEST_INT_SET[k] );
+      genatest_set_skey_safe( &safe_skey, GENATEST_INT_SET[k] );
       ptr_svalue = gmap_memcmp_find( map_memcmp, &safe_skey );
       if (k % 2 == 0) {
         munit_assert_null( ptr_svalue );
@@ -295,7 +286,7 @@ MunitResult gmaptests_3_lookup() {
 
   gmap_clear( map_memcmp );
   for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
-    set_key_safe( &safe_skey, GENATEST_INT_SET[i] );
+    genatest_set_skey_safe( &safe_skey, GENATEST_INT_SET[i] );
     ptr_svalue = gmap_memcmp_find( map_memcmp, &safe_skey );
     munit_assert_null( ptr_svalue );
   }
@@ -305,25 +296,25 @@ MunitResult gmaptests_3_lookup() {
   /********************************************************************/
   map_callback = gmap_new();
 
-  ptr_svalue = gmap_callback_find( map_callback, &C_SKEY(0) );
+  ptr_svalue = gmap_callback_find( map_callback, &GENATEST_C_SKEY(0) );
   munit_assert_null( ptr_svalue );
 
   for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
-    gmap_callback_add( map_callback, &C_SKEY(GENATEST_INT_SET[i]),
-      &C_SVALUE(i) );
+    gmap_callback_add( map_callback, &GENATEST_C_SKEY(GENATEST_INT_SET[i]),
+      &GENATEST_C_SVALUE(i) );
     for( k = 0; k <= i; ++k ) {
       ptr_svalue = gmap_callback_find( map_callback,
-        &C_SKEY(GENATEST_INT_SET[k]) );
+        &GENATEST_C_SKEY(GENATEST_INT_SET[k]) );
       munit_assert_not_null( ptr_svalue );
       munit_assert_int( ptr_svalue->value, ==, k );
     }
   }
 
   for( i = 0; i < (int)GENATEST_INT_SET_LEN; i += 2 ) {
-    gmap_callback_delete( map_callback, &C_SKEY(GENATEST_INT_SET[i]) );
+    gmap_callback_delete( map_callback, &GENATEST_C_SKEY(GENATEST_INT_SET[i]) );
     for( k = 0; k <= i; ++k ) {
       ptr_svalue = gmap_callback_find( map_callback,
-        &C_SKEY(GENATEST_INT_SET[k]) );
+        &GENATEST_C_SKEY(GENATEST_INT_SET[k]) );
       if (k % 2 == 0) {
         munit_assert_null( ptr_svalue );
       } else {
@@ -336,7 +327,7 @@ MunitResult gmaptests_3_lookup() {
   gmap_clear( map_callback );
   for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
     ptr_svalue = gmap_callback_find( map_callback,
-      &C_SKEY(GENATEST_INT_SET[i]) );
+      &GENATEST_C_SKEY(GENATEST_INT_SET[i]) );
     munit_assert_null( ptr_svalue );
   }
 
