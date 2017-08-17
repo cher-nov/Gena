@@ -163,7 +163,7 @@
   { \
     errorcode = igvec_insert( phandle, pos, count ); \
     if (errorcode == GENA_ERR_NO) { \
-      tpTypename* ptr_entry = *phandle; \
+      tpTypename* ptr_entry = *phandle + pos; \
       for(i = 0; i < count; ++i) { \
         tpAssignBy ( \
           tpPassBy##LVREF (ptr_entry + i), \
