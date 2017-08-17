@@ -19,7 +19,15 @@
     typedef tpTypename* gvec_##tpVecName##_t
 
   #define GVEC_INSTANTIATE( tpTypename, tpVecName, tpPassBy, tpReturnBy ) \
-    _impl_GVEC_C_DEFINE( tpTypename, tpVecName, tpPassBy, tpReturnBy )
+\
+    _impl_GVEC_C_DEFINE( tpTypename, tpVecName, GENA_ASSIGN_NAIVE, tpPassBy, \
+      tpReturnBy )
+
+  #define GVEC_INSTANTIATE_EX( tpTypename, tpVecName, tpAssignBy, tpPassBy, \
+    tpReturnBy ) \
+\
+    _impl_GVEC_C_DEFINE( tpTypename, tpVecName, tpAssignBy, tpPassBy, \
+      tpReturnBy )
 
 #else /* GVEC_MODULAR_APPROACH */
 
@@ -29,9 +37,22 @@
     __IGENA_REQUIRE_SEMICOLON_OUTDOOR
 
   #define GVEC_C_DEFINE( tpTypename, tpVecName, tpPassBy, tpReturnBy ) \
-    _impl_GVEC_C_DEFINE( tpTypename, tpVecName, tpPassBy, tpReturnBy )
+\
+    _impl_GVEC_C_DEFINE( tpTypename, tpVecName, GENA_ASSIGN_NAIVE, tpPassBy, \
+      tpReturnBy )
+
+  #define GVEC_C_DEFINE_EX( tpTypename, tpVecName, tpAssignBy, tpPassBy, \
+    tpReturnBy ) \
+\
+    _impl_GVEC_C_DEFINE( tpTypename, tpVecName, tpAssignBy, tpPassBy, \
+      tpReturnBy )
 
   #define GVEC_H_DECLARE( tpTypename, tpVecName, tpPassBy, tpReturnBy ) \
+    _impl_GVEC_H_DECLARE( tpTypename, tpVecName, tpPassBy, tpReturnBy )
+
+  #define GVEC_H_DECLARE_EX( tpTypename, tpVecName, tpAssignBy, tpPassBy, \
+    tpReturnBy ) \
+\
     _impl_GVEC_H_DECLARE( tpTypename, tpVecName, tpPassBy, tpReturnBy )
 
 #endif /* GVEC_MODULAR_APPROACH */
@@ -69,7 +90,8 @@
 
 /******************************************************************************/
 
-#define _impl_GVEC_C_DEFINE( tpTypename, tpVecName, tpPassBy, tpReturnBy ) \
+#define _impl_GVEC_C_DEFINE( tpTypename, tpVecName, tpAssignBy, tpPassBy, \
+  tpReturnBy ) \
 \
   __IGVEC_DEFINE_TYPE( tpTypename, tpVecName ); \
 /********************************************************************/ \
@@ -92,8 +114,13 @@
   { \
     errorcode = igvec_resize( phandle, count ); \
     if (errorcode == GENA_ERR_NO) { \
+      tpTypename* ptr_entry = *phandle; \
       for(i = 0; i < count; ++i) { \
-        (*phandle)[i] = tpPassBy##OP value; \
+        tpAssignBy ( \
+          tpPassBy##GET (ptr_entry + i), \
+          tpPassBy##AOF value, \
+          sizeof(tpTypename) \
+        ); \
       } \
     } \
     return errorcode; \
@@ -112,8 +139,13 @@
     i = gvec_count(*phandle); \
     errorcode = igvec_resize( phandle, new_count ); \
     if (errorcode == GENA_ERR_NO) { \
+      tpTypename* ptr_entry = *phandle; \
       for(; i < new_count; ++i) { \
-        (*phandle)[i] = tpPassBy##OP value; \
+        tpAssignBy ( \
+          tpPassBy##GET (ptr_entry + i), \
+          tpPassBy##AOF value, \
+          sizeof(tpTypename) \
+        ); \
       } \
     } \
     return errorcode; \
@@ -131,8 +163,13 @@
   { \
     errorcode = igvec_insert( phandle, pos, count ); \
     if (errorcode == GENA_ERR_NO) { \
+      tpTypename* ptr_entry = *phandle; \
       for(i = 0; i < count; ++i) { \
-        (*phandle)[i] = tpPassBy##OP value; \
+        tpAssignBy ( \
+          tpPassBy##GET (ptr_entry + i), \
+          tpPassBy##AOF value, \
+          sizeof(tpTypename) \
+        ); \
       } \
     } \
     return errorcode; \
@@ -147,7 +184,11 @@
   { \
     errorcode = igvec_push(phandle); \
     if (errorcode == GENA_ERR_NO) { \
-      (*phandle)[gvec_count(*phandle)-1] = tpPassBy##OP value; \
+      tpAssignBy ( \
+        tpPassBy##GET (*phandle + gvec_count(*phandle)-1), \
+        tpPassBy##AOF value, \
+        sizeof(tpTypename) \
+      ); \
     } \
     return errorcode; \
   }} \
