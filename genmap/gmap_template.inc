@@ -73,14 +73,14 @@
 \
   extern tpValueType* gmap_##tpMapName##_add( \
     gmap_##tpMapName##_t handle, \
-    const tpKeyType tpKeyPassBy##OP key, \
-    const tpValueType tpValuePassBy##OP value ); \
+    const tpKeyType tpKeyPassBy##TYPE key, \
+    const tpValueType tpValuePassBy##TYPE value ); \
   extern gena_bool gmap_##tpMapName##_delete( \
     gmap_##tpMapName##_t handle, \
-    const tpKeyType tpKeyPassBy##OP key ); \
+    const tpKeyType tpKeyPassBy##TYPE key ); \
   extern tpValueType* gmap_##tpMapName##_find( \
     gmap_##tpMapName##_t handle, \
-    const tpKeyType tpKeyPassBy##OP key ); \
+    const tpKeyType tpKeyPassBy##TYPE key ); \
 \
   __IGENA_REQUIRE_SEMICOLON_OUTDOOR
 
@@ -96,8 +96,8 @@
   __IGMAP_FUNC_ONCE tpValueType* \
   gmap_##tpMapName##_add( \
     gmap_##tpMapName##_t handle, \
-    const tpKeyType tpKeyPassBy##OP key, \
-    const tpValueType tpValuePassBy##OP value \
+    const tpKeyType tpKeyPassBy##TYPE key, \
+    const tpValueType tpValuePassBy##TYPE value \
   ) { \
     igena_avl_retstate_e retstate; \
     igena_avl_node_head_p final_node; \
@@ -111,8 +111,8 @@
       tpValueType ); \
     if (retstate != IGENA_AVL_RETST_NOTHING) { \
       tpValueAssignBy ( \
-        tpValuePassBy##GET node_value, \
-        tpValuePassBy##AOF value, \
+        tpValuePassBy##LVREF node_value, \
+        tpValuePassBy##BYREF value, \
         sizeof(tpValueType) \
       ); \
       ++(handle->count); \
@@ -123,7 +123,7 @@
   __IGMAP_FUNC_ONCE gena_bool \
   gmap_##tpMapName##_delete( \
     gmap_##tpMapName##_t handle, \
-    const tpKeyType tpKeyPassBy##OP key \
+    const tpKeyType tpKeyPassBy##TYPE key \
   ) { \
     igena_avl_retstate_e retstate; \
   { \
@@ -138,7 +138,7 @@
   __IGMAP_FUNC_ONCE tpValueType* \
   gmap_##tpMapName##_find( \
     gmap_##tpMapName##_t handle, \
-    const tpKeyType tpKeyPassBy##OP key \
+    const tpKeyType tpKeyPassBy##TYPE key \
   ) { \
     igena_avl_node_head_p find_node; \
   { \

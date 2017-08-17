@@ -33,25 +33,22 @@ typedef enum {
 
 /******************************************************************************/
 
-/* VAL - value, REF - reference (pointer), BUF - buffer (array) */
-#define GENA_USE_VAL __IGENA_VAL_
-#define GENA_USE_REF __IGENA_REF_
-#define GENA_USE_BUF __IGENA_BUF_
+#define GENA_USE_VAL __IGENA_VAL__    /* value */
+#define GENA_USE_REF __IGENA_REF__    /* reference (pointer) */
+#define GENA_USE_BUF __IGENA_BUF__    /* buffer (array) */
 
-/* TODO: improve naming */
-/* OP - operation, IOP - inverse operation, AOF - address of, GET - get */
-#define __IGENA_VAL_OP
-#define __IGENA_VAL_IOP *
-#define __IGENA_VAL_AOF &
-#define __IGENA_VAL_GET
-#define __IGENA_REF_OP *
-#define __IGENA_REF_IOP
-#define __IGENA_REF_AOF
-#define __IGENA_REF_GET
-#define __IGENA_BUF_OP
-#define __IGENA_BUF_IOP
-#define __IGENA_BUF_AOF
-#define __IGENA_BUF_GET *
+#define __IGENA_VAL__TYPE       /* type modifier */
+#define __IGENA_VAL__UNREF *    /* unreference */
+#define __IGENA_VAL__BYREF &    /* by reference */
+#define __IGENA_VAL__LVREF      /* lvalue reference */
+#define __IGENA_REF__TYPE *
+#define __IGENA_REF__UNREF
+#define __IGENA_REF__BYREF
+#define __IGENA_REF__LVREF
+#define __IGENA_BUF__TYPE
+#define __IGENA_BUF__UNREF
+#define __IGENA_BUF__BYREF
+#define __IGENA_BUF__LVREF *
 
 /******************************************************************************/
 
