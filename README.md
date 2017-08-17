@@ -221,6 +221,17 @@ Add an element to the end of a vector.
 * `GENA_ERR_NO`: operation performed successfully
 * `GENA_ERR_MEMORY`: element wasn't added due to a memory error
 
+```c
+void* gvec_at( gvec_t handle, size_t pos )
+tpTypename* gvec_NAME_at( gvec_t handle, size_t pos )
+```
+Get a reference to the element at specified position in a vector, with bounds checking.
+
+* *handle* – a handle to a vector
+* *pos* – a position of the element
+
+*Return value:* a reference to the element, or `NULL` if `pos` is not within the range of a vector
+
 ### Specialized-only functions
 
 ```c
@@ -322,16 +333,6 @@ void gvec_pop( gvec_t handle )
 Erase the last element from a vector.
 
 * *handle* – a handle to a vector
-
-```c
-void* gvec_at( gvec_t handle, size_t pos )
-```
-Get a reference to the element at specified position in a vector, with bounds checking.
-
-* *handle* – a handle to a vector
-* *pos* – a position of the element
-
-*Return value:* a reference to the element, or `NULL` if `pos` is not within the range of a vector
 
 ```c
 void* gvec_front( gvec_t handle )

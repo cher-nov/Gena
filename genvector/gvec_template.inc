@@ -81,6 +81,9 @@
   extern gena_error_e gvec_##tpVecName##_push( \
     gvec_##tpVecName##_t* phandle, \
     const tpTypename tpPassBy##TYPE value ); \
+  extern tpTypename* gvec_##tpVecName##_at( \
+    gvec_##tpVecName##_t handle, \
+    size_t pos ); \
   extern tpTypename tpReturnBy##RETBY gvec_##tpVecName##_front( \
     gvec_##tpVecName##_t handle ); \
   extern tpTypename tpReturnBy##RETBY gvec_##tpVecName##_back( \
@@ -191,6 +194,15 @@
       ); \
     } \
     return errorcode; \
+  }} \
+/********************************************************************/ \
+  __IGVEC_FUNC_ONCE tpTypename* \
+  gvec_##tpVecName##_at( \
+    gvec_##tpVecName##_t handle, \
+    size_t pos \
+  ) { \
+  { \
+    return gvec_at( handle, pos ); \
   }} \
 /********************************************************************/ \
   __IGVEC_FUNC_ONCE tpTypename tpReturnBy##RETBY \
