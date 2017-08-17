@@ -32,7 +32,7 @@ extern gvec_t gvec_copy( gvec_t handle );
 extern void gvec_clear( gvec_t handle );
 extern void gvec_free( gvec_t handle );
 
-extern gena_error_e igvec_resize( gvec_ptr phandle, size_t new_count );
+extern gena_error_e gvec_resize( gvec_ptr phandle, size_t new_count );
 extern gena_error_e gvec_reserve( gvec_ptr phandle, size_t count );
 extern gena_error_e gvec_shrink( gvec_ptr phandle );
 

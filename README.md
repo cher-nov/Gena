@@ -177,10 +177,11 @@ Create a vector.
 *Return value:* a handle to the new vector, or `NULL` on error
 
 ```c
-gvec_error_e igvec_resize( gvec_t* phandle, size_t new_count )
+gvec_error_e gvec_resize( gvec_t* phandle, size_t new_count )
 gvec_error_e gvec_NAME_resize( gvec_NAME_t* phandle, size_t new_count, const PASSVAL value )
 ```
 Resize a vector.
+*It's recommended to use `gvec_resize()` for reducing the size, and `gvec_NAME_resize()` for increasing.*
 
 * *phandle* – a reference to the handle to a vector
 * *new_count* – a new count of elements in a vector
@@ -378,7 +379,7 @@ Shorthand for `gvec_count( handle ) == 0`.
 ```c
 void gvec_clear( gvec_t handle )
 ```
-Shorthand for `igvec_resize( &handle, 0 )`.
+Shorthand for `gvec_resize( &handle, 0 )`.
 
 ## Library adjustment using optional defines
 

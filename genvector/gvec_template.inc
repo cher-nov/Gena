@@ -115,7 +115,7 @@
     gena_error_e errorcode; \
     size_t i; \
   { \
-    errorcode = igvec_resize( phandle, count ); \
+    errorcode = gvec_resize( phandle, count ); \
     if (errorcode == GENA_ERR_NO) { \
       tpTypename* ptr_entry = *phandle; \
       for(i = 0; i < count; ++i) { \
@@ -140,7 +140,7 @@
   { \
     assert( phandle != NULL ); \
     i = gvec_count(*phandle); \
-    errorcode = igvec_resize( phandle, new_count ); \
+    errorcode = gvec_resize( phandle, new_count ); \
     if (errorcode == GENA_ERR_NO) { \
       tpTypename* ptr_entry = *phandle; \
       for(; i < new_count; ++i) { \

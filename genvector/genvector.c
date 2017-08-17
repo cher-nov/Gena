@@ -132,7 +132,7 @@ gvec_t gvec_copy( gvec_t handle ) {
 
 void gvec_clear( gvec_t handle ) {
 {
-  igvec_resize( &handle, 0 );
+  gvec_resize( &handle, 0 );
 }}
 
 void gvec_free( gvec_t handle ) {
@@ -142,7 +142,7 @@ void gvec_free( gvec_t handle ) {
 
 /******************************************************************************/
 
-static gena_error_e _impl_igvec_resize( gvec_t* phandle, size_t new_count ) {
+static gena_error_e _impl_gvec_resize( gvec_t* phandle, size_t new_count ) {
   igvec_head_p header;
 {
   ASSERT_PHANDLE(phandle);
@@ -265,7 +265,7 @@ void gvec_erase( gvec_t handle, size_t pos, size_t count ) {
 static gena_error_e _impl_igvec_push( gvec_t* phandle ) {
 {
   ASSERT_PHANDLE(phandle);
-  return igvec_resize( phandle, gvec_count(*phandle)+1 );
+  return gvec_resize( phandle, gvec_count(*phandle)+1 );
 }}
 
 void gvec_pop( gvec_t handle ) {
@@ -328,8 +328,8 @@ We don't use macros to preserve ability to obtain pointer to a function. */
 void gvec_set( gvec_ptr phandle, gvec_t source )
   { _impl_gvec_set( (gvec_t*)phandle, source ); }
 
-gena_error_e igvec_resize( gvec_ptr phandle, size_t new_count )
-  { return _impl_igvec_resize( (gvec_t*)phandle, new_count ); }
+gena_error_e gvec_resize( gvec_ptr phandle, size_t new_count )
+  { return _impl_gvec_resize( (gvec_t*)phandle, new_count ); }
 
 gena_error_e gvec_reserve( gvec_ptr phandle, size_t count )
   { return _impl_gvec_reserve( (gvec_t*)phandle, count ); }
