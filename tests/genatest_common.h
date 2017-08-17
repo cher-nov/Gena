@@ -67,8 +67,14 @@ extern const genatest_str_t GENATEST_STR_SET[];
 extern const size_t GENATEST_STR_SET_LEN;
 #define GENATEST_STR_SET_SIZE ( GENATEST_STR_SET_LEN * sizeof(genatest_str_t) )
 
+extern const genatest_str_t GENATEST_CUSTOM_STR_1;
+extern const genatest_str_t GENATEST_CUSTOM_STR_2;
+
 extern const genatest_buf_t GENATEST_BUF_SET[];
 extern const size_t GENATEST_BUF_SET_LEN;
 #define GENATEST_BUF_SET_SIZE ( GENATEST_BUF_SET_LEN * sizeof(genatest_buf_t) )
+
+extern const genatest_buf_t GENATEST_CUSTOM_BUF_1;
+extern const genatest_buf_t GENATEST_CUSTOM_BUF_2;
 
 #endif /*__GENATEST_COMMON_H__*/
