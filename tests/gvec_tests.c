@@ -49,7 +49,7 @@ MunitResult gvectests_1_general() {
   munit_assert_size( gvec_count(v_val), ==, GENATEST_INT_SET_LEN );
   munit_assert_memory_equal( GENATEST_INT_SET_SIZE, v_val, v_ref );
 
-  gvec_set( &v_val, NULL );
+  gvec_free( v_val );
   v_val = gvec_copy(v_ref);
 
   for(i = 0; i < GENATEST_INT_SET_LEN; ++i) {
@@ -68,7 +68,7 @@ MunitResult gvectests_1_general() {
   gvec_clear(v_val);
   munit_assert_size( gvec_count(v_val), ==, 0 );
 
-  gvec_set( &v_val, NULL );
+  gvec_free(v_val);
   gvec_free(v_ref);
   return MUNIT_OK;
 }}

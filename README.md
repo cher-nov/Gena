@@ -271,12 +271,14 @@ Get the last element of a vector.
 ### General-purpose functions
 
 ```c
-void gvec_set( gvec_t* phandle, gvec_t source )
+gvec_t gvec_set( gvec_t* phandle, gvec_t source )
 ```
-Copy-assign a one vector to another.
+Copy-assign one vector to another. Sizes of the elements in both arrays must coincide. On error, the destination vector remains untouched.
 
 * *phandle* – a reference to the handle to a destination vector (handle can be `NULL`)
-* *source* – a handle to a source vector (if `NULL`, a destination vector will be freed)
+* *source* – a handle to a source vector
+
+*Return value:* a handle to the destination vector, or `NULL` on error
 
 ```c
 gvec_t gvec_copy( gvec_t handle )

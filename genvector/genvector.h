@@ -27,7 +27,7 @@ typedef struct {
 /******************************************************************************/
 
 extern gvec_t igvec_new( size_t min_count, size_t entry_size );
-extern void gvec_set( gvec_ptr phandle, gvec_t source );
+extern gvec_t gvec_set( gvec_ptr phandle, gvec_t source );
 extern gvec_t gvec_copy( gvec_t handle );
 extern void gvec_clear( gvec_t handle );
 extern void gvec_free( gvec_t handle );

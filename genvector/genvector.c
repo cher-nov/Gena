@@ -86,34 +86,34 @@ gvec_t igvec_new( size_t min_count, size_t entry_size ) {
   return handle;
 }}
 
-static void _impl_gvec_set( gvec_t* phandle, gvec_t source ) {
-  igvec_head_p dest_hdr, src_hdr;
+static gvec_t _impl_gvec_set( gvec_t* phandle, gvec_t source ) {
+  gvec_t handle, new_handle;
 {
   assert( phandle != NULL );
+  assert( source != NULL );
 
-  if (source == NULL) {
-    gvec_free( *phandle );
-    return;
+  handle = *phandle;
+  if (handle != NULL) {
+    igvec_head_p dest_hdr = IGVEC_GET_HEADER(handle);
+    igvec_head_p src_hdr = IGVEC_GET_HEADER(source);
+
+    if ( dest_hdr->entry_size != src_hdr->entry_size ) {
+      return NULL;
+    }
+
+    if ( dest_hdr->size >= src_hdr->size ) {
+      memcpy( handle, source, src_hdr->count * src_hdr->entry_size );
+      dest_hdr->count = src_hdr->count;
+      return handle;
+    }
   }
 
-  if (*phandle == NULL) {
-    *phandle = gvec_copy(source);
-    return;
+  new_handle = gvec_copy(source);
+  if (new_handle != NULL) {
+    gvec_free(handle);
+    *phandle = new_handle;
   }
-
-  dest_hdr = IGVEC_GET_HEADER(*phandle);
-  src_hdr = IGVEC_GET_HEADER(source);
-
-  if ( (dest_hdr->size * dest_hdr->entry_size) >=
-       (src_hdr->size * src_hdr->entry_size)
-  ) {
-    memcpy( *phandle, source, src_hdr->count * src_hdr->entry_size );
-    dest_hdr->count = src_hdr->count;
-    dest_hdr->entry_size = src_hdr->entry_size;
-  } else {
-    gvec_free( phandle );
-    *phandle = gvec_copy(source);
-  }
+  return new_handle;
 }}
 
 gvec_t gvec_copy( gvec_t handle ) {
@@ -325,8 +325,8 @@ gena_bool gvec_empty( gvec_t handle ) {
 /* Typecasting wrappers for functions that take argument of gvec_p* (phandle).
 We don't use macros to preserve ability to obtain pointer to a function. */
 
-void gvec_set( gvec_ptr phandle, gvec_t source )
-  { _impl_gvec_set( (gvec_t*)phandle, source ); }
+gvec_t gvec_set( gvec_ptr phandle, gvec_t source )
+  { return _impl_gvec_set( (gvec_t*)phandle, source ); }
 
 gena_error_e gvec_resize( gvec_ptr phandle, size_t new_count )
   { return _impl_gvec_resize( (gvec_t*)phandle, new_count ); }
