@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-gmap_t gmap_new() {
+gmap_t igmap_new( size_t key_size, size_t value_size ) {
   gmap_t handle;
 {
   handle = malloc( sizeof(gmap_s) );
@@ -15,6 +15,9 @@ gmap_t gmap_new() {
 
   handle->avltree_root = NULL;
   handle->count = 0;
+
+  handle->key_size = key_size;
+  handle->value_size = value_size;
 
   return handle;
 }}

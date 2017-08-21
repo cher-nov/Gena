@@ -71,6 +71,8 @@
 \
   typedef gmap_t gmap_##tpMapName##_t; \
 \
+  extern gmap_##tpMapName##_t gmap_##tpMapName##_new( \
+    void ); \
   extern tpValueType* gmap_##tpMapName##_add( \
     gmap_##tpMapName##_t handle, \
     const tpKeyType tpKeyPassBy##TYPE key, \
@@ -92,6 +94,14 @@
   __IGMAP_DEFINE_TYPE( tpMapName ); \
   IGENA_AVL_SUBTREE_INSTANTIATE( gmap, tpMapName, tpKeyType, \
     sizeof(tpValueType), tpKeyAssignBy, tpKeyCompareBy, tpKeyPassBy ); \
+/********************************************************************/ \
+  __IGMAP_FUNC_ONCE gmap_##tpMapName##_t \
+  gmap_##tpMapName##_new( \
+    void \
+  ) { \
+  { \
+    return igmap_new( sizeof(tpKeyType), sizeof(tpValueType) ); \
+  }} \
 /********************************************************************/ \
   __IGMAP_FUNC_ONCE tpValueType* \
   gmap_##tpMapName##_add( \

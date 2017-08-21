@@ -12,13 +12,15 @@
 typedef struct {
   size_t count;
   igena_avl_node_head_p avltree_root;
+  size_t key_size;
+  size_t value_size;
 } gmap_s;
 
 typedef gmap_s* gmap_t;
 
 /******************************************************************************/
 
-extern gmap_t gmap_new();
+extern gmap_t igmap_new( size_t key_size, size_t value_size );
 extern void gmap_clear( gmap_t handle );
 extern void gmap_free( gmap_t handle );
 

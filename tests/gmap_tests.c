@@ -10,35 +10,35 @@ MunitResult gmaptests_1_create() {
   gmap_array_t map_array;
 {
   /********************************************************************/
-  map_naive = gmap_new();
+  map_naive = gmap_naive_new();
   munit_assert_not_null( map_naive );
   munit_assert( gmap_empty(map_naive) );
   munit_assert_size( gmap_count(map_naive), ==, 0 );
   gmap_free( map_naive );
 
   /********************************************************************/
-  map_memcmp = gmap_new();
+  map_memcmp = gmap_memcmp_new();
   munit_assert_not_null( map_memcmp );
   munit_assert( gmap_empty(map_memcmp) );
   munit_assert_size( gmap_count(map_memcmp), ==, 0 );
   gmap_free( map_memcmp );
 
   /********************************************************************/
-  map_callback = gmap_new();
+  map_callback = gmap_callback_new();
   munit_assert_not_null( map_callback );
   munit_assert( gmap_empty(map_callback) );
   munit_assert_size( gmap_count(map_callback), ==, 0 );
   gmap_free( map_callback );
 
   /********************************************************************/
-  map_string = gmap_new();
+  map_string = gmap_string_new();
   munit_assert_not_null( map_string );
   munit_assert( gmap_empty(map_string) );
   munit_assert_size( gmap_count(map_string), ==, 0 );
   gmap_free( map_string );
 
   /********************************************************************/
-  map_array = gmap_new();
+  map_array = gmap_array_new();
   munit_assert_not_null( map_array );
   munit_assert( gmap_empty(map_array) );
   munit_assert_size( gmap_count(map_array), ==, 0 );
@@ -64,7 +64,7 @@ MunitResult gmaptests_2_modify() {
   int i;
 {
   /********************************************************************/
-  map_naive = gmap_new();
+  map_naive = gmap_naive_new();
 
   for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
     ptr_int = gmap_naive_add( map_naive, GENATEST_INT_SET[i], i );
@@ -88,7 +88,7 @@ MunitResult gmaptests_2_modify() {
   gmap_free( map_naive );
 
   /********************************************************************/
-  map_memcmp = gmap_new();
+  map_memcmp = gmap_memcmp_new();
 
   for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
     genatest_skey_s safe_skey;
@@ -120,7 +120,7 @@ MunitResult gmaptests_2_modify() {
   gmap_free( map_memcmp );
 
   /********************************************************************/
-  map_callback = gmap_new();
+  map_callback = gmap_callback_new();
 
   for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
     ptr_svalue = gmap_callback_add( map_callback,
@@ -146,7 +146,7 @@ MunitResult gmaptests_2_modify() {
   gmap_free( map_callback );
 
   /********************************************************************/
-  map_string = gmap_new();
+  map_string = gmap_string_new();
 
   for( i = 0; i < (int)GENATEST_STR_SET_LEN; ++i ) {
     ptr_str = gmap_string_add( map_string, GENATEST_STR_SET[i],
@@ -171,7 +171,7 @@ MunitResult gmaptests_2_modify() {
   gmap_free( map_string );
 
   /********************************************************************/
-  map_array = gmap_new();
+  map_array = gmap_array_new();
 
   for( i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i ) {
     ptr_array = gmap_array_add( map_array, GENATEST_BUF_SET[i],
@@ -216,7 +216,7 @@ MunitResult gmaptests_3_lookup() {
   genatest_skey_s safe_skey;
 {
   /********************************************************************/
-  map_naive = gmap_new();
+  map_naive = gmap_naive_new();
 
   ptr_int = gmap_naive_find( map_naive, 0 );
   munit_assert_null( ptr_int );
@@ -252,7 +252,7 @@ MunitResult gmaptests_3_lookup() {
   gmap_free( map_naive );
 
   /********************************************************************/
-  map_memcmp = gmap_new();
+  map_memcmp = gmap_memcmp_new();
 
   genatest_set_skey_safe( &safe_skey, 0 );
   ptr_svalue = gmap_memcmp_find( map_memcmp, &safe_skey );
@@ -294,7 +294,7 @@ MunitResult gmaptests_3_lookup() {
   gmap_free( map_memcmp );
 
   /********************************************************************/
-  map_callback = gmap_new();
+  map_callback = gmap_callback_new();
 
   ptr_svalue = gmap_callback_find( map_callback, &GENATEST_C_SKEY(0) );
   munit_assert_null( ptr_svalue );
@@ -334,7 +334,7 @@ MunitResult gmaptests_3_lookup() {
   gmap_free( map_callback );
 
   /********************************************************************/
-  map_string = gmap_new();
+  map_string = gmap_string_new();
 
   ptr_str = gmap_string_find( map_string, "a" );
   munit_assert_null( ptr_str );
@@ -370,7 +370,7 @@ MunitResult gmaptests_3_lookup() {
   gmap_free( map_string );
 
   /********************************************************************/
-  map_array = gmap_new();
+  map_array = gmap_array_new();
 
   ptr_array = gmap_array_find( map_array, (genatest_buf_t){0,0,0,0} );
   munit_assert_null( ptr_array );
