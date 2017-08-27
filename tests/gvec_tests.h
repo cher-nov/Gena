@@ -13,7 +13,9 @@
 
 #include "munit/munit.h"
 
-extern MunitResult gvectests_1_general();
+extern MunitResult gvectests_1_create();
+extern MunitResult gvectests_2_modify();
+extern MunitResult gvectests_3_manage();
 
 #endif /* GENATEST_CHECK_ONLY_C89 */
 

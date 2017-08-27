@@ -17,6 +17,8 @@ typedef struct {
 } genatest_skey_s, *genatest_skey_p;
 #define GENATEST_C_SVALUE(x) ( (genatest_svalue_s){x} )
 
+/* This struct should contain only one int to allow byte-by-byte comparison
+with GENATEST_INT_SET */
 typedef struct {
   int value;
 } genatest_svalue_s, *genatest_svalue_p;

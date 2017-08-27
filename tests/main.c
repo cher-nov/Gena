@@ -29,7 +29,11 @@ int main() {
 #include "genatest_common.h"
 
 MunitTest tests[] = {
-  { "gvec_1_general", gvectests_1_general,
+  { "gvec_1_create", gvectests_1_create,
+    NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
+  { "gvec_2_modify", gvectests_2_modify,
+    NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
+  { "gvec_3_manage", gvectests_2_modify,
     NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
 
   { "gmap_1_create", gmaptests_1_create,
