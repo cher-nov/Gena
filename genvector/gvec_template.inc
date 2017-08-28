@@ -116,17 +116,15 @@
     size_t i; \
   { \
     errorcode = gvec_resize( phandle, count ); \
-    if (errorcode == GENA_ERR_NO) { \
-      tpTypename* ptr_entry = *phandle; \
-      for(i = 0; i < count; ++i) { \
-        tpAssignBy ( \
-          tpPassBy##LVREF (ptr_entry + i), \
-          tpPassBy##BYREF value, \
-          sizeof(tpTypename) \
-        ); \
-      } \
+    if (errorcode != GENA_ERR_NO) { return errorcode; } \
+    for(i = 0; i < count; ++i) { \
+      tpAssignBy ( \
+        tpPassBy##LVREF (*phandle + i), \
+        tpPassBy##BYREF value, \
+        sizeof(tpTypename) \
+      ); \
     } \
-    return errorcode; \
+    return GENA_ERR_NO; \
   }} \
 /********************************************************************/ \
   __IGVEC_FUNC_ONCE gena_error_e \
@@ -141,17 +139,15 @@
     assert( phandle != NULL ); \
     i = gvec_count(*phandle); \
     errorcode = gvec_resize( phandle, new_count ); \
-    if (errorcode == GENA_ERR_NO) { \
-      tpTypename* ptr_entry = *phandle; \
-      for(; i < new_count; ++i) { \
-        tpAssignBy ( \
-          tpPassBy##LVREF (ptr_entry + i), \
-          tpPassBy##BYREF value, \
-          sizeof(tpTypename) \
-        ); \
-      } \
+    if (errorcode != GENA_ERR_NO) { return errorcode; } \
+    for(; i < new_count; ++i) { \
+      tpAssignBy ( \
+        tpPassBy##LVREF (*phandle + i), \
+        tpPassBy##BYREF value, \
+        sizeof(tpTypename) \
+      ); \
     } \
-    return errorcode; \
+    return GENA_ERR_NO; \
   }} \
 /********************************************************************/ \
   __IGVEC_FUNC_ONCE gena_error_e \
@@ -162,20 +158,20 @@
     const tpTypename tpPassBy##TYPE value \
   ) { \
     gena_error_e errorcode; \
+    tpTypename* ptr_entry; \
     size_t i; \
   { \
     errorcode = igvec_insert( phandle, pos, count ); \
-    if (errorcode == GENA_ERR_NO) { \
-      tpTypename* ptr_entry = *phandle + pos; \
-      for(i = 0; i < count; ++i) { \
-        tpAssignBy ( \
-          tpPassBy##LVREF (ptr_entry + i), \
-          tpPassBy##BYREF value, \
-          sizeof(tpTypename) \
-        ); \
-      } \
+    if (errorcode != GENA_ERR_NO) { return errorcode; } \
+    ptr_entry = *phandle + pos; \
+    for(i = 0; i < count; ++i) { \
+      tpAssignBy ( \
+        tpPassBy##LVREF (ptr_entry + i), \
+        tpPassBy##BYREF value, \
+        sizeof(tpTypename) \
+      ); \
     } \
-    return errorcode; \
+    return GENA_ERR_NO; \
   }} \
 /********************************************************************/ \
   __IGVEC_FUNC_ONCE gena_error_e \
@@ -186,14 +182,13 @@
     gena_error_e errorcode; \
   { \
     errorcode = igvec_push(phandle); \
-    if (errorcode == GENA_ERR_NO) { \
-      tpAssignBy ( \
-        tpPassBy##LVREF (*phandle + gvec_count(*phandle)-1), \
-        tpPassBy##BYREF value, \
-        sizeof(tpTypename) \
-      ); \
-    } \
-    return errorcode; \
+    if (errorcode != GENA_ERR_NO) { return errorcode; } \
+    tpAssignBy ( \
+      tpPassBy##LVREF (*phandle + gvec_count(*phandle)-1), \
+      tpPassBy##BYREF value, \
+      sizeof(tpTypename) \
+    ); \
+    return GENA_ERR_NO; \
   }} \
 /********************************************************************/ \
   __IGVEC_FUNC_ONCE tpTypename* \
