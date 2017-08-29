@@ -74,18 +74,18 @@ typedef enum {
 #define GENA_COMPARE_MEMCMP __IGENA_COMPARE_MEMCMP
 #define GENA_COMPARE_STRCMP __IGENA_COMPARE_STRCMP
 
-#define __IGENA_COMPARE_NAIVE( ptr_user_data, ptr_entry_data, data_size ) \
-  ( (*(ptr_user_data) < *(ptr_entry_data)) ? (-1) \
-  : (*(ptr_user_data) > *(ptr_entry_data)) ? (1) \
+#define __IGENA_COMPARE_NAIVE( ptr_entry_data, ptr_user_data, data_size ) \
+  ( (*(ptr_entry_data) < *(ptr_user_data)) ? (-1) \
+  : (*(ptr_entry_data) > *(ptr_user_data)) ? (1) \
   : (0) )
 
-#define __IGENA_COMPARE_MEMCMP( ptr_user_data, ptr_entry_data, data_size ) \
-  ( memcmp( ptr_user_data, ptr_entry_data, data_size ) )
+#define __IGENA_COMPARE_MEMCMP( ptr_entry_data, ptr_user_data, data_size ) \
+  ( memcmp( ptr_entry_data, ptr_user_data, data_size ) )
 
 /* NOTE: strncmp() is not needed here over strcmp() because ptr_entry_data is
 guaranteed to be a valid zero-terminated C string. */
-#define __IGENA_COMPARE_STRCMP( ptr_user_data, ptr_entry_data, data_size ) \
-  ( strcmp( (char*)ptr_user_data, (char*)ptr_entry_data ) )
+#define __IGENA_COMPARE_STRCMP( ptr_entry_data, ptr_user_data, data_size ) \
+  ( strcmp( (char*)ptr_entry_data, (char*)ptr_user_data ) )
 
 /******************************************************************************/
 
