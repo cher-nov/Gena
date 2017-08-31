@@ -21,12 +21,12 @@
    GENA_USE_REF, GENA_USE_REF)
 
 #define __GMAPTEST_TYPESET_EX_STRING_BUF \
-  (genatest_str_t, genatest_str_t, string, \
+  ((char, GENATEST_STR_LEN), (char, GENATEST_STR_LEN), string, \
    genatest_str_assign_cb, genatest_str_assign_cb, genatest_str_compare_cb, \
    GENA_USE_BUF, GENA_USE_BUF)
 
 #define __GMAPTEST_TYPESET_EX_ARRAY_BUF \
-  (genatest_buf_t, genatest_buf_t, array, \
+  ((int, GENATEST_BUF_LEN), (int, GENATEST_BUF_LEN), array, \
    GENA_ASSIGN_MEMCPY, GENA_ASSIGN_MEMCPY, GENA_COMPARE_MEMCMP, \
    GENA_USE_BUF, GENA_USE_BUF)
 

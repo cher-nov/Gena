@@ -7,8 +7,10 @@
 
 #define GENATEST_UNUSED(var) (void)var
 
-typedef char genatest_str_t[15+1];
-typedef int genatest_buf_t[4];
+#define GENATEST_STR_LEN (15+1)
+typedef char genatest_str_t[GENATEST_STR_LEN];
+#define GENATEST_BUF_LEN (4)
+typedef int genatest_buf_t[GENATEST_BUF_LEN];
 
 /* This struct should have alignment bytes to test memcmp() comparison */
 typedef struct {
@@ -45,14 +47,17 @@ static inline int genatest_skey_compare_cb( const genatest_skey_s* a,
 GENA_ASSIGN_STRCPY / GENA_COMPARE_STRCMP methods. They were introduced just to
 test invocation of user-defined methods for assignment/comparison. */
 
+/* Both genatest_str_t and char* argument types are provided to show their
+interchangeability in case of writing assignment and comparison methods. */
+
 static inline void genatest_str_assign_cb( genatest_str_t dest,
-  const genatest_str_t src, size_t value_size )
+  const char* src, size_t value_size )
 {
   __IGENA_ASSIGN_STRCPY( dest, src, value_size );
 }
 
 static inline int genatest_str_compare_cb( const genatest_str_t a,
-  const genatest_str_t b, size_t value_size )
+  const char* b, size_t value_size )
 {
   return __IGENA_COMPARE_STRCMP( a, b, value_size );
   GENATEST_UNUSED(value_size);

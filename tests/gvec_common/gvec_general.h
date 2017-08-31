@@ -14,12 +14,12 @@
    GENA_USE_REF, GENA_USE_REF)
 
 #define __GVECTEST_TYPESET_EX_STRING_BUF \
-  (genatest_str_t, string, \
+  ((char, GENATEST_STR_LEN), string, \
    genatest_str_assign_cb, \
    GENA_USE_BUF, GENA_USE_BUF)
 
 #define __GVECTEST_TYPESET_EX_ARRAY_BUF \
-  (genatest_buf_t, array, \
+  ((int, GENATEST_BUF_LEN), array, \
    GENA_ASSIGN_MEMCPY, \
    GENA_USE_BUF, GENA_USE_BUF)
 

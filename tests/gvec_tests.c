@@ -275,8 +275,8 @@ MunitResult gvectests_2_modify() {
     munit_assert_size( gvec_size(vec_string), >=, GENATEST_STR_SET_LEN+i+1 );
     munit_assert( !gvec_empty(vec_string) );
     for( k = 0; k < i*2; k += 2 ) {
-      munit_assert_string_equal( *gvec_string_at( vec_string, k ),
-        *gvec_string_at( vec_string, k+1 ) );
+      munit_assert_string_equal( gvec_string_at( vec_string, k ),
+        gvec_string_at( vec_string, k+1 ) );
     }
   }
 
@@ -300,12 +300,12 @@ MunitResult gvectests_2_modify() {
   munit_assert( !gvec_empty(vec_string) );
   for( i = 0; i < (int)GENATEST_STR_SET_LEN; ++i ) {
     munit_assert_string_equal(
-      *gvec_string_at( vec_string, GENATEST_STR_SET_LEN+i ),
+      gvec_string_at( vec_string, GENATEST_STR_SET_LEN+i ),
       GENATEST_CUSTOM_STR_1 );
   }
   for( i = 0; i < (int)GENATEST_STR_SET_LEN; ++i ) {
     munit_assert_string_equal(
-      *gvec_string_at( vec_string, GENATEST_STR_SET_LEN*2+i ),
+      gvec_string_at( vec_string, GENATEST_STR_SET_LEN*2+i ),
       GENATEST_CUSTOM_STR_2 );
   }
 
@@ -375,7 +375,7 @@ MunitResult gvectests_2_modify() {
     munit_assert( !gvec_empty(vec_array) );
     for( k = 0; k < i*2; k += 2 ) {
       munit_assert_memory_equal( sizeof(genatest_buf_t),
-        *gvec_array_at( vec_array, k ), *gvec_array_at( vec_array, k+1 ) );
+        gvec_array_at( vec_array, k ), gvec_array_at( vec_array, k+1 ) );
     }
   }
 
@@ -399,12 +399,12 @@ MunitResult gvectests_2_modify() {
   munit_assert( !gvec_empty(vec_array) );
   for( i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i ) {
     munit_assert_memory_equal( sizeof(genatest_buf_t),
-      *gvec_array_at( vec_array, GENATEST_BUF_SET_LEN+i ),
+      gvec_array_at( vec_array, GENATEST_BUF_SET_LEN+i ),
       GENATEST_CUSTOM_BUF_1 );
   }
   for( i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i ) {
     munit_assert_memory_equal( sizeof(genatest_buf_t),
-      *gvec_array_at( vec_array, GENATEST_BUF_SET_LEN*2+i ),
+      gvec_array_at( vec_array, GENATEST_BUF_SET_LEN*2+i ),
       GENATEST_CUSTOM_BUF_2 );
   }
 

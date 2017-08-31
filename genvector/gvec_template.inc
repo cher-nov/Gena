@@ -15,102 +15,138 @@
 
   #define __IGVEC_FUNC_ONCE static inline
 
-  #define __IGVEC_DEFINE_TYPE( tpTypename, tpVecName ) \
-    typedef tpTypename* gvec_##tpVecName##_t
+  #define __IGVEC_DEFINE_TYPE( tpTypeInfo, tpUseBy, tpVecName ) \
+    __IGENA_TYPEINFO_BUFDEF( tpTypeInfo, tpUseBy, tpVecName )
 
-  #define GVEC_INSTANTIATE( tpTypename, tpVecName, tpPassBy, tpReturnBy ) \
+  #define GVEC_INSTANTIATE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy ) \
 \
-    _impl_GVEC_C_DEFINE( tpTypename, tpVecName, GENA_ASSIGN_NAIVE, tpPassBy, \
+    _impl_GVEC_C_DEFINE( tpTypeInfo, tpVecName, GENA_ASSIGN_NAIVE, tpPassBy, \
       tpReturnBy )
 
-  #define GVEC_INSTANTIATE_EX( tpTypename, tpVecName, tpAssignBy, tpPassBy, \
+  #define GVEC_INSTANTIATE_EX( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, \
     tpReturnBy ) \
 \
-    _impl_GVEC_C_DEFINE( tpTypename, tpVecName, tpAssignBy, tpPassBy, \
+    _impl_GVEC_C_DEFINE( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, \
       tpReturnBy )
 
 #else /* GVEC_MODULAR_APPROACH */
 
   #define __IGVEC_FUNC_ONCE
 
-  #define __IGVEC_DEFINE_TYPE( tpTypename, tpVecName ) \
+  #define __IGVEC_DEFINE_TYPE( tpTypeInfo, tpUseBy, tpVecName ) \
     __IGENA_REQUIRE_SEMICOLON_OUTDOOR
 
-  #define GVEC_C_DEFINE( tpTypename, tpVecName, tpPassBy, tpReturnBy ) \
+  #define GVEC_C_DEFINE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy ) \
 \
-    _impl_GVEC_C_DEFINE( tpTypename, tpVecName, GENA_ASSIGN_NAIVE, tpPassBy, \
+    _impl_GVEC_C_DEFINE( tpTypeInfo, tpVecName, GENA_ASSIGN_NAIVE, tpPassBy, \
       tpReturnBy )
 
-  #define GVEC_C_DEFINE_EX( tpTypename, tpVecName, tpAssignBy, tpPassBy, \
+  #define GVEC_C_DEFINE_EX( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, \
     tpReturnBy ) \
 \
-    _impl_GVEC_C_DEFINE( tpTypename, tpVecName, tpAssignBy, tpPassBy, \
+    _impl_GVEC_C_DEFINE( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, \
       tpReturnBy )
 
-  #define GVEC_H_DECLARE( tpTypename, tpVecName, tpPassBy, tpReturnBy ) \
-    _impl_GVEC_H_DECLARE( tpTypename, tpVecName, tpPassBy, tpReturnBy )
+  #define GVEC_H_DECLARE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy ) \
+    _impl_GVEC_H_DECLARE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy )
 
-  #define GVEC_H_DECLARE_EX( tpTypename, tpVecName, tpAssignBy, tpPassBy, \
+  #define GVEC_H_DECLARE_EX( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, \
     tpReturnBy ) \
 \
-    _impl_GVEC_H_DECLARE( tpTypename, tpVecName, tpPassBy, tpReturnBy )
+    _impl_GVEC_H_DECLARE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy )
 
 #endif /* GVEC_MODULAR_APPROACH */
 
 /******************************************************************************/
 
-#define _impl_GVEC_H_DECLARE( tpTypename, tpVecName, tpPassBy, tpReturnBy ) \
+#define _impl_GVEC_H_DECLARE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy ) \
 \
-  typedef tpTypename* gvec_##tpVecName##_t; \
+  __IGENA_TYPEINFO_BUFDEF( tpTypeInfo, tpPassBy, gvec_##tpVecName##_t ); \
 \
-  extern gvec_##tpVecName##_t gvec_##tpVecName##_new( \
-    size_t min_count ); \
-  extern gena_error_e gvec_##tpVecName##_assign( \
+  extern \
+  gvec_##tpVecName##_t \
+  gvec_##tpVecName##_new( \
+    size_t min_count \
+  ); \
+\
+  extern \
+  gena_error_e \
+  gvec_##tpVecName##_assign( \
     gvec_##tpVecName##_t* phandle, \
     size_t count, \
-    const tpTypename tpPassBy##TYPE value ); \
-  extern gena_error_e gvec_##tpVecName##_resize( \
+    const __IGENA_TYPEINFO_TYPE(tpTypeInfo, tpPassBy, TYPE) value \
+  ); \
+\
+  extern \
+  gena_error_e \
+  gvec_##tpVecName##_resize( \
     gvec_##tpVecName##_t* phandle, \
     size_t new_count, \
-    const tpTypename tpPassBy##TYPE value ); \
-  extern gena_error_e gvec_##tpVecName##_insert( \
+    const __IGENA_TYPEINFO_TYPE(tpTypeInfo, tpPassBy, TYPE) value \
+  ); \
+\
+  extern \
+  gena_error_e \
+  gvec_##tpVecName##_insert( \
     gvec_##tpVecName##_t* phandle, \
     size_t pos, \
     size_t count, \
-    const tpTypename tpPassBy##TYPE value ); \
-  extern gena_error_e gvec_##tpVecName##_push( \
+    const __IGENA_TYPEINFO_TYPE(tpTypeInfo, tpPassBy, TYPE) value \
+  ); \
+\
+  extern \
+  gena_error_e \
+  gvec_##tpVecName##_push( \
     gvec_##tpVecName##_t* phandle, \
-    const tpTypename tpPassBy##TYPE value ); \
-  extern tpTypename* gvec_##tpVecName##_at( \
+    const __IGENA_TYPEINFO_TYPE(tpTypeInfo, tpPassBy, TYPE) value \
+  ); \
+\
+  extern \
+  __IGENA_TYPEINFO_NAME(tpTypeInfo, tpReturnBy) * \
+  gvec_##tpVecName##_at( \
     gvec_##tpVecName##_t handle, \
-    size_t pos ); \
-  extern tpTypename tpReturnBy##RETBY gvec_##tpVecName##_front( \
-    gvec_##tpVecName##_t handle ); \
-  extern tpTypename tpReturnBy##RETBY gvec_##tpVecName##_back( \
-    gvec_##tpVecName##_t handle ); \
+    size_t pos \
+  ); \
+\
+  extern \
+  __IGENA_TYPEINFO_TYPE(tpTypeInfo, tpReturnBy, TYPE) \
+  gvec_##tpVecName##_front( \
+    gvec_##tpVecName##_t handle \
+  ); \
+\
+  extern \
+  __IGENA_TYPEINFO_TYPE(tpTypeInfo, tpReturnBy, TYPE) \
+  gvec_##tpVecName##_back( \
+    gvec_##tpVecName##_t handle \
+  ); \
 \
   __IGENA_REQUIRE_SEMICOLON_OUTDOOR
 
 /******************************************************************************/
 
-#define _impl_GVEC_C_DEFINE( tpTypename, tpVecName, tpAssignBy, tpPassBy, \
+#define _impl_GVEC_C_DEFINE( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, \
   tpReturnBy ) \
 \
-  __IGVEC_DEFINE_TYPE( tpTypename, tpVecName ); \
+  __IGVEC_DEFINE_TYPE( tpTypeInfo, tpReturnBy, gvec_##tpVecName##_t ); \
 /********************************************************************/ \
-  __IGVEC_FUNC_ONCE gvec_##tpVecName##_t \
+  __IGVEC_FUNC_ONCE \
+  gvec_##tpVecName##_t \
   gvec_##tpVecName##_new( \
     size_t min_count \
   ) { \
   { \
-    return igvec_new( min_count, sizeof(tpTypename) ); \
+    return igvec_new( \
+      min_count, \
+      __IGENA_TYPEINFO_SIZE(tpTypeInfo, tpPassBy) \
+    ); \
   }} \
 /********************************************************************/ \
-  __IGVEC_FUNC_ONCE gena_error_e \
+  __IGVEC_FUNC_ONCE \
+  gena_error_e \
   gvec_##tpVecName##_assign( \
     gvec_##tpVecName##_t* phandle, \
     size_t count, \
-    const tpTypename tpPassBy##TYPE value \
+    const __IGENA_TYPEINFO_TYPE(tpTypeInfo, tpPassBy, TYPE) value \
   ) { \
     gena_error_e errorcode; \
     size_t i; \
@@ -121,17 +157,18 @@
       tpAssignBy ( \
         tpPassBy##LVREF (*phandle + i), \
         tpPassBy##BYREF value, \
-        sizeof(tpTypename) \
+        __IGENA_TYPEINFO_SIZE(tpTypeInfo, tpPassBy) \
       ); \
     } \
     return GENA_ERR_NO; \
   }} \
 /********************************************************************/ \
-  __IGVEC_FUNC_ONCE gena_error_e \
+  __IGVEC_FUNC_ONCE \
+  gena_error_e \
   gvec_##tpVecName##_resize( \
     gvec_##tpVecName##_t* phandle, \
     size_t new_count, \
-    const tpTypename tpPassBy##TYPE value \
+    const __IGENA_TYPEINFO_TYPE(tpTypeInfo, tpPassBy, TYPE) value \
   ) { \
     gena_error_e errorcode; \
     size_t i; \
@@ -144,40 +181,40 @@
       tpAssignBy ( \
         tpPassBy##LVREF (*phandle + i), \
         tpPassBy##BYREF value, \
-        sizeof(tpTypename) \
+        __IGENA_TYPEINFO_SIZE(tpTypeInfo, tpPassBy) \
       ); \
     } \
     return GENA_ERR_NO; \
   }} \
 /********************************************************************/ \
-  __IGVEC_FUNC_ONCE gena_error_e \
+  __IGVEC_FUNC_ONCE \
+  gena_error_e \
   gvec_##tpVecName##_insert( \
     gvec_##tpVecName##_t* phandle, \
     size_t pos, \
     size_t count, \
-    const tpTypename tpPassBy##TYPE value \
+    const __IGENA_TYPEINFO_TYPE(tpTypeInfo, tpPassBy, TYPE) value \
   ) { \
     gena_error_e errorcode; \
-    tpTypename* ptr_entry; \
     size_t i; \
   { \
     errorcode = igvec_insert( phandle, pos, count ); \
     if (errorcode != GENA_ERR_NO) { return errorcode; } \
-    ptr_entry = *phandle + pos; \
     for(i = 0; i < count; ++i) { \
       tpAssignBy ( \
-        tpPassBy##LVREF (ptr_entry + i), \
+        tpPassBy##LVREF (*phandle + pos + i), \
         tpPassBy##BYREF value, \
-        sizeof(tpTypename) \
+        __IGENA_TYPEINFO_SIZE(tpTypeInfo, tpPassBy) \
       ); \
     } \
     return GENA_ERR_NO; \
   }} \
 /********************************************************************/ \
-  __IGVEC_FUNC_ONCE gena_error_e \
+  __IGVEC_FUNC_ONCE \
+  gena_error_e \
   gvec_##tpVecName##_push( \
     gvec_##tpVecName##_t* phandle, \
-    const tpTypename tpPassBy##TYPE value \
+    const __IGENA_TYPEINFO_TYPE(tpTypeInfo, tpPassBy, TYPE) value \
   ) { \
     gena_error_e errorcode; \
   { \
@@ -186,12 +223,13 @@
     tpAssignBy ( \
       tpPassBy##LVREF (*phandle + gvec_count(*phandle)-1), \
       tpPassBy##BYREF value, \
-      sizeof(tpTypename) \
+      __IGENA_TYPEINFO_SIZE(tpTypeInfo, tpPassBy) \
     ); \
     return GENA_ERR_NO; \
   }} \
 /********************************************************************/ \
-  __IGVEC_FUNC_ONCE tpTypename* \
+  __IGVEC_FUNC_ONCE \
+  __IGENA_TYPEINFO_NAME(tpTypeInfo, tpReturnBy) * \
   gvec_##tpVecName##_at( \
     gvec_##tpVecName##_t handle, \
     size_t pos \
@@ -200,20 +238,26 @@
     return gvec_at( handle, pos ); \
   }} \
 /********************************************************************/ \
-  __IGVEC_FUNC_ONCE tpTypename tpReturnBy##RETBY \
+  __IGVEC_FUNC_ONCE \
+  __IGENA_TYPEINFO_TYPE(tpTypeInfo, tpReturnBy, TYPE) \
   gvec_##tpVecName##_front( \
     gvec_##tpVecName##_t handle \
   ) { \
   { \
-    return tpReturnBy##UNREF (tpTypename*) gvec_front(handle); \
+    return tpReturnBy##UNREF \
+           ( __IGENA_TYPEINFO_NAME(tpTypeInfo, tpReturnBy) * ) \
+           gvec_front(handle); \
   }} \
 /********************************************************************/ \
-  __IGVEC_FUNC_ONCE tpTypename tpReturnBy##RETBY \
+  __IGVEC_FUNC_ONCE \
+  __IGENA_TYPEINFO_TYPE(tpTypeInfo, tpReturnBy, TYPE) \
   gvec_##tpVecName##_back( \
     gvec_##tpVecName##_t handle \
   ) { \
   { \
-    return tpReturnBy##UNREF (tpTypename*) gvec_back(handle); \
+    return tpReturnBy##UNREF \
+           ( __IGENA_TYPEINFO_NAME(tpTypeInfo, tpReturnBy) * ) \
+           gvec_back(handle); \
   }} \
 /********************************************************************/ \
   __IGENA_REQUIRE_SEMICOLON_OUTDOOR

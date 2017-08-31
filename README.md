@@ -94,9 +94,9 @@ Let's examine them more closely.
 This approach is good when vector is used only in one translation unit (*module*). It is easier and set by default.
 Just include library header into module source and instantiate vector for types you need, using `GVEC_INSTANTIATE()`:
 ```c
-GVEC_INSTANTIATE( tpTypename, tpVecName, tpPassBy, tpReturnBy );
+GVEC_INSTANTIATE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy );
 ```
-* *tpTypename* – type for which vector should be instantiated
+* *tpTypeInfo* – type for which vector should be instantiated
 * *tpVecName* – unique vector name that will be placed into names of specialized functions, for example: `gvec_mystruct_new()`
 * *tpPassBy* – specifies how values should be passed to specialized functions
 * *tpReturnBy* – specifies how values should be returned from specialized functions
@@ -118,14 +118,14 @@ For the next code template let's assume that wrapper module is called *gvec_wrap
 #define GVEC_MODULAR_APPROACH
 #include "genvector.h"
 
-GVEC_H_DECLARE( tpTypename, tpVecName, tpPassBy, tpReturnBy );
+GVEC_H_DECLARE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy );
 ```
 
 ***gvec_wrapper.c***
 ```c
 #include "gvec_wrapper.h"
 
-GVEC_C_DEFINE( tpTypename, tpVecName, tpPassBy, tpReturnBy );
+GVEC_C_DEFINE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy );
 ```
 
 The arguments for `GVEC_H_DECLARE()` and `GVEC_C_DEFINE()` are the same as for `GVEC_INSTANTIATE()`.
@@ -142,7 +142,7 @@ To prevent this, *typesets* were introduced. Let's consider them using the modif
 #include "genvector.h"
 
 #define __GVEC_TYPESET_VECNAME \
-  (tpTypename, tpVecName, tpPassBy, tpReturnBy)
+  (tpTypeInfo, tpVecName, tpPassBy, tpReturnBy)
 
 GENA_APPLY_TYPESET( GVEC_H_DECLARE, __GVEC_TYPESET_VECNAME );
 ```
@@ -162,8 +162,8 @@ GENA_APPLY_TYPESET( GVEC_C_DEFINE, __GVEC_TYPESET_VECNAME );
 
 Notation:
 * `NAME`: value of `tpVecName`
-* `PASSVAL`: `tpTypename` if `tpPassBy` is `GENA_USE_VAL`, and `tpTypename*` otherwise
-* `RETVAL`: `tpTypename` if `tpReturnBy` is `GENA_USE_VAL`, and `tpTypename*` otherwise
+* `PASSVAL`: `tpTypeInfo` if `tpPassBy` is `GENA_USE_VAL`, and `tpTypeInfo*` otherwise
+* `RETVAL`: `tpTypeInfo` if `tpReturnBy` is `GENA_USE_VAL`, and `tpTypeInfo*` otherwise
 
 ```c
 gvec_t igvec_new( size_t min_count, size_t entry_size )
@@ -224,7 +224,7 @@ Add an element to the end of a vector.
 
 ```c
 void* gvec_at( gvec_t handle, size_t pos )
-tpTypename* gvec_NAME_at( gvec_t handle, size_t pos )
+tpTypeInfo* gvec_NAME_at( gvec_t handle, size_t pos )
 ```
 Get a reference to the element at specified position in a vector, with bounds checking.
 

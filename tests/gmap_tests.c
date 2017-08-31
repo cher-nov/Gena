@@ -59,8 +59,8 @@ MunitResult gmaptests_2_modify() {
   gena_bool del_result;
   int* ptr_int;
   genatest_svalue_p ptr_svalue;
-  genatest_str_t* ptr_str;
-  genatest_buf_t* ptr_array;
+  char* ptr_str;
+  int* ptr_array;
   int i;
 {
   /********************************************************************/
@@ -152,7 +152,7 @@ MunitResult gmaptests_2_modify() {
     ptr_str = gmap_string_add( map_string, GENATEST_STR_SET[i],
       GENATEST_STR_SET[i] );
     munit_assert_not_null( ptr_str );
-    munit_assert_string_equal( *ptr_str, GENATEST_STR_SET[i] );
+    munit_assert_string_equal( ptr_str, GENATEST_STR_SET[i] );
     munit_assert_size( gmap_count(map_string), ==, i+1 );
     munit_assert( !gmap_empty(map_string) );
   }
@@ -177,7 +177,7 @@ MunitResult gmaptests_2_modify() {
     ptr_array = gmap_array_add( map_array, GENATEST_BUF_SET[i],
       GENATEST_BUF_SET[i] );
     munit_assert_not_null( ptr_array );
-    munit_assert_memory_equal( sizeof(genatest_buf_t), *ptr_array,
+    munit_assert_memory_equal( sizeof(genatest_buf_t), ptr_array,
       GENATEST_BUF_SET[i] );
     munit_assert_size( gmap_count(map_array), ==, i+1 );
     munit_assert( !gmap_empty(map_array) );
@@ -210,8 +210,8 @@ MunitResult gmaptests_3_lookup() {
   gmap_array_t map_array;
   int* ptr_int;
   genatest_svalue_p ptr_svalue;
-  genatest_str_t* ptr_str;
-  genatest_buf_t* ptr_array;
+  char* ptr_str;
+  int* ptr_array;
   int i, k;
   genatest_skey_s safe_skey;
 {
@@ -344,7 +344,7 @@ MunitResult gmaptests_3_lookup() {
     for( k = 0; k <= i; ++k ) {
       ptr_str = gmap_string_find( map_string, GENATEST_STR_SET[k] );
       munit_assert_not_null( ptr_str );
-      munit_assert_string_equal( *ptr_str, GENATEST_STR_SET[k] );
+      munit_assert_string_equal( ptr_str, GENATEST_STR_SET[k] );
     }
   }
 
@@ -356,7 +356,7 @@ MunitResult gmaptests_3_lookup() {
         munit_assert_null( ptr_str );
       } else {
         munit_assert_not_null( ptr_str );
-        munit_assert_string_equal( *ptr_str, GENATEST_STR_SET[k] );
+        munit_assert_string_equal( ptr_str, GENATEST_STR_SET[k] );
       }
     }
   }
@@ -380,7 +380,7 @@ MunitResult gmaptests_3_lookup() {
     for( k = 0; k <= i; ++k ) {
       ptr_array = gmap_array_find( map_array, GENATEST_BUF_SET[k] );
       munit_assert_not_null( ptr_array );
-      munit_assert_memory_equal( sizeof(genatest_buf_t), *ptr_array,
+      munit_assert_memory_equal( sizeof(genatest_buf_t), ptr_array,
         GENATEST_BUF_SET[k] );
     }
   }
@@ -393,7 +393,7 @@ MunitResult gmaptests_3_lookup() {
         munit_assert_null( ptr_array );
       } else {
         munit_assert_not_null( ptr_array );
-        munit_assert_memory_equal( sizeof(genatest_buf_t), *ptr_array,
+        munit_assert_memory_equal( sizeof(genatest_buf_t), ptr_array,
           GENATEST_BUF_SET[k] );
       }
     }

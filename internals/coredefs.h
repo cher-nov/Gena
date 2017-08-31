@@ -33,25 +33,61 @@ typedef enum {
 
 /******************************************************************************/
 
-#define GENA_USE_VAL __IGENA_VAL__    /* value */
-#define GENA_USE_REF __IGENA_REF__    /* reference (pointer) */
-#define GENA_USE_BUF __IGENA_BUF__    /* buffer (array) */
+#define GENA_USE_VAL __IGENA_VAL__    /* simple type, by value */
+#define GENA_USE_REF __IGENA_REF__    /* simple type, by reference (pointer) */
+#define GENA_USE_BUF __IGENA_BUF__    /* buffer type (array) */
 
 #define __IGENA_VAL__TYPE       /* type modifier */
-#define __IGENA_VAL__RETBY      /* return by */
 #define __IGENA_VAL__UNREF *    /* unreference */
 #define __IGENA_VAL__BYREF &    /* by reference */
 #define __IGENA_VAL__LVREF      /* lvalue reference */
 #define __IGENA_REF__TYPE *
-#define __IGENA_REF__RETBY *
 #define __IGENA_REF__UNREF
 #define __IGENA_REF__BYREF
 #define __IGENA_REF__LVREF
-#define __IGENA_BUF__TYPE
-#define __IGENA_BUF__RETBY *
+#define __IGENA_BUF__TYPE *
 #define __IGENA_BUF__UNREF
 #define __IGENA_BUF__BYREF
 #define __IGENA_BUF__LVREF *
+
+/*
+  Support for type info parameters in templates.
+    simple type: typename
+    buffer type: (typename, count)
+*/
+
+#define __IGENA_TYPEINFO_NAME( tpTypeInfo, tpUseBy ) \
+  tpUseBy ## TYPEINFO_NAME( tpTypeInfo )
+
+  #define __IGENA_VAL__TYPEINFO_NAME( tpTypeInfo ) \
+    tpTypeInfo
+  #define __IGENA_REF__TYPEINFO_NAME( tpTypeInfo ) \
+    tpTypeInfo
+  #define __IGENA_BUF__TYPEINFO_NAME( tpTypeInfo ) \
+    __IGENA_PAIR_1(tpTypeInfo)
+
+#define __IGENA_TYPEINFO_TYPE( tpTypeInfo, tpUseBy, tpModifier ) \
+  __IGENA_TYPEINFO_NAME( tpTypeInfo, tpUseBy ) tpUseBy ## tpModifier
+
+#define __IGENA_TYPEINFO_SIZE( tpTypeInfo, tpUseBy ) \
+  tpUseBy ## TYPEINFO_SIZE( tpTypeInfo )
+
+  #define __IGENA_VAL__TYPEINFO_SIZE( tpTypeInfo ) \
+    ( sizeof(tpTypeInfo) )
+  #define __IGENA_REF__TYPEINFO_SIZE( tpTypeInfo ) \
+    ( sizeof(tpTypeInfo) )
+  #define __IGENA_BUF__TYPEINFO_SIZE( tpTypeInfo ) \
+    ( sizeof(__IGENA_PAIR_1(tpTypeInfo)) * (__IGENA_PAIR_2(tpTypeInfo)) )
+
+#define __IGENA_TYPEINFO_BUFDEF( tpTypeInfo, tpUseBy, tpName ) \
+  tpUseBy ## TYPEINFO_BUFDEF( tpTypeInfo, tpName )
+
+  #define __IGENA_VAL__TYPEINFO_BUFDEF( tpTypeInfo, tpName ) \
+    typedef tpTypeInfo* tpName
+  #define __IGENA_REF__TYPEINFO_BUFDEF( tpTypeInfo, tpName ) \
+    typedef tpTypeInfo* tpName
+  #define __IGENA_BUF__TYPEINFO_BUFDEF( tpTypeInfo, tpName ) \
+    typedef __IGENA_PAIR_1(tpTypeInfo) (*tpName) [ __IGENA_PAIR_2(tpTypeInfo) ]
 
 /******************************************************************************/
 
@@ -95,6 +131,14 @@ guaranteed to be a valid zero-terminated C string. */
 
 #define __IGENA_VOIDP_ADD(x, a) ( (void*)( (char*)(x) + (a) ) )
 #define __IGENA_VOIDP_SUB(x, a) ( (void*)( (char*)(x) - (a) ) )
+
+/******************************************************************************/
+
+#define _impl_IGENA_PAIR_1(pair1, pair2) pair1
+#define _impl_IGENA_PAIR_2(pair1, pair2) pair2
+
+#define __IGENA_PAIR_1(pair) _impl_IGENA_PAIR_1 pair
+#define __IGENA_PAIR_2(pair) _impl_IGENA_PAIR_2 pair
 
 /******************************************************************************/
 

@@ -16,15 +16,11 @@ typedef struct __igena_avl_node_head_s_typedef {
   int factor;
 } igena_avl_node_head_s;
 
-#define IGENA_AVL_NODE_GET_KEY(node, key_type) ( \
-  (key_type*) \
-  __IGENA_VOIDP_ADD( node, sizeof(igena_avl_node_head_s) ) \
-)
+#define IGENA_AVL_NODE_GET_KEY(node) \
+  __IGENA_VOIDP_ADD( node, sizeof(igena_avl_node_head_s) )
 
-#define IGENA_AVL_NODE_GET_VALUE(node, key_type, value_type) ( \
-  (value_type*) \
-  __IGENA_VOIDP_ADD( node, sizeof(igena_avl_node_head_s) + sizeof(key_type) ) \
-)
+#define IGENA_AVL_NODE_GET_VALUE(node, key_size) \
+  __IGENA_VOIDP_ADD( node, sizeof(igena_avl_node_head_s) + key_size )
 
 /******************************************************************************/
 

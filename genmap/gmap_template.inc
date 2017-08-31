@@ -71,18 +71,33 @@
 \
   typedef gmap_t gmap_##tpMapName##_t; \
 \
-  extern gmap_##tpMapName##_t gmap_##tpMapName##_new( \
-    void ); \
-  extern tpValueType* gmap_##tpMapName##_add( \
+  extern \
+  gmap_##tpMapName##_t \
+  gmap_##tpMapName##_new( \
+    void \
+  ); \
+\
+  extern \
+  __IGENA_TYPEINFO_NAME(tpValueType, tpValuePassBy) * \
+  gmap_##tpMapName##_add( \
     gmap_##tpMapName##_t handle, \
-    const tpKeyType tpKeyPassBy##TYPE key, \
-    const tpValueType tpValuePassBy##TYPE value ); \
-  extern gena_bool gmap_##tpMapName##_delete( \
+    const __IGENA_TYPEINFO_TYPE(tpKeyType, tpKeyPassBy, TYPE) key, \
+    const __IGENA_TYPEINFO_TYPE(tpValueType, tpValuePassBy, TYPE) value \
+  ); \
+\
+  extern \
+  gena_bool \
+  gmap_##tpMapName##_delete( \
     gmap_##tpMapName##_t handle, \
-    const tpKeyType tpKeyPassBy##TYPE key ); \
-  extern tpValueType* gmap_##tpMapName##_find( \
+    const __IGENA_TYPEINFO_TYPE(tpKeyType, tpKeyPassBy, TYPE) key \
+  ); \
+\
+  extern \
+  __IGENA_TYPEINFO_NAME(tpValueType, tpValuePassBy) * \
+  gmap_##tpMapName##_find( \
     gmap_##tpMapName##_t handle, \
-    const tpKeyType tpKeyPassBy##TYPE key ); \
+    const __IGENA_TYPEINFO_TYPE(tpKeyType, tpKeyPassBy, TYPE) key \
+  ); \
 \
   __IGENA_REQUIRE_SEMICOLON_OUTDOOR
 
@@ -93,47 +108,56 @@
 \
   __IGMAP_DEFINE_TYPE( tpMapName ); \
   IGENA_AVL_SUBTREE_INSTANTIATE( gmap, tpMapName, tpKeyType, \
-    sizeof(tpValueType), tpKeyAssignBy, tpKeyCompareBy, tpKeyPassBy ); \
+    __IGENA_TYPEINFO_SIZE(tpValueType, tpValuePassBy), tpKeyAssignBy, \
+    tpKeyCompareBy, tpKeyPassBy ); \
 /********************************************************************/ \
-  __IGMAP_FUNC_ONCE gmap_##tpMapName##_t \
+  __IGMAP_FUNC_ONCE \
+  gmap_##tpMapName##_t \
   gmap_##tpMapName##_new( \
     void \
   ) { \
   { \
-    return igmap_new( sizeof(tpKeyType), sizeof(tpValueType) ); \
+    return igmap_new( \
+      __IGENA_TYPEINFO_SIZE(tpKeyType, tpKeyPassBy), \
+      __IGENA_TYPEINFO_SIZE(tpValueType, tpValuePassBy) \
+    ); \
   }} \
 /********************************************************************/ \
-  __IGMAP_FUNC_ONCE tpValueType* \
+  __IGMAP_FUNC_ONCE \
+  __IGENA_TYPEINFO_NAME(tpValueType, tpValuePassBy) * \
   gmap_##tpMapName##_add( \
     gmap_##tpMapName##_t handle, \
-    const tpKeyType tpKeyPassBy##TYPE key, \
-    const tpValueType tpValuePassBy##TYPE value \
+    const __IGENA_TYPEINFO_TYPE(tpKeyType, tpKeyPassBy, TYPE) key, \
+    const __IGENA_TYPEINFO_TYPE(tpValueType, tpValuePassBy, TYPE) value \
   ) { \
     igena_avl_retstate_e retstate; \
     igena_avl_node_head_p final_node; \
-    tpValueType* node_value; \
+    __IGENA_TYPEINFO_NAME(tpValueType, tpValuePassBy) * node_value; \
   { \
     assert( handle != NULL ); \
     retstate = igmap_avl_subtree_##tpMapName##_add_key( &handle->avltree_root, \
       key, &final_node ); \
     if (final_node == NULL) { return NULL; } \
-    node_value = IGENA_AVL_NODE_GET_VALUE( final_node, tpKeyType, \
-      tpValueType ); \
+    node_value = IGENA_AVL_NODE_GET_VALUE( \
+      final_node, \
+      __IGENA_TYPEINFO_SIZE(tpKeyType, tpKeyPassBy) \
+    ); \
     if (retstate != IGENA_AVL_RETST_NOTHING) { \
       tpValueAssignBy ( \
-        tpValuePassBy##LVREF node_value, \
+        node_value, \
         tpValuePassBy##BYREF value, \
-        sizeof(tpValueType) \
+        __IGENA_TYPEINFO_SIZE(tpValueType, tpValuePassBy) \
       ); \
       ++(handle->count); \
     } \
     return node_value; \
   }} \
 /********************************************************************/ \
-  __IGMAP_FUNC_ONCE gena_bool \
+  __IGMAP_FUNC_ONCE \
+  gena_bool \
   gmap_##tpMapName##_delete( \
     gmap_##tpMapName##_t handle, \
-    const tpKeyType tpKeyPassBy##TYPE key \
+    const __IGENA_TYPEINFO_TYPE(tpKeyType, tpKeyPassBy, TYPE) key \
   ) { \
     igena_avl_retstate_e retstate; \
   { \
@@ -145,19 +169,21 @@
     return GENA_TRUE; \
   }} \
 /********************************************************************/ \
-  __IGMAP_FUNC_ONCE tpValueType* \
+  __IGMAP_FUNC_ONCE \
+  __IGENA_TYPEINFO_NAME(tpValueType, tpValuePassBy) * \
   gmap_##tpMapName##_find( \
     gmap_##tpMapName##_t handle, \
-    const tpKeyType tpKeyPassBy##TYPE key \
+    const __IGENA_TYPEINFO_TYPE(tpKeyType, tpKeyPassBy, TYPE) key \
   ) { \
     igena_avl_node_head_p find_node; \
   { \
     assert( handle != NULL ); \
     find_node = igmap_avl_subtree_##tpMapName##_find_node( \
       handle->avltree_root, key ); \
-    return (find_node != NULL) \
-           ? IGENA_AVL_NODE_GET_VALUE( find_node, tpKeyType, tpValueType ) \
-           : NULL; \
+    return (find_node == NULL) ? NULL : IGENA_AVL_NODE_GET_VALUE( \
+      find_node, \
+      __IGENA_TYPEINFO_SIZE(tpKeyType, tpKeyPassBy) \
+    ); \
   }} \
 /********************************************************************/ \
   __IGENA_REQUIRE_SEMICOLON_OUTDOOR
