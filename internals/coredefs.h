@@ -37,18 +37,15 @@ typedef enum {
 #define GENA_USE_REF __IGENA_REF__    /* simple type, by reference (pointer) */
 #define GENA_USE_BUF __IGENA_BUF__    /* buffer type (array) */
 
-#define __IGENA_VAL__TYPE       /* type modifier */
-#define __IGENA_VAL__UNREF *    /* unreference */
-#define __IGENA_VAL__BYREF &    /* by reference */
-#define __IGENA_VAL__LVREF      /* lvalue reference */
-#define __IGENA_REF__TYPE *
-#define __IGENA_REF__UNREF
-#define __IGENA_REF__BYREF
-#define __IGENA_REF__LVREF
-#define __IGENA_BUF__TYPE *
-#define __IGENA_BUF__UNREF
-#define __IGENA_BUF__BYREF
-#define __IGENA_BUF__LVREF *
+#define __IGENA_VAL__RETURN *
+#define __IGENA_VAL__REFERENCE &
+#define __IGENA_VAL__ENTRY
+#define __IGENA_REF__RETURN
+#define __IGENA_REF__REFERENCE
+#define __IGENA_REF__ENTRY
+#define __IGENA_BUF__RETURN
+#define __IGENA_BUF__REFERENCE
+#define __IGENA_BUF__ENTRY *
 
 /*
   Support for type info parameters in templates.
@@ -66,9 +63,6 @@ typedef enum {
   #define __IGENA_BUF__TYPEINFO_NAME( tpTypeInfo ) \
     __IGENA_PAIR_1(tpTypeInfo)
 
-#define __IGENA_TYPEINFO_TYPE( tpTypeInfo, tpUseBy, tpModifier ) \
-  __IGENA_TYPEINFO_NAME( tpTypeInfo, tpUseBy ) tpUseBy ## tpModifier
-
 #define __IGENA_TYPEINFO_SIZE( tpTypeInfo, tpUseBy ) \
   tpUseBy ## TYPEINFO_SIZE( tpTypeInfo )
 
@@ -78,6 +72,16 @@ typedef enum {
     ( sizeof(tpTypeInfo) )
   #define __IGENA_BUF__TYPEINFO_SIZE( tpTypeInfo ) \
     ( sizeof(__IGENA_PAIR_1(tpTypeInfo)) * (__IGENA_PAIR_2(tpTypeInfo)) )
+
+#define __IGENA_TYPEINFO_USERTYPE( tpTypeInfo, tpUseBy ) \
+  tpUseBy ## TYPEINFO_USERTYPE( tpTypeInfo, tpUseBy )
+
+  #define __IGENA_VAL__TYPEINFO_USERTYPE( tpTypeInfo, tpUseBy ) \
+    __IGENA_TYPEINFO_NAME(tpTypeInfo, tpUseBy)
+  #define __IGENA_REF__TYPEINFO_USERTYPE( tpTypeInfo, tpUseBy ) \
+    __IGENA_TYPEINFO_NAME(tpTypeInfo, tpUseBy) *
+  #define __IGENA_BUF__TYPEINFO_USERTYPE( tpTypeInfo, tpUseBy ) \
+    __IGENA_TYPEINFO_NAME(tpTypeInfo, tpUseBy) *
 
 #define __IGENA_TYPEINFO_BUFDEF( tpTypeInfo, tpUseBy, tpName ) \
   tpUseBy ## TYPEINFO_BUFDEF( tpTypeInfo, tpName )

@@ -74,7 +74,7 @@
   gvec_##tpVecName##_assign( \
     gvec_##tpVecName##_t* phandle, \
     size_t count, \
-    const __IGENA_TYPEINFO_TYPE(tpTypeInfo, tpPassBy, TYPE) value \
+    const __IGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
   ); \
 \
   extern \
@@ -82,7 +82,7 @@
   gvec_##tpVecName##_resize( \
     gvec_##tpVecName##_t* phandle, \
     size_t new_count, \
-    const __IGENA_TYPEINFO_TYPE(tpTypeInfo, tpPassBy, TYPE) value \
+    const __IGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
   ); \
 \
   extern \
@@ -91,14 +91,14 @@
     gvec_##tpVecName##_t* phandle, \
     size_t pos, \
     size_t count, \
-    const __IGENA_TYPEINFO_TYPE(tpTypeInfo, tpPassBy, TYPE) value \
+    const __IGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
   ); \
 \
   extern \
   gena_error_e \
   gvec_##tpVecName##_push( \
     gvec_##tpVecName##_t* phandle, \
-    const __IGENA_TYPEINFO_TYPE(tpTypeInfo, tpPassBy, TYPE) value \
+    const __IGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
   ); \
 \
   extern \
@@ -109,13 +109,13 @@
   ); \
 \
   extern \
-  __IGENA_TYPEINFO_TYPE(tpTypeInfo, tpReturnBy, TYPE) \
+  __IGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpReturnBy) \
   gvec_##tpVecName##_front( \
     gvec_##tpVecName##_t handle \
   ); \
 \
   extern \
-  __IGENA_TYPEINFO_TYPE(tpTypeInfo, tpReturnBy, TYPE) \
+  __IGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpReturnBy) \
   gvec_##tpVecName##_back( \
     gvec_##tpVecName##_t handle \
   ); \
@@ -146,7 +146,7 @@
   gvec_##tpVecName##_assign( \
     gvec_##tpVecName##_t* phandle, \
     size_t count, \
-    const __IGENA_TYPEINFO_TYPE(tpTypeInfo, tpPassBy, TYPE) value \
+    const __IGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
   ) { \
     gena_error_e errorcode; \
     size_t i; \
@@ -155,8 +155,8 @@
     if (errorcode != GENA_ERR_NO) { return errorcode; } \
     for(i = 0; i < count; ++i) { \
       tpAssignBy ( \
-        tpPassBy##LVREF (*phandle + i), \
-        tpPassBy##BYREF value, \
+        tpPassBy##ENTRY (*phandle + i), \
+        tpPassBy##REFERENCE value, \
         __IGENA_TYPEINFO_SIZE(tpTypeInfo, tpPassBy) \
       ); \
     } \
@@ -168,7 +168,7 @@
   gvec_##tpVecName##_resize( \
     gvec_##tpVecName##_t* phandle, \
     size_t new_count, \
-    const __IGENA_TYPEINFO_TYPE(tpTypeInfo, tpPassBy, TYPE) value \
+    const __IGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
   ) { \
     gena_error_e errorcode; \
     size_t i; \
@@ -179,8 +179,8 @@
     if (errorcode != GENA_ERR_NO) { return errorcode; } \
     for(; i < new_count; ++i) { \
       tpAssignBy ( \
-        tpPassBy##LVREF (*phandle + i), \
-        tpPassBy##BYREF value, \
+        tpPassBy##ENTRY (*phandle + i), \
+        tpPassBy##REFERENCE value, \
         __IGENA_TYPEINFO_SIZE(tpTypeInfo, tpPassBy) \
       ); \
     } \
@@ -193,7 +193,7 @@
     gvec_##tpVecName##_t* phandle, \
     size_t pos, \
     size_t count, \
-    const __IGENA_TYPEINFO_TYPE(tpTypeInfo, tpPassBy, TYPE) value \
+    const __IGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
   ) { \
     gena_error_e errorcode; \
     size_t i; \
@@ -202,8 +202,8 @@
     if (errorcode != GENA_ERR_NO) { return errorcode; } \
     for(i = 0; i < count; ++i) { \
       tpAssignBy ( \
-        tpPassBy##LVREF (*phandle + pos + i), \
-        tpPassBy##BYREF value, \
+        tpPassBy##ENTRY (*phandle + pos + i), \
+        tpPassBy##REFERENCE value, \
         __IGENA_TYPEINFO_SIZE(tpTypeInfo, tpPassBy) \
       ); \
     } \
@@ -214,15 +214,15 @@
   gena_error_e \
   gvec_##tpVecName##_push( \
     gvec_##tpVecName##_t* phandle, \
-    const __IGENA_TYPEINFO_TYPE(tpTypeInfo, tpPassBy, TYPE) value \
+    const __IGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
   ) { \
     gena_error_e errorcode; \
   { \
     errorcode = igvec_push(phandle); \
     if (errorcode != GENA_ERR_NO) { return errorcode; } \
     tpAssignBy ( \
-      tpPassBy##LVREF (*phandle + gvec_count(*phandle)-1), \
-      tpPassBy##BYREF value, \
+      tpPassBy##ENTRY (*phandle + gvec_count(*phandle)-1), \
+      tpPassBy##REFERENCE value, \
       __IGENA_TYPEINFO_SIZE(tpTypeInfo, tpPassBy) \
     ); \
     return GENA_ERR_NO; \
@@ -239,23 +239,23 @@
   }} \
 /********************************************************************/ \
   __IGVEC_FUNC_ONCE \
-  __IGENA_TYPEINFO_TYPE(tpTypeInfo, tpReturnBy, TYPE) \
+  __IGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpReturnBy) \
   gvec_##tpVecName##_front( \
     gvec_##tpVecName##_t handle \
   ) { \
   { \
-    return tpReturnBy##UNREF \
+    return tpReturnBy##RETURN \
            ( __IGENA_TYPEINFO_NAME(tpTypeInfo, tpReturnBy) * ) \
            gvec_front(handle); \
   }} \
 /********************************************************************/ \
   __IGVEC_FUNC_ONCE \
-  __IGENA_TYPEINFO_TYPE(tpTypeInfo, tpReturnBy, TYPE) \
+  __IGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpReturnBy) \
   gvec_##tpVecName##_back( \
     gvec_##tpVecName##_t handle \
   ) { \
   { \
-    return tpReturnBy##UNREF \
+    return tpReturnBy##RETURN \
            ( __IGENA_TYPEINFO_NAME(tpTypeInfo, tpReturnBy) * ) \
            gvec_back(handle); \
   }} \

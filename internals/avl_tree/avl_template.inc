@@ -23,7 +23,7 @@ structures that use AVL-tree can be instantiated with same names. */
   igena_avl_retstate_e \
   i##tpPrefix##_avl_subtree_##tpTreeName##_add_key( \
     igena_avl_node_head_p* pnode, \
-    const __IGENA_TYPEINFO_TYPE(tpKeyType, tpKeyPassBy, TYPE) key, \
+    const __IGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key, \
     igena_avl_node_head_p* OUT_final_node \
   ) { \
     igena_avl_retstate_e retstate; \
@@ -39,7 +39,7 @@ structures that use AVL-tree can be instantiated with same names. */
         tpKeyAssignBy ( \
           ( __IGENA_TYPEINFO_NAME(tpKeyType, tpKeyPassBy) * ) \
               IGENA_AVL_NODE_GET_KEY(new_node), \
-          tpKeyPassBy##BYREF key, \
+          tpKeyPassBy##REFERENCE key, \
           __IGENA_TYPEINFO_SIZE(tpKeyType, tpKeyPassBy) \
         ); \
         *pnode = new_node; \
@@ -54,7 +54,7 @@ structures that use AVL-tree can be instantiated with same names. */
     compare_result = tpKeyCompareBy ( \
       ( __IGENA_TYPEINFO_NAME(tpKeyType, tpKeyPassBy) * ) \
           IGENA_AVL_NODE_GET_KEY(*pnode), \
-      tpKeyPassBy##BYREF key, \
+      tpKeyPassBy##REFERENCE key, \
       __IGENA_TYPEINFO_SIZE(tpKeyType, tpKeyPassBy) \
     ); \
 \
@@ -83,7 +83,7 @@ structures that use AVL-tree can be instantiated with same names. */
   igena_avl_retstate_e \
   i##tpPrefix##_avl_subtree_##tpTreeName##_delete_key( \
     igena_avl_node_head_p* pnode, \
-    const __IGENA_TYPEINFO_TYPE(tpKeyType, tpKeyPassBy, TYPE) key \
+    const __IGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key \
   ) { \
     igena_avl_retstate_e retstate; \
     int compare_result; \
@@ -94,7 +94,7 @@ structures that use AVL-tree can be instantiated with same names. */
     compare_result = tpKeyCompareBy ( \
       ( __IGENA_TYPEINFO_NAME(tpKeyType, tpKeyPassBy) * ) \
           IGENA_AVL_NODE_GET_KEY(*pnode), \
-      tpKeyPassBy##BYREF key, \
+      tpKeyPassBy##REFERENCE key, \
       __IGENA_TYPEINFO_SIZE(tpKeyType, tpKeyPassBy) \
     ); \
 \
@@ -122,7 +122,7 @@ structures that use AVL-tree can be instantiated with same names. */
   static igena_avl_node_head_p \
   i##tpPrefix##_avl_subtree_##tpTreeName##_find_node( \
     igena_avl_node_head_p node, \
-    const __IGENA_TYPEINFO_TYPE(tpKeyType, tpKeyPassBy, TYPE) key \
+    const __IGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key \
   ) { \
     int compare_result; \
   { \
@@ -130,7 +130,7 @@ structures that use AVL-tree can be instantiated with same names. */
       compare_result = tpKeyCompareBy ( \
         ( __IGENA_TYPEINFO_NAME(tpKeyType, tpKeyPassBy) * ) \
             IGENA_AVL_NODE_GET_KEY(node), \
-        tpKeyPassBy##BYREF key, \
+        tpKeyPassBy##REFERENCE key, \
         __IGENA_TYPEINFO_SIZE(tpKeyType, tpKeyPassBy) \
       ); \
       if (compare_result < 0) { \
