@@ -106,7 +106,7 @@ typedef enum {
   ( memcpy( ptr_destination, ptr_source, data_size ) )
 
 #define __IGENA_ASSIGN_STRCPY( ptr_destination, ptr_source, data_size ) \
-  ( strncpy( (char*)ptr_destination, (char*)ptr_source, data_size ) )
+  ( strncpy( (char*)ptr_destination, (const char*)ptr_source, data_size ) )
 
 /******************************************************************************/
 
@@ -125,7 +125,7 @@ typedef enum {
 /* NOTE: strncmp() is not needed here over strcmp() because ptr_entry_data is
 guaranteed to be a valid zero-terminated C string. */
 #define __IGENA_COMPARE_STRCMP( ptr_entry_data, ptr_user_data, data_size ) \
-  ( strcmp( (char*)ptr_entry_data, (char*)ptr_user_data ) )
+  ( strcmp( (const char*)ptr_entry_data, (const char*)ptr_user_data ) )
 
 /******************************************************************************/
 
