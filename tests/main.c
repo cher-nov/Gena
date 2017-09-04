@@ -28,7 +28,7 @@ int main() {
 
 #include "genatest_common.h"
 
-MunitTest tests[] = {
+static MunitTest tests[] = {
   { "gvec_1_create", gvectests_1_create,
     NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
   { "gvec_2_modify", gvectests_2_modify,
