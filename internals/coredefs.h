@@ -106,7 +106,8 @@ typedef enum {
   ( memcpy( ptr_destination, ptr_source, data_size ) )
 
 #define ZZ_GENA_ASSIGN_STRCPY( ptr_destination, ptr_source, data_size ) \
-  ( strncpy( (char*)ptr_destination, (const char*)ptr_source, data_size ) )
+  ( strncpy( (char*)ptr_destination, (const char*)ptr_source, data_size ) ); \
+  ( ((char*)ptr_destination)[data_size-1] = '\0' )
 
 /******************************************************************************/
 
