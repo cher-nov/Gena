@@ -5,68 +5,68 @@
 #include <assert.h>
 
 /*
-  __IGMAP_FUNC_ONCE is necessary to prevent multiple declarations if
+  ZZ_GMAP_FUNC_ONCE is necessary to prevent multiple declarations if
   genmap.h was included more than once.
-  __IGMAP_DEFINE_TYPE needed to prevent typedef redefinition with modular
+  ZZ_GMAP_DEFINE_TYPE needed to prevent typedef redefinition with modular
   approach.
 */
 
 #ifndef GMAP_MODULAR_APPROACH
 
-  #define __IGMAP_FUNC_ONCE static inline
+  #define ZZ_GMAP_FUNC_ONCE static inline
 
-  #define __IGMAP_DEFINE_TYPE( tpMapName ) \
+  #define ZZ_GMAP_DEFINE_TYPE( tpMapName ) \
     typedef gmap_t gmap_##tpMapName##_t
 
   #define GMAP_INSTANTIATE( tpKeyType, tpValueType, tpMapName, tpKeyCompareBy, \
     tpKeyPassBy, tpValuePassBy ) \
 \
-    _impl_GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, GENA_ASSIGN_NAIVE, \
+    ZZ_GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, GENA_ASSIGN_NAIVE, \
       GENA_ASSIGN_NAIVE, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy )
 
   #define GMAP_INSTANTIATE_EX( tpKeyType, tpValueType, tpMapName, \
     tpKeyAssignBy, tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, \
     tpValuePassBy ) \
 \
-    _impl_GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
+    ZZ_GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
       tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy )
 
 #else /* GMAP_MODULAR_APPROACH */
 
-  #define __IGMAP_FUNC_ONCE
+  #define ZZ_GMAP_FUNC_ONCE
 
-  #define __IGMAP_DEFINE_TYPE( tpMapName ) \
-    __IGENA_REQUIRE_SEMICOLON_OUTDOOR
+  #define ZZ_GMAP_DEFINE_TYPE( tpMapName ) \
+    ZGENA_REQUIRE_SEMICOLON_OUTDOOR
 
   #define GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, tpKeyCompareBy, \
     tpKeyPassBy, tpValuePassBy ) \
 \
-    _impl_GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, GENA_ASSIGN_NAIVE, \
+    ZZ_GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, GENA_ASSIGN_NAIVE, \
       GENA_ASSIGN_NAIVE, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy )
 
   #define GMAP_C_DEFINE_EX( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
     tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy ) \
 \
-    _impl_GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
+    ZZ_GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
       tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy )
 
   #define GMAP_H_DECLARE( tpKeyType, tpValueType, tpMapName, tpKeyCompareBy, \
     tpKeyPassBy, tpValuePassBy ) \
 \
-    _impl_GMAP_H_DECLARE( tpKeyType, tpValueType, tpMapName, tpKeyPassBy, \
+    ZZ_GMAP_H_DECLARE( tpKeyType, tpValueType, tpMapName, tpKeyPassBy, \
       tpValuePassBy )
 
   #define GMAP_H_DECLARE_EX( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
     tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy ) \
 \
-    _impl_GMAP_H_DECLARE( tpKeyType, tpValueType, tpMapName, tpKeyPassBy, \
+    ZZ_GMAP_H_DECLARE( tpKeyType, tpValueType, tpMapName, tpKeyPassBy, \
       tpValuePassBy )
 
 #endif /* GMAP_MODULAR_APPROACH */
 
 /******************************************************************************/
 
-#define _impl_GMAP_H_DECLARE( tpKeyType, tpValueType, tpMapName, tpKeyPassBy, \
+#define ZZ_GMAP_H_DECLARE( tpKeyType, tpValueType, tpMapName, tpKeyPassBy, \
   tpValuePassBy ) \
 \
   typedef gmap_t gmap_##tpMapName##_t; \
@@ -78,61 +78,61 @@
   ); \
 \
   extern \
-  __IGENA_TYPEINFO_NAME(tpValueType, tpValuePassBy) * \
+  ZGENA_TYPEINFO_NAME(tpValueType, tpValuePassBy) * \
   gmap_##tpMapName##_add( \
     gmap_##tpMapName##_t handle, \
-    const __IGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key, \
-    const __IGENA_TYPEINFO_USERTYPE(tpValueType, tpValuePassBy) value \
+    const ZGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key, \
+    const ZGENA_TYPEINFO_USERTYPE(tpValueType, tpValuePassBy) value \
   ); \
 \
   extern \
   gena_bool \
   gmap_##tpMapName##_delete( \
     gmap_##tpMapName##_t handle, \
-    const __IGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key \
+    const ZGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key \
   ); \
 \
   extern \
-  __IGENA_TYPEINFO_NAME(tpValueType, tpValuePassBy) * \
+  ZGENA_TYPEINFO_NAME(tpValueType, tpValuePassBy) * \
   gmap_##tpMapName##_find( \
     gmap_##tpMapName##_t handle, \
-    const __IGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key \
+    const ZGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key \
   ); \
 \
-  __IGENA_REQUIRE_SEMICOLON_OUTDOOR
+  ZGENA_REQUIRE_SEMICOLON_OUTDOOR
 
 /******************************************************************************/
 
-#define _impl_GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
+#define ZZ_GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
   tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy ) \
 \
-  __IGMAP_DEFINE_TYPE( tpMapName ); \
+  ZZ_GMAP_DEFINE_TYPE( tpMapName ); \
   IGENA_AVL_SUBTREE_INSTANTIATE( gmap, tpMapName, tpKeyType, \
-    __IGENA_TYPEINFO_SIZE(tpValueType, tpValuePassBy), tpKeyAssignBy, \
+    ZGENA_TYPEINFO_SIZE(tpValueType, tpValuePassBy), tpKeyAssignBy, \
     tpKeyCompareBy, tpKeyPassBy ); \
 /********************************************************************/ \
-  __IGMAP_FUNC_ONCE \
+  ZZ_GMAP_FUNC_ONCE \
   gmap_##tpMapName##_t \
   gmap_##tpMapName##_new( \
     void \
   ) { \
   { \
     return igmap_new( \
-      __IGENA_TYPEINFO_SIZE(tpKeyType, tpKeyPassBy), \
-      __IGENA_TYPEINFO_SIZE(tpValueType, tpValuePassBy) \
+      ZGENA_TYPEINFO_SIZE(tpKeyType, tpKeyPassBy), \
+      ZGENA_TYPEINFO_SIZE(tpValueType, tpValuePassBy) \
     ); \
   }} \
 /********************************************************************/ \
-  __IGMAP_FUNC_ONCE \
-  __IGENA_TYPEINFO_NAME(tpValueType, tpValuePassBy) * \
+  ZZ_GMAP_FUNC_ONCE \
+  ZGENA_TYPEINFO_NAME(tpValueType, tpValuePassBy) * \
   gmap_##tpMapName##_add( \
     gmap_##tpMapName##_t handle, \
-    const __IGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key, \
-    const __IGENA_TYPEINFO_USERTYPE(tpValueType, tpValuePassBy) value \
+    const ZGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key, \
+    const ZGENA_TYPEINFO_USERTYPE(tpValueType, tpValuePassBy) value \
   ) { \
     igena_avl_retstate_e retstate; \
     igena_avl_node_head_p final_node; \
-    __IGENA_TYPEINFO_NAME(tpValueType, tpValuePassBy) * node_value; \
+    ZGENA_TYPEINFO_NAME(tpValueType, tpValuePassBy) * node_value; \
   { \
     assert( handle != NULL ); \
     retstate = igmap_avl_subtree_##tpMapName##_add_key( &handle->avltree_root, \
@@ -140,24 +140,24 @@
     if (final_node == NULL) { return NULL; } \
     node_value = IGENA_AVL_NODE_GET_VALUE( \
       final_node, \
-      __IGENA_TYPEINFO_SIZE(tpKeyType, tpKeyPassBy) \
+      ZGENA_TYPEINFO_SIZE(tpKeyType, tpKeyPassBy) \
     ); \
     if (retstate != IGENA_AVL_RETST_NOTHING) { \
       tpValueAssignBy ( \
         node_value, \
         tpValuePassBy##REFERENCE value, \
-        __IGENA_TYPEINFO_SIZE(tpValueType, tpValuePassBy) \
+        ZGENA_TYPEINFO_SIZE(tpValueType, tpValuePassBy) \
       ); \
       ++(handle->count); \
     } \
     return node_value; \
   }} \
 /********************************************************************/ \
-  __IGMAP_FUNC_ONCE \
+  ZZ_GMAP_FUNC_ONCE \
   gena_bool \
   gmap_##tpMapName##_delete( \
     gmap_##tpMapName##_t handle, \
-    const __IGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key \
+    const ZGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key \
   ) { \
     igena_avl_retstate_e retstate; \
   { \
@@ -169,11 +169,11 @@
     return GENA_TRUE; \
   }} \
 /********************************************************************/ \
-  __IGMAP_FUNC_ONCE \
-  __IGENA_TYPEINFO_NAME(tpValueType, tpValuePassBy) * \
+  ZZ_GMAP_FUNC_ONCE \
+  ZGENA_TYPEINFO_NAME(tpValueType, tpValuePassBy) * \
   gmap_##tpMapName##_find( \
     gmap_##tpMapName##_t handle, \
-    const __IGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key \
+    const ZGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key \
   ) { \
     igena_avl_node_head_p find_node; \
   { \
@@ -182,8 +182,8 @@
       handle->avltree_root, key ); \
     return (find_node == NULL) ? NULL : IGENA_AVL_NODE_GET_VALUE( \
       find_node, \
-      __IGENA_TYPEINFO_SIZE(tpKeyType, tpKeyPassBy) \
+      ZGENA_TYPEINFO_SIZE(tpKeyType, tpKeyPassBy) \
     ); \
   }} \
 /********************************************************************/ \
-  __IGENA_REQUIRE_SEMICOLON_OUTDOOR
+  ZGENA_REQUIRE_SEMICOLON_OUTDOOR

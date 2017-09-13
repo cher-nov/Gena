@@ -1,5 +1,5 @@
-#ifndef __GVEC_TESTS_H__
-#define __GVEC_TESTS_H__
+#ifndef ZZ_GVEC_TESTS_H_IG
+#define ZZ_GVEC_TESTS_H_IG
 
 #ifdef GVEC_MODULAR_APPROACH
   #define GVECTEST_TYPE "MODULAR"
@@ -19,4 +19,4 @@ extern MunitResult gvectests_3_manage();
 
 #endif /* GENATEST_CHECK_ONLY_C89 */
 
-#endif /*__GVEC_TESTS_H__*/
+#endif /* ZZ_GVEC_TESTS_H_IG */

@@ -4,8 +4,8 @@
   Copyright (c) 2017, Dmitry D. Chernov
 */
 
-#ifndef __GENA_GENMAP_H__
-#define __GENA_GENMAP_H__
+#ifndef ZZ_GENA_GENMAP_H_IG
+#define ZZ_GENA_GENMAP_H_IG
 
 #include "../internals/avl_tree/avl_tree.h"
 
@@ -31,4 +31,4 @@ extern gena_bool gmap_empty( gmap_t handle );
 
 #include "gmap_template.inc"
 
-#endif /*__GENA_GENMAP_H__*/
+#endif /* ZZ_GENA_GENMAP_H_IG */

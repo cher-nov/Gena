@@ -4,8 +4,8 @@
   Copyright (c) 2017, Dmitry D. Chernov
 */
 
-#ifndef __GENA_GENVECTOR_H__
-#define __GENA_GENVECTOR_H__
+#ifndef ZZ_GENA_GENVECTOR_H_IG
+#define ZZ_GENA_GENVECTOR_H_IG
 
 #include "../internals/coredefs.h"
 
@@ -19,7 +19,7 @@ typedef struct {
 } igvec_head_s, *igvec_head_p;
 
 #define IGVEC_GET_BUFFER(handle) \
-  __IGENA_VOIDP_SUB(handle, sizeof(igvec_head_s))
+  ZGENA_VOIDP_SUB(handle, sizeof(igvec_head_s))
 
 #define IGVEC_GET_HEADER(handle) \
   ((igvec_head_p)IGVEC_GET_BUFFER(handle))
@@ -53,4 +53,4 @@ extern gena_bool gvec_empty( gvec_t handle );
 
 #include "gvec_template.inc"
 
-#endif /*__GENA_GENVECTOR_H__*/
+#endif /* ZZ_GENA_GENVECTOR_H_IG */

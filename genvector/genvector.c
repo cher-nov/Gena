@@ -64,7 +64,7 @@ static igvec_head_p set_storage( gvec_t* phandle, size_t size,
   buffer = realloc( buffer, sizeof(igvec_head_s) + size * entry_size );
   if (buffer == NULL) { return NULL; }
 
-  *phandle = __IGENA_VOIDP_ADD( buffer, sizeof(igvec_head_s) );
+  *phandle = ZGENA_VOIDP_ADD( buffer, sizeof(igvec_head_s) );
 
   header = (igvec_head_p)buffer;
   header->size = size;
@@ -86,7 +86,7 @@ gvec_t igvec_new( size_t min_count, size_t entry_size ) {
   return handle;
 }}
 
-static gvec_t _impl_gvec_set( gvec_t* phandle, gvec_t source ) {
+static gvec_t zz_gvec_set( gvec_t* phandle, gvec_t source ) {
   gvec_t handle, new_handle;
 {
   assert( phandle != NULL );
@@ -142,7 +142,7 @@ void gvec_free( gvec_t handle ) {
 
 /******************************************************************************/
 
-static gena_error_e _impl_gvec_resize( gvec_t* phandle, size_t new_count ) {
+static gena_error_e zz_gvec_resize( gvec_t* phandle, size_t new_count ) {
   igvec_head_p header;
 {
   ASSERT_PHANDLE(phandle);
@@ -156,7 +156,7 @@ static gena_error_e _impl_gvec_resize( gvec_t* phandle, size_t new_count ) {
   return igvec_insert( phandle, header->count, new_count - header->count );
 }}
 
-static gena_error_e _impl_gvec_reserve( gvec_t* phandle, size_t count ) {
+static gena_error_e zz_gvec_reserve( gvec_t* phandle, size_t count ) {
   igvec_head_p header;
   size_t new_size;
 {
@@ -169,7 +169,7 @@ static gena_error_e _impl_gvec_reserve( gvec_t* phandle, size_t count ) {
          : GENA_ERR_MEMORY;
 }}
 
-static gena_error_e _impl_gvec_shrink( gvec_t* phandle ) {
+static gena_error_e zz_gvec_shrink( gvec_t* phandle ) {
   igvec_head_p header;
   size_t new_size;
 {
@@ -184,7 +184,7 @@ static gena_error_e _impl_gvec_shrink( gvec_t* phandle ) {
 
 /******************************************************************************/
 
-static gena_error_e _impl_igvec_insert( gvec_t* phandle, size_t pos,
+static gena_error_e zz_igvec_insert( gvec_t* phandle, size_t pos,
   size_t count )
 {
   gvec_t dest_gvec;
@@ -226,8 +226,8 @@ static gena_error_e _impl_igvec_insert( gvec_t* phandle, size_t pos,
 
   #endif
 
-  memmove( __IGENA_VOIDP_ADD( dest_gvec, (pos+count) * entry_size ),
-           __IGENA_VOIDP_ADD( *phandle, pos * entry_size ),
+  memmove( ZGENA_VOIDP_ADD( dest_gvec, (pos+count) * entry_size ),
+           ZGENA_VOIDP_ADD( *phandle, pos * entry_size ),
           (old_count-pos) * entry_size );
 
   header->count = new_count;
@@ -255,14 +255,14 @@ void gvec_erase( gvec_t handle, size_t pos, size_t count ) {
   entry_size = header->entry_size;
   tail_size = (header->count-(pos+count)) * entry_size;
 
-  memmove( __IGENA_VOIDP_ADD( handle, pos * entry_size ),
-           __IGENA_VOIDP_ADD( handle, (pos+count) * entry_size ),
+  memmove( ZGENA_VOIDP_ADD( handle, pos * entry_size ),
+           ZGENA_VOIDP_ADD( handle, (pos+count) * entry_size ),
            tail_size );
 
   header->count -= count;
 }}
 
-static gena_error_e _impl_igvec_push( gvec_t* phandle ) {
+static gena_error_e zz_igvec_push( gvec_t* phandle ) {
 {
   ASSERT_PHANDLE(phandle);
   return gvec_resize( phandle, gvec_count(*phandle)+1 );
@@ -282,7 +282,7 @@ void* gvec_at( gvec_t handle, size_t pos ) {
   assert( handle != NULL );
   header = IGVEC_GET_HEADER(handle);
   return (pos < header->count)
-         ? __IGENA_VOIDP_ADD( handle, pos * header->entry_size )
+         ? ZGENA_VOIDP_ADD( handle, pos * header->entry_size )
          : NULL;
 }}
 
@@ -290,7 +290,7 @@ void* gvec_front( gvec_t handle ) {
 {
   assert( handle != NULL );
   /* actually equals to 'handle', but this is more clearly */
-  return __IGENA_VOIDP_ADD( handle, 0 );
+  return ZGENA_VOIDP_ADD( handle, 0 );
 }}
 
 void* gvec_back( gvec_t handle ) {
@@ -298,7 +298,7 @@ void* gvec_back( gvec_t handle ) {
 {
   assert( handle != NULL );
   header = IGVEC_GET_HEADER(handle);
-  return __IGENA_VOIDP_ADD( handle, (header->count-1) * header->entry_size );
+  return ZGENA_VOIDP_ADD( handle, (header->count-1) * header->entry_size );
 }}
 
 /******************************************************************************/
@@ -326,19 +326,19 @@ gena_bool gvec_empty( gvec_t handle ) {
 We don't use macros to preserve ability to obtain pointer to a function. */
 
 gvec_t gvec_set( gvec_ptr phandle, gvec_t source )
-  { return _impl_gvec_set( (gvec_t*)phandle, source ); }
+  { return zz_gvec_set( (gvec_t*)phandle, source ); }
 
 gena_error_e gvec_resize( gvec_ptr phandle, size_t new_count )
-  { return _impl_gvec_resize( (gvec_t*)phandle, new_count ); }
+  { return zz_gvec_resize( (gvec_t*)phandle, new_count ); }
 
 gena_error_e gvec_reserve( gvec_ptr phandle, size_t count )
-  { return _impl_gvec_reserve( (gvec_t*)phandle, count ); }
+  { return zz_gvec_reserve( (gvec_t*)phandle, count ); }
 
 gena_error_e gvec_shrink( gvec_ptr phandle )
-  { return _impl_gvec_shrink( (gvec_t*)phandle ); }
+  { return zz_gvec_shrink( (gvec_t*)phandle ); }
 
 gena_error_e igvec_insert( gvec_ptr phandle, size_t pos, size_t count )
-  { return _impl_igvec_insert( (gvec_t*)phandle, pos, count ); }
+  { return zz_igvec_insert( (gvec_t*)phandle, pos, count ); }
 
 gena_error_e igvec_push( gvec_ptr phandle )
-  { return _impl_igvec_push( (gvec_t*)phandle ); }
+  { return zz_igvec_push( (gvec_t*)phandle ); }

@@ -10,8 +10,8 @@ NAMING CONVENTION:
         letter is consonant)
     gena_* - user library routines
     igena_* - internal library routines
-    __* - local and/or temporary names (e.g. in struct typedefs)
-    _impl_* - wrapped routine
+    zgena_* - low-level library routines
+    zz_* - routines not intended for users in any way (e.g. include guards)
     tp* - template parameter (rest must be in CamelCase, e.g. tpVecName)
 
   VARIABLE SUFFIXES:
@@ -31,7 +31,10 @@ NAMING CONVENTION:
     *_p - pointer
     *_t - handle type / type alias
     *_ptr - handle pointer
-    *_s_typedef - for struct names in typedefs
+
+  SEMANTIC SUFFIXES:
+
+    _IG - include guard
 
   NOTES:
 

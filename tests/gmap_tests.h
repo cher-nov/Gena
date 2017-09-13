@@ -1,5 +1,5 @@
-#ifndef __GMAP_TESTS_H__
-#define __GMAP_TESTS_H__
+#ifndef ZZ_GMAP_TESTS_H_IG
+#define ZZ_GMAP_TESTS_H_IG
 
 #ifdef GMAP_MODULAR_APPROACH
   #define GMAPTEST_TYPE "MODULAR"
@@ -19,4 +19,4 @@ extern MunitResult gmaptests_3_lookup();
 
 #endif /* GENATEST_CHECK_ONLY_C89 */
 
-#endif /*__GMAP_TESTS_H__*/
+#endif /* ZZ_GMAP_TESTS_H_IG */

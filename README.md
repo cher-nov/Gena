@@ -141,17 +141,17 @@ To prevent this, *typesets* were introduced. Let's consider them using the modif
 #define GVEC_MODULAR_APPROACH
 #include "genvector.h"
 
-#define __GVEC_TYPESET_VECNAME \
+#define ZZ_GVEC_TYPESET_VECNAME \
   (tpTypeInfo, tpVecName, tpPassBy, tpReturnBy)
 
-GENA_APPLY_TYPESET( GVEC_H_DECLARE, __GVEC_TYPESET_VECNAME );
+GENA_APPLY_TYPESET( GVEC_H_DECLARE, ZZ_GVEC_TYPESET_VECNAME );
 ```
 
 ***gvec_wrapper.c***
 ```c
 #include "gvec_wrapper.h"
 
-GENA_APPLY_TYPESET( GVEC_C_DEFINE, __GVEC_TYPESET_VECNAME );
+GENA_APPLY_TYPESET( GVEC_C_DEFINE, ZZ_GVEC_TYPESET_VECNAME );
 ```
 
 ## Functions

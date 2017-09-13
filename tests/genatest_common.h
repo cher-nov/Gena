@@ -1,5 +1,5 @@
-#ifndef __GENATEST_COMMON_H__
-#define __GENATEST_COMMON_H__
+#ifndef ZZ_GENATEST_COMMON_H_IG
+#define ZZ_GENATEST_COMMON_H_IG
 
 #include <string.h>
 
@@ -53,13 +53,13 @@ interchangeability in case of writing assignment and comparison methods. */
 static inline void genatest_str_assign_cb( genatest_str_t dest,
   const char* src, size_t value_size )
 {
-  __IGENA_ASSIGN_STRCPY( dest, src, value_size );
+  GENA_ASSIGN_STRCPY( dest, src, value_size );
 }
 
 static inline int genatest_str_compare_cb( const genatest_str_t a,
   const char* b, size_t value_size )
 {
-  return __IGENA_COMPARE_STRCMP( a, b, value_size );
+  return GENA_COMPARE_STRCMP( a, b, value_size );
   GENATEST_UNUSED(value_size);
 }
 
@@ -84,4 +84,4 @@ extern const size_t GENATEST_BUF_SET_LEN;
 extern const genatest_buf_t GENATEST_CUSTOM_BUF_1;
 extern const genatest_buf_t GENATEST_CUSTOM_BUF_2;
 
-#endif /*__GENATEST_COMMON_H__*/
+#endif /* ZZ_GENATEST_COMMON_H_IG */

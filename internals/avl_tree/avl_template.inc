@@ -7,7 +7,7 @@
 #define IGENA_AVL_SUBTREE_INSTANTIATE( tpPrefix, tpTreeName, tpKeyType, \
   tpValueSize, tpKeyAssignBy, tpKeyCompareBy, tpKeyPassBy ) \
 \
-  _impl_IGENA_AVL_SUBTREE_INSTANTIATE( tpPrefix, tpTreeName, tpKeyType, \
+  ZZ_IGENA_AVL_SUBTREE_INSTANTIATE( tpPrefix, tpTreeName, tpKeyType, \
     tpValueSize, tpKeyAssignBy, tpKeyCompareBy, tpKeyPassBy )
 
 /******************************************************************************/
@@ -15,7 +15,7 @@
 /* NOTE: tpPrefix is needed to prevent name collisions because different data
 structures that use AVL-tree can be instantiated with same names. */
 
-#define _impl_IGENA_AVL_SUBTREE_INSTANTIATE( tpPrefix, tpTreeName, tpKeyType, \
+#define ZZ_IGENA_AVL_SUBTREE_INSTANTIATE( tpPrefix, tpTreeName, tpKeyType, \
   tpValueSize, tpKeyAssignBy, tpKeyCompareBy, tpKeyPassBy ) \
 \
 /********************************************************************/ \
@@ -23,7 +23,7 @@ structures that use AVL-tree can be instantiated with same names. */
   igena_avl_retstate_e \
   i##tpPrefix##_avl_subtree_##tpTreeName##_add_key( \
     igena_avl_node_head_p* pnode, \
-    const __IGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key, \
+    const ZGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key, \
     igena_avl_node_head_p* OUT_final_node \
   ) { \
     igena_avl_retstate_e retstate; \
@@ -32,15 +32,15 @@ structures that use AVL-tree can be instantiated with same names. */
   { \
     if (*pnode == NULL) { \
       new_node = igena_avl_node_create( \
-        __IGENA_TYPEINFO_SIZE(tpKeyType, tpKeyPassBy), \
+        ZGENA_TYPEINFO_SIZE(tpKeyType, tpKeyPassBy), \
         tpValueSize \
       ); \
       if (new_node != NULL) { \
         tpKeyAssignBy ( \
-          ( __IGENA_TYPEINFO_NAME(tpKeyType, tpKeyPassBy) * ) \
-              IGENA_AVL_NODE_GET_KEY(new_node), \
+          ( ZGENA_TYPEINFO_NAME(tpKeyType, tpKeyPassBy) * ) \
+            IGENA_AVL_NODE_GET_KEY(new_node), \
           tpKeyPassBy##REFERENCE key, \
-          __IGENA_TYPEINFO_SIZE(tpKeyType, tpKeyPassBy) \
+          ZGENA_TYPEINFO_SIZE(tpKeyType, tpKeyPassBy) \
         ); \
         *pnode = new_node; \
       } \
@@ -52,10 +52,10 @@ structures that use AVL-tree can be instantiated with same names. */
     } \
 \
     compare_result = tpKeyCompareBy ( \
-      ( __IGENA_TYPEINFO_NAME(tpKeyType, tpKeyPassBy) * ) \
-          IGENA_AVL_NODE_GET_KEY(*pnode), \
+      ( ZGENA_TYPEINFO_NAME(tpKeyType, tpKeyPassBy) * ) \
+        IGENA_AVL_NODE_GET_KEY(*pnode), \
       tpKeyPassBy##REFERENCE key, \
-      __IGENA_TYPEINFO_SIZE(tpKeyType, tpKeyPassBy) \
+      ZGENA_TYPEINFO_SIZE(tpKeyType, tpKeyPassBy) \
     ); \
 \
     if (compare_result < 0) { \
@@ -83,7 +83,7 @@ structures that use AVL-tree can be instantiated with same names. */
   igena_avl_retstate_e \
   i##tpPrefix##_avl_subtree_##tpTreeName##_delete_key( \
     igena_avl_node_head_p* pnode, \
-    const __IGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key \
+    const ZGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key \
   ) { \
     igena_avl_retstate_e retstate; \
     int compare_result; \
@@ -92,10 +92,10 @@ structures that use AVL-tree can be instantiated with same names. */
     if (*pnode == NULL) { return IGENA_AVL_RETST_NOTHING; } \
 \
     compare_result = tpKeyCompareBy ( \
-      ( __IGENA_TYPEINFO_NAME(tpKeyType, tpKeyPassBy) * ) \
-          IGENA_AVL_NODE_GET_KEY(*pnode), \
+      ( ZGENA_TYPEINFO_NAME(tpKeyType, tpKeyPassBy) * ) \
+        IGENA_AVL_NODE_GET_KEY(*pnode), \
       tpKeyPassBy##REFERENCE key, \
-      __IGENA_TYPEINFO_SIZE(tpKeyType, tpKeyPassBy) \
+      ZGENA_TYPEINFO_SIZE(tpKeyType, tpKeyPassBy) \
     ); \
 \
     if (compare_result < 0) { \
@@ -122,16 +122,16 @@ structures that use AVL-tree can be instantiated with same names. */
   static igena_avl_node_head_p \
   i##tpPrefix##_avl_subtree_##tpTreeName##_find_node( \
     igena_avl_node_head_p node, \
-    const __IGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key \
+    const ZGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key \
   ) { \
     int compare_result; \
   { \
     while (node != NULL) { \
       compare_result = tpKeyCompareBy ( \
-        ( __IGENA_TYPEINFO_NAME(tpKeyType, tpKeyPassBy) * ) \
-            IGENA_AVL_NODE_GET_KEY(node), \
+        ( ZGENA_TYPEINFO_NAME(tpKeyType, tpKeyPassBy) * ) \
+          IGENA_AVL_NODE_GET_KEY(node), \
         tpKeyPassBy##REFERENCE key, \
-        __IGENA_TYPEINFO_SIZE(tpKeyType, tpKeyPassBy) \
+        ZGENA_TYPEINFO_SIZE(tpKeyType, tpKeyPassBy) \
       ); \
       if (compare_result < 0) { \
         node = node->left; \
@@ -144,4 +144,4 @@ structures that use AVL-tree can be instantiated with same names. */
     return NULL; \
   }} \
 /********************************************************************/ \
-  __IGENA_REQUIRE_SEMICOLON_OUTDOOR
+  ZGENA_REQUIRE_SEMICOLON_OUTDOOR
