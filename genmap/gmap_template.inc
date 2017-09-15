@@ -13,7 +13,7 @@
 
 #ifndef GMAP_MODULAR_APPROACH
 
-  #define ZZ_GMAP_FUNC_ONCE static inline
+  #define ZZ_GMAP_FUNC_ONCE static GENA_INLINE
 
   #define ZZ_GMAP_DEFINE_TYPE( tpMapName ) \
     typedef gmap_t gmap_##tpMapName##_t

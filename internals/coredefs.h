@@ -21,7 +21,9 @@
 #endif
 
 #if __STDC_VERSION__ < 199901L
-  #define inline
+  #define GENA_INLINE
+#else
+  #define GENA_INLINE inline
 #endif
 
 /******************************************************************************/

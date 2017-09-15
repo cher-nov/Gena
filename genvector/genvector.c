@@ -19,7 +19,7 @@
 
 /******************************************************************************/
 
-static inline size_t calc_size( size_t current_size, size_t min_add ) {
+static GENA_INLINE size_t calc_size( size_t current_size, size_t min_add ) {
   size_t size;
 {
   size = (current_size > 0) ? current_size : 1;

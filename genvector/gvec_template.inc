@@ -13,7 +13,7 @@
 
 #ifndef GVEC_MODULAR_APPROACH
 
-  #define ZZ_GVEC_FUNC_ONCE static inline
+  #define ZZ_GVEC_FUNC_ONCE static GENA_INLINE
 
   #define ZZ_GVEC_DEFINE_TYPE( tpTypeInfo, tpUseBy, tpVecName ) \
     ZGENA_TYPEINFO_BUFDEF( tpTypeInfo, tpUseBy, tpVecName )
