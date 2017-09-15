@@ -95,6 +95,9 @@
 		<Unit filename="../genmap/genmap.h">
 			<Option virtualFolder="genmap/" />
 		</Unit>
+		<Unit filename="../genmap/gmap_template.inc">
+			<Option virtualFolder="genmap/" />
+		</Unit>
 		<Unit filename="../genvector/genvector.c">
 			<Option compilerVar="CC" />
 			<Option virtualFolder="genvector/" />
@@ -102,12 +105,21 @@
 		<Unit filename="../genvector/genvector.h">
 			<Option virtualFolder="genvector/" />
 		</Unit>
+		<Unit filename="../genvector/gvec_template.inc">
+			<Option virtualFolder="genvector/" />
+		</Unit>
+		<Unit filename="../internals/avl_tree/avl_template.inc">
+			<Option virtualFolder="internals/avl_tree/" />
+		</Unit>
 		<Unit filename="../internals/avl_tree/avl_tree.c">
 			<Option compilerVar="CC" />
 			<Option virtualFolder="internals/avl_tree/" />
 		</Unit>
 		<Unit filename="../internals/avl_tree/avl_tree.h">
 			<Option virtualFolder="internals/avl_tree/" />
+		</Unit>
+		<Unit filename="../internals/coredefs.h">
+			<Option virtualFolder="internals/" />
 		</Unit>
 		<Unit filename="genatest_common.c">
 			<Option compilerVar="CC" />
