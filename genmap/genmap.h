@@ -16,16 +16,16 @@ typedef struct {
   size_t value_size;
 } gmap_s;
 
-typedef gmap_s* gmap_t;
+typedef gmap_s* gmap_h;
 
 /******************************************************************************/
 
-extern gmap_t igmap_new( size_t key_size, size_t value_size );
-extern void gmap_clear( gmap_t handle );
-extern void gmap_free( gmap_t handle );
+extern gmap_h igmap_new( size_t key_size, size_t value_size );
+extern void gmap_clear( gmap_h handle );
+extern void gmap_free( gmap_h handle );
 
-extern size_t gmap_count( gmap_t handle );
-extern gena_bool gmap_empty( gmap_t handle );
+extern size_t gmap_count( gmap_h handle );
+extern gena_bool gmap_empty( gmap_h handle );
 
 /******************************************************************************/
 

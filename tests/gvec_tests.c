@@ -3,10 +3,10 @@
 /******************************************************************************/
 
 MunitResult gvectests_1_create() {
-  gvec_int_t vec_int;
-  gvec_struct_t vec_struct;
-  gvec_string_t vec_string;
-  gvec_array_t vec_array;
+  gvec_int_h vec_int;
+  gvec_struct_h vec_struct;
+  gvec_string_h vec_string;
+  gvec_array_h vec_array;
 {
   /********************************************************************/
   vec_int = gvec_int_new(0);
@@ -46,10 +46,10 @@ MunitResult gvectests_1_create() {
 /******************************************************************************/
 
 MunitResult gvectests_2_modify() {
-  gvec_int_t vec_int;
-  gvec_struct_t vec_struct;
-  gvec_string_t vec_string;
-  gvec_array_t vec_array;
+  gvec_int_h vec_int;
+  gvec_struct_h vec_struct;
+  gvec_string_h vec_string;
+  gvec_array_h vec_array;
   gena_error_e errorcode;
   int i, k;
   size_t storage_size;
@@ -363,7 +363,7 @@ MunitResult gvectests_2_modify() {
     munit_assert( errorcode == GENA_ERR_NO );
     munit_assert_size( gvec_count(vec_array), ==, i+1 );
     munit_assert( !gvec_empty(vec_array) );
-    munit_assert_memory_equal( sizeof(genatest_buf_t), vec_array[i],
+    munit_assert_memory_equal( sizeof(genatest_buf_x), vec_array[i],
       GENATEST_BUF_SET[i] );
   }
 
@@ -374,7 +374,7 @@ MunitResult gvectests_2_modify() {
     munit_assert_size( gvec_size(vec_array), >=, GENATEST_BUF_SET_LEN+i+1 );
     munit_assert( !gvec_empty(vec_array) );
     for( k = 0; k < i*2; k += 2 ) {
-      munit_assert_memory_equal( sizeof(genatest_buf_t),
+      munit_assert_memory_equal( sizeof(genatest_buf_x),
         gvec_array_at( vec_array, k ), gvec_array_at( vec_array, k+1 ) );
     }
   }
@@ -398,12 +398,12 @@ MunitResult gvectests_2_modify() {
   munit_assert_size( gvec_count(vec_array), ==, GENATEST_BUF_SET_LEN*3 );
   munit_assert( !gvec_empty(vec_array) );
   for( i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i ) {
-    munit_assert_memory_equal( sizeof(genatest_buf_t),
+    munit_assert_memory_equal( sizeof(genatest_buf_x),
       gvec_array_at( vec_array, GENATEST_BUF_SET_LEN+i ),
       GENATEST_CUSTOM_BUF_1 );
   }
   for( i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i ) {
-    munit_assert_memory_equal( sizeof(genatest_buf_t),
+    munit_assert_memory_equal( sizeof(genatest_buf_x),
       gvec_array_at( vec_array, GENATEST_BUF_SET_LEN*2+i ),
       GENATEST_CUSTOM_BUF_2 );
   }
@@ -456,12 +456,12 @@ MunitResult gvectests_2_modify() {
 /******************************************************************************/
 
 MunitResult gvectests_3_manage() {
-  gvec_int_t vec_int;
-  gvec_struct_t vec_struct;
-  gvec_string_t vec_string1;
-  gvec_string_t vec_string2;
-  gvec_array_t vec_array1;
-  gvec_array_t vec_array2;
+  gvec_int_h vec_int;
+  gvec_struct_h vec_struct;
+  gvec_string_h vec_string1;
+  gvec_string_h vec_string2;
+  gvec_array_h vec_array1;
+  gvec_array_h vec_array2;
   gena_error_e errorcode;
 {
   /********************************************************************/

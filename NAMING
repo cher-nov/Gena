@@ -28,9 +28,11 @@ NAMING CONVENTION:
 
     *_e - enum
     *_s - struct
-    *_p - pointer
-    *_t - handle type / type alias
-    *_ptr - handle pointer
+    *_u - union
+    *_p - typed pointer
+    *_ptr - untyped pointer
+    *_h - handle type
+    *_x - user-defined type
 
   SEMANTIC SUFFIXES:
 

@@ -9,7 +9,7 @@
 
 #include "../internals/coredefs.h"
 
-typedef void* gvec_t;
+typedef void* gvec_h;
 typedef void* gvec_ptr; /* because void** is not a generic pointer */
 
 typedef struct {
@@ -26,28 +26,28 @@ typedef struct {
 
 /******************************************************************************/
 
-extern gvec_t igvec_new( size_t min_count, size_t entry_size );
-extern gvec_t gvec_set( gvec_ptr phandle, gvec_t source );
-extern gvec_t gvec_copy( gvec_t handle );
-extern void gvec_clear( gvec_t handle );
-extern void gvec_free( gvec_t handle );
+extern gvec_h igvec_new( size_t min_count, size_t entry_size );
+extern gvec_h gvec_set( gvec_ptr phandle, gvec_h source );
+extern gvec_h gvec_copy( gvec_h handle );
+extern void gvec_clear( gvec_h handle );
+extern void gvec_free( gvec_h handle );
 
 extern gena_error_e gvec_resize( gvec_ptr phandle, size_t new_count );
 extern gena_error_e gvec_reserve( gvec_ptr phandle, size_t count );
 extern gena_error_e gvec_shrink( gvec_ptr phandle );
 
 extern gena_error_e igvec_insert( gvec_ptr phandle, size_t pos, size_t count );
-extern void gvec_erase( gvec_t handle, size_t pos, size_t count );
+extern void gvec_erase( gvec_h handle, size_t pos, size_t count );
 extern gena_error_e igvec_push( gvec_ptr phandle );
-extern void gvec_pop( gvec_t handle );
+extern void gvec_pop( gvec_h handle );
 
-extern void* gvec_at( gvec_t handle, size_t pos );
-extern void* gvec_front( gvec_t handle );
-extern void* gvec_back( gvec_t handle );
+extern void* gvec_at( gvec_h handle, size_t pos );
+extern void* gvec_front( gvec_h handle );
+extern void* gvec_back( gvec_h handle );
 
-extern size_t gvec_count( gvec_t handle );
-extern size_t gvec_size( gvec_t handle );
-extern gena_bool gvec_empty( gvec_t handle );
+extern size_t gvec_count( gvec_h handle );
+extern size_t gvec_size( gvec_h handle );
+extern gena_bool gvec_empty( gvec_h handle );
 
 /******************************************************************************/
 

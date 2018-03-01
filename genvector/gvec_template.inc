@@ -59,10 +59,10 @@
 
 #define ZZ_GVEC_H_DECLARE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy ) \
 \
-  ZGENA_TYPEINFO_BUFDEF( tpTypeInfo, tpPassBy, gvec_##tpVecName##_t ); \
+  ZGENA_TYPEINFO_BUFDEF( tpTypeInfo, tpPassBy, gvec_##tpVecName##_h ); \
 \
   extern \
-  gvec_##tpVecName##_t \
+  gvec_##tpVecName##_h \
   gvec_##tpVecName##_new( \
     size_t min_count \
   ); \
@@ -70,7 +70,7 @@
   extern \
   gena_error_e \
   gvec_##tpVecName##_assign( \
-    gvec_##tpVecName##_t* phandle, \
+    gvec_##tpVecName##_h* phandle, \
     size_t count, \
     const ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
   ); \
@@ -78,7 +78,7 @@
   extern \
   gena_error_e \
   gvec_##tpVecName##_resize( \
-    gvec_##tpVecName##_t* phandle, \
+    gvec_##tpVecName##_h* phandle, \
     size_t new_count, \
     const ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
   ); \
@@ -86,7 +86,7 @@
   extern \
   gena_error_e \
   gvec_##tpVecName##_insert( \
-    gvec_##tpVecName##_t* phandle, \
+    gvec_##tpVecName##_h* phandle, \
     size_t pos, \
     size_t count, \
     const ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
@@ -95,27 +95,27 @@
   extern \
   gena_error_e \
   gvec_##tpVecName##_push( \
-    gvec_##tpVecName##_t* phandle, \
+    gvec_##tpVecName##_h* phandle, \
     const ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
   ); \
 \
   extern \
   ZGENA_TYPEINFO_NAME(tpTypeInfo, tpReturnBy) * \
   gvec_##tpVecName##_at( \
-    gvec_##tpVecName##_t handle, \
+    gvec_##tpVecName##_h handle, \
     size_t pos \
   ); \
 \
   extern \
   ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpReturnBy) \
   gvec_##tpVecName##_front( \
-    gvec_##tpVecName##_t handle \
+    gvec_##tpVecName##_h handle \
   ); \
 \
   extern \
   ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpReturnBy) \
   gvec_##tpVecName##_back( \
-    gvec_##tpVecName##_t handle \
+    gvec_##tpVecName##_h handle \
   ); \
 \
   ZGENA_REQUIRE_SEMICOLON_OUTDOOR
@@ -125,10 +125,10 @@
 #define ZZ_GVEC_C_DEFINE( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, \
   tpReturnBy ) \
 \
-  ZZ_GVEC_DEFINE_TYPE( tpTypeInfo, tpReturnBy, gvec_##tpVecName##_t ); \
+  ZZ_GVEC_DEFINE_TYPE( tpTypeInfo, tpReturnBy, gvec_##tpVecName##_h ); \
 /********************************************************************/ \
   ZZ_GVEC_FUNC_ONCE \
-  gvec_##tpVecName##_t \
+  gvec_##tpVecName##_h \
   gvec_##tpVecName##_new( \
     size_t min_count \
   ) { \
@@ -142,7 +142,7 @@
   ZZ_GVEC_FUNC_ONCE \
   gena_error_e \
   gvec_##tpVecName##_assign( \
-    gvec_##tpVecName##_t* phandle, \
+    gvec_##tpVecName##_h* phandle, \
     size_t count, \
     const ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
   ) { \
@@ -164,7 +164,7 @@
   ZZ_GVEC_FUNC_ONCE \
   gena_error_e \
   gvec_##tpVecName##_resize( \
-    gvec_##tpVecName##_t* phandle, \
+    gvec_##tpVecName##_h* phandle, \
     size_t new_count, \
     const ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
   ) { \
@@ -188,7 +188,7 @@
   ZZ_GVEC_FUNC_ONCE \
   gena_error_e \
   gvec_##tpVecName##_insert( \
-    gvec_##tpVecName##_t* phandle, \
+    gvec_##tpVecName##_h* phandle, \
     size_t pos, \
     size_t count, \
     const ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
@@ -211,7 +211,7 @@
   ZZ_GVEC_FUNC_ONCE \
   gena_error_e \
   gvec_##tpVecName##_push( \
-    gvec_##tpVecName##_t* phandle, \
+    gvec_##tpVecName##_h* phandle, \
     const ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
   ) { \
     gena_error_e errorcode; \
@@ -229,7 +229,7 @@
   ZZ_GVEC_FUNC_ONCE \
   ZGENA_TYPEINFO_NAME(tpTypeInfo, tpReturnBy) * \
   gvec_##tpVecName##_at( \
-    gvec_##tpVecName##_t handle, \
+    gvec_##tpVecName##_h handle, \
     size_t pos \
   ) { \
   { \
@@ -239,7 +239,7 @@
   ZZ_GVEC_FUNC_ONCE \
   ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpReturnBy) \
   gvec_##tpVecName##_front( \
-    gvec_##tpVecName##_t handle \
+    gvec_##tpVecName##_h handle \
   ) { \
   { \
     return tpReturnBy##RETURN \
@@ -250,7 +250,7 @@
   ZZ_GVEC_FUNC_ONCE \
   ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpReturnBy) \
   gvec_##tpVecName##_back( \
-    gvec_##tpVecName##_t handle \
+    gvec_##tpVecName##_h handle \
   ) { \
   { \
     return tpReturnBy##RETURN \

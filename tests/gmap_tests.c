@@ -3,11 +3,11 @@
 /******************************************************************************/
 
 MunitResult gmaptests_1_create() {
-  gmap_naive_t map_naive;
-  gmap_memcmp_t map_memcmp;
-  gmap_callback_t map_callback;
-  gmap_string_t map_string;
-  gmap_array_t map_array;
+  gmap_naive_h map_naive;
+  gmap_memcmp_h map_memcmp;
+  gmap_callback_h map_callback;
+  gmap_string_h map_string;
+  gmap_array_h map_array;
 {
   /********************************************************************/
   map_naive = gmap_naive_new();
@@ -51,11 +51,11 @@ MunitResult gmaptests_1_create() {
 /******************************************************************************/
 
 MunitResult gmaptests_2_modify() {
-  gmap_naive_t map_naive;
-  gmap_memcmp_t map_memcmp;
-  gmap_callback_t map_callback;
-  gmap_string_t map_string;
-  gmap_array_t map_array;
+  gmap_naive_h map_naive;
+  gmap_memcmp_h map_memcmp;
+  gmap_callback_h map_callback;
+  gmap_string_h map_string;
+  gmap_array_h map_array;
   gena_bool del_result;
   int* ptr_int;
   genatest_svalue_p ptr_svalue;
@@ -177,7 +177,7 @@ MunitResult gmaptests_2_modify() {
     ptr_array = gmap_array_add( map_array, GENATEST_BUF_SET[i],
       GENATEST_BUF_SET[i] );
     munit_assert_not_null( ptr_array );
-    munit_assert_memory_equal( sizeof(genatest_buf_t), ptr_array,
+    munit_assert_memory_equal( sizeof(genatest_buf_x), ptr_array,
       GENATEST_BUF_SET[i] );
     munit_assert_size( gmap_count(map_array), ==, i+1 );
     munit_assert( !gmap_empty(map_array) );
@@ -203,11 +203,11 @@ MunitResult gmaptests_2_modify() {
 /******************************************************************************/
 
 MunitResult gmaptests_3_lookup() {
-  gmap_naive_t map_naive;
-  gmap_memcmp_t map_memcmp;
-  gmap_callback_t map_callback;
-  gmap_string_t map_string;
-  gmap_array_t map_array;
+  gmap_naive_h map_naive;
+  gmap_memcmp_h map_memcmp;
+  gmap_callback_h map_callback;
+  gmap_string_h map_string;
+  gmap_array_h map_array;
   int* ptr_int;
   genatest_svalue_p ptr_svalue;
   char* ptr_str;
@@ -372,7 +372,7 @@ MunitResult gmaptests_3_lookup() {
   /********************************************************************/
   map_array = gmap_array_new();
 
-  ptr_array = gmap_array_find( map_array, (genatest_buf_t){0,0,0,0} );
+  ptr_array = gmap_array_find( map_array, (genatest_buf_x){0,0,0,0} );
   munit_assert_null( ptr_array );
 
   for( i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i ) {
@@ -380,7 +380,7 @@ MunitResult gmaptests_3_lookup() {
     for( k = 0; k <= i; ++k ) {
       ptr_array = gmap_array_find( map_array, GENATEST_BUF_SET[k] );
       munit_assert_not_null( ptr_array );
-      munit_assert_memory_equal( sizeof(genatest_buf_t), ptr_array,
+      munit_assert_memory_equal( sizeof(genatest_buf_x), ptr_array,
         GENATEST_BUF_SET[k] );
     }
   }
@@ -393,7 +393,7 @@ MunitResult gmaptests_3_lookup() {
         munit_assert_null( ptr_array );
       } else {
         munit_assert_not_null( ptr_array );
-        munit_assert_memory_equal( sizeof(genatest_buf_t), ptr_array,
+        munit_assert_memory_equal( sizeof(genatest_buf_x), ptr_array,
           GENATEST_BUF_SET[k] );
       }
     }

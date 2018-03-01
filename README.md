@@ -14,7 +14,7 @@ Interface is based mostly on the design of `std::vector` from C++11.
   - [Modular approach](#modular-approach)
     * [Typesets](#typesets)
 * [Functions](#functions)
-  - [Functions to manage `gvec_t`, and specialized versions of them](#functions-to-manage-gvec_t-and-specialized-versions-of-them)
+  - [Functions to manage `gvec_h`, and specialized versions of them](#functions-to-manage-gvec_h-and-specialized-versions-of-them)
   - [Specialized-only functions](#specialized-only-functions)
   - [General-purpose functions](#general-purpose-functions)
 * [Library adjustment using optional defines](#library-adjustment-using-optional-defines)
@@ -48,7 +48,7 @@ typedef struct {
 GVEC_INSTANTIATE( person_s, society, GENA_USE_VAL, GENA_USE_REF );
 
 int main() {
-  gvec_society_t family = gvec_society_new(0);
+  gvec_society_h family = gvec_society_new(0);
   if (family == NULL) { return EXIT_FAILURE; }
 
   gvec_society_push( &family, C_PERSON("Alice", 30) );
@@ -75,13 +75,13 @@ int main() {
 4. If an error occurrs, the vector remains valid and unchanged.
 5. A vector storage never gets reduced, unless `gvec_shrink()` is called.
 6. A *reference* is just a pointer.
-7. So-called *"vector of void"* type, `gvec_t`, is just a vector of untyped memory chunks.
+7. So-called *"vector of void"* type, `gvec_h`, is just a vector of untyped memory chunks.
 
 ## Usage
 
 By default, library provides only the next set of functions:
 
-1. Functions to manage `gvec_t`. They are basic for functions that will be specialized.
+1. Functions to manage `gvec_h`. They are basic for functions that will be specialized.
 2. General-purpose functions (i.e. those that don't take or return values of user type, like as `gvec_erase()` and `gvec_free()`).
 3. Instantiation macros.
 
@@ -158,7 +158,7 @@ GENA_APPLY_TYPESET( GVEC_C_DEFINE, ZZ_GVEC_TYPESET_VECNAME );
 
 **Please note:** `gena_bool` type is fully compatible with `bool` from *stdbool.h* in C99 and later, so it's preferred not to use `gena_bool` if possible.
 
-### Functions to manage `gvec_t`, and specialized versions of them
+### Functions to manage `gvec_h`, and specialized versions of them
 
 Notation:
 * `NAME`: value of `tpVecName`
@@ -166,8 +166,8 @@ Notation:
 * `RETVAL`: `tpTypeInfo` if `tpReturnBy` is `GENA_USE_VAL`, and `tpTypeInfo*` otherwise
 
 ```c
-gvec_t igvec_new( size_t min_count, size_t entry_size )
-gvec_NAME_t gvec_NAME_new( size_t min_count )
+gvec_h igvec_new( size_t min_count, size_t entry_size )
+gvec_NAME_h gvec_NAME_new( size_t min_count )
 ```
 Create a vector.
 
@@ -177,8 +177,8 @@ Create a vector.
 *Return value:* a handle to the new vector, or `NULL` on error
 
 ```c
-gvec_error_e gvec_resize( gvec_t* phandle, size_t new_count )
-gvec_error_e gvec_NAME_resize( gvec_NAME_t* phandle, size_t new_count, const PASSVAL value )
+gvec_error_e gvec_resize( gvec_h* phandle, size_t new_count )
+gvec_error_e gvec_NAME_resize( gvec_NAME_h* phandle, size_t new_count, const PASSVAL value )
 ```
 Resize a vector.
 *It's recommended to use `gvec_resize()` for reducing the size, and `gvec_NAME_resize()` for increasing.*
@@ -193,8 +193,8 @@ Resize a vector.
 * `GENA_ERR_MEMORY`: a vector wasn't resized due to a memory error
 
 ```c
-gvec_error_e igvec_insert( gvec_t* phandle, size_t pos, size_t count )
-gvec_error_e gvec_NAME_insert( gvec_NAME_t* phandle, size_t pos, size_t count, const PASSVAL value )
+gvec_error_e igvec_insert( gvec_h* phandle, size_t pos, size_t count )
+gvec_error_e gvec_NAME_insert( gvec_NAME_h* phandle, size_t pos, size_t count, const PASSVAL value )
 ```
 Insert elements into a vector.
 
@@ -209,8 +209,8 @@ Insert elements into a vector.
 * `GENA_ERR_MEMORY`: elements weren't inserted due to a memory error
 
 ```c
-gvec_error_e igvec_push( gvec_t* phandle )
-gvec_error_e gvec_NAME_push( gvec_NAME_t* phandle, const PASSVAL value )
+gvec_error_e igvec_push( gvec_h* phandle )
+gvec_error_e gvec_NAME_push( gvec_NAME_h* phandle, const PASSVAL value )
 ```
 Add an element to the end of a vector.
 
@@ -223,8 +223,8 @@ Add an element to the end of a vector.
 * `GENA_ERR_MEMORY`: element wasn't added due to a memory error
 
 ```c
-void* gvec_at( gvec_t handle, size_t pos )
-tpTypeInfo* gvec_NAME_at( gvec_t handle, size_t pos )
+void* gvec_at( gvec_h handle, size_t pos )
+tpTypeInfo* gvec_NAME_at( gvec_h handle, size_t pos )
 ```
 Get a reference to the element at specified position in a vector, with bounds checking.
 
@@ -236,7 +236,7 @@ Get a reference to the element at specified position in a vector, with bounds ch
 ### Specialized-only functions
 
 ```c
-gvec_error_e gvec_NAME_assign( gvec_NAME_t* phandle, size_t count, const PASSVAL value )
+gvec_error_e gvec_NAME_assign( gvec_NAME_h* phandle, size_t count, const PASSVAL value )
 ```
 Resize a vector to specified count of elements and assign a value to them all.
 
@@ -247,7 +247,7 @@ Resize a vector to specified count of elements and assign a value to them all.
 *Return value:* see `gvec_NAME_resize()`
 
 ```c
-RETVAL gvec_NAME_front( gvec_NAME_t handle )
+RETVAL gvec_NAME_front( gvec_NAME_h handle )
 ```
 Get the first element of a vector.
 
@@ -258,7 +258,7 @@ Get the first element of a vector.
 * `tpReturnBy` is `GENA_USE_REF`: a reference to the element, or `NULL` if vector is empty
 
 ```c
-RETVAL gvec_NAME_back( gvec_NAME_t handle )
+RETVAL gvec_NAME_back( gvec_NAME_h handle )
 ```
 Get the last element of a vector.
 
@@ -271,7 +271,7 @@ Get the last element of a vector.
 ### General-purpose functions
 
 ```c
-gvec_t gvec_set( gvec_t* phandle, gvec_t source )
+gvec_h gvec_set( gvec_h* phandle, gvec_h source )
 ```
 Copy-assign one vector to another. Sizes of the elements in both arrays must coincide. On error, the destination vector remains untouched.
 
@@ -281,7 +281,7 @@ Copy-assign one vector to another. Sizes of the elements in both arrays must coi
 *Return value:* a handle to the destination vector, or `NULL` on error
 
 ```c
-gvec_t gvec_copy( gvec_t handle )
+gvec_h gvec_copy( gvec_h handle )
 ```
 Duplicate a vector.
 
@@ -290,14 +290,14 @@ Duplicate a vector.
 *Return value:* a handle to the vector duplicate, or `NULL` on error
 
 ```c
-void gvec_free( gvec_t handle )
+void gvec_free( gvec_h handle )
 ```
 Free a vector.
 
 * *handle* – a handle to a vector (if `NULL`, nothing will occur)
 
 ```c
-gvec_error_e gvec_reserve( gvec_t* phandle, size_t count )
+gvec_error_e gvec_reserve( gvec_h* phandle, size_t count )
 ```
 Reserve a space in a vector storage, at least for specified count of elements.
 
@@ -310,7 +310,7 @@ Reserve a space in a vector storage, at least for specified count of elements.
 * `GENA_ERR_MEMORY`: chunks weren't reserved due to a memory error
 
 ```c
-gvec_error_e gvec_shrink( gvec_t* phandle )
+gvec_error_e gvec_shrink( gvec_h* phandle )
 ```
 Free memory that isn't used by a vector now.
 
@@ -322,7 +322,7 @@ Free memory that isn't used by a vector now.
 * `GENA_ERR_MEMORY`: a size wasn't reduced due to a memory error
 
 ```c
-void gvec_erase( gvec_t handle, size_t pos, size_t count )
+void gvec_erase( gvec_h handle, size_t pos, size_t count )
 ```
 Erase elements from a vector.
 
@@ -331,14 +331,14 @@ Erase elements from a vector.
 * *count* – a count of elements to be erased
 
 ```c
-void gvec_pop( gvec_t handle )
+void gvec_pop( gvec_h handle )
 ```
 Erase the last element from a vector.
 
 * *handle* – a handle to a vector
 
 ```c
-void* gvec_front( gvec_t handle )
+void* gvec_front( gvec_h handle )
 ```
 Get a reference to the first element of a vector.
 
@@ -347,7 +347,7 @@ Get a reference to the first element of a vector.
 *Return value:* a reference to the element, or `NULL` if vector is empty
 
 ```c
-void* gvec_back( gvec_t handle )
+void* gvec_back( gvec_h handle )
 ```
 Get a reference to the last element of a vector.
 
@@ -356,7 +356,7 @@ Get a reference to the last element of a vector.
 *Return value:* a reference to the element, or `NULL` if vector is empty
 
 ```c
-size_t gvec_count( gvec_t handle )
+size_t gvec_count( gvec_h handle )
 ```
 Get count of elements in a vector.
 
@@ -365,7 +365,7 @@ Get count of elements in a vector.
 *Return value:* count of elements
 
 ```c
-size_t gvec_size( gvec_t handle )
+size_t gvec_size( gvec_h handle )
 ```
 Get size of a vector storage.
 
@@ -374,12 +374,12 @@ Get size of a vector storage.
 *Return value:* current size of a vector storage
 
 ```c
-gena_bool gvec_empty( gvec_t handle )
+gena_bool gvec_empty( gvec_h handle )
 ```
 Shorthand for `gvec_count( handle ) == 0`.
 
 ```c
-void gvec_clear( gvec_t handle )
+void gvec_clear( gvec_h handle )
 ```
 Shorthand for `gvec_resize( &handle, 0 )`.
 

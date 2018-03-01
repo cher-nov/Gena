@@ -16,7 +16,7 @@
   #define ZZ_GMAP_FUNC_ONCE static GENA_INLINE
 
   #define ZZ_GMAP_DEFINE_TYPE( tpMapName ) \
-    typedef gmap_t gmap_##tpMapName##_t
+    typedef gmap_h gmap_##tpMapName##_h
 
   #define GMAP_INSTANTIATE( tpKeyType, tpValueType, tpMapName, tpKeyCompareBy, \
     tpKeyPassBy, tpValuePassBy ) \
@@ -69,10 +69,10 @@
 #define ZZ_GMAP_H_DECLARE( tpKeyType, tpValueType, tpMapName, tpKeyPassBy, \
   tpValuePassBy ) \
 \
-  typedef gmap_t gmap_##tpMapName##_t; \
+  typedef gmap_h gmap_##tpMapName##_h; \
 \
   extern \
-  gmap_##tpMapName##_t \
+  gmap_##tpMapName##_h \
   gmap_##tpMapName##_new( \
     void \
   ); \
@@ -80,7 +80,7 @@
   extern \
   ZGENA_TYPEINFO_NAME(tpValueType, tpValuePassBy) * \
   gmap_##tpMapName##_add( \
-    gmap_##tpMapName##_t handle, \
+    gmap_##tpMapName##_h handle, \
     const ZGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key, \
     const ZGENA_TYPEINFO_USERTYPE(tpValueType, tpValuePassBy) value \
   ); \
@@ -88,14 +88,14 @@
   extern \
   gena_bool \
   gmap_##tpMapName##_delete( \
-    gmap_##tpMapName##_t handle, \
+    gmap_##tpMapName##_h handle, \
     const ZGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key \
   ); \
 \
   extern \
   ZGENA_TYPEINFO_NAME(tpValueType, tpValuePassBy) * \
   gmap_##tpMapName##_find( \
-    gmap_##tpMapName##_t handle, \
+    gmap_##tpMapName##_h handle, \
     const ZGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key \
   ); \
 \
@@ -112,7 +112,7 @@
     tpKeyCompareBy, tpKeyPassBy ); \
 /********************************************************************/ \
   ZZ_GMAP_FUNC_ONCE \
-  gmap_##tpMapName##_t \
+  gmap_##tpMapName##_h \
   gmap_##tpMapName##_new( \
     void \
   ) { \
@@ -126,7 +126,7 @@
   ZZ_GMAP_FUNC_ONCE \
   ZGENA_TYPEINFO_NAME(tpValueType, tpValuePassBy) * \
   gmap_##tpMapName##_add( \
-    gmap_##tpMapName##_t handle, \
+    gmap_##tpMapName##_h handle, \
     const ZGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key, \
     const ZGENA_TYPEINFO_USERTYPE(tpValueType, tpValuePassBy) value \
   ) { \
@@ -156,7 +156,7 @@
   ZZ_GMAP_FUNC_ONCE \
   gena_bool \
   gmap_##tpMapName##_delete( \
-    gmap_##tpMapName##_t handle, \
+    gmap_##tpMapName##_h handle, \
     const ZGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key \
   ) { \
     igena_avl_retstate_e retstate; \
@@ -172,7 +172,7 @@
   ZZ_GMAP_FUNC_ONCE \
   ZGENA_TYPEINFO_NAME(tpValueType, tpValuePassBy) * \
   gmap_##tpMapName##_find( \
-    gmap_##tpMapName##_t handle, \
+    gmap_##tpMapName##_h handle, \
     const ZGENA_TYPEINFO_USERTYPE(tpKeyType, tpKeyPassBy) key \
   ) { \
     igena_avl_node_head_p find_node; \
