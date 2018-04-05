@@ -7,26 +7,49 @@
 #ifndef ZZ_GENA_GENVECTOR_H_IG
 #define ZZ_GENA_GENVECTOR_H_IG
 
-#include "../internals/coredefs.h"
-
 typedef void* gvec_h;
 typedef void* gvec_ptr; /* because void** is not a generic pointer */
 
-typedef struct {
-  size_t count;
-  size_t size;
-  size_t entry_size;
-} igvec_head_s, *igvec_head_p;
-
-#define IGVEC_GET_BUFFER(handle) \
-  ZGENA_VOIDP_SUB(handle, sizeof(igvec_head_s))
-
-#define IGVEC_GET_HEADER(handle) \
-  ((igvec_head_p)IGVEC_GET_BUFFER(handle))
+#include "gvec_internal.inc"
 
 /******************************************************************************/
 
-extern gvec_h igvec_new( size_t min_count, size_t entry_size );
+/* Instantiation macros. */
+
+#ifndef GVEC_MODULAR_APPROACH
+
+#define \
+GVEC_INSTANTIATE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy ) \
+  ZZ_GVEC_INSTANTIATE(tpTypeInfo,tpVecName,tpPassBy,tpReturnBy)
+
+#define \
+GVEC_INSTANTIATE_EX( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, tpReturnBy ) \
+  ZZ_GVEC_INSTANTIATE_EX(tpTypeInfo,tpVecName,tpAssignBy,tpPassBy,tpReturnBy)
+
+#else /* GVEC_MODULAR_APPROACH */
+
+#define \
+GVEC_C_DEFINE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy ) \
+  ZZ_GVEC_C_DEFINE(tpTypeInfo,tpVecName,tpPassBy,tpReturnBy)
+
+#define \
+GVEC_C_DEFINE_EX( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, tpReturnBy ) \
+  ZZ_GVEC_C_DEFINE_EX(tpTypeInfo,tpVecName,tpAssignBy,tpPassBy,tpReturnBy)
+
+#define \
+GVEC_H_DECLARE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy ) \
+  ZZ_GVEC_H_DECLARE(tpTypeInfo,tpVecName,tpPassBy,tpReturnBy)
+
+#define \
+GVEC_H_DECLARE_EX( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, tpReturnBy ) \
+  ZZ_GVEC_H_DECLARE_EX(tpTypeInfo,tpVecName,tpAssignBy,tpPassBy,tpReturnBy)
+
+#endif /* GVEC_MODULAR_APPROACH */
+
+/******************************************************************************/
+
+/* General-purpose functions. */
+
 extern gvec_h gvec_set( gvec_ptr phandle, gvec_h source );
 extern gvec_h gvec_copy( gvec_h handle );
 extern void gvec_clear( gvec_h handle );
@@ -36,9 +59,7 @@ extern gena_error_e gvec_resize( gvec_ptr phandle, size_t new_count );
 extern gena_error_e gvec_reserve( gvec_ptr phandle, size_t count );
 extern gena_error_e gvec_shrink( gvec_ptr phandle );
 
-extern gena_error_e igvec_insert( gvec_ptr phandle, size_t pos, size_t count );
 extern void gvec_erase( gvec_h handle, size_t pos, size_t count );
-extern gena_error_e igvec_push( gvec_ptr phandle );
 extern void gvec_pop( gvec_h handle );
 
 extern void* gvec_at( gvec_h handle, size_t pos );
@@ -51,6 +72,7 @@ extern gena_bool gvec_empty( gvec_h handle );
 
 /******************************************************************************/
 
+/* Pseudo-templates. User-type management functions are defined there. */
 #include "gvec_template.inc"
 
 #endif /* ZZ_GENA_GENVECTOR_H_IG */

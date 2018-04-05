@@ -18,15 +18,15 @@
   #define ZZ_GVEC_DEFINE_TYPE( tpTypeInfo, tpUseBy, tpVecName ) \
     ZGENA_TYPEINFO_BUFDEF( tpTypeInfo, tpUseBy, tpVecName )
 
-  #define GVEC_INSTANTIATE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy ) \
+  #define ZZ_GVEC_INSTANTIATE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy ) \
 \
-    ZZ_GVEC_C_DEFINE( tpTypeInfo, tpVecName, GENA_ASSIGN_NAIVE, tpPassBy, \
+    ZGVEC_C_DEFINE( tpTypeInfo, tpVecName, GENA_ASSIGN_NAIVE, tpPassBy, \
       tpReturnBy )
 
-  #define GVEC_INSTANTIATE_EX( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, \
+  #define ZZ_GVEC_INSTANTIATE_EX( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, \
     tpReturnBy ) \
 \
-    ZZ_GVEC_C_DEFINE( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, tpReturnBy )
+    ZGVEC_C_DEFINE( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, tpReturnBy )
 
 #else /* GVEC_MODULAR_APPROACH */
 
@@ -35,29 +35,29 @@
   #define ZZ_GVEC_DEFINE_TYPE( tpTypeInfo, tpUseBy, tpVecName ) \
     ZGENA_REQUIRE_SEMICOLON_OUTDOOR
 
-  #define GVEC_C_DEFINE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy ) \
+  #define ZZ_GVEC_C_DEFINE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy ) \
 \
-    ZZ_GVEC_C_DEFINE( tpTypeInfo, tpVecName, GENA_ASSIGN_NAIVE, tpPassBy, \
+    ZGVEC_C_DEFINE( tpTypeInfo, tpVecName, GENA_ASSIGN_NAIVE, tpPassBy, \
       tpReturnBy )
 
-  #define GVEC_C_DEFINE_EX( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, \
+  #define ZZ_GVEC_C_DEFINE_EX( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, \
     tpReturnBy ) \
 \
-    ZZ_GVEC_C_DEFINE( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, tpReturnBy )
+    ZGVEC_C_DEFINE( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, tpReturnBy )
 
-  #define GVEC_H_DECLARE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy ) \
-    ZZ_GVEC_H_DECLARE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy )
+  #define ZZ_GVEC_H_DECLARE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy ) \
+    ZGVEC_H_DECLARE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy )
 
-  #define GVEC_H_DECLARE_EX( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, \
+  #define ZZ_GVEC_H_DECLARE_EX( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, \
     tpReturnBy ) \
 \
-    ZZ_GVEC_H_DECLARE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy )
+    ZGVEC_H_DECLARE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy )
 
 #endif /* GVEC_MODULAR_APPROACH */
 
 /******************************************************************************/
 
-#define ZZ_GVEC_H_DECLARE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy ) \
+#define ZGVEC_H_DECLARE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy ) \
 \
   ZGENA_TYPEINFO_BUFDEF( tpTypeInfo, tpPassBy, gvec_##tpVecName##_h ); \
 \
@@ -122,7 +122,7 @@
 
 /******************************************************************************/
 
-#define ZZ_GVEC_C_DEFINE( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, \
+#define ZGVEC_C_DEFINE( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, \
   tpReturnBy ) \
 \
   ZZ_GVEC_DEFINE_TYPE( tpTypeInfo, tpReturnBy, gvec_##tpVecName##_h ); \

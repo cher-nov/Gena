@@ -105,6 +105,9 @@
 		<Unit filename="../genvector/genvector.h">
 			<Option virtualFolder="genvector/" />
 		</Unit>
+		<Unit filename="../genvector/gvec_internal.inc">
+			<Option virtualFolder="genvector/" />
+		</Unit>
 		<Unit filename="../genvector/gvec_template.inc">
 			<Option virtualFolder="genvector/" />
 		</Unit>
