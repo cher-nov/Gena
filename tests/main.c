@@ -1,4 +1,4 @@
-/* Please note that test framework is written in C99, when GENA
+/* Please note that the test framework is written in C99, when GENA
 is C89 by design, so these tests don't check standard compliance.
 To check it, compile with GENATEST_CHECK_ONLY_C89 defined. */
 

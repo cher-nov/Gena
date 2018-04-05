@@ -5,8 +5,8 @@
 #include <assert.h>
 
 /*
-  ZZ_GMAP_FUNC_ONCE is necessary to prevent multiple declarations if
-  genmap.h was included more than once.
+  ZZ_GMAP_FUNC_ONCE is necessary to prevent multiple declarations if the main
+  header was included more than once.
   ZZ_GMAP_DEFINE_TYPE needed to prevent typedef redefinition with modular
   approach.
 */

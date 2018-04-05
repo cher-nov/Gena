@@ -5,8 +5,8 @@
 #include <assert.h>
 
 /*
-  ZZ_GVEC_FUNC_ONCE is necessary to prevent multiple declarations if
-  genvector.h was included more than once.
+  ZZ_GVEC_FUNC_ONCE is necessary to prevent multiple declarations if the main
+  header was included more than once.
   ZZ_GVEC_DEFINE_TYPE needed to prevent typedef redefinition with modular
   approach.
 */
