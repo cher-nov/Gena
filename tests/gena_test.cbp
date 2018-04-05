@@ -5,7 +5,7 @@
 		<Option title="gena_test" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="munit/;genvector/;tests/;tests/gvec_common/;tests/gmap_common/;genmap/;internals/;internals/avl_tree/;" />
+		<Option virtualFolders="munit/;genvector/;tests/;tests/gvec_common/;tests/gtmap_common/;gentreemap/;internals/;internals/avl_tree/;" />
 		<Build>
 			<Target title="Test Static">
 				<Option output="gena_test" prefix_auto="1" extension_auto="1" />
@@ -35,7 +35,7 @@
 					<Add option="-fprofile-arcs" />
 					<Add option="-ftest-coverage" />
 					<Add option="-DGVEC_MODULAR_APPROACH" />
-					<Add option="-DGMAP_MODULAR_APPROACH" />
+					<Add option="-DGTMAP_MODULAR_APPROACH" />
 				</Compiler>
 				<Linker>
 					<Add option="-fprofile-arcs" />
@@ -69,7 +69,7 @@
 					<Add option="-Wno-unused-function" />
 					<Add option="-DGENATEST_CHECK_ONLY_C89" />
 					<Add option="-DGVEC_MODULAR_APPROACH" />
-					<Add option="-DGMAP_MODULAR_APPROACH" />
+					<Add option="-DGTMAP_MODULAR_APPROACH" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -88,18 +88,18 @@
 		<Linker>
 			<Add option="-s" />
 		</Linker>
-		<Unit filename="../genmap/genmap.c">
+		<Unit filename="../gentreemap/gentreemap.c">
 			<Option compilerVar="CC" />
-			<Option virtualFolder="genmap/" />
+			<Option virtualFolder="gentreemap/" />
 		</Unit>
-		<Unit filename="../genmap/genmap.h">
-			<Option virtualFolder="genmap/" />
+		<Unit filename="../gentreemap/gentreemap.h">
+			<Option virtualFolder="gentreemap/" />
 		</Unit>
-		<Unit filename="../genmap/gmap_internal.inc">
-			<Option virtualFolder="genmap/" />
+		<Unit filename="../gentreemap/gtmap_internal.inc">
+			<Option virtualFolder="gentreemap/" />
 		</Unit>
-		<Unit filename="../genmap/gmap_template.inc">
-			<Option virtualFolder="genmap/" />
+		<Unit filename="../gentreemap/gtmap_template.inc">
+			<Option virtualFolder="gentreemap/" />
 		</Unit>
 		<Unit filename="../genvector/genvector.c">
 			<Option compilerVar="CC" />
@@ -138,32 +138,32 @@
 			<Option target="Test Static" />
 			<Option target="Test Modular" />
 		</Unit>
-		<Unit filename="gmap_common/gmap_general.h">
-			<Option virtualFolder="tests/gmap_common/" />
+		<Unit filename="gtmap_common/gtmap_general.h">
+			<Option virtualFolder="tests/gtmap_common/" />
 		</Unit>
-		<Unit filename="gmap_common/gmap_modular.c">
+		<Unit filename="gtmap_common/gtmap_modular.c">
 			<Option compilerVar="CC" />
-			<Option virtualFolder="tests/gmap_common/" />
+			<Option virtualFolder="tests/gtmap_common/" />
 			<Option target="Test Modular" />
 			<Option target="Check C89 Modular" />
 		</Unit>
-		<Unit filename="gmap_common/gmap_modular.h">
-			<Option virtualFolder="tests/gmap_common/" />
+		<Unit filename="gtmap_common/gtmap_modular.h">
+			<Option virtualFolder="tests/gtmap_common/" />
 			<Option target="Test Modular" />
 			<Option target="Check C89 Modular" />
 		</Unit>
-		<Unit filename="gmap_common/gmap_static.h">
-			<Option virtualFolder="tests/gmap_common/" />
+		<Unit filename="gtmap_common/gtmap_static.h">
+			<Option virtualFolder="tests/gtmap_common/" />
 			<Option target="Test Static" />
 			<Option target="Check C89 Static" />
 		</Unit>
-		<Unit filename="gmap_tests.c">
+		<Unit filename="gtmap_tests.c">
 			<Option compilerVar="CC" />
 			<Option virtualFolder="tests/" />
 			<Option target="Test Static" />
 			<Option target="Test Modular" />
 		</Unit>
-		<Unit filename="gmap_tests.h">
+		<Unit filename="gtmap_tests.h">
 			<Option virtualFolder="tests/" />
 		</Unit>
 		<Unit filename="gvec_common/gvec_general.h">

@@ -2,15 +2,15 @@
   Copyright (c) 2017, Dmitry D. Chernov
 */
 
-#include "genmap.h"
+#include "gentreemap.h"
 
 #include <stdlib.h>
 #include <assert.h>
 
-gmap_h igmap_new( size_t key_size, size_t value_size ) {
-  gmap_h handle;
+gtmap_h igtmap_new( size_t key_size, size_t value_size ) {
+  gtmap_h handle;
 {
-  handle = malloc( sizeof(igmap_s) );
+  handle = malloc( sizeof(igtmap_s) );
   if (handle == NULL) { return NULL; }
 
   handle->avltree_root = NULL;
@@ -22,7 +22,7 @@ gmap_h igmap_new( size_t key_size, size_t value_size ) {
   return handle;
 }}
 
-void gmap_clear( gmap_h handle ) {
+void gtmap_clear( gtmap_h handle ) {
 {
   assert( handle != NULL );
   igena_avl_subtree_free( handle->avltree_root );
@@ -30,7 +30,7 @@ void gmap_clear( gmap_h handle ) {
   handle->count = 0;
 }}
 
-void gmap_free( gmap_h handle ) {
+void gtmap_free( gtmap_h handle ) {
 {
   if (handle == NULL) { return; }
   igena_avl_subtree_free( handle->avltree_root );
@@ -39,13 +39,13 @@ void gmap_free( gmap_h handle ) {
 
 /******************************************************************************/
 
-size_t gmap_count( gmap_h handle ) {
+size_t gtmap_count( gtmap_h handle ) {
 {
   assert( handle != NULL );
   return handle->count;
 }}
 
-gena_bool gmap_empty( gmap_h handle ) {
+gena_bool gtmap_empty( gtmap_h handle ) {
 {
   return (handle->avltree_root == NULL);
 }}
