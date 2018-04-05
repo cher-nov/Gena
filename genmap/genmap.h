@@ -7,20 +7,66 @@
 #ifndef ZZ_GENA_GENMAP_H_IG
 #define ZZ_GENA_GENMAP_H_IG
 
-#include "../internals/avl_tree/avl_tree.h"
+typedef struct zz_gmap_s* gmap_h;
 
-typedef struct {
-  size_t count;
-  igena_avl_node_head_p avltree_root;
-  size_t key_size;
-  size_t value_size;
-} gmap_s;
-
-typedef gmap_s* gmap_h;
+#include "gmap_internal.inc"
 
 /******************************************************************************/
 
-extern gmap_h igmap_new( size_t key_size, size_t value_size );
+/* Instantiation macros. */
+
+#ifndef GMAP_MODULAR_APPROACH
+
+#define \
+GMAP_INSTANTIATE( tpKeyType, tpValueType, tpMapName, tpKeyCompareBy, \
+  tpKeyPassBy, tpValuePassBy ) \
+\
+  ZZ_GMAP_INSTANTIATE(tpKeyType,tpValueType,tpMapName,tpKeyCompareBy,\
+  tpKeyPassBy,tpValuePassBy)
+
+#define \
+GMAP_INSTANTIATE_EX( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
+  tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy ) \
+\
+  ZZ_GMAP_INSTANTIATE_EX(tpKeyType,tpValueType,tpMapName,tpKeyAssignBy,\
+  tpValueAssignBy,tpKeyCompareBy,tpKeyPassBy,tpValuePassBy)
+
+#else /* GMAP_MODULAR_APPROACH */
+
+#define \
+GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, tpKeyCompareBy, \
+  tpKeyPassBy, tpValuePassBy ) \
+\
+  ZZ_GMAP_C_DEFINE(tpKeyType,tpValueType,tpMapName,tpKeyCompareBy,\
+  tpKeyPassBy,tpValuePassBy)
+
+#define \
+GMAP_C_DEFINE_EX( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
+  tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy ) \
+\
+  ZZ_GMAP_C_DEFINE_EX(tpKeyType,tpValueType,tpMapName,tpKeyAssignBy,\
+  tpValueAssignBy,tpKeyCompareBy,tpKeyPassBy,tpValuePassBy)
+
+#define \
+GMAP_H_DECLARE( tpKeyType, tpValueType, tpMapName, tpKeyCompareBy, \
+  tpKeyPassBy, tpValuePassBy ) \
+\
+  ZZ_GMAP_H_DECLARE(tpKeyType,tpValueType,tpMapName,tpKeyCompareBy,\
+  tpKeyPassBy,tpValuePassBy)
+
+#define \
+GMAP_H_DECLARE_EX( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
+  tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy ) \
+\
+  ZZ_GMAP_H_DECLARE_EX(tpKeyType,tpValueType,tpMapName,tpKeyAssignBy,\
+  tpValueAssignBy,tpKeyCompareBy,tpKeyPassBy,tpValuePassBy)
+
+#endif /* GMAP_MODULAR_APPROACH */
+
+/******************************************************************************/
+
+/* General-purpose functions. */
+
 extern void gmap_clear( gmap_h handle );
 extern void gmap_free( gmap_h handle );
 
@@ -29,6 +75,7 @@ extern gena_bool gmap_empty( gmap_h handle );
 
 /******************************************************************************/
 
+/* Pseudo-templates. User-type management functions are defined there. */
 #include "gmap_template.inc"
 
 #endif /* ZZ_GENA_GENMAP_H_IG */

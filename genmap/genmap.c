@@ -10,7 +10,7 @@
 gmap_h igmap_new( size_t key_size, size_t value_size ) {
   gmap_h handle;
 {
-  handle = malloc( sizeof(gmap_s) );
+  handle = malloc( sizeof(igmap_s) );
   if (handle == NULL) { return NULL; }
 
   handle->avltree_root = NULL;

@@ -95,6 +95,9 @@
 		<Unit filename="../genmap/genmap.h">
 			<Option virtualFolder="genmap/" />
 		</Unit>
+		<Unit filename="../genmap/gmap_internal.inc">
+			<Option virtualFolder="genmap/" />
+		</Unit>
 		<Unit filename="../genmap/gmap_template.inc">
 			<Option virtualFolder="genmap/" />
 		</Unit>

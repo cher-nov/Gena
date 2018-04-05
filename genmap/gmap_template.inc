@@ -18,17 +18,17 @@
   #define ZZ_GMAP_DEFINE_TYPE( tpMapName ) \
     typedef gmap_h gmap_##tpMapName##_h
 
-  #define GMAP_INSTANTIATE( tpKeyType, tpValueType, tpMapName, tpKeyCompareBy, \
-    tpKeyPassBy, tpValuePassBy ) \
+  #define ZZ_GMAP_INSTANTIATE( tpKeyType, tpValueType, tpMapName, \
+    tpKeyCompareBy, tpKeyPassBy, tpValuePassBy ) \
 \
-    ZZ_GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, GENA_ASSIGN_NAIVE, \
+    ZGMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, GENA_ASSIGN_NAIVE, \
       GENA_ASSIGN_NAIVE, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy )
 
-  #define GMAP_INSTANTIATE_EX( tpKeyType, tpValueType, tpMapName, \
+  #define ZZ_GMAP_INSTANTIATE_EX( tpKeyType, tpValueType, tpMapName, \
     tpKeyAssignBy, tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, \
     tpValuePassBy ) \
 \
-    ZZ_GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
+    ZGMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
       tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy )
 
 #else /* GMAP_MODULAR_APPROACH */
@@ -38,35 +38,37 @@
   #define ZZ_GMAP_DEFINE_TYPE( tpMapName ) \
     ZGENA_REQUIRE_SEMICOLON_OUTDOOR
 
-  #define GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, tpKeyCompareBy, \
+  #define ZZ_GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, tpKeyCompareBy, \
     tpKeyPassBy, tpValuePassBy ) \
 \
-    ZZ_GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, GENA_ASSIGN_NAIVE, \
+    ZGMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, GENA_ASSIGN_NAIVE, \
       GENA_ASSIGN_NAIVE, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy )
 
-  #define GMAP_C_DEFINE_EX( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
-    tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy ) \
+  #define ZZ_GMAP_C_DEFINE_EX( tpKeyType, tpValueType, tpMapName, \
+    tpKeyAssignBy, tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, \
+    tpValuePassBy ) \
 \
-    ZZ_GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
+    ZGMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
       tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy )
 
-  #define GMAP_H_DECLARE( tpKeyType, tpValueType, tpMapName, tpKeyCompareBy, \
-    tpKeyPassBy, tpValuePassBy ) \
+  #define ZZ_GMAP_H_DECLARE( tpKeyType, tpValueType, tpMapName, \
+    tpKeyCompareBy, tpKeyPassBy, tpValuePassBy ) \
 \
-    ZZ_GMAP_H_DECLARE( tpKeyType, tpValueType, tpMapName, tpKeyPassBy, \
+    ZGMAP_H_DECLARE( tpKeyType, tpValueType, tpMapName, tpKeyPassBy, \
       tpValuePassBy )
 
-  #define GMAP_H_DECLARE_EX( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
-    tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy ) \
+  #define ZZ_GMAP_H_DECLARE_EX( tpKeyType, tpValueType, tpMapName, \
+    tpKeyAssignBy, tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, \
+    tpValuePassBy ) \
 \
-    ZZ_GMAP_H_DECLARE( tpKeyType, tpValueType, tpMapName, tpKeyPassBy, \
+    ZGMAP_H_DECLARE( tpKeyType, tpValueType, tpMapName, tpKeyPassBy, \
       tpValuePassBy )
 
 #endif /* GMAP_MODULAR_APPROACH */
 
 /******************************************************************************/
 
-#define ZZ_GMAP_H_DECLARE( tpKeyType, tpValueType, tpMapName, tpKeyPassBy, \
+#define ZGMAP_H_DECLARE( tpKeyType, tpValueType, tpMapName, tpKeyPassBy, \
   tpValuePassBy ) \
 \
   typedef gmap_h gmap_##tpMapName##_h; \
@@ -103,7 +105,7 @@
 
 /******************************************************************************/
 
-#define ZZ_GMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
+#define ZGMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
   tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy ) \
 \
   ZZ_GMAP_DEFINE_TYPE( tpMapName ); \
