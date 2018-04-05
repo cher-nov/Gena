@@ -1,43 +1,44 @@
-NAMING CONVENTION:
+NAMING CONVENTION
 
-  SEMANTIC PREFIXES:
+All default names must be in snake_case (with SCREAMING_SNAKE_CASE for macros,
+defines and constants), unless otherwise specified.
 
-    g####_* - user routines of a particular data structure
-        (# - lowercase identifier of a data structure, from 3 to 5 chars, first
-        letter is consonant)
-    ig####_* - internal routines of a particular data structure
-        (# - lowercase identifier of a data structure, from 3 to 5 chars, first
-        letter is consonant)
-    gena_* - user library routines
-    igena_* - internal library routines
-    zgena_* - low-level library routines
-    zz_* - routines not intended for users in any way (e.g. include guards)
-    tp* - template parameter (rest must be in CamelCase, e.g. tpVecName)
+Semantic:
 
-  VARIABLE SUFFIXES:
+  g###_* - user routines
+  ig###_* - internal routines
+  zg###_* - implementation-related routines
+  zz_* - symbols not intended for users in any way (e.g. include guards)
+  *_IG - include guard
 
-    *_c - const
+Part marked as ### should be "ena" to get "gena" in library-wide routines, or
+a shortened name of the data structure otherwise. Shortened names must have
+from 3 to 5 characters and start with a consonant letter.
 
-  ARGUMENT PREFIXES:
+Function Arguments:
 
-    p* - handle passed by pointer
-    ptr_* - argument is a pointer (for macros arguments ONLY!)
-    OUT_* - pointer to an output value
+  p* - handle passed by pointer
+  OUT_* - pointer to an output value
 
-  TYPE SUFFIXES:
+Macro Arguments:
 
-    *_e - enum
-    *_s - struct
-    *_u - union
-    *_p - typed pointer
-    *_ptr - untyped pointer
-    *_h - handle type
-    *_x - user-defined type
+  ptr_* - argument should be either a pointer variable or a pointer constant
+  tp* - template parameter (rest must be in CamelCase, e.g. tpVecName)
 
-  SEMANTIC SUFFIXES:
+Variables and Constants:
 
-    _IG - include guard
+  *_c - constant value
 
-  NOTES:
+Types:
 
-    1. Names of the defines and macros must be uppercase.
+  *_e - enum
+  *_s - struct
+  *_u - union
+  *_p - typed pointer
+  *_ptr - untyped pointer
+  *_f - functional type
+  *_h - handle type
+  *_a - type alias
+  *_x - any other user-defined type
+
+
