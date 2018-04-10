@@ -110,8 +110,7 @@ MunitResult gvectests_2_modify() {
       GENATEST_CUSTOM_INT_2 );
   }
 
-  result = gvec_resize( &vec_int, gvec_count(vec_int) - GENATEST_INT_SET_LEN );
-  munit_assert_true( result );
+  gvec_reduce( vec_int, gvec_count(vec_int) - GENATEST_INT_SET_LEN );
   munit_assert_size( gvec_count(vec_int), ==, GENATEST_INT_SET_LEN*2 );
   munit_assert( !gvec_empty(vec_int) );
   munit_assert_size( gvec_size(vec_int), >=, GENATEST_INT_SET_LEN*3 );
@@ -121,9 +120,9 @@ MunitResult gvectests_2_modify() {
   munit_assert( !gvec_empty(vec_int) );
   munit_assert_size( gvec_size(vec_int), >=, GENATEST_INT_SET_LEN*3 );
 
-  gvec_reserve( &vec_int, GENATEST_INT_SET_LEN );
+  gvec_int_reserve( &vec_int, GENATEST_INT_SET_LEN*4 );
   munit_assert_size( gvec_size(vec_int), >=, GENATEST_INT_SET_LEN*4 );
-  result = gvec_shrink( &vec_int );
+  result = gvec_int_shrink( &vec_int );
   munit_assert_true( result );
   munit_assert_size( gvec_size(vec_int), ==, storage_size );
   munit_assert_memory_equal( GENATEST_INT_SET_SIZE, vec_int, GENATEST_INT_SET );
@@ -151,7 +150,7 @@ MunitResult gvectests_2_modify() {
   /********************************************************************/
   vec_struct = gvec_struct_new(0);
 
-  result = gvec_reserve( &vec_struct, GENATEST_INT_SET_LEN );
+  result = gvec_struct_reserve( &vec_struct, GENATEST_INT_SET_LEN );
   munit_assert_true( result );
   munit_assert_size( gvec_size(vec_struct), >=, GENATEST_INT_SET_LEN );
   storage_size = gvec_size( vec_struct );
@@ -209,9 +208,7 @@ MunitResult gvectests_2_modify() {
       &GENATEST_C_SVALUE(GENATEST_CUSTOM_INT_2) );
   }
 
-  result = gvec_resize( &vec_struct,
-    gvec_count(vec_struct) - GENATEST_INT_SET_LEN );
-  munit_assert_true( result );
+  gvec_reduce( vec_struct, gvec_count(vec_struct) - GENATEST_INT_SET_LEN );
   munit_assert_size( gvec_count(vec_struct), ==, GENATEST_INT_SET_LEN*2 );
   munit_assert( !gvec_empty(vec_struct) );
   munit_assert_size( gvec_size(vec_struct), >=, GENATEST_INT_SET_LEN*3 );
@@ -221,9 +218,9 @@ MunitResult gvectests_2_modify() {
   munit_assert( !gvec_empty(vec_struct) );
   munit_assert_size( gvec_size(vec_struct), >=, GENATEST_INT_SET_LEN*3 );
 
-  gvec_reserve( &vec_struct, GENATEST_INT_SET_LEN );
+  gvec_struct_reserve( &vec_struct, GENATEST_INT_SET_LEN*4 );
   munit_assert_size( gvec_size(vec_struct), >=, GENATEST_INT_SET_LEN*4 );
-  result = gvec_shrink( &vec_struct );
+  result = gvec_struct_shrink( &vec_struct );
   munit_assert_true( result );
   munit_assert_size( gvec_size(vec_struct), ==, storage_size );
   munit_assert_memory_equal( GENATEST_INT_SET_SIZE, vec_struct,
@@ -308,9 +305,7 @@ MunitResult gvectests_2_modify() {
       GENATEST_CUSTOM_STR_2 );
   }
 
-  result = gvec_resize( &vec_string,
-    gvec_count(vec_string) - GENATEST_STR_SET_LEN );
-  munit_assert_true( result );
+  gvec_reduce( vec_string, gvec_count(vec_string) - GENATEST_STR_SET_LEN );
   munit_assert_size( gvec_count(vec_string), ==, GENATEST_STR_SET_LEN*2 );
   munit_assert( !gvec_empty(vec_string) );
   munit_assert_size( gvec_size(vec_string), >=, GENATEST_STR_SET_LEN*3 );
@@ -320,9 +315,9 @@ MunitResult gvectests_2_modify() {
   munit_assert( !gvec_empty(vec_string) );
   munit_assert_size( gvec_size(vec_string), >=, GENATEST_STR_SET_LEN*3 );
 
-  gvec_reserve( &vec_string, GENATEST_STR_SET_LEN );
+  gvec_string_reserve( &vec_string, GENATEST_STR_SET_LEN*4 );
   munit_assert_size( gvec_size(vec_string), >=, GENATEST_STR_SET_LEN*4 );
-  result = gvec_shrink( &vec_string );
+  result = gvec_string_shrink( &vec_string );
   munit_assert_true( result );
   munit_assert_size( gvec_size(vec_string), ==, storage_size );
   munit_assert_memory_equal( GENATEST_STR_SET_LEN, vec_string,
@@ -353,7 +348,7 @@ MunitResult gvectests_2_modify() {
   /********************************************************************/
   vec_array = gvec_array_new(GENATEST_BUF_SET_LEN);
   storage_size = gvec_size( vec_array );
-  result = gvec_shrink( &vec_array );
+  result = gvec_array_shrink( &vec_array );
   munit_assert_true( result );
   munit_assert_size( gvec_size(vec_array), <, storage_size );
 
@@ -407,9 +402,7 @@ MunitResult gvectests_2_modify() {
       GENATEST_CUSTOM_BUF_2 );
   }
 
-  result = gvec_resize( &vec_array,
-    gvec_count(vec_array) - GENATEST_BUF_SET_LEN );
-  munit_assert_true( result );
+  gvec_reduce( vec_array, gvec_count(vec_array) - GENATEST_BUF_SET_LEN );
   munit_assert_size( gvec_count(vec_array), ==, GENATEST_BUF_SET_LEN*2 );
   munit_assert( !gvec_empty(vec_array) );
   munit_assert_size( gvec_size(vec_array), >=, GENATEST_BUF_SET_LEN*3 );
@@ -419,9 +412,10 @@ MunitResult gvectests_2_modify() {
   munit_assert( !gvec_empty(vec_array) );
   munit_assert_size( gvec_size(vec_array), >=, GENATEST_BUF_SET_LEN*3 );
 
-  gvec_reserve( &vec_array, GENATEST_BUF_SET_LEN );
+  gvec_array_reserve( &vec_array, GENATEST_BUF_SET_LEN*4 );
   munit_assert_size( gvec_size(vec_array), >=, GENATEST_BUF_SET_LEN*4 );
-  gvec_shrink( &vec_array );
+  result = gvec_array_shrink( &vec_array );
+  munit_assert_true( result );
   munit_assert_size( gvec_size(vec_array), ==, storage_size );
   munit_assert_memory_equal( GENATEST_BUF_SET_LEN, vec_array,
     GENATEST_BUF_SET );
@@ -466,9 +460,10 @@ MunitResult gvectests_3_manage() {
   /********************************************************************/
   vec_int = gvec_int_new(0);
 
-  result = gvec_resize( &vec_int, GENATEST_INT_SET_LEN );
+  result = gvec_int_reserve( &vec_int, GENATEST_INT_SET_LEN );
   munit_assert_true( result );
   memcpy( vec_int, GENATEST_INT_SET, GENATEST_INT_SET_SIZE );
+  vec_int = igvec_resize( vec_int, GENATEST_INT_SET_LEN );
 
   vec_struct = gvec_copy(vec_int);
   munit_assert_not_null(vec_struct);
@@ -484,17 +479,25 @@ MunitResult gvectests_3_manage() {
   /********************************************************************/
   vec_string1 = gvec_string_new(GENATEST_STR_SET_LEN);
 
-  result = gvec_resize( &vec_string1, GENATEST_STR_SET_LEN );
+  result = gvec_string_reserve( &vec_string1, GENATEST_STR_SET_LEN );
   munit_assert_true( result );
   memcpy( vec_string1, GENATEST_STR_SET, GENATEST_STR_SET_SIZE );
+  vec_string1 = igvec_resize( vec_string1, GENATEST_STR_SET_LEN );
 
-  vec_string2 = NULL;
-  vec_string2 = gvec_set( &vec_string2, vec_string1 );
+  vec_string2 = gvec_copy(vec_string1);
   munit_assert_not_null(vec_string2);
   munit_assert_size( gvec_count(vec_string2), ==, GENATEST_STR_SET_LEN );
   munit_assert( !gvec_empty(vec_string2) );
   munit_assert_size( gvec_size(vec_string2), >=, GENATEST_STR_SET_LEN );
-  munit_assert_memory_equal( GENATEST_STR_SET_SIZE, vec_string2,
+  munit_assert_memory_equal( GENATEST_INT_SET_SIZE, vec_string2,
+    GENATEST_STR_SET );
+
+  vec_string1 = gvec_set( &vec_string1, vec_string2 );
+  munit_assert_not_null(vec_string1);
+  munit_assert_size( gvec_count(vec_string1), ==, GENATEST_STR_SET_LEN );
+  munit_assert( !gvec_empty(vec_string1) );
+  munit_assert_size( gvec_size(vec_string1), >=, GENATEST_STR_SET_LEN );
+  munit_assert_memory_equal( GENATEST_STR_SET_SIZE, vec_string1,
     GENATEST_STR_SET );
 
   gvec_free(vec_string1);
@@ -503,9 +506,10 @@ MunitResult gvectests_3_manage() {
   /********************************************************************/
   vec_array1 = gvec_array_new(0);
 
-  result = gvec_resize( &vec_array1, GENATEST_BUF_SET_LEN );
+  result = gvec_array_reserve( &vec_array1, GENATEST_BUF_SET_LEN );
   munit_assert_true( result );
   memcpy( vec_array1, GENATEST_BUF_SET, GENATEST_BUF_SET_SIZE );
+  vec_array1 = igvec_resize( vec_array1, GENATEST_BUF_SET_LEN );
 
   vec_array2 = gvec_array_new(GENATEST_BUF_SET_LEN);
   vec_array2 = gvec_set( &vec_array2, vec_array1 );

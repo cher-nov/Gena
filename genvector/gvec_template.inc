@@ -85,6 +85,19 @@
 \
   extern \
   gena_bool \
+  gvec_##tpVecName##_reserve( \
+    gvec_##tpVecName##_h* phandle, \
+    size_t min_count \
+  ); \
+\
+  extern \
+  gena_bool \
+  gvec_##tpVecName##_shrink( \
+    gvec_##tpVecName##_h* phandle \
+  ); \
+\
+  extern \
+  gena_bool \
   gvec_##tpVecName##_insert( \
     gvec_##tpVecName##_h* phandle, \
     size_t pos, \
@@ -146,16 +159,20 @@
     size_t count, \
     const ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
   ) { \
+    gvec_##tpVecName##_h new_handle; \
     size_t i; \
   { \
-    if ( !gvec_resize( phandle, count ) ) { return GENA_FALSE; } \
+    assert( phandle != NULL ); \
+    new_handle = igvec_resize( *phandle, count ); \
+    if (new_handle == NULL) { return GENA_FALSE; } \
     for(i = 0; i < count; ++i) { \
       tpAssignBy ( \
-        tpPassBy##ENTRY (*phandle + i), \
+        tpPassBy##ENTRY (new_handle + i), \
         tpPassBy##REFERENCE value, \
         ZGENA_TYPEINFO_SIZE(tpTypeInfo, tpPassBy) \
       ); \
     } \
+    *phandle = new_handle; \
     return GENA_TRUE; \
   }} \
 /********************************************************************/ \
@@ -166,18 +183,48 @@
     size_t new_count, \
     const ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
   ) { \
+    gvec_##tpVecName##_h new_handle; \
     size_t i; \
   { \
     assert( phandle != NULL ); \
     i = gvec_count(*phandle); \
-    if ( !gvec_resize( phandle, new_count ) ) { return GENA_FALSE; } \
+    new_handle = igvec_resize( *phandle, new_count ); \
+    if (new_handle == NULL) { return GENA_FALSE; } \
     for(; i < new_count; ++i) { \
       tpAssignBy ( \
-        tpPassBy##ENTRY (*phandle + i), \
+        tpPassBy##ENTRY (new_handle + i), \
         tpPassBy##REFERENCE value, \
         ZGENA_TYPEINFO_SIZE(tpTypeInfo, tpPassBy) \
       ); \
     } \
+    *phandle = new_handle; \
+    return GENA_TRUE; \
+  }} \
+/********************************************************************/ \
+  ZZ_GVEC_FUNC_ONCE \
+  gena_bool \
+  gvec_##tpVecName##_reserve( \
+    gvec_##tpVecName##_h* phandle, \
+    size_t min_count \
+  ) { \
+    gvec_##tpVecName##_h new_handle; \
+  { \
+    new_handle = igvec_reserve( *phandle, min_count ); \
+    if (new_handle == NULL) { return GENA_FALSE; } \
+    *phandle = new_handle; \
+    return GENA_TRUE; \
+  }} \
+/********************************************************************/ \
+  ZZ_GVEC_FUNC_ONCE \
+  gena_bool \
+  gvec_##tpVecName##_shrink( \
+    gvec_##tpVecName##_h* phandle \
+  ) { \
+    gvec_##tpVecName##_h new_handle; \
+  { \
+    new_handle = igvec_shrink( *phandle ); \
+    if (new_handle == NULL) { return GENA_FALSE; } \
+    *phandle = new_handle; \
     return GENA_TRUE; \
   }} \
 /********************************************************************/ \
@@ -189,16 +236,19 @@
     size_t count, \
     const ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
   ) { \
+    gvec_##tpVecName##_h new_handle; \
     size_t i; \
   { \
-    if ( !igvec_insert( phandle, pos, count ) ) { return GENA_FALSE; } \
+    new_handle = igvec_insert( *phandle, pos, count ); \
+    if (new_handle == NULL) { return GENA_FALSE; } \
     for(i = 0; i < count; ++i) { \
       tpAssignBy ( \
-        tpPassBy##ENTRY (*phandle + pos + i), \
+        tpPassBy##ENTRY (new_handle + pos + i), \
         tpPassBy##REFERENCE value, \
         ZGENA_TYPEINFO_SIZE(tpTypeInfo, tpPassBy) \
       ); \
     } \
+    *phandle = new_handle; \
     return GENA_TRUE; \
   }} \
 /********************************************************************/ \
@@ -208,13 +258,16 @@
     gvec_##tpVecName##_h* phandle, \
     const ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
   ) { \
+    gvec_##tpVecName##_h new_handle; \
   { \
-    if ( !igvec_push(phandle) ) { return GENA_FALSE; } \
+    new_handle = igvec_push(*phandle); \
+    if (new_handle == NULL) { return GENA_FALSE; } \
     tpAssignBy ( \
-      tpPassBy##ENTRY (*phandle + gvec_count(*phandle)-1), \
+      tpPassBy##ENTRY (new_handle + gvec_count(new_handle)-1), \
       tpPassBy##REFERENCE value, \
       ZGENA_TYPEINFO_SIZE(tpTypeInfo, tpPassBy) \
     ); \
+    *phandle = new_handle; \
     return GENA_TRUE; \
   }} \
 /********************************************************************/ \

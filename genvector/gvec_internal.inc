@@ -17,5 +17,10 @@ typedef struct {
 } igvec_head_s, *igvec_head_p;
 
 extern gvec_h igvec_new( size_t min_count, size_t entry_size );
-extern gena_bool igvec_insert( gvec_ptr phandle, size_t pos, size_t count );
-extern gena_bool igvec_push( gvec_ptr phandle );
+
+extern gvec_h igvec_resize( gvec_h handle, size_t new_count );
+extern gvec_h igvec_reserve( gvec_h handle, size_t min_count );
+extern gvec_h igvec_shrink( gvec_h handle );
+
+extern gvec_h igvec_insert( gvec_h handle, size_t pos, size_t count );
+extern gvec_h igvec_push( gvec_h handle );

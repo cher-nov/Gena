@@ -8,7 +8,6 @@
 #define ZZ_GENA_GENVECTOR_H_IG
 
 typedef void* gvec_h;
-typedef void* gvec_ptr; /* because void** is not a generic pointer */
 
 #include "gvec_internal.inc"
 
@@ -50,15 +49,12 @@ GVEC_H_DECLARE_EX( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, tpReturnBy ) \
 
 /* General-purpose functions. */
 
-extern gvec_h gvec_set( gvec_ptr phandle, gvec_h source );
+extern gvec_h gvec_set( gvec_h handle, gvec_h source );
 extern gvec_h gvec_copy( gvec_h handle );
-extern void gvec_clear( gvec_h handle );
 extern void gvec_free( gvec_h handle );
 
-extern gena_bool gvec_resize( gvec_ptr phandle, size_t new_count );
-extern gena_bool gvec_reserve( gvec_ptr phandle, size_t count );
-extern gena_bool gvec_shrink( gvec_ptr phandle );
-
+extern void gvec_clear( gvec_h handle );
+extern void gvec_reduce( gvec_h handle, size_t new_count );
 extern void gvec_erase( gvec_h handle, size_t pos, size_t count );
 extern void gvec_pop( gvec_h handle );
 
