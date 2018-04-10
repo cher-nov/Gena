@@ -243,8 +243,7 @@
   ) { \
   { \
     return tpReturnBy##RETURN \
-           ( ZGENA_TYPEINFO_NAME(tpTypeInfo, tpReturnBy) * ) \
-           gvec_front(handle); \
+      ( ZGENA_TYPEINFO_NAME(tpTypeInfo, tpReturnBy) * ) gvec_front(handle); \
   }} \
 /********************************************************************/ \
   ZZ_GVEC_FUNC_ONCE \
@@ -254,8 +253,7 @@
   ) { \
   { \
     return tpReturnBy##RETURN \
-           ( ZGENA_TYPEINFO_NAME(tpTypeInfo, tpReturnBy) * ) \
-           gvec_back(handle); \
+      ( ZGENA_TYPEINFO_NAME(tpTypeInfo, tpReturnBy) * ) gvec_back(handle); \
   }} \
 /********************************************************************/ \
   ZGENA_REQUIRE_SEMICOLON_OUTDOOR

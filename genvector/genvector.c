@@ -27,9 +27,9 @@ static GENA_INLINE size_t calc_size( size_t current_size, size_t min_add ) {
   #ifdef GVEC_CALC_SIZE_MATH
 
   size = (size_t)pow(
-      GVEC_GROWTH_FACTOR,
-      ceil( log( size+min_add ) / log(GVEC_GROWTH_FACTOR) )
-    );
+    GVEC_GROWTH_FACTOR,
+    ceil( log( size+min_add ) / log(GVEC_GROWTH_FACTOR) )
+  );
 
   #else
 
@@ -113,6 +113,7 @@ static gvec_h zz_gvec_set( gvec_h* phandle, gvec_h source ) {
     gvec_free(handle);
     *phandle = new_handle;
   }
+
   return new_handle;
 }}
 
@@ -165,8 +166,8 @@ static gena_error_e zz_gvec_reserve( gvec_h* phandle, size_t count ) {
 
   new_size = calc_size( header->size, count );
   return (set_storage( phandle, new_size, header->entry_size ) != NULL)
-         ? GENA_ERR_NO
-         : GENA_ERR_MEMORY;
+    ? GENA_ERR_NO
+    : GENA_ERR_MEMORY;
 }}
 
 static gena_error_e zz_gvec_shrink( gvec_h* phandle ) {
@@ -178,8 +179,8 @@ static gena_error_e zz_gvec_shrink( gvec_h* phandle ) {
 
   new_size = calc_size( 0, header->count );
   return (set_storage( phandle, new_size, header->entry_size ) != NULL)
-         ? GENA_ERR_NO
-         : GENA_ERR_MEMORY;
+    ? GENA_ERR_NO
+    : GENA_ERR_MEMORY;
 }}
 
 /******************************************************************************/
@@ -226,9 +227,11 @@ static gena_error_e zz_igvec_insert( gvec_h* phandle, size_t pos,
 
   #endif
 
-  memmove( ZGENA_VOIDP_ADD( dest_gvec, (pos+count) * entry_size ),
-           ZGENA_VOIDP_ADD( *phandle, pos * entry_size ),
-          (old_count-pos) * entry_size );
+  memmove(
+    ZGENA_VOIDP_ADD( dest_gvec, (pos+count) * entry_size ),
+    ZGENA_VOIDP_ADD( *phandle, pos * entry_size ),
+    (old_count-pos) * entry_size
+  );
 
   header->count = new_count;
 
@@ -255,9 +258,11 @@ void gvec_erase( gvec_h handle, size_t pos, size_t count ) {
   entry_size = header->entry_size;
   tail_size = (header->count-(pos+count)) * entry_size;
 
-  memmove( ZGENA_VOIDP_ADD( handle, pos * entry_size ),
-           ZGENA_VOIDP_ADD( handle, (pos+count) * entry_size ),
-           tail_size );
+  memmove(
+    ZGENA_VOIDP_ADD( handle, pos * entry_size ),
+    ZGENA_VOIDP_ADD( handle, (pos+count) * entry_size ),
+    tail_size
+  );
 
   header->count -= count;
 }}
@@ -282,8 +287,8 @@ void* gvec_at( gvec_h handle, size_t pos ) {
   assert( handle != NULL );
   header = IGVEC_GET_HEADER(handle);
   return (pos < header->count)
-         ? ZGENA_VOIDP_ADD( handle, pos * header->entry_size )
-         : NULL;
+    ? ZGENA_VOIDP_ADD( handle, pos * header->entry_size )
+    : NULL;
 }}
 
 void* gvec_front( gvec_h handle ) {
