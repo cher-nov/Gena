@@ -89,6 +89,72 @@ gvec_h igvec_new( size_t min_count, size_t entry_size ) {
   return handle;
 }}
 
+gena_error_e igvec_insert( gvec_ptr phandle, size_t pos, size_t count ) {
+  gvec_h dest_gvec;
+  igvec_head_p header;
+  size_t entry_size, old_count, new_count;
+{
+  ASSERT_PHANDLE(phandle);
+  header = PHANDLE_GET_HEADER(phandle);
+  assert( pos <= header->count );
+
+  if (count == 0) { return GENA_ERR_NO; }
+
+  entry_size = header->entry_size;
+  old_count = header->count;
+  new_count = old_count + count;
+
+  #ifndef GVEC_INSERT_NO_REALLOC
+
+  if (new_count > header->size) {
+    gena_error_e errorcode = gvec_reserve( phandle, new_count - header->size );
+    if (errorcode != GENA_ERR_NO) { return errorcode; }
+    header = PHANDLE_GET_HEADER(phandle);
+  }
+
+  dest_gvec = *(gvec_h*)phandle;
+
+  #else
+
+  /* This one doesn't use memory relocation and better for many insertions at
+  arbitrary positions, in theory. */
+  if (new_count > header->size) {
+    dest_gvec = igvec_new( new_count, entry_size );
+    if (dest_gvec == NULL) { return GENA_ERR_MEMORY; }
+    header = IGVEC_GET_HEADER(dest_gvec);
+    memmove( dest_gvec, *(gvec_h*)phandle, pos*entry_size );
+  } else {
+    dest_gvec = *(gvec_h*)phandle;
+  }
+
+  #endif
+
+  memmove(
+    ZGENA_VOIDP_ADD( dest_gvec, (pos+count) * entry_size ),
+    ZGENA_VOIDP_ADD( *(gvec_h*)phandle, pos * entry_size ),
+    (old_count-pos) * entry_size
+  );
+
+  header->count = new_count;
+
+  #ifdef GVEC_INSERT_NO_REALLOC
+  if (*(gvec_h*)phandle != dest_gvec) {
+    gvec_free(*(gvec_h*)phandle);
+    *(gvec_h*)phandle = dest_gvec;
+  }
+  #endif
+
+  return GENA_ERR_NO;
+}}
+
+gena_error_e igvec_push( gvec_ptr phandle ) {
+{
+  ASSERT_PHANDLE(phandle);
+  return gvec_resize( phandle, gvec_count(*(gvec_h*)phandle)+1 );
+}}
+
+/******************************************************************************/
+
 gvec_h gvec_set( gvec_ptr phandle, gvec_h source ) {
   gvec_h handle, new_handle;
 {
@@ -188,64 +254,6 @@ gena_error_e gvec_shrink( gvec_ptr phandle ) {
 
 /******************************************************************************/
 
-gena_error_e igvec_insert( gvec_ptr phandle, size_t pos, size_t count ) {
-  gvec_h dest_gvec;
-  igvec_head_p header;
-  size_t entry_size, old_count, new_count;
-{
-  ASSERT_PHANDLE(phandle);
-  header = PHANDLE_GET_HEADER(phandle);
-  assert( pos <= header->count );
-
-  if (count == 0) { return GENA_ERR_NO; }
-
-  entry_size = header->entry_size;
-  old_count = header->count;
-  new_count = old_count + count;
-
-  #ifndef GVEC_INSERT_NO_REALLOC
-
-  if (new_count > header->size) {
-    gena_error_e errorcode = gvec_reserve( phandle, new_count - header->size );
-    if (errorcode != GENA_ERR_NO) { return errorcode; }
-    header = PHANDLE_GET_HEADER(phandle);
-  }
-
-  dest_gvec = *(gvec_h*)phandle;
-
-  #else
-
-  /* This one doesn't use memory relocation and better for many insertions at
-  arbitrary positions, in theory. */
-  if (new_count > header->size) {
-    dest_gvec = igvec_new( new_count, entry_size );
-    if (dest_gvec == NULL) { return GENA_ERR_MEMORY; }
-    header = IGVEC_GET_HEADER(dest_gvec);
-    memmove( dest_gvec, *(gvec_h*)phandle, pos*entry_size );
-  } else {
-    dest_gvec = *(gvec_h*)phandle;
-  }
-
-  #endif
-
-  memmove(
-    ZGENA_VOIDP_ADD( dest_gvec, (pos+count) * entry_size ),
-    ZGENA_VOIDP_ADD( *(gvec_h*)phandle, pos * entry_size ),
-    (old_count-pos) * entry_size
-  );
-
-  header->count = new_count;
-
-  #ifdef GVEC_INSERT_NO_REALLOC
-  if (*(gvec_h*)phandle != dest_gvec) {
-    gvec_free(*(gvec_h*)phandle);
-    *(gvec_h*)phandle = dest_gvec;
-  }
-  #endif
-
-  return GENA_ERR_NO;
-}}
-
 void gvec_erase( gvec_h handle, size_t pos, size_t count ) {
   igvec_head_p header;
   size_t entry_size, tail_size;
@@ -266,12 +274,6 @@ void gvec_erase( gvec_h handle, size_t pos, size_t count ) {
   );
 
   header->count -= count;
-}}
-
-gena_error_e igvec_push( gvec_ptr phandle ) {
-{
-  ASSERT_PHANDLE(phandle);
-  return gvec_resize( phandle, gvec_count(*(gvec_h*)phandle)+1 );
 }}
 
 void gvec_pop( gvec_h handle ) {
