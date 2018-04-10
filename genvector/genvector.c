@@ -82,6 +82,50 @@ gvec_h igvec_new( size_t min_count, size_t entry_size ) {
   return handle;
 }}
 
+gvec_h igvec_resize( gvec_h handle, size_t new_count ) {
+  igvec_head_p header;
+{
+  assert( handle != NULL );
+  header = IGVEC_GET_HEADER(handle);
+
+  if (new_count <= header->size) {
+    header->count = new_count;
+    return handle;
+  }
+
+  return igvec_insert( handle, header->count, new_count - header->count );
+}}
+
+gvec_h igvec_reserve( gvec_h handle, size_t min_count ) {
+  igvec_head_p header;
+  size_t new_size;
+{
+  assert( handle != NULL );
+  header = IGVEC_GET_HEADER(handle);
+
+  if (min_count <= header->size) { return handle; }
+
+  new_size = calc_size( header->size, min_count - header->count );
+  header = set_storage( &handle, new_size, header->entry_size );
+  if (header == NULL) { return NULL; }
+
+  return handle;
+}}
+
+gvec_h igvec_shrink( gvec_h handle ) {
+  igvec_head_p header;
+  size_t new_size;
+{
+  assert( handle != NULL );
+  header = IGVEC_GET_HEADER(handle);
+
+  new_size = calc_size( 0, header->count );
+  header = set_storage( &handle, new_size, header->entry_size );
+  if (header == NULL) { return NULL; }
+
+  return handle;
+}}
+
 gvec_h igvec_insert( gvec_h handle, size_t pos, size_t count ) {
   gvec_h dest_gvec;
   igvec_head_p header;
@@ -173,11 +217,6 @@ gvec_h gvec_copy( gvec_h handle ) {
   return memcpy( dest_handle, handle, src_hdr->count * src_hdr->entry_size );
 }}
 
-void gvec_clear( gvec_h handle ) {
-{
-  gvec_reduce( handle, 0 );
-}}
-
 void gvec_free( gvec_h handle ) {
 {
   if (handle == NULL) { return; }
@@ -186,51 +225,10 @@ void gvec_free( gvec_h handle ) {
 
 /******************************************************************************/
 
-gvec_h igvec_resize( gvec_h handle, size_t new_count ) {
-  igvec_head_p header;
+void gvec_clear( gvec_h handle ) {
 {
-  assert( handle != NULL );
-  header = IGVEC_GET_HEADER(handle);
-
-  if (new_count <= header->size) {
-    header->count = new_count;
-    return handle;
-  }
-
-  return igvec_insert( handle, header->count, new_count - header->count );
+  gvec_reduce( handle, 0 );
 }}
-
-gvec_h igvec_reserve( gvec_h handle, size_t min_count ) {
-  igvec_head_p header;
-  size_t new_size;
-{
-  assert( handle != NULL );
-  header = IGVEC_GET_HEADER(handle);
-
-  if (min_count <= header->size) { return handle; }
-
-  new_size = calc_size( header->size, min_count - header->count );
-  header = set_storage( &handle, new_size, header->entry_size );
-  if (header == NULL) { return NULL; }
-
-  return handle;
-}}
-
-gvec_h igvec_shrink( gvec_h handle ) {
-  igvec_head_p header;
-  size_t new_size;
-{
-  assert( handle != NULL );
-  header = IGVEC_GET_HEADER(handle);
-
-  new_size = calc_size( 0, header->count );
-  header = set_storage( &handle, new_size, header->entry_size );
-  if (header == NULL) { return NULL; }
-
-  return handle;
-}}
-
-/******************************************************************************/
 
 void gvec_reduce( gvec_h handle, size_t new_count ) {
   igvec_head_p header;
