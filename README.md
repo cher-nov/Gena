@@ -177,8 +177,8 @@ Create a vector.
 *Return value:* a handle to the new vector, or `NULL` on error
 
 ```c
-gvec_error_e gvec_resize( gvec_h* phandle, size_t new_count )
-gvec_error_e gvec_NAME_resize( gvec_NAME_h* phandle, size_t new_count, const PASSVAL value )
+gena_bool gvec_resize( gvec_h* phandle, size_t new_count )
+gena_bool gvec_NAME_resize( gvec_NAME_h* phandle, size_t new_count, const PASSVAL value )
 ```
 Resize a vector.
 *It's recommended to use `gvec_resize()` for reducing the size, and `gvec_NAME_resize()` for increasing.*
@@ -187,14 +187,11 @@ Resize a vector.
 * *new_count* – a new count of elements in a vector
 * *value* – a value to be assigned to new elements
 
-*Return value:*
-
-* `GENA_ERR_NO`: operation performed successfully
-* `GENA_ERR_MEMORY`: a vector wasn't resized due to a memory error
+*Return value:* `GENA_TRUE` if operation was performed successfully, `GENA_FALSE` otherwise
 
 ```c
-gvec_error_e igvec_insert( gvec_h* phandle, size_t pos, size_t count )
-gvec_error_e gvec_NAME_insert( gvec_NAME_h* phandle, size_t pos, size_t count, const PASSVAL value )
+gena_bool igvec_insert( gvec_h* phandle, size_t pos, size_t count )
+gena_bool gvec_NAME_insert( gvec_NAME_h* phandle, size_t pos, size_t count, const PASSVAL value )
 ```
 Insert elements into a vector.
 
@@ -203,24 +200,18 @@ Insert elements into a vector.
 * *count* – a count of elements to be inserted
 * *value* – a value to be assigned to elements
 
-*Return value:*
-
-* `GENA_ERR_NO`: operation performed successfully
-* `GENA_ERR_MEMORY`: elements weren't inserted due to a memory error
+*Return value:* `GENA_TRUE` if operation was performed successfully, `GENA_FALSE` otherwise
 
 ```c
-gvec_error_e igvec_push( gvec_h* phandle )
-gvec_error_e gvec_NAME_push( gvec_NAME_h* phandle, const PASSVAL value )
+gena_bool igvec_push( gvec_h* phandle )
+gena_bool gvec_NAME_push( gvec_NAME_h* phandle, const PASSVAL value )
 ```
 Add an element to the end of a vector.
 
 * *phandle* – a reference to the handle to a vector
 * *value* – a value to be assigned to the element
 
-*Return value:*
-
-* `GENA_ERR_NO`: operation performed successfully
-* `GENA_ERR_MEMORY`: element wasn't added due to a memory error
+*Return value:* `GENA_TRUE` if operation was performed successfully, `GENA_FALSE` otherwise
 
 ```c
 void* gvec_at( gvec_h handle, size_t pos )
@@ -236,7 +227,7 @@ Get a reference to the element at specified position in a vector, with bounds ch
 ### Specialized-only functions
 
 ```c
-gvec_error_e gvec_NAME_assign( gvec_NAME_h* phandle, size_t count, const PASSVAL value )
+gena_bool gvec_NAME_assign( gvec_NAME_h* phandle, size_t count, const PASSVAL value )
 ```
 Resize a vector to specified count of elements and assign a value to them all.
 
@@ -297,29 +288,23 @@ Free a vector.
 * *handle* – a handle to a vector (if `NULL`, nothing will occur)
 
 ```c
-gvec_error_e gvec_reserve( gvec_h* phandle, size_t count )
+gena_bool gvec_reserve( gvec_h* phandle, size_t count )
 ```
 Reserve a space in a vector storage, at least for specified count of elements.
 
 * *phandle* – a reference to the handle to a vector
 * *count* – a minimum count of elements that vector should accept without any relocation of its storage
 
-*Return value:*
-
-* `GENA_ERR_NO`: operation performed successfully
-* `GENA_ERR_MEMORY`: chunks weren't reserved due to a memory error
+*Return value:* `GENA_TRUE` if operation was performed successfully, `GENA_FALSE` otherwise
 
 ```c
-gvec_error_e gvec_shrink( gvec_h* phandle )
+gena_bool gvec_shrink( gvec_h* phandle )
 ```
 Free memory that isn't used by a vector now.
 
 * *phandle* – a reference to the handle to a vector
 
-*Return value:*
-
-* `GENA_ERR_NO`: operation performed successfully
-* `GENA_ERR_MEMORY`: a size wasn't reduced due to a memory error
+*Return value:* `GENA_TRUE` if operation was performed successfully, `GENA_FALSE` otherwise
 
 ```c
 void gvec_erase( gvec_h handle, size_t pos, size_t count )

@@ -55,9 +55,9 @@ extern gvec_h gvec_copy( gvec_h handle );
 extern void gvec_clear( gvec_h handle );
 extern void gvec_free( gvec_h handle );
 
-extern gena_error_e gvec_resize( gvec_ptr phandle, size_t new_count );
-extern gena_error_e gvec_reserve( gvec_ptr phandle, size_t count );
-extern gena_error_e gvec_shrink( gvec_ptr phandle );
+extern gena_bool gvec_resize( gvec_ptr phandle, size_t new_count );
+extern gena_bool gvec_reserve( gvec_ptr phandle, size_t count );
+extern gena_bool gvec_shrink( gvec_ptr phandle );
 
 extern void gvec_erase( gvec_h handle, size_t pos, size_t count );
 extern void gvec_pop( gvec_h handle );

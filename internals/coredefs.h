@@ -28,13 +28,6 @@
 
 /******************************************************************************/
 
-typedef enum {
-  GENA_ERR_NO,
-  GENA_ERR_MEMORY
-} gena_error_e;
-
-/******************************************************************************/
-
 #define GENA_USE_VAL ZZ_GENA_VAL__  /* simple type, by value */
 #define GENA_USE_REF ZZ_GENA_REF__  /* simple type, by reference (pointer) */
 #define GENA_USE_BUF ZZ_GENA_BUF__  /* buffer type (array) */
