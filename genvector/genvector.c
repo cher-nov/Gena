@@ -83,17 +83,14 @@ gvec_h igvec_new( size_t min_count, size_t entry_size ) {
 }}
 
 gvec_h igvec_resize( gvec_h handle, size_t new_count ) {
-  igvec_head_p header;
 {
   assert( handle != NULL );
-  header = IGVEC_GET_HEADER(handle);
 
-  if (new_count <= header->size) {
-    header->count = new_count;
-    return handle;
-  }
+  handle = igvec_reserve( handle, new_count );
+  if (handle == NULL) { return NULL; }
 
-  return igvec_insert( handle, header->count, new_count - header->count );
+  IGVEC_GET_HEADER(handle)->count = new_count;
+  return handle;
 }}
 
 gvec_h igvec_reserve( gvec_h handle, size_t min_count ) {
