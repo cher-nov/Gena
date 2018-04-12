@@ -23,7 +23,7 @@ Function Arguments:
 Macro Arguments:
 
   ptr_* - argument should be either a pointer variable or a pointer constant
-  tp* - template parameter (rest must be in CamelCase, e.g. tpVecName)
+  tp* - template parameter (rest must be in CamelCase, e.g. tpTypeInfo)
 
 Variables and Constants:
 

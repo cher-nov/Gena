@@ -94,10 +94,10 @@ Let's examine them more closely.
 This approach is good when vector is used only in one translation unit (*module*). It is easier and set by default.
 Just include library header into module source and instantiate vector for types you need, using `GVEC_INSTANTIATE()`:
 ```c
-GVEC_INSTANTIATE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy );
+GVEC_INSTANTIATE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy );
 ```
 * *tpTypeInfo* – type for which vector should be instantiated
-* *tpVecName* – unique vector name that will be placed into names of specialized functions, for example: `gvec_mystruct_new()`
+* *tpSurname* – unique vector name that will be placed into names of specialized functions, for example: `gvec_mystruct_new()`
 * *tpPassBy* – specifies how values should be passed to specialized functions
 * *tpReturnBy* – specifies how values should be returned from specialized functions
 
@@ -118,14 +118,14 @@ For the next code template let's assume that wrapper module is called *gvec_wrap
 #define GVEC_MODULAR_APPROACH
 #include "genvector.h"
 
-GVEC_H_DECLARE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy );
+GVEC_H_DECLARE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy );
 ```
 
 ***gvec_wrapper.c***
 ```c
 #include "gvec_wrapper.h"
 
-GVEC_C_DEFINE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy );
+GVEC_C_DEFINE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy );
 ```
 
 The arguments for `GVEC_H_DECLARE()` and `GVEC_C_DEFINE()` are the same as for `GVEC_INSTANTIATE()`.
@@ -141,17 +141,17 @@ To prevent this, *typesets* were introduced. Let's consider them using the modif
 #define GVEC_MODULAR_APPROACH
 #include "genvector.h"
 
-#define ZZ_GVEC_TYPESET_VECNAME \
-  (tpTypeInfo, tpVecName, tpPassBy, tpReturnBy)
+#define ZZ_GVEC_TYPESET_SOMETHING \
+  (tpTypeInfo, tpSurname, tpPassBy, tpReturnBy)
 
-GENA_APPLY_TYPESET( GVEC_H_DECLARE, ZZ_GVEC_TYPESET_VECNAME );
+GENA_APPLY_TYPESET( GVEC_H_DECLARE, ZZ_GVEC_TYPESET_SOMETHING );
 ```
 
 ***gvec_wrapper.c***
 ```c
 #include "gvec_wrapper.h"
 
-GENA_APPLY_TYPESET( GVEC_C_DEFINE, ZZ_GVEC_TYPESET_VECNAME );
+GENA_APPLY_TYPESET( GVEC_C_DEFINE, ZZ_GVEC_TYPESET_SOMETHING );
 ```
 
 ## Functions
@@ -159,22 +159,22 @@ GENA_APPLY_TYPESET( GVEC_C_DEFINE, ZZ_GVEC_TYPESET_VECNAME );
 **Please note:** `gena_bool` type is fully compatible with `bool` from *stdbool.h* in C99 and later, so it's preferred not to use `gena_bool` if possible.
 
 Notation:
-* `NAME`: value of `tpVecName`
+* `NAME`: value of `tpSurname`
 * `PASSVAL`: `tpTypeInfo` if `tpPassBy` is `GENA_USE_VAL`, and `tpTypeInfo*` otherwise
 * `RETVAL`: `tpTypeInfo` if `tpReturnBy` is `GENA_USE_VAL`, and `tpTypeInfo*` otherwise
 
 ### Functions to manage `gvec_h`, and specialized versions of them
 
 ```c
-void* gvec_at( gvec_h handle, size_t pos )
-tpTypeInfo* gvec_NAME_at( gvec_h handle, size_t pos )
+void* gvec_at( gvec_h handle, size_t position )
+tpTypeInfo* gvec_NAME_at( gvec_h handle, size_t position )
 ```
 Get a reference to the element at specified position in a vector, with bounds checking.
 
 * *handle* – a handle to a vector
-* *pos* – a position of the element
+* *position* – a position of the element
 
-*Return value:* a reference to the element, or `NULL` if `pos` is not within the range of a vector
+*Return value:* a reference to the element, or `NULL` if `position` is not within the range of a vector
 
 ### Specialized-only functions
 
@@ -230,12 +230,12 @@ Free memory that isn't used by a vector now.
 *Return value:* `GENA_TRUE` if operation was performed successfully, `GENA_FALSE` otherwise
 
 ```c
-gena_bool gvec_NAME_insert( gvec_NAME_h* phandle, size_t pos, size_t count, const PASSVAL value )
+gena_bool gvec_NAME_insert( gvec_NAME_h* phandle, size_t position, size_t count, const PASSVAL value )
 ```
 Insert elements into a vector.
 
 * *phandle* – a reference to the handle to a vector
-* *pos* – a position of the first element to be inserted
+* *position* – a position of the first element to be inserted
 * *count* – a count of elements to be inserted
 * *value* – a value to be assigned to elements
 
@@ -315,12 +315,12 @@ Reduce a vector to the specified count of elements.
 * *new_count* – a new count of elements in a vector (should not exceed the current count)
 
 ```c
-void gvec_erase( gvec_h handle, size_t pos, size_t count )
+void gvec_erase( gvec_h handle, size_t position, size_t count )
 ```
 Erase elements from a vector.
 
 * *handle* – a handle to a vector
-* *pos* – a position of the first element to be erased
+* *position* – a position of the first element to be erased
 * *count* – a count of elements to be erased
 
 ```c

@@ -18,30 +18,30 @@ typedef void* gvec_h;
 #ifndef GVEC_MODULAR_APPROACH
 
 #define \
-GVEC_INSTANTIATE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy ) \
-  ZZ_GVEC_INSTANTIATE(tpTypeInfo,tpVecName,tpPassBy,tpReturnBy)
+GVEC_INSTANTIATE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
+  ZZ_GVEC_INSTANTIATE(tpTypeInfo,tpSurname,tpPassBy,tpReturnBy)
 
 #define \
-GVEC_INSTANTIATE_EX( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, tpReturnBy ) \
-  ZZ_GVEC_INSTANTIATE_EX(tpTypeInfo,tpVecName,tpAssignBy,tpPassBy,tpReturnBy)
+GVEC_INSTANTIATE_EX( tpTypeInfo, tpSurname, tpAssignBy, tpPassBy, tpReturnBy ) \
+  ZZ_GVEC_INSTANTIATE_EX(tpTypeInfo,tpSurname,tpAssignBy,tpPassBy,tpReturnBy)
 
 #else /* GVEC_MODULAR_APPROACH */
 
 #define \
-GVEC_C_DEFINE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy ) \
-  ZZ_GVEC_C_DEFINE(tpTypeInfo,tpVecName,tpPassBy,tpReturnBy)
+GVEC_C_DEFINE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
+  ZZ_GVEC_C_DEFINE(tpTypeInfo,tpSurname,tpPassBy,tpReturnBy)
 
 #define \
-GVEC_C_DEFINE_EX( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, tpReturnBy ) \
-  ZZ_GVEC_C_DEFINE_EX(tpTypeInfo,tpVecName,tpAssignBy,tpPassBy,tpReturnBy)
+GVEC_C_DEFINE_EX( tpTypeInfo, tpSurname, tpAssignBy, tpPassBy, tpReturnBy ) \
+  ZZ_GVEC_C_DEFINE_EX(tpTypeInfo,tpSurname,tpAssignBy,tpPassBy,tpReturnBy)
 
 #define \
-GVEC_H_DECLARE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy ) \
-  ZZ_GVEC_H_DECLARE(tpTypeInfo,tpVecName,tpPassBy,tpReturnBy)
+GVEC_H_DECLARE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
+  ZZ_GVEC_H_DECLARE(tpTypeInfo,tpSurname,tpPassBy,tpReturnBy)
 
 #define \
-GVEC_H_DECLARE_EX( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, tpReturnBy ) \
-  ZZ_GVEC_H_DECLARE_EX(tpTypeInfo,tpVecName,tpAssignBy,tpPassBy,tpReturnBy)
+GVEC_H_DECLARE_EX( tpTypeInfo, tpSurname, tpAssignBy, tpPassBy, tpReturnBy ) \
+  ZZ_GVEC_H_DECLARE_EX(tpTypeInfo,tpSurname,tpAssignBy,tpPassBy,tpReturnBy)
 
 #endif /* GVEC_MODULAR_APPROACH */
 
@@ -55,10 +55,10 @@ extern void gvec_free( gvec_h handle );
 
 extern void gvec_clear( gvec_h handle );
 extern void gvec_reduce( gvec_h handle, size_t new_count );
-extern void gvec_erase( gvec_h handle, size_t pos, size_t count );
+extern void gvec_erase( gvec_h handle, size_t position, size_t count );
 extern void gvec_pop( gvec_h handle );
 
-extern void* gvec_at( gvec_h handle, size_t pos );
+extern void* gvec_at( gvec_h handle, size_t position );
 extern void* gvec_front( gvec_h handle );
 extern void* gvec_back( gvec_h handle );
 

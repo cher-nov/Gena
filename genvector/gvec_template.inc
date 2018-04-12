@@ -15,134 +15,134 @@
 
   #define ZZ_GVEC_FUNC_ONCE static GENA_INLINE
 
-  #define ZZ_GVEC_DEFINE_TYPE( tpTypeInfo, tpUseBy, tpVecName ) \
-    ZGENA_TYPEINFO_BUFDEF( tpTypeInfo, tpUseBy, tpVecName )
+  #define ZZ_GVEC_DEFINE_TYPE( tpTypeInfo, tpUseBy, tpSurname ) \
+    ZGENA_TYPEINFO_BUFDEF( tpTypeInfo, tpUseBy, tpSurname )
 
-  #define ZZ_GVEC_INSTANTIATE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy ) \
+  #define ZZ_GVEC_INSTANTIATE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
 \
-    ZGVEC_C_DEFINE( tpTypeInfo, tpVecName, GENA_ASSIGN_NAIVE, tpPassBy, \
+    ZGVEC_C_DEFINE( tpTypeInfo, tpSurname, GENA_ASSIGN_NAIVE, tpPassBy, \
       tpReturnBy )
 
-  #define ZZ_GVEC_INSTANTIATE_EX( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, \
+  #define ZZ_GVEC_INSTANTIATE_EX( tpTypeInfo, tpSurname, tpAssignBy, tpPassBy, \
     tpReturnBy ) \
 \
-    ZGVEC_C_DEFINE( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, tpReturnBy )
+    ZGVEC_C_DEFINE( tpTypeInfo, tpSurname, tpAssignBy, tpPassBy, tpReturnBy )
 
 #else /* GVEC_MODULAR_APPROACH */
 
   #define ZZ_GVEC_FUNC_ONCE
 
-  #define ZZ_GVEC_DEFINE_TYPE( tpTypeInfo, tpUseBy, tpVecName ) \
+  #define ZZ_GVEC_DEFINE_TYPE( tpTypeInfo, tpUseBy, tpSurname ) \
     ZGENA_REQUIRE_SEMICOLON_OUTDOOR
 
-  #define ZZ_GVEC_C_DEFINE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy ) \
+  #define ZZ_GVEC_C_DEFINE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
 \
-    ZGVEC_C_DEFINE( tpTypeInfo, tpVecName, GENA_ASSIGN_NAIVE, tpPassBy, \
+    ZGVEC_C_DEFINE( tpTypeInfo, tpSurname, GENA_ASSIGN_NAIVE, tpPassBy, \
       tpReturnBy )
 
-  #define ZZ_GVEC_C_DEFINE_EX( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, \
+  #define ZZ_GVEC_C_DEFINE_EX( tpTypeInfo, tpSurname, tpAssignBy, tpPassBy, \
     tpReturnBy ) \
 \
-    ZGVEC_C_DEFINE( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, tpReturnBy )
+    ZGVEC_C_DEFINE( tpTypeInfo, tpSurname, tpAssignBy, tpPassBy, tpReturnBy )
 
-  #define ZZ_GVEC_H_DECLARE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy ) \
-    ZGVEC_H_DECLARE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy )
+  #define ZZ_GVEC_H_DECLARE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
+    ZGVEC_H_DECLARE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy )
 
-  #define ZZ_GVEC_H_DECLARE_EX( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, \
+  #define ZZ_GVEC_H_DECLARE_EX( tpTypeInfo, tpSurname, tpAssignBy, tpPassBy, \
     tpReturnBy ) \
 \
-    ZGVEC_H_DECLARE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy )
+    ZGVEC_H_DECLARE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy )
 
 #endif /* GVEC_MODULAR_APPROACH */
 
 /******************************************************************************/
 
-#define ZGVEC_H_DECLARE( tpTypeInfo, tpVecName, tpPassBy, tpReturnBy ) \
+#define ZGVEC_H_DECLARE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
 \
-  ZGENA_TYPEINFO_BUFDEF( tpTypeInfo, tpPassBy, gvec_##tpVecName##_h ); \
+  ZGENA_TYPEINFO_BUFDEF( tpTypeInfo, tpPassBy, gvec_##tpSurname##_h ); \
 \
   extern \
-  gvec_##tpVecName##_h \
-  gvec_##tpVecName##_new( \
+  gvec_##tpSurname##_h \
+  gvec_##tpSurname##_new( \
     size_t min_count \
   ); \
 \
   extern \
   gena_bool \
-  gvec_##tpVecName##_assign( \
-    gvec_##tpVecName##_h* phandle, \
+  gvec_##tpSurname##_assign( \
+    gvec_##tpSurname##_h* phandle, \
     size_t count, \
     const ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
   ); \
 \
   extern \
   gena_bool \
-  gvec_##tpVecName##_resize( \
-    gvec_##tpVecName##_h* phandle, \
+  gvec_##tpSurname##_resize( \
+    gvec_##tpSurname##_h* phandle, \
     size_t new_count, \
     const ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
   ); \
 \
   extern \
   gena_bool \
-  gvec_##tpVecName##_reserve( \
-    gvec_##tpVecName##_h* phandle, \
+  gvec_##tpSurname##_reserve( \
+    gvec_##tpSurname##_h* phandle, \
     size_t min_count \
   ); \
 \
   extern \
   gena_bool \
-  gvec_##tpVecName##_shrink( \
-    gvec_##tpVecName##_h* phandle \
+  gvec_##tpSurname##_shrink( \
+    gvec_##tpSurname##_h* phandle \
   ); \
 \
   extern \
   gena_bool \
-  gvec_##tpVecName##_insert( \
-    gvec_##tpVecName##_h* phandle, \
-    size_t pos, \
+  gvec_##tpSurname##_insert( \
+    gvec_##tpSurname##_h* phandle, \
+    size_t position, \
     size_t count, \
     const ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
   ); \
 \
   extern \
   gena_bool \
-  gvec_##tpVecName##_push( \
-    gvec_##tpVecName##_h* phandle, \
+  gvec_##tpSurname##_push( \
+    gvec_##tpSurname##_h* phandle, \
     const ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
   ); \
 \
   extern \
   ZGENA_TYPEINFO_NAME(tpTypeInfo, tpReturnBy) * \
-  gvec_##tpVecName##_at( \
-    gvec_##tpVecName##_h handle, \
-    size_t pos \
+  gvec_##tpSurname##_at( \
+    gvec_##tpSurname##_h handle, \
+    size_t position \
   ); \
 \
   extern \
   ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpReturnBy) \
-  gvec_##tpVecName##_front( \
-    gvec_##tpVecName##_h handle \
+  gvec_##tpSurname##_front( \
+    gvec_##tpSurname##_h handle \
   ); \
 \
   extern \
   ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpReturnBy) \
-  gvec_##tpVecName##_back( \
-    gvec_##tpVecName##_h handle \
+  gvec_##tpSurname##_back( \
+    gvec_##tpSurname##_h handle \
   ); \
 \
   ZGENA_REQUIRE_SEMICOLON_OUTDOOR
 
 /******************************************************************************/
 
-#define ZGVEC_C_DEFINE( tpTypeInfo, tpVecName, tpAssignBy, tpPassBy, \
+#define ZGVEC_C_DEFINE( tpTypeInfo, tpSurname, tpAssignBy, tpPassBy, \
   tpReturnBy ) \
 \
-  ZZ_GVEC_DEFINE_TYPE( tpTypeInfo, tpReturnBy, gvec_##tpVecName##_h ); \
+  ZZ_GVEC_DEFINE_TYPE( tpTypeInfo, tpReturnBy, gvec_##tpSurname##_h ); \
 /********************************************************************/ \
   ZZ_GVEC_FUNC_ONCE \
-  gvec_##tpVecName##_h \
-  gvec_##tpVecName##_new( \
+  gvec_##tpSurname##_h \
+  gvec_##tpSurname##_new( \
     size_t min_count \
   ) { \
   { \
@@ -154,12 +154,12 @@
 /********************************************************************/ \
   ZZ_GVEC_FUNC_ONCE \
   gena_bool \
-  gvec_##tpVecName##_assign( \
-    gvec_##tpVecName##_h* phandle, \
+  gvec_##tpSurname##_assign( \
+    gvec_##tpSurname##_h* phandle, \
     size_t count, \
     const ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
   ) { \
-    gvec_##tpVecName##_h new_handle; \
+    gvec_##tpSurname##_h new_handle; \
     size_t i; \
   { \
     assert( phandle != NULL ); \
@@ -178,12 +178,12 @@
 /********************************************************************/ \
   ZZ_GVEC_FUNC_ONCE \
   gena_bool \
-  gvec_##tpVecName##_resize( \
-    gvec_##tpVecName##_h* phandle, \
+  gvec_##tpSurname##_resize( \
+    gvec_##tpSurname##_h* phandle, \
     size_t new_count, \
     const ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
   ) { \
-    gvec_##tpVecName##_h new_handle; \
+    gvec_##tpSurname##_h new_handle; \
     size_t i; \
   { \
     assert( phandle != NULL ); \
@@ -203,11 +203,11 @@
 /********************************************************************/ \
   ZZ_GVEC_FUNC_ONCE \
   gena_bool \
-  gvec_##tpVecName##_reserve( \
-    gvec_##tpVecName##_h* phandle, \
+  gvec_##tpSurname##_reserve( \
+    gvec_##tpSurname##_h* phandle, \
     size_t min_count \
   ) { \
-    gvec_##tpVecName##_h new_handle; \
+    gvec_##tpSurname##_h new_handle; \
   { \
     new_handle = igvec_reserve( *phandle, min_count ); \
     if (new_handle == NULL) { return GENA_FALSE; } \
@@ -217,10 +217,10 @@
 /********************************************************************/ \
   ZZ_GVEC_FUNC_ONCE \
   gena_bool \
-  gvec_##tpVecName##_shrink( \
-    gvec_##tpVecName##_h* phandle \
+  gvec_##tpSurname##_shrink( \
+    gvec_##tpSurname##_h* phandle \
   ) { \
-    gvec_##tpVecName##_h new_handle; \
+    gvec_##tpSurname##_h new_handle; \
   { \
     new_handle = igvec_shrink( *phandle ); \
     if (new_handle == NULL) { return GENA_FALSE; } \
@@ -230,20 +230,20 @@
 /********************************************************************/ \
   ZZ_GVEC_FUNC_ONCE \
   gena_bool \
-  gvec_##tpVecName##_insert( \
-    gvec_##tpVecName##_h* phandle, \
-    size_t pos, \
+  gvec_##tpSurname##_insert( \
+    gvec_##tpSurname##_h* phandle, \
+    size_t position, \
     size_t count, \
     const ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
   ) { \
-    gvec_##tpVecName##_h new_handle; \
+    gvec_##tpSurname##_h new_handle; \
     size_t i; \
   { \
-    new_handle = igvec_insert( *phandle, pos, count ); \
+    new_handle = igvec_insert( *phandle, position, count ); \
     if (new_handle == NULL) { return GENA_FALSE; } \
     for(i = 0; i < count; ++i) { \
       tpAssignBy ( \
-        tpPassBy##ENTRY (new_handle + pos + i), \
+        tpPassBy##ENTRY (new_handle + position + i), \
         tpPassBy##REFERENCE value, \
         ZGENA_TYPEINFO_SIZE(tpTypeInfo, tpPassBy) \
       ); \
@@ -254,11 +254,11 @@
 /********************************************************************/ \
   ZZ_GVEC_FUNC_ONCE \
   gena_bool \
-  gvec_##tpVecName##_push( \
-    gvec_##tpVecName##_h* phandle, \
+  gvec_##tpSurname##_push( \
+    gvec_##tpSurname##_h* phandle, \
     const ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
   ) { \
-    gvec_##tpVecName##_h new_handle; \
+    gvec_##tpSurname##_h new_handle; \
   { \
     new_handle = igvec_push(*phandle); \
     if (new_handle == NULL) { return GENA_FALSE; } \
@@ -273,18 +273,18 @@
 /********************************************************************/ \
   ZZ_GVEC_FUNC_ONCE \
   ZGENA_TYPEINFO_NAME(tpTypeInfo, tpReturnBy) * \
-  gvec_##tpVecName##_at( \
-    gvec_##tpVecName##_h handle, \
-    size_t pos \
+  gvec_##tpSurname##_at( \
+    gvec_##tpSurname##_h handle, \
+    size_t position \
   ) { \
   { \
-    return gvec_at( handle, pos ); \
+    return gvec_at( handle, position ); \
   }} \
 /********************************************************************/ \
   ZZ_GVEC_FUNC_ONCE \
   ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpReturnBy) \
-  gvec_##tpVecName##_front( \
-    gvec_##tpVecName##_h handle \
+  gvec_##tpSurname##_front( \
+    gvec_##tpSurname##_h handle \
   ) { \
   { \
     return tpReturnBy##RETURN \
@@ -293,8 +293,8 @@
 /********************************************************************/ \
   ZZ_GVEC_FUNC_ONCE \
   ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpReturnBy) \
-  gvec_##tpVecName##_back( \
-    gvec_##tpVecName##_h handle \
+  gvec_##tpSurname##_back( \
+    gvec_##tpSurname##_h handle \
   ) { \
   { \
     return tpReturnBy##RETURN \

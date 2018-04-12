@@ -19,47 +19,47 @@ typedef struct zz_gtmap_s* gtmap_h;
 #ifndef GTMAP_MODULAR_APPROACH
 
 #define \
-GTMAP_INSTANTIATE( tpKeyType, tpValueType, tpMapName, tpKeyCompareBy, \
+GTMAP_INSTANTIATE( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, tpKeyCompareBy, \
   tpKeyPassBy, tpValuePassBy ) \
 \
-  ZZ_GTMAP_INSTANTIATE(tpKeyType,tpValueType,tpMapName,tpKeyCompareBy,\
+  ZZ_GTMAP_INSTANTIATE(tpKeyTypeInfo,tpValueTypeInfo,tpSurname,tpKeyCompareBy,\
   tpKeyPassBy,tpValuePassBy)
 
 #define \
-GTMAP_INSTANTIATE_EX( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
-  tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy ) \
+GTMAP_INSTANTIATE_EX( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, \
+  tpKeyAssignBy, tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy ) \
 \
-  ZZ_GTMAP_INSTANTIATE_EX(tpKeyType,tpValueType,tpMapName,tpKeyAssignBy,\
-  tpValueAssignBy,tpKeyCompareBy,tpKeyPassBy,tpValuePassBy)
+  ZZ_GTMAP_INSTANTIATE_EX(tpKeyTypeInfo,tpValueTypeInfo,tpSurname,\
+  tpKeyAssignBy,tpValueAssignBy,tpKeyCompareBy,tpKeyPassBy,tpValuePassBy)
 
 #else /* GTMAP_MODULAR_APPROACH */
 
 #define \
-GTMAP_C_DEFINE( tpKeyType, tpValueType, tpMapName, tpKeyCompareBy, \
+GTMAP_C_DEFINE( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, tpKeyCompareBy, \
   tpKeyPassBy, tpValuePassBy ) \
 \
-  ZZ_GTMAP_C_DEFINE(tpKeyType,tpValueType,tpMapName,tpKeyCompareBy,\
+  ZZ_GTMAP_C_DEFINE(tpKeyTypeInfo,tpValueTypeInfo,tpSurname,tpKeyCompareBy,\
   tpKeyPassBy,tpValuePassBy)
 
 #define \
-GTMAP_C_DEFINE_EX( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
+GTMAP_C_DEFINE_EX( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, tpKeyAssignBy, \
   tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy ) \
 \
-  ZZ_GTMAP_C_DEFINE_EX(tpKeyType,tpValueType,tpMapName,tpKeyAssignBy,\
+  ZZ_GTMAP_C_DEFINE_EX(tpKeyTypeInfo,tpValueTypeInfo,tpSurname,tpKeyAssignBy,\
   tpValueAssignBy,tpKeyCompareBy,tpKeyPassBy,tpValuePassBy)
 
 #define \
-GTMAP_H_DECLARE( tpKeyType, tpValueType, tpMapName, tpKeyCompareBy, \
+GTMAP_H_DECLARE( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, tpKeyCompareBy, \
   tpKeyPassBy, tpValuePassBy ) \
 \
-  ZZ_GTMAP_H_DECLARE(tpKeyType,tpValueType,tpMapName,tpKeyCompareBy,\
+  ZZ_GTMAP_H_DECLARE(tpKeyTypeInfo,tpValueTypeInfo,tpSurname,tpKeyCompareBy,\
   tpKeyPassBy,tpValuePassBy)
 
 #define \
-GTMAP_H_DECLARE_EX( tpKeyType, tpValueType, tpMapName, tpKeyAssignBy, \
+GTMAP_H_DECLARE_EX( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, tpKeyAssignBy, \
   tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy ) \
 \
-  ZZ_GTMAP_H_DECLARE_EX(tpKeyType,tpValueType,tpMapName,tpKeyAssignBy,\
+  ZZ_GTMAP_H_DECLARE_EX(tpKeyTypeInfo,tpValueTypeInfo,tpSurname,tpKeyAssignBy,\
   tpValueAssignBy,tpKeyCompareBy,tpKeyPassBy,tpValuePassBy)
 
 #endif /* GTMAP_MODULAR_APPROACH */

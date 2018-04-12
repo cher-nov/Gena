@@ -123,14 +123,14 @@ gvec_h igvec_shrink( gvec_h handle ) {
   return handle;
 }}
 
-gvec_h igvec_insert( gvec_h handle, size_t pos, size_t count ) {
+gvec_h igvec_insert( gvec_h handle, size_t position, size_t count ) {
   gvec_h dest_gvec;
   igvec_head_p header;
   size_t entry_size, old_count, new_count;
 {
   assert( handle != NULL );
   header = IGVEC_GET_HEADER(handle);
-  assert( pos <= header->count );
+  assert( position <= header->count );
 
   if (count == 0) { return handle; }
 
@@ -153,7 +153,7 @@ gvec_h igvec_insert( gvec_h handle, size_t pos, size_t count ) {
     dest_gvec = igvec_new( new_count, entry_size );
     if (dest_gvec == NULL) { return NULL; }
     header = IGVEC_GET_HEADER(dest_gvec);
-    memmove( dest_gvec, handle, pos*entry_size );
+    memmove( dest_gvec, handle, position * entry_size );
   } else {
     dest_gvec = handle;
   }
@@ -161,9 +161,9 @@ gvec_h igvec_insert( gvec_h handle, size_t pos, size_t count ) {
   #endif
 
   memmove(
-    ZGENA_VOIDP_ADD( dest_gvec, (pos+count) * entry_size ),
-    ZGENA_VOIDP_ADD( handle, pos * entry_size ),
-    (old_count-pos) * entry_size
+    ZGENA_VOIDP_ADD( dest_gvec, (position+count) * entry_size ),
+    ZGENA_VOIDP_ADD( handle, position * entry_size ),
+    (old_count-position) * entry_size
   );
 
   header->count = new_count;
@@ -237,22 +237,22 @@ void gvec_reduce( gvec_h handle, size_t new_count ) {
   header->count = new_count;
 }}
 
-void gvec_erase( gvec_h handle, size_t pos, size_t count ) {
+void gvec_erase( gvec_h handle, size_t position, size_t count ) {
   igvec_head_p header;
   size_t entry_size, tail_size;
 {
   assert( handle != NULL );
   header = IGVEC_GET_HEADER(handle);
-  assert( pos+count <= header->count );
+  assert( position+count <= header->count );
 
   if (count == 0) { return; }
 
   entry_size = header->entry_size;
-  tail_size = (header->count-(pos+count)) * entry_size;
+  tail_size = (header->count-(position+count)) * entry_size;
 
   memmove(
-    ZGENA_VOIDP_ADD( handle, pos * entry_size ),
-    ZGENA_VOIDP_ADD( handle, (pos+count) * entry_size ),
+    ZGENA_VOIDP_ADD( handle, position * entry_size ),
+    ZGENA_VOIDP_ADD( handle, (position+count) * entry_size ),
     tail_size
   );
 
@@ -267,13 +267,13 @@ void gvec_pop( gvec_h handle ) {
 
 /******************************************************************************/
 
-void* gvec_at( gvec_h handle, size_t pos ) {
+void* gvec_at( gvec_h handle, size_t position ) {
   igvec_head_p header;
 {
   assert( handle != NULL );
   header = IGVEC_GET_HEADER(handle);
-  return (pos < header->count)
-    ? ZGENA_VOIDP_ADD( handle, pos * header->entry_size )
+  return (position < header->count)
+    ? ZGENA_VOIDP_ADD( handle, position * header->entry_size )
     : NULL;
 }}
 
