@@ -74,35 +74,12 @@
   tpKeyPassBy, tpValuePassBy ) \
 \
   typedef gtmap_h gtmap_##tpSurname##_h; \
-\
-  extern \
-  gtmap_##tpSurname##_h \
-  gtmap_##tpSurname##_new( \
-    void \
+  ZZ_GTMAP_FUNCTIONS_LIST( \
+    tpSurname, \
+    ZGENA_TYPEINFO_NAME(tpValueTypeInfo, tpValuePassBy), \
+    ZGENA_TYPEINFO_USERTYPE(tpKeyTypeInfo, tpKeyPassBy), \
+    ZGENA_TYPEINFO_USERTYPE(tpValueTypeInfo, tpValuePassBy) \
   ); \
-\
-  extern \
-  ZGENA_TYPEINFO_NAME(tpValueTypeInfo, tpValuePassBy) * \
-  gtmap_##tpSurname##_add( \
-    gtmap_##tpSurname##_h handle, \
-    const ZGENA_TYPEINFO_USERTYPE(tpKeyTypeInfo, tpKeyPassBy) key, \
-    const ZGENA_TYPEINFO_USERTYPE(tpValueTypeInfo, tpValuePassBy) value \
-  ); \
-\
-  extern \
-  gena_bool \
-  gtmap_##tpSurname##_delete( \
-    gtmap_##tpSurname##_h handle, \
-    const ZGENA_TYPEINFO_USERTYPE(tpKeyTypeInfo, tpKeyPassBy) key \
-  ); \
-\
-  extern \
-  ZGENA_TYPEINFO_NAME(tpValueTypeInfo, tpValuePassBy) * \
-  gtmap_##tpSurname##_find( \
-    gtmap_##tpSurname##_h handle, \
-    const ZGENA_TYPEINFO_USERTYPE(tpKeyTypeInfo, tpKeyPassBy) key \
-  ); \
-\
   ZGENA_REQUIRE_SEMICOLON_OUTDOOR
 
 /******************************************************************************/

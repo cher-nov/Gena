@@ -60,77 +60,12 @@
 #define ZGVEC_H_DECLARE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
 \
   ZGENA_TYPEINFO_BUFDEF( tpTypeInfo, tpPassBy, gvec_##tpSurname##_h ); \
-\
-  extern \
-  gvec_##tpSurname##_h \
-  gvec_##tpSurname##_new( \
-    size_t min_count \
+  ZZ_GVEC_FUNCTIONS_LIST( \
+    tpSurname, \
+    ZGENA_TYPEINFO_NAME(tpTypeInfo, tpReturnBy), \
+    ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy), \
+    ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpReturnBy) \
   ); \
-\
-  extern \
-  gena_bool \
-  gvec_##tpSurname##_assign( \
-    gvec_##tpSurname##_h* phandle, \
-    size_t count, \
-    const ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
-  ); \
-\
-  extern \
-  gena_bool \
-  gvec_##tpSurname##_resize( \
-    gvec_##tpSurname##_h* phandle, \
-    size_t new_count, \
-    const ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
-  ); \
-\
-  extern \
-  gena_bool \
-  gvec_##tpSurname##_reserve( \
-    gvec_##tpSurname##_h* phandle, \
-    size_t min_count \
-  ); \
-\
-  extern \
-  gena_bool \
-  gvec_##tpSurname##_shrink( \
-    gvec_##tpSurname##_h* phandle \
-  ); \
-\
-  extern \
-  gena_bool \
-  gvec_##tpSurname##_insert( \
-    gvec_##tpSurname##_h* phandle, \
-    size_t position, \
-    size_t count, \
-    const ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
-  ); \
-\
-  extern \
-  gena_bool \
-  gvec_##tpSurname##_push( \
-    gvec_##tpSurname##_h* phandle, \
-    const ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpPassBy) value \
-  ); \
-\
-  extern \
-  ZGENA_TYPEINFO_NAME(tpTypeInfo, tpReturnBy) * \
-  gvec_##tpSurname##_at( \
-    gvec_##tpSurname##_h handle, \
-    size_t position \
-  ); \
-\
-  extern \
-  ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpReturnBy) \
-  gvec_##tpSurname##_front( \
-    gvec_##tpSurname##_h handle \
-  ); \
-\
-  extern \
-  ZGENA_TYPEINFO_USERTYPE(tpTypeInfo, tpReturnBy) \
-  gvec_##tpSurname##_back( \
-    gvec_##tpSurname##_h handle \
-  ); \
-\
   ZGENA_REQUIRE_SEMICOLON_OUTDOOR
 
 /******************************************************************************/

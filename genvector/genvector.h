@@ -68,6 +68,41 @@ extern gena_bool gvec_empty( gvec_h handle );
 
 /******************************************************************************/
 
+/* Pseudo-templated functions to be specialized at type instantiation. */
+/* NOTE: Do not call this directly. Instead, use the instantiation macros. */
+
+#define ZZ_GVEC_FUNCTIONS_LIST( Surname, TypeName, PassType, ReturnType ) \
+\
+extern gvec_##Surname##_h gvec_##Surname##_new( size_t min_count ); \
+\
+extern gena_bool gvec_##Surname##_assign( gvec_##Surname##_h* phandle, \
+  size_t count, const PassType value ); \
+\
+extern gena_bool gvec_##Surname##_resize( gvec_##Surname##_h* phandle, \
+  size_t new_count, const PassType value ); \
+\
+extern gena_bool gvec_##Surname##_reserve( gvec_##Surname##_h* phandle, \
+  size_t min_count ); \
+\
+extern gena_bool gvec_##Surname##_shrink( gvec_##Surname##_h* phandle ); \
+\
+extern gena_bool gvec_##Surname##_insert( gvec_##Surname##_h* phandle, \
+  size_t position, size_t count, const PassType value ); \
+\
+extern gena_bool gvec_##Surname##_push( gvec_##Surname##_h* phandle, \
+  const PassType value ); \
+\
+extern TypeName* gvec_##Surname##_at( gvec_##Surname##_h handle, \
+  size_t position ); \
+\
+extern ReturnType gvec_##Surname##_front( gvec_##Surname##_h handle ); \
+\
+extern ReturnType gvec_##Surname##_back( gvec_##Surname##_h handle ); \
+\
+ZZ_GENA_FUNCTIONS_LIST_END
+
+/******************************************************************************/
+
 /* Pseudo-templates. User-type management functions are defined there. */
 #include "gvec_template.inc"
 

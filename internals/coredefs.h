@@ -155,4 +155,8 @@ guaranteed to be a valid zero-terminated C string. */
   ZGENA_MACRO_CONCAT(ZZ_GENA_THIS_REQUIRES_A_SEMICOLON, __LINE__) \
   (void)
 
+/******************************************************************************/
+
+#define ZZ_GENA_FUNCTIONS_LIST_END ZGENA_REQUIRE_SEMICOLON_OUTDOOR
+
 #endif /* ZZ_GENA_COREDEFS_H_IG */
