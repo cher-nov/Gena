@@ -47,5 +47,6 @@ size_t gtmap_count( gtmap_h handle ) {
 
 gena_bool gtmap_empty( gtmap_h handle ) {
 {
+  assert( handle != NULL );
   return (handle->avltree_root == NULL);
 }}
