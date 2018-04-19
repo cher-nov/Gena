@@ -2,146 +2,98 @@
   Copyright (c) 2017, Dmitry D. Chernov
 */
 
-#include <string.h>
-
-#define IGENA_AVL_SUBTREE_INSTANTIATE( tpPrefix, tpSurname, tpKeyTypeInfo, \
-  tpValueSize, tpKeyAssignBy, tpKeyCompareBy, tpKeyPassBy ) \
-\
-  ZZ_IGENA_AVL_SUBTREE_INSTANTIATE( tpPrefix, tpSurname, tpKeyTypeInfo, \
-    tpValueSize, tpKeyAssignBy, tpKeyCompareBy, tpKeyPassBy )
-
-/******************************************************************************/
-
 /* NOTE: tpPrefix is needed to prevent name collisions because different data
-structures that use AVL-tree can be instantiated with same names. */
+structures that use AVL-tree can be instantiated with the same name. */
 
-#define ZZ_IGENA_AVL_SUBTREE_INSTANTIATE( tpPrefix, tpSurname, tpKeyTypeInfo, \
+#define ZZ_IGENA_AVL_TREE_INSTANTIATE( tpPrefix, tpSurname, tpKeyTypeInfo, \
   tpValueSize, tpKeyAssignBy, tpKeyCompareBy, tpKeyPassBy ) \
 \
 /********************************************************************/ \
   static \
-  igena_avl_retstate_e \
-  i##tpPrefix##_avl_subtree_##tpSurname##_add_key( \
-    igena_avl_node_head_p* pnode, \
+  igena_avl_bias \
+  i##tpPrefix##_avl_subtree_##tpSurname##_scan( \
+    igena_avl_node_p root, \
     const ZGENA_TYPEINFO_USERTYPE(tpKeyTypeInfo, tpKeyPassBy) key, \
-    igena_avl_node_head_p* OUT_final_node \
+    igena_avl_node_p* OUT_final_node \
   ) { \
-    igena_avl_retstate_e retstate; \
-    igena_avl_node_head_p new_node; \
-    int compare_result; \
+    igena_avl_node_p final_node = NULL; \
+    igena_avl_bias link = IGENA_AVL_BIAS_SELF; \
+    int compare; \
   { \
-    if (*pnode == NULL) { \
-      new_node = igena_avl_node_create( \
-        ZGENA_TYPEINFO_SIZE(tpKeyTypeInfo, tpKeyPassBy), \
-        tpValueSize \
-      ); \
-      if (new_node != NULL) { \
-        tpKeyAssignBy ( \
-          ( ZGENA_TYPEINFO_NAME(tpKeyTypeInfo, tpKeyPassBy) * ) \
-            IGENA_AVL_NODE_GET_KEY(new_node), \
-          tpKeyPassBy##REFERENCE key, \
-          ZGENA_TYPEINFO_SIZE(tpKeyTypeInfo, tpKeyPassBy) \
-        ); \
-        *pnode = new_node; \
-      } \
-\
-      if (OUT_final_node != NULL) { *OUT_final_node = new_node; } \
-      return (new_node != NULL) \
-             ? IGENA_AVL_RETST_BALANCE \
-             : IGENA_AVL_RETST_NOTHING; \
-    } \
-\
-    compare_result = tpKeyCompareBy ( \
-      ( ZGENA_TYPEINFO_NAME(tpKeyTypeInfo, tpKeyPassBy) * ) \
-        IGENA_AVL_NODE_GET_KEY(*pnode), \
-      tpKeyPassBy##REFERENCE key, \
-      ZGENA_TYPEINFO_SIZE(tpKeyTypeInfo, tpKeyPassBy) \
-    ); \
-\
-    if (compare_result < 0) { \
-      retstate = i##tpPrefix##_avl_subtree_##tpSurname##_add_key( \
-        &(*pnode)->left, key, OUT_final_node ); \
-      if (retstate == IGENA_AVL_RETST_BALANCE) { --((*pnode)->factor); } \
-    } else if (compare_result > 0) { \
-      retstate = i##tpPrefix##_avl_subtree_##tpSurname##_add_key( \
-        &(*pnode)->right, key, OUT_final_node ); \
-      if (retstate == IGENA_AVL_RETST_BALANCE) { ++((*pnode)->factor); } \
-    } else { \
-      if (OUT_final_node != NULL) { *OUT_final_node = *pnode; } \
-      return IGENA_AVL_RETST_NOTHING; \
-    } \
-\
-    if (retstate == IGENA_AVL_RETST_BALANCE) { \
-      igena_avl_node_balance( pnode ); \
-      if ( (*pnode)->factor == 0 ) { return IGENA_AVL_RETST_RETURN; } \
-    } \
-\
-    return retstate; \
-  }} \
-/********************************************************************/ \
-  static \
-  igena_avl_retstate_e \
-  i##tpPrefix##_avl_subtree_##tpSurname##_delete_key( \
-    igena_avl_node_head_p* pnode, \
-    const ZGENA_TYPEINFO_USERTYPE(tpKeyTypeInfo, tpKeyPassBy) key \
-  ) { \
-    igena_avl_retstate_e retstate; \
-    int compare_result; \
-    gena_bool can_balance = GENA_TRUE; \
-  { \
-    if (*pnode == NULL) { return IGENA_AVL_RETST_NOTHING; } \
-\
-    compare_result = tpKeyCompareBy ( \
-      ( ZGENA_TYPEINFO_NAME(tpKeyTypeInfo, tpKeyPassBy) * ) \
-        IGENA_AVL_NODE_GET_KEY(*pnode), \
-      tpKeyPassBy##REFERENCE key, \
-      ZGENA_TYPEINFO_SIZE(tpKeyTypeInfo, tpKeyPassBy) \
-    ); \
-\
-    if (compare_result < 0) { \
-      retstate = i##tpPrefix##_avl_subtree_##tpSurname##_delete_key( \
-        &(*pnode)->left, key ); \
-      if (retstate == IGENA_AVL_RETST_BALANCE) { ++((*pnode)->factor); } \
-    } else if (compare_result > 0) { \
-      retstate = i##tpPrefix##_avl_subtree_##tpSurname##_delete_key( \
-        &(*pnode)->right, key ); \
-      if (retstate == IGENA_AVL_RETST_BALANCE) { --((*pnode)->factor); } \
-    } else { \
-      can_balance = !igena_avl_node_discard( pnode ); \
-      retstate = IGENA_AVL_RETST_BALANCE; \
-    } \
-\
-    if ( (can_balance) && (retstate == IGENA_AVL_RETST_BALANCE) ) { \
-      igena_avl_node_balance( pnode ); \
-      if ( (*pnode)->factor != 0 ) { return IGENA_AVL_RETST_RETURN; } \
-    } \
-\
-    return retstate; \
-  }} \
-/********************************************************************/ \
-  static igena_avl_node_head_p \
-  i##tpPrefix##_avl_subtree_##tpSurname##_find_node( \
-    igena_avl_node_head_p node, \
-    const ZGENA_TYPEINFO_USERTYPE(tpKeyTypeInfo, tpKeyPassBy) key \
-  ) { \
-    int compare_result; \
-  { \
-    while (node != NULL) { \
-      compare_result = tpKeyCompareBy ( \
-        ( ZGENA_TYPEINFO_NAME(tpKeyTypeInfo, tpKeyPassBy) * ) \
-          IGENA_AVL_NODE_GET_KEY(node), \
+    while (root != NULL) { \
+      compare = tpKeyCompareBy ( \
         tpKeyPassBy##REFERENCE key, \
+        ( ZGENA_TYPEINFO_NAME(tpKeyTypeInfo, tpKeyPassBy) * ) \
+          IGENA_AVL_NODE_KEY(root), \
         ZGENA_TYPEINFO_SIZE(tpKeyTypeInfo, tpKeyPassBy) \
       ); \
-      if (compare_result < 0) { \
-        node = node->left; \
-      } else if (compare_result > 0) { \
-        node = node->right; \
+      final_node = root; \
+      if (compare == 0) { \
+        link = IGENA_AVL_BIAS_PARENT; \
+        root = NULL; \
       } else { \
-        return node; \
+        link = (compare < 0) ? IGENA_AVL_BIAS_LEFT : IGENA_AVL_BIAS_RIGHT; \
+        root = IGENA_AVL_NODE_LINK( root, link ); \
       } \
     } \
-    return NULL; \
+    if (OUT_final_node != NULL) { *OUT_final_node = final_node; } \
+    return link; \
+  }} \
+/********************************************************************/ \
+  static \
+  igena_avl_node_p \
+  i##tpPrefix##_avl_subtree_##tpSurname##_add( \
+    igena_avl_node_p* proot, \
+    const ZGENA_TYPEINFO_USERTYPE(tpKeyTypeInfo, tpKeyPassBy) key, \
+    gena_bool* OUT_key_exists \
+  ) { \
+    igena_avl_node_p scan_node, new_root, new_leaf; \
+    igena_avl_bias scan_link; \
+    gena_bool key_exists; \
+  { \
+    scan_link = i##tpPrefix##_avl_subtree_##tpSurname##_scan( \
+      *proot, key, &scan_node ); \
+    key_exists = (scan_link == IGENA_AVL_BIAS_PARENT); \
+    if (OUT_key_exists != NULL) { *OUT_key_exists = key_exists; } \
+    if (key_exists) { return scan_node; } \
+\
+    new_leaf = igena_avl_node_create( \
+      ZGENA_TYPEINFO_SIZE(tpKeyTypeInfo, tpKeyPassBy), \
+      tpValueSize \
+    ); \
+\
+    if (new_leaf == NULL) { return NULL; } \
+\
+    tpKeyAssignBy ( \
+      ( ZGENA_TYPEINFO_NAME(tpKeyTypeInfo, tpKeyPassBy) * ) \
+        IGENA_AVL_NODE_KEY(new_leaf), \
+      tpKeyPassBy##REFERENCE key, \
+      ZGENA_TYPEINFO_SIZE(tpKeyTypeInfo, tpKeyPassBy) \
+    ); \
+\
+    new_root = igena_avl_node_attach( new_leaf, scan_node, scan_link ); \
+    if (new_root != NULL) { *proot = new_root; } \
+\
+    return new_leaf; \
+  }} \
+/********************************************************************/ \
+  static \
+  gena_bool \
+  i##tpPrefix##_avl_subtree_##tpSurname##_delete( \
+    igena_avl_node_p* proot, \
+    const ZGENA_TYPEINFO_USERTYPE(tpKeyTypeInfo, tpKeyPassBy) key \
+  ) { \
+    igena_avl_node_p scan_node, new_root; \
+    igena_avl_bias scan_link; \
+  { \
+    scan_link = i##tpPrefix##_avl_subtree_##tpSurname##_scan( \
+      *proot, key, &scan_node ); \
+    if (scan_link != IGENA_AVL_BIAS_PARENT) { return GENA_FALSE; } \
+\
+    new_root = igena_avl_node_detach( scan_node ); \
+    if (new_root != scan_node) { *proot = new_root; } \
+    igena_avl_subtree_free( scan_node ); \
+    return GENA_TRUE; \
   }} \
 /********************************************************************/ \
   ZGENA_REQUIRE_SEMICOLON_OUTDOOR

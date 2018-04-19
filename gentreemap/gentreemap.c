@@ -13,7 +13,7 @@ gtmap_h igtmap_new( size_t key_size, size_t value_size ) {
   handle = malloc( sizeof(igtmap_s) );
   if (handle == NULL) { return NULL; }
 
-  handle->avltree_root = NULL;
+  handle->tree_root = NULL;
   handle->count = 0;
 
   handle->key_size = key_size;
@@ -25,15 +25,15 @@ gtmap_h igtmap_new( size_t key_size, size_t value_size ) {
 void gtmap_clear( gtmap_h handle ) {
 {
   assert( handle != NULL );
-  igena_avl_subtree_free( handle->avltree_root );
-  handle->avltree_root = NULL;
+  igena_avl_subtree_free( handle->tree_root );
+  handle->tree_root = NULL;
   handle->count = 0;
 }}
 
 void gtmap_free( gtmap_h handle ) {
 {
   if (handle == NULL) { return; }
-  igena_avl_subtree_free( handle->avltree_root );
+  igena_avl_subtree_free( handle->tree_root );
   free( handle );
 }}
 
@@ -48,5 +48,5 @@ size_t gtmap_count( gtmap_h handle ) {
 gena_bool gtmap_empty( gtmap_h handle ) {
 {
   assert( handle != NULL );
-  return (handle->avltree_root == NULL);
+  return (handle->tree_root == NULL);
 }}

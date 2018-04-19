@@ -88,7 +88,7 @@
   tpKeyAssignBy, tpValueAssignBy, tpKeyCompareBy, tpKeyPassBy, tpValuePassBy ) \
 \
   ZZ_GTMAP_DEFINE_TYPE( tpSurname ); \
-  IGENA_AVL_SUBTREE_INSTANTIATE( gtmap, tpSurname, tpKeyTypeInfo, \
+  IGENA_AVL_TREE_INSTANTIATE( gtmap, tpSurname, tpKeyTypeInfo, \
     ZGENA_TYPEINFO_SIZE(tpValueTypeInfo, tpValuePassBy), tpKeyAssignBy, \
     tpKeyCompareBy, tpKeyPassBy ); \
 /********************************************************************/ \
@@ -111,19 +111,22 @@
     const ZGENA_TYPEINFO_USERTYPE(tpKeyTypeInfo, tpKeyPassBy) key, \
     const ZGENA_TYPEINFO_USERTYPE(tpValueTypeInfo, tpValuePassBy) value \
   ) { \
-    igena_avl_retstate_e retstate; \
-    igena_avl_node_head_p final_node; \
+    igena_avl_node_p new_node; \
     ZGENA_TYPEINFO_NAME(tpValueTypeInfo, tpValuePassBy) * node_value; \
+    gena_bool key_exists; \
   { \
     assert( handle != NULL ); \
-    retstate = igtmap_avl_subtree_##tpSurname##_add_key( \
-      &handle->avltree_root, key, &final_node ); \
-    if (final_node == NULL) { return NULL; } \
-    node_value = IGENA_AVL_NODE_GET_VALUE( \
-      final_node, \
+\
+    new_node = igtmap_avl_subtree_##tpSurname##_add( \
+      &handle->tree_root, key, &key_exists ); \
+    if (new_node == NULL) { return NULL; } \
+\
+    node_value = IGENA_AVL_NODE_VALUE( \
+      new_node, \
       ZGENA_TYPEINFO_SIZE(tpKeyTypeInfo, tpKeyPassBy) \
     ); \
-    if (retstate != IGENA_AVL_RETST_NOTHING) { \
+\
+    if (!key_exists) { \
       tpValueAssignBy ( \
         node_value, \
         tpValuePassBy##REFERENCE value, \
@@ -131,6 +134,7 @@
       ); \
       ++(handle->count); \
     } \
+\
     return node_value; \
   }} \
 /********************************************************************/ \
@@ -140,14 +144,14 @@
     gtmap_##tpSurname##_h handle, \
     const ZGENA_TYPEINFO_USERTYPE(tpKeyTypeInfo, tpKeyPassBy) key \
   ) { \
-    igena_avl_retstate_e retstate; \
+    gena_bool node_deleted; \
   { \
     assert( handle != NULL ); \
-    retstate = igtmap_avl_subtree_##tpSurname##_delete_key( \
-      &handle->avltree_root, key ); \
-    if (retstate == IGENA_AVL_RETST_NOTHING) { return GENA_FALSE; } \
-    --(handle->count); \
-    return GENA_TRUE; \
+\
+    node_deleted = igtmap_avl_subtree_##tpSurname##_delete( \
+      &handle->tree_root, key ); \
+    if (node_deleted) { --(handle->count); } \
+    return node_deleted; \
   }} \
 /********************************************************************/ \
   ZZ_GTMAP_FUNC_ONCE \
@@ -156,13 +160,16 @@
     gtmap_##tpSurname##_h handle, \
     const ZGENA_TYPEINFO_USERTYPE(tpKeyTypeInfo, tpKeyPassBy) key \
   ) { \
-    igena_avl_node_head_p find_node; \
+    igena_avl_node_p scan_node; \
+    igena_avl_bias scan_bias; \
   { \
     assert( handle != NULL ); \
-    find_node = igtmap_avl_subtree_##tpSurname##_find_node( \
-      handle->avltree_root, key ); \
-    return (find_node == NULL) ? NULL : IGENA_AVL_NODE_GET_VALUE( \
-      find_node, \
+\
+    scan_bias = igtmap_avl_subtree_##tpSurname##_scan( \
+      handle->tree_root, key, &scan_node ); \
+    if (scan_bias != IGENA_AVL_BIAS_PARENT) { return NULL; } \
+    return IGENA_AVL_NODE_VALUE( \
+      scan_node, \
       ZGENA_TYPEINFO_SIZE(tpKeyTypeInfo, tpKeyPassBy) \
     ); \
   }} \

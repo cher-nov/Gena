@@ -6,7 +6,7 @@
 
 typedef struct zz_gtmap_s {
   size_t count;
-  igena_avl_node_head_p avltree_root;
+  igena_avl_node_p tree_root;
   size_t key_size;
   size_t value_size;
 } igtmap_s;

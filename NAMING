@@ -31,6 +31,7 @@ Variables and Constants:
 
 Types:
 
+  *** - type alias
   *_e - enum
   *_s - struct
   *_u - union
@@ -38,7 +39,6 @@ Types:
   *_ptr - untyped pointer
   *_f - functional type
   *_h - handle type
-  *_a - type alias
   *_x - any other user-defined type
 
 
