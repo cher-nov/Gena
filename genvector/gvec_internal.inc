@@ -4,11 +4,11 @@
 
 #include "../internals/coredefs.h"
 
-#define IGVEC_GET_BUFFER(handle) \
-  ZGENA_VOIDP_SUB(handle, sizeof(igvec_head_s))
+#define IGVEC_BUFFER(handle) \
+  ZGENA_VOIDPTR_SUB( handle, sizeof(igvec_head_s) )
 
-#define IGVEC_GET_HEADER(handle) \
-  ((igvec_head_p)IGVEC_GET_BUFFER(handle))
+#define IGVEC_HEADER(handle) \
+  ( (igvec_head_p) IGVEC_BUFFER(handle) )
 
 typedef struct {
   size_t count;

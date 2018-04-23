@@ -22,8 +22,8 @@ GVEC_INSTANTIATE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
   ZZ_GVEC_INSTANTIATE(tpTypeInfo,tpSurname,tpPassBy,tpReturnBy)
 
 #define \
-GVEC_INSTANTIATE_EX( tpTypeInfo, tpSurname, tpAssignBy, tpPassBy, tpReturnBy ) \
-  ZZ_GVEC_INSTANTIATE_EX(tpTypeInfo,tpSurname,tpAssignBy,tpPassBy,tpReturnBy)
+GVEC_INSTANTIATE_EX( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy, tpAssignBy ) \
+  ZZ_GVEC_INSTANTIATE_EX(tpTypeInfo,tpSurname,tpPassBy,tpReturnBy,tpAssignBy)
 
 #else /* GVEC_MODULAR_APPROACH */
 
@@ -32,16 +32,16 @@ GVEC_C_DEFINE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
   ZZ_GVEC_C_DEFINE(tpTypeInfo,tpSurname,tpPassBy,tpReturnBy)
 
 #define \
-GVEC_C_DEFINE_EX( tpTypeInfo, tpSurname, tpAssignBy, tpPassBy, tpReturnBy ) \
-  ZZ_GVEC_C_DEFINE_EX(tpTypeInfo,tpSurname,tpAssignBy,tpPassBy,tpReturnBy)
+GVEC_C_DEFINE_EX( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy, tpAssignBy ) \
+  ZZ_GVEC_C_DEFINE_EX(tpTypeInfo,tpSurname,tpPassBy,tpReturnBy,tpAssignBy)
 
 #define \
 GVEC_H_DECLARE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
   ZZ_GVEC_H_DECLARE(tpTypeInfo,tpSurname,tpPassBy,tpReturnBy)
 
 #define \
-GVEC_H_DECLARE_EX( tpTypeInfo, tpSurname, tpAssignBy, tpPassBy, tpReturnBy ) \
-  ZZ_GVEC_H_DECLARE_EX(tpTypeInfo,tpSurname,tpAssignBy,tpPassBy,tpReturnBy)
+GVEC_H_DECLARE_EX( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy, tpAssignBy ) \
+  ZZ_GVEC_H_DECLARE_EX(tpTypeInfo,tpSurname,tpPassBy,tpReturnBy,tpAssignBy)
 
 #endif /* GVEC_MODULAR_APPROACH */
 

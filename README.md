@@ -27,7 +27,7 @@ Interface is based mostly on the design of `std::vector` from C++11.
 2. Support of multidimensional vectors (aka vector of vectors of...). Accessing them is Cpp-like too: `vec[i][j]`, `vec[x][y][z]`, and so on.
 3. It's possible to copy one vector into another, even if they contain values of different types.
 4. It's easy to instantiate necessary vector types once in a separate module, instead of doing this every time you needed a vector.
-5. You can choose how to pass values into a vector and how to receive them from it: by value or by reference.
+5. You can choose how to pass values into a vector and how to return them from it: by value or by pointer.
 6. No code reduplication: only functions that take or return values of user type are specialized.
 
 ## Example (C99)
@@ -45,7 +45,7 @@ typedef struct {
 
 #define C_PERSON(name, age) ( (person_s){ .Name=name, .Age=age } )
 
-GVEC_INSTANTIATE( person_s, society, GENA_USE_VAL, GENA_USE_REF );
+GVEC_INSTANTIATE( person_s, society, GENA_USE_VALUE, GENA_USE_POINTER );
 
 int main() {
   gvec_society_h family = gvec_society_new(0);
@@ -74,8 +74,7 @@ int main() {
 3. Non-specialized functions always return a defined result.
 4. If an error occurrs, the vector remains valid and unchanged.
 5. A vector storage never gets reduced, unless `gvec_shrink()` is called.
-6. A *reference* is just a pointer.
-7. So-called *"vector of void"* type, `gvec_h`, is just a vector of untyped memory chunks.
+6. So-called *"vector of void"* type, `gvec_h`, is just a vector of untyped memory chunks.
 
 ## Usage
 
@@ -102,8 +101,8 @@ GVEC_INSTANTIATE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy );
 * *tpReturnBy* – specifies how values should be returned from specialized functions
 
 Possible values both for *tpPassBy* and *tpReturnBy* are:
-* `GENA_USE_VAL` – pass/receive by value
-* `GENA_USE_REF` – pass/receive by reference
+* `GENA_USE_VALUE` – pass/return by value
+* `GENA_USE_POINTER` – pass/return by pointer
 
 It is also a good practice to place library header inclusion and vector types instantiation in a separate header.
 
@@ -160,8 +159,8 @@ GENA_APPLY_TYPESET( GVEC_C_DEFINE, ZZ_GVEC_TYPESET_SOMETHING );
 
 Notation:
 * `NAME`: value of `tpSurname`
-* `PASSVAL`: `tpTypeInfo` if `tpPassBy` is `GENA_USE_VAL`, and `tpTypeInfo*` otherwise
-* `RETVAL`: `tpTypeInfo` if `tpReturnBy` is `GENA_USE_VAL`, and `tpTypeInfo*` otherwise
+* `PASSVAL`: `tpTypeInfo` if `tpPassBy` is `GENA_USE_VALUE`, and `tpTypeInfo*` otherwise
+* `RETVAL`: `tpTypeInfo` if `tpReturnBy` is `GENA_USE_VALUE`, and `tpTypeInfo*` otherwise
 
 ### Functions to manage `gvec_h`, and specialized versions of them
 
@@ -169,12 +168,12 @@ Notation:
 void* gvec_at( gvec_h handle, size_t position )
 tpTypeInfo* gvec_NAME_at( gvec_h handle, size_t position )
 ```
-Get a reference to the element at specified position in a vector, with bounds checking.
+Get a pointer to the element at specified position in a vector, with bounds checking.
 
 * *handle* – a handle to a vector
 * *position* – a position of the element
 
-*Return value:* a reference to the element, or `NULL` if `position` is not within the range of a vector
+*Return value:* a pointer to the element, or `NULL` if `position` is not within the range of a vector
 
 ### Specialized-only functions
 
@@ -192,7 +191,7 @@ gena_bool gvec_NAME_assign( gvec_NAME_h* phandle, size_t count, const PASSVAL va
 ```
 Resize a vector to specified count of elements and assign a value to them all.
 
-* *phandle* – a reference to the handle to a vector
+* *phandle* – a pointer to the handle to a vector
 * *count* – a new count of elements in a vector
 * *value* – a value to be assigned to elements
 
@@ -204,7 +203,7 @@ gena_bool gvec_NAME_resize( gvec_NAME_h* phandle, size_t new_count, const PASSVA
 Resize a vector.
 *It's recommended to use `gvec_resize()` for reducing the size, and `gvec_NAME_resize()` for increasing.*
 
-* *phandle* – a reference to the handle to a vector
+* *phandle* – a pointer to the handle to a vector
 * *new_count* – a new count of elements in a vector
 * *value* – a value to be assigned to new elements
 
@@ -215,7 +214,7 @@ gena_bool gvec_NAME_reserve( gvec_NAME_h* phandle, size_t min_count )
 ```
 Reserve a space in a vector storage, at least for specified count of elements.
 
-* *phandle* – a reference to the handle to a vector
+* *phandle* – a pointer to the handle to a vector
 * *min_count* – a minimum count of elements that vector should accept without any relocation of its storage
 
 *Return value:* `GENA_TRUE` if operation was performed successfully, `GENA_FALSE` otherwise
@@ -225,7 +224,7 @@ gena_bool gvec_shrink( gvec_NAME_h* phandle )
 ```
 Free memory that isn't used by a vector now.
 
-* *phandle* – a reference to the handle to a vector
+* *phandle* – a pointer to the handle to a vector
 
 *Return value:* `GENA_TRUE` if operation was performed successfully, `GENA_FALSE` otherwise
 
@@ -234,7 +233,7 @@ gena_bool gvec_NAME_insert( gvec_NAME_h* phandle, size_t position, size_t count,
 ```
 Insert elements into a vector.
 
-* *phandle* – a reference to the handle to a vector
+* *phandle* – a pointer to the handle to a vector
 * *position* – a position of the first element to be inserted
 * *count* – a count of elements to be inserted
 * *value* – a value to be assigned to elements
@@ -246,7 +245,7 @@ gena_bool gvec_NAME_push( gvec_NAME_h* phandle, const PASSVAL value )
 ```
 Add an element to the end of a vector.
 
-* *phandle* – a reference to the handle to a vector
+* *phandle* – a pointer to the handle to a vector
 * *value* – a value to be assigned to the element
 
 *Return value:* `GENA_TRUE` if operation was performed successfully, `GENA_FALSE` otherwise
@@ -259,8 +258,8 @@ Get the first element of a vector.
 * *handle* – a handle to a vector
 
 *Return value:*
-* `tpReturnBy` is `GENA_USE_VAL`: a value of the element (if vector is empty, it's undefined)
-* `tpReturnBy` is `GENA_USE_REF`: a reference to the element, or `NULL` if vector is empty
+* `tpReturnBy` is `GENA_USE_VALUE`: a value of the element (**undefined** if vector is empty)
+* `tpReturnBy` is `GENA_USE_POINTER`: a pointer to the element, or `NULL` if vector is empty
 
 ```c
 RETVAL gvec_NAME_back( gvec_NAME_h handle )
@@ -270,8 +269,8 @@ Get the last element of a vector.
 * *handle* – a handle to a vector
 
 *Return value:*
-* `tpReturnBy` is `GENA_USE_VAL`: a value of the element (if vector is empty, it's undefined)
-* `tpReturnBy` is `GENA_USE_REF`: a reference to the element, or `NULL` if vector is empty
+* `tpReturnBy` is `GENA_USE_VALUE`: a value of the element (**undefined** if vector is empty)
+* `tpReturnBy` is `GENA_USE_POINTER`: a pointer to the element, or `NULL` if vector is empty
 
 ### General-purpose functions
 
@@ -280,7 +279,7 @@ gvec_h gvec_set( gvec_h* phandle, gvec_h source )
 ```
 Copy-assign one vector to another. Sizes of the elements in both arrays must coincide. On error, the destination vector remains untouched.
 
-* *phandle* – a reference to the handle to a destination vector
+* *phandle* – a pointer to the handle to a destination vector
 * *source* – a handle to a source vector
 
 *Return value:* a handle to the destination vector, or `NULL` on error
@@ -333,20 +332,20 @@ Erase the last element from a vector.
 ```c
 void* gvec_front( gvec_h handle )
 ```
-Get a reference to the first element of a vector.
+Get a pointer to the first element of a vector.
 
 * *handle* – a handle to a vector
 
-*Return value:* a reference to the element, or `NULL` if vector is empty
+*Return value:* a pointer to the element, or `NULL` if vector is empty
 
 ```c
 void* gvec_back( gvec_h handle )
 ```
-Get a reference to the last element of a vector.
+Get a pointer to the last element of a vector.
 
 * *handle* – a handle to a vector
 
-*Return value:* a reference to the element, or `NULL` if vector is empty
+*Return value:* a pointer to the element, or `NULL` if vector is empty
 
 ```c
 size_t gvec_count( gvec_h handle )

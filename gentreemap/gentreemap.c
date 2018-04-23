@@ -5,7 +5,6 @@
 #include "gentreemap.h"
 
 #include <stdlib.h>
-#include <assert.h>
 
 gtmap_h igtmap_new( size_t key_size, size_t value_size ) {
   gtmap_h handle;

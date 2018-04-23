@@ -7,7 +7,11 @@
 
 /******************************************************************************/
 
+/* Default includes, used throughout the whole library. */
+
 #include <stddef.h>
+#include <limits.h>
+#include <assert.h>
 
 #if __STDC_VERSION__ < 199901L
   typedef int gena_bool;
@@ -28,19 +32,23 @@
 
 /******************************************************************************/
 
-#define GENA_USE_VAL ZZ_GENA_VAL__  /* simple type, by value */
-#define GENA_USE_REF ZZ_GENA_REF__  /* simple type, by reference (pointer) */
-#define GENA_USE_BUF ZZ_GENA_BUF__  /* buffer type (array) */
+#define GENA_USE_VALUE ZZ_GENA_VAL__    /* simple type, by value */
+#define GENA_USE_POINTER ZZ_GENA_PTR__  /* simple type, by pointer */
+#define GENA_USE_BUFFER ZZ_GENA_BUF__   /* buffer type (array or string) */
 
-#define ZZ_GENA_VAL__RETURN *
-#define ZZ_GENA_VAL__REFERENCE &
-#define ZZ_GENA_VAL__ENTRY
-#define ZZ_GENA_REF__RETURN
-#define ZZ_GENA_REF__REFERENCE
-#define ZZ_GENA_REF__ENTRY
-#define ZZ_GENA_BUF__RETURN
-#define ZZ_GENA_BUF__REFERENCE
-#define ZZ_GENA_BUF__ENTRY *
+/* Operators. */
+
+#define ZZ_GENA_VAL__VALUE *
+#define ZZ_GENA_VAL__ADDRESS &
+#define ZZ_GENA_VAL__DATA
+
+#define ZZ_GENA_PTR__VALUE
+#define ZZ_GENA_PTR__ADDRESS
+#define ZZ_GENA_PTR__DATA
+
+#define ZZ_GENA_BUF__VALUE *
+#define ZZ_GENA_BUF__ADDRESS
+#define ZZ_GENA_BUF__DATA *
 
 /*
   Support for type info parameters in templates.
@@ -48,45 +56,52 @@
     buffer type: (typename, count)
 */
 
-#define ZGENA_TYPEINFO_NAME( tpTypeInfo, tpUseBy ) \
-  tpUseBy ## TYPEINFO_NAME( tpTypeInfo )
+#define ZGENA_ENTRY_TYPE( tpTypeInfo, tpUseBy ) \
+  tpUseBy ## ENTRY_TYPE( tpTypeInfo )
 
-  #define ZZ_GENA_VAL__TYPEINFO_NAME( tpTypeInfo ) \
+  #define ZZ_GENA_VAL__ENTRY_TYPE( tpTypeInfo ) \
     tpTypeInfo
-  #define ZZ_GENA_REF__TYPEINFO_NAME( tpTypeInfo ) \
+  #define ZZ_GENA_PTR__ENTRY_TYPE( tpTypeInfo ) \
     tpTypeInfo
-  #define ZZ_GENA_BUF__TYPEINFO_NAME( tpTypeInfo ) \
+  #define ZZ_GENA_BUF__ENTRY_TYPE( tpTypeInfo ) \
     ZGENA_PAIR_1(tpTypeInfo)
 
-#define ZGENA_TYPEINFO_SIZE( tpTypeInfo, tpUseBy ) \
-  tpUseBy ## TYPEINFO_SIZE( tpTypeInfo )
+#define ZGENA_ENTRY_SIZE( tpTypeInfo, tpUseBy ) \
+  tpUseBy ## ENTRY_SIZE( tpTypeInfo )
 
-  #define ZZ_GENA_VAL__TYPEINFO_SIZE( tpTypeInfo ) \
+  #define ZZ_GENA_VAL__ENTRY_SIZE( tpTypeInfo ) \
     ( sizeof(tpTypeInfo) )
-  #define ZZ_GENA_REF__TYPEINFO_SIZE( tpTypeInfo ) \
+  #define ZZ_GENA_PTR__ENTRY_SIZE( tpTypeInfo ) \
     ( sizeof(tpTypeInfo) )
-  #define ZZ_GENA_BUF__TYPEINFO_SIZE( tpTypeInfo ) \
+  #define ZZ_GENA_BUF__ENTRY_SIZE( tpTypeInfo ) \
     ( sizeof(ZGENA_PAIR_1(tpTypeInfo)) * (ZGENA_PAIR_2(tpTypeInfo)) )
 
-#define ZGENA_TYPEINFO_USERTYPE( tpTypeInfo, tpUseBy ) \
-  tpUseBy ## TYPEINFO_USERTYPE( tpTypeInfo, tpUseBy )
+#define ZGENA_ENTRY_VALUE( tpTypeInfo, tpUseBy ) \
+  ZGENA_ENTRY_TYPE(tpTypeInfo, tpUseBy) tpUseBy##ENTRY_VALUE
 
-  #define ZZ_GENA_VAL__TYPEINFO_USERTYPE( tpTypeInfo, tpUseBy ) \
-    ZGENA_TYPEINFO_NAME(tpTypeInfo, tpUseBy)
-  #define ZZ_GENA_REF__TYPEINFO_USERTYPE( tpTypeInfo, tpUseBy ) \
-    ZGENA_TYPEINFO_NAME(tpTypeInfo, tpUseBy) *
-  #define ZZ_GENA_BUF__TYPEINFO_USERTYPE( tpTypeInfo, tpUseBy ) \
-    ZGENA_TYPEINFO_NAME(tpTypeInfo, tpUseBy) *
+  #define ZZ_GENA_VAL__ENTRY_VALUE
+  #define ZZ_GENA_PTR__ENTRY_VALUE *
+  #define ZZ_GENA_BUF__ENTRY_VALUE *
 
-#define ZGENA_TYPEINFO_BUFDEF( tpTypeInfo, tpUseBy, tpName ) \
-  tpUseBy ## TYPEINFO_BUFDEF( tpTypeInfo, tpName )
+#define ZGENA_ENTRY_DATA( tpTypeInfo, tpUseBy, tpPointer ) \
+  ( ( tpUseBy ## ENTRY_DATA(tpTypeInfo) ) (tpPointer) )
 
-  #define ZZ_GENA_VAL__TYPEINFO_BUFDEF( tpTypeInfo, tpName ) \
-    typedef tpTypeInfo* tpName
-  #define ZZ_GENA_REF__TYPEINFO_BUFDEF( tpTypeInfo, tpName ) \
-    typedef tpTypeInfo* tpName
-  #define ZZ_GENA_BUF__TYPEINFO_BUFDEF( tpTypeInfo, tpName ) \
-    typedef ZGENA_PAIR_1(tpTypeInfo) (*tpName) [ ZGENA_PAIR_2(tpTypeInfo) ]
+  #define ZZ_GENA_VAL__ENTRY_DATA( tpTypeInfo ) \
+    tpTypeInfo*
+  #define ZZ_GENA_PTR__ENTRY_DATA( tpTypeInfo ) \
+    tpTypeInfo*
+  #define ZZ_GENA_BUF__ENTRY_DATA( tpTypeInfo ) \
+    ZGENA_PAIR_1(tpTypeInfo) (*) [ ZGENA_PAIR_2(tpTypeInfo) ]
+
+#define ZGENA_ENTRY_OBJECT( tpTypeInfo, tpUseBy, tpName ) \
+  tpUseBy ## ENTRY_OBJECT( tpTypeInfo, tpName )
+
+  #define ZZ_GENA_VAL__ENTRY_OBJECT( tpTypeInfo, tpName ) \
+    tpTypeInfo tpName
+  #define ZZ_GENA_PTR__ENTRY_OBJECT( tpTypeInfo, tpName ) \
+    tpTypeInfo tpName
+  #define ZZ_GENA_BUF__ENTRY_OBJECT( tpTypeInfo, tpName ) \
+    ZGENA_PAIR_1(tpTypeInfo) (tpName) [ ZGENA_PAIR_2(tpTypeInfo) ]
 
 /******************************************************************************/
 
@@ -102,7 +117,7 @@
 
 #define ZZ_GENA_ASSIGN_STRCPY( ptr_destination, ptr_source, data_size ) \
   ( strncpy( (char*)ptr_destination, (const char*)ptr_source, data_size ) ); \
-  ( ((char*)ptr_destination)[data_size-1] = '\0' )
+  ( ((char*)(ptr_destination)) [ (data_size)-1 ] = '\0' )
 
 /******************************************************************************/
 
@@ -111,9 +126,7 @@
 #define GENA_COMPARE_STRCMP ZZ_GENA_COMPARE_STRCMP
 
 #define ZZ_GENA_COMPARE_NAIVE( ptr_entry_data, ptr_user_data, data_size ) \
-  ( (*(ptr_entry_data) < *(ptr_user_data)) ? (-1) \
-  : (*(ptr_entry_data) > *(ptr_user_data)) ? (1) \
-  : (0) )
+  ( *(ptr_entry_data) - *(ptr_user_data) )
 
 #define ZZ_GENA_COMPARE_MEMCMP( ptr_entry_data, ptr_user_data, data_size ) \
   ( memcmp( ptr_entry_data, ptr_user_data, data_size ) )
@@ -129,8 +142,8 @@ guaranteed to be a valid zero-terminated C string. */
 
 /******************************************************************************/
 
-#define ZGENA_VOIDP_ADD(x, a) ( (void*)( (char*)(x) + (a) ) )
-#define ZGENA_VOIDP_SUB(x, a) ( (void*)( (char*)(x) - (a) ) )
+#define ZGENA_VOIDPTR_ADD(x, a) ( (void*)( (char*)(x) + (a) ) )
+#define ZGENA_VOIDPTR_SUB(x, a) ( (void*)( (char*)(x) - (a) ) )
 
 /******************************************************************************/
 
@@ -152,7 +165,7 @@ guaranteed to be a valid zero-terminated C string. */
 
 #define ZGENA_REQUIRE_SEMICOLON_OUTDOOR \
   extern void \
-  ZGENA_MACRO_CONCAT(ZZ_GENA_THIS_REQUIRES_A_SEMICOLON, __LINE__) \
+  ZGENA_MACRO_CONCAT( ZZ_GENA_THIS_REQUIRES_A_SEMICOLON_, __LINE__ ) \
   (void)
 
 /******************************************************************************/
