@@ -18,9 +18,9 @@
     GENA_USE_BUFFER, GENA_USE_BUFFER, \
     genatest_str_assign_cb )
 
-#define ZZ_GVECTEST_TYPESET_EX_ARRAY_BUF \
-  ( (int, GENATEST_BUF_LEN), array, \
-    GENA_USE_BUFFER, GENA_USE_BUFFER, \
+#define ZZ_GVECTEST_TYPESET_EX_ARRAY_REF \
+  ( (genatest_buf_x, int), array, \
+    GENA_USE_ARRAY, GENA_USE_ARRAY, \
     GENA_ASSIGN_MEMCPY )
 
 #endif /* ZZ_GVEC_GENERAL_H_IG */

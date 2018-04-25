@@ -35,6 +35,7 @@
 #define GENA_USE_VALUE ZZ_GENA_VAL__    /* simple type, by value */
 #define GENA_USE_POINTER ZZ_GENA_PTR__  /* simple type, by pointer */
 #define GENA_USE_BUFFER ZZ_GENA_BUF__   /* buffer type (array or string) */
+#define GENA_USE_ARRAY ZZ_GENA_REF__    /* reference-access type (array) */
 
 /* Operators. */
 
@@ -49,6 +50,10 @@
 #define ZZ_GENA_BUF__VALUE *
 #define ZZ_GENA_BUF__ADDRESS
 #define ZZ_GENA_BUF__DATA *
+
+#define ZZ_GENA_REF__VALUE *
+#define ZZ_GENA_REF__ADDRESS
+#define ZZ_GENA_REF__DATA *
 
 /*
   Support for type info parameters in templates.
@@ -65,6 +70,8 @@
     tpTypeInfo
   #define ZZ_GENA_BUF__ENTRY_TYPE( tpTypeInfo ) \
     ZGENA_PAIR_1(tpTypeInfo)
+  #define ZZ_GENA_REF__ENTRY_TYPE( tpTypeInfo ) \
+    ZGENA_PAIR_2(tpTypeInfo)
 
 #define ZGENA_ENTRY_SIZE( tpTypeInfo, tpUseBy ) \
   tpUseBy ## ENTRY_SIZE( tpTypeInfo )
@@ -75,6 +82,8 @@
     ( sizeof(tpTypeInfo) )
   #define ZZ_GENA_BUF__ENTRY_SIZE( tpTypeInfo ) \
     ( sizeof(ZGENA_PAIR_1(tpTypeInfo)) * (ZGENA_PAIR_2(tpTypeInfo)) )
+  #define ZZ_GENA_REF__ENTRY_SIZE( tpTypeInfo ) \
+    ( sizeof(ZGENA_PAIR_1(tpTypeInfo)) )
 
 #define ZGENA_ENTRY_VALUE( tpTypeInfo, tpUseBy ) \
   ZGENA_ENTRY_TYPE(tpTypeInfo, tpUseBy) tpUseBy##ENTRY_VALUE
@@ -82,6 +91,7 @@
   #define ZZ_GENA_VAL__ENTRY_VALUE
   #define ZZ_GENA_PTR__ENTRY_VALUE *
   #define ZZ_GENA_BUF__ENTRY_VALUE *
+  #define ZZ_GENA_REF__ENTRY_VALUE *
 
 #define ZGENA_ENTRY_DATA( tpTypeInfo, tpUseBy, tpPointer ) \
   ( ( tpUseBy ## ENTRY_DATA(tpTypeInfo) ) (tpPointer) )
@@ -92,6 +102,8 @@
     tpTypeInfo*
   #define ZZ_GENA_BUF__ENTRY_DATA( tpTypeInfo ) \
     ZGENA_PAIR_1(tpTypeInfo) (*) [ ZGENA_PAIR_2(tpTypeInfo) ]
+  #define ZZ_GENA_REF__ENTRY_DATA( tpTypeInfo ) \
+    ZGENA_PAIR_1(tpTypeInfo) *
 
 #define ZGENA_ENTRY_OBJECT( tpTypeInfo, tpUseBy, tpName ) \
   tpUseBy ## ENTRY_OBJECT( tpTypeInfo, tpName )
@@ -102,6 +114,8 @@
     tpTypeInfo tpName
   #define ZZ_GENA_BUF__ENTRY_OBJECT( tpTypeInfo, tpName ) \
     ZGENA_PAIR_1(tpTypeInfo) (tpName) [ ZGENA_PAIR_2(tpTypeInfo) ]
+  #define ZZ_GENA_REF__ENTRY_OBJECT( tpTypeInfo, tpName ) \
+    ZGENA_PAIR_1(tpTypeInfo) tpName
 
 /******************************************************************************/
 
