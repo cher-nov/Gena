@@ -208,6 +208,18 @@
   }} \
 /********************************************************************/ \
   ZZ_GVEC_FUNC_ONCE \
+  ZGENA_ENTRY_VALUE(tpTypeInfo, tpReturnBy) \
+  gvec_##tpSurname##_pop( \
+    gvec_##tpSurname##_h handle \
+  ) { \
+    return tpReturnBy##VALUE ZGENA_ENTRY_DATA( \
+      tpTypeInfo, \
+      tpReturnBy, \
+      igvec_pop( handle ) \
+    ); \
+  } \
+/********************************************************************/ \
+  ZZ_GVEC_FUNC_ONCE \
   ZGENA_ENTRY_TYPE(tpTypeInfo, tpReturnBy) * \
   gvec_##tpSurname##_at( \
     gvec_##tpSurname##_h handle, \
@@ -217,28 +229,40 @@
     return tpReturnBy##DATA ZGENA_ENTRY_DATA( \
       tpTypeInfo, \
       tpReturnBy, \
-      gvec_at( handle, position ) \
+      igvec_at( handle, position ) \
     ); \
   }} \
 /********************************************************************/ \
   ZZ_GVEC_FUNC_ONCE \
   ZGENA_ENTRY_VALUE(tpTypeInfo, tpReturnBy) \
-  gvec_##tpSurname##_front( \
+  gvec_##tpSurname##_first( \
     gvec_##tpSurname##_h handle \
   ) { \
   { \
-    return tpReturnBy##VALUE \
-      ZGENA_ENTRY_DATA( tpTypeInfo, tpReturnBy, gvec_front(handle) ); \
+    assert( handle != NULL ); \
+    assert( IGVEC_HEADER(handle)->count > 0 ); \
+    return tpReturnBy##VALUE ZGENA_ENTRY_DATA( \
+      tpTypeInfo, \
+      tpReturnBy, \
+      &handle[0] \
+    ); \
   }} \
 /********************************************************************/ \
   ZZ_GVEC_FUNC_ONCE \
   ZGENA_ENTRY_VALUE(tpTypeInfo, tpReturnBy) \
-  gvec_##tpSurname##_back( \
+  gvec_##tpSurname##_last( \
     gvec_##tpSurname##_h handle \
   ) { \
+    igvec_head_p header; \
   { \
-    return tpReturnBy##VALUE \
-      ZGENA_ENTRY_DATA( tpTypeInfo, tpReturnBy, gvec_back(handle) ); \
+    assert( handle != NULL ); \
+    header = IGVEC_HEADER(handle); \
+    assert( header->count > 0 ); \
+    return tpReturnBy##VALUE ZGENA_ENTRY_DATA( \
+      tpTypeInfo, \
+      tpReturnBy, \
+      &handle[ header->count-1 ] \
+    ); \
   }} \
 /********************************************************************/ \
   ZGENA_REQUIRE_SEMICOLON_OUTDOOR

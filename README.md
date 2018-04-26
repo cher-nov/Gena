@@ -57,9 +57,8 @@ int main() {
 
   printf( "%zu\n", gvec_count( family ) );
   while ( gvec_count( family ) > 0 ) {
-    person_s member = *gvec_society_back( family );
+    person_s member = *gvec_society_pop( family );
     printf( "name %s, age %d\n", member.Name, member.Age );
-    gvec_pop( family );
   }
 
   gvec_free( family );
@@ -80,8 +79,8 @@ int main() {
 
 By default, library provides only the next set of methods:
 
-1. Functions to manage `gvec_h`. They are basic for functions that will be specialized.
-2. General-purpose functions (i.e. those that don't take or return values of user type, like as `gvec_erase()` and `gvec_free()`).
+1. Specialized functions.
+2. General-purpose functions.
 3. Instantiation macros.
 
 To create a type *"vector of T"* and specialize management functions for it, you should *instantiate* it using instantiation macros.
@@ -162,20 +161,7 @@ Notation:
 * `PASSVAL`: `tpTypeInfo` if `tpPassBy` is `GENA_USE_VALUE`, and `tpTypeInfo*` otherwise
 * `RETVAL`: `tpTypeInfo` if `tpReturnBy` is `GENA_USE_VALUE`, and `tpTypeInfo*` otherwise
 
-### Functions to manage `gvec_h`, and specialized versions of them
-
-```c
-void* gvec_at( gvec_h handle, size_t position )
-tpTypeInfo* gvec_NAME_at( gvec_h handle, size_t position )
-```
-Get a pointer to the element at specified position in a vector, with bounds checking.
-
-* *handle* – a handle to a vector
-* *position* – a position of the element
-
-*Return value:* a pointer to the element, or `NULL` if `position` is not within the range of a vector
-
-### Specialized-only functions
+### Specialized functions to manage instantiated vector types
 
 ```c
 gvec_NAME_h gvec_NAME_new( size_t min_count )
@@ -251,28 +237,49 @@ Add an element to the end of a vector.
 *Return value:* `GENA_TRUE` if operation was performed successfully, `GENA_FALSE` otherwise
 
 ```c
-RETVAL gvec_NAME_front( gvec_NAME_h handle )
+RETVAL gvec_NAME_pop( gvec_h handle )
+```
+Drop the last element from a vector, and return it.
+
+* *handle* – a handle to a vector
+
+*Return value:*  (**undefined** if vector is empty)
+* `tpReturnBy` is `GENA_USE_VALUE`: a value of the element
+* `tpReturnBy` is `GENA_USE_POINTER`: a pointer to the element
+
+```c
+tpTypeInfo* gvec_NAME_at( gvec_h handle, size_t position )
+```
+Get a pointer to the element at specified position in a vector, with bounds checking.
+
+* *handle* – a handle to a vector
+* *position* – a position of the element
+
+*Return value:* a pointer to the element, or `NULL` if `position` is not within the range of a vector
+
+```c
+RETVAL gvec_NAME_first( gvec_NAME_h handle )
 ```
 Get the first element of a vector.
 
 * *handle* – a handle to a vector
 
-*Return value:*
-* `tpReturnBy` is `GENA_USE_VALUE`: a value of the element (**undefined** if vector is empty)
-* `tpReturnBy` is `GENA_USE_POINTER`: a pointer to the element, or `NULL` if vector is empty
+*Return value:*  (**undefined** if vector is empty)
+* `tpReturnBy` is `GENA_USE_VALUE`: a value of the element
+* `tpReturnBy` is `GENA_USE_POINTER`: a pointer to the element
 
 ```c
-RETVAL gvec_NAME_back( gvec_NAME_h handle )
+RETVAL gvec_NAME_last( gvec_NAME_h handle )
 ```
 Get the last element of a vector.
 
 * *handle* – a handle to a vector
 
-*Return value:*
-* `tpReturnBy` is `GENA_USE_VALUE`: a value of the element (**undefined** if vector is empty)
-* `tpReturnBy` is `GENA_USE_POINTER`: a pointer to the element, or `NULL` if vector is empty
+*Return value:*  (**undefined** if vector is empty)
+* `tpReturnBy` is `GENA_USE_VALUE`: a value of the element
+* `tpReturnBy` is `GENA_USE_POINTER`: a pointer to the element
 
-### General-purpose functions
+### General-purpose functions to manage any vector type
 
 ```c
 gvec_h gvec_set( gvec_h* phandle, gvec_h source )
@@ -303,7 +310,9 @@ Free a vector.
 ```c
 void gvec_clear( gvec_h handle )
 ```
-Shorthand for `gvec_reduce( handle, 0 )`.
+Clear all elements from a vector.
+
+* *handle* – a handle to a vector
 
 ```c
 void gvec_reduce( gvec_h handle, size_t new_count )
@@ -314,38 +323,20 @@ Reduce a vector to the specified count of elements.
 * *new_count* – a new count of elements in a vector (should not exceed the current count)
 
 ```c
-void gvec_erase( gvec_h handle, size_t position, size_t count )
+void gvec_remove( gvec_h handle, size_t position, size_t count )
 ```
-Erase elements from a vector.
+Remove elements from a vector.
 
 * *handle* – a handle to a vector
-* *position* – a position of the first element to be erased
-* *count* – a count of elements to be erased
+* *position* – a position of the first element to be removed
+* *count* – a count of elements to be removed
 
 ```c
-void gvec_pop( gvec_h handle )
+void gvec_drop( gvec_h handle )
 ```
-Erase the last element from a vector.
+Drop the last element from a vector.
 
 * *handle* – a handle to a vector
-
-```c
-void* gvec_front( gvec_h handle )
-```
-Get a pointer to the first element of a vector.
-
-* *handle* – a handle to a vector
-
-*Return value:* a pointer to the element, or `NULL` if vector is empty
-
-```c
-void* gvec_back( gvec_h handle )
-```
-Get a pointer to the last element of a vector.
-
-* *handle* – a handle to a vector
-
-*Return value:* a pointer to the element, or `NULL` if vector is empty
 
 ```c
 size_t gvec_count( gvec_h handle )
@@ -368,7 +359,11 @@ Get size of a vector storage.
 ```c
 gena_bool gvec_empty( gvec_h handle )
 ```
-Shorthand for `gvec_count( handle ) == 0`.
+Returns if a vector specified is empty.
+
+* *handle* – a handle to a vector
+
+*Return value:* boolean
 
 ## Library adjustment using optional defines
 

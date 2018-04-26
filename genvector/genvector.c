@@ -180,6 +180,25 @@ gvec_h igvec_push( gvec_h handle ) {
   return igvec_resize( handle, gvec_count(handle)+1 );
 }}
 
+void* igvec_pop( gvec_h handle ) {
+  igvec_head_p header;
+{
+  assert( handle != NULL );
+  header = IGVEC_HEADER(handle);
+  assert( header->count > 0 );
+  return ZGENA_VOIDPTR_ADD( handle, --(header->count) * header->entry_size );
+}}
+
+void* igvec_at( gvec_h handle, size_t position ) {
+  igvec_head_p header;
+{
+  assert( handle != NULL );
+  header = IGVEC_HEADER(handle);
+  return (position < header->count)
+    ? ZGENA_VOIDPTR_ADD( handle, position * header->entry_size )
+    : NULL;
+}}
+
 /******************************************************************************/
 
 gvec_h gvec_set( gvec_h handle, gvec_h source ) {
@@ -223,7 +242,8 @@ void gvec_free( gvec_h handle ) {
 
 void gvec_clear( gvec_h handle ) {
 {
-  gvec_reduce( handle, 0 );
+  assert( handle != NULL );
+  IGVEC_HEADER(handle)->count = 0;
 }}
 
 void gvec_reduce( gvec_h handle, size_t new_count ) {
@@ -236,7 +256,7 @@ void gvec_reduce( gvec_h handle, size_t new_count ) {
   header->count = new_count;
 }}
 
-void gvec_erase( gvec_h handle, size_t position, size_t count ) {
+void gvec_remove( gvec_h handle, size_t position, size_t count ) {
   igvec_head_p header;
   size_t entry_size, tail_size;
 {
@@ -258,37 +278,9 @@ void gvec_erase( gvec_h handle, size_t position, size_t count ) {
   header->count -= count;
 }}
 
-void gvec_pop( gvec_h handle ) {
+void gvec_drop( gvec_h handle ) {
 {
-  assert( handle != NULL ); /* not really necessary here */
-  gvec_reduce( handle, gvec_count(handle)-1 );
-}}
-
-/******************************************************************************/
-
-void* gvec_at( gvec_h handle, size_t position ) {
-  igvec_head_p header;
-{
-  assert( handle != NULL );
-  header = IGVEC_HEADER(handle);
-  return (position < header->count)
-    ? ZGENA_VOIDPTR_ADD( handle, position * header->entry_size )
-    : NULL;
-}}
-
-void* gvec_front( gvec_h handle ) {
-{
-  assert( handle != NULL );
-  /* actually equals to 'handle', but this is more clearly */
-  return ZGENA_VOIDPTR_ADD( handle, 0 );
-}}
-
-void* gvec_back( gvec_h handle ) {
-  igvec_head_p header;
-{
-  assert( handle != NULL );
-  header = IGVEC_HEADER(handle);
-  return ZGENA_VOIDPTR_ADD( handle, (header->count-1) * header->entry_size );
+  igvec_pop( handle );
 }}
 
 /******************************************************************************/
@@ -307,5 +299,6 @@ size_t gvec_size( gvec_h handle ) {
 
 gena_bool gvec_empty( gvec_h handle ) {
 {
-  return (gvec_count(handle) == 0);
+  assert( handle != NULL );
+  return ( IGVEC_HEADER(handle)->count == 0 );
 }}
