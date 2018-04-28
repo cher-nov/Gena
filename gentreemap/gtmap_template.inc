@@ -140,6 +140,38 @@
   }} \
 /********************************************************************/ \
   ZZ_GTMAP_FUNC_ONCE \
+  ZGENA_ENTRY_TYPE(tpValueTypeInfo, tpValuePassBy) * \
+  gtmap_##tpSurname##_put( \
+    gtmap_##tpSurname##_h handle, \
+    const ZGENA_ENTRY_VALUE(tpKeyTypeInfo, tpKeyPassBy) key, \
+    const ZGENA_ENTRY_VALUE(tpValueTypeInfo, tpValuePassBy) value \
+  ) { \
+    igena_avl_node_p key_node; \
+    ZGENA_ENTRY_OBJECT( tpValueTypeInfo, tpValuePassBy, *node_value ); \
+    gena_bool key_exists; \
+  { \
+    assert( handle != NULL ); \
+\
+    key_node = igtmap_avl_subtree_##tpSurname##_add( \
+      &handle->tree_root, key, &key_exists ); \
+    if (key_node == NULL) { return NULL; } \
+\
+    node_value = IGENA_AVL_NODE_VALUE( \
+      key_node, \
+      ZGENA_ENTRY_SIZE(tpKeyTypeInfo, tpKeyPassBy) \
+    ); \
+\
+    tpValueAssignBy ( \
+      tpValuePassBy##DATA node_value, \
+      tpValuePassBy##ADDRESS value, \
+      ZGENA_ENTRY_SIZE(tpValueTypeInfo, tpValuePassBy) \
+    ); \
+\
+    if (!key_exists) { ++(handle->count); } \
+    return tpValuePassBy##DATA node_value; \
+  }} \
+/********************************************************************/ \
+  ZZ_GTMAP_FUNC_ONCE \
   gena_bool \
   gtmap_##tpSurname##_delete( \
     gtmap_##tpSurname##_h handle, \

@@ -12,7 +12,7 @@ typedef char genatest_str_x[GENATEST_STR_LEN];
 #define GENATEST_BUF_LEN (4)
 typedef int genatest_buf_x[GENATEST_BUF_LEN];
 
-/* This struct should have alignment bytes to test memcmp() comparison */
+/* This struct should have alignment bytes to test memcmp() comparison. */
 typedef struct {
   char for_alignment;
   int key;
@@ -20,7 +20,7 @@ typedef struct {
 #define GENATEST_C_SVALUE(x) ( (genatest_svalue_s){x} )
 
 /* This struct should contain only one int to allow byte-by-byte comparison
-with GENATEST_INT_SET */
+with GENATEST_INT_SET. */
 typedef struct {
   int value;
 } genatest_svalue_s, *genatest_svalue_p;

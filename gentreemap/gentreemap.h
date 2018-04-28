@@ -87,6 +87,9 @@ extern gtmap_##Surname##_h gtmap_##Surname##_new(void); \
 extern ValueTypeName* gtmap_##Surname##_add( gtmap_##Surname##_h handle, \
   const KeyPassType key, const ValuePassType value ); \
 \
+extern ValueTypeName* gtmap_##Surname##_put( gtmap_##Surname##_h handle, \
+  const KeyPassType key, const ValuePassType value ); \
+\
 extern gena_bool gtmap_##Surname##_delete( gtmap_##Surname##_h handle, \
   const KeyPassType key ); \
 \

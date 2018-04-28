@@ -1,6 +1,6 @@
 #include "genatest_common.h"
 
-/* a shuffled set of 116 integers, from 0 to 115 */
+/* A shuffled set of integers. */
 const int GENATEST_INT_SET[] = {
   59,88,16,29,108,12,42,63,0,35,4,111,61,113,109,50,15,30,56,107,82,2,58,
   23,80,38,7,13,76,52,100,67,21,18,9,87,66,6,70,11,60,65,72,73,48,79,57,49,
@@ -12,9 +12,11 @@ const int GENATEST_INT_SET[] = {
 const size_t GENATEST_INT_SET_LEN =
   sizeof(GENATEST_INT_SET) / sizeof(GENATEST_INT_SET[0]);
 
+/* Values that are guaranteed to be non-present in GENATEST_INT_SET. */
 const int GENATEST_CUSTOM_INT_1 = 234;
 const int GENATEST_CUSTOM_INT_2 = 749;
 
+/* A shuffled set of strings with a maximum length of GENATEST_STR_LEN. */
 const genatest_str_x GENATEST_STR_SET[] = {
   "a", "ab", "abc", "abcd", "abcde", "abcdef", "abcdefg", "abcdefgh",
   "abcdefghi", "abcdefghij", "abcdefghijk", "abcdefghijkl", "abcdefghijklm",
@@ -45,9 +47,11 @@ const genatest_str_x GENATEST_STR_SET[] = {
 const size_t GENATEST_STR_SET_LEN =
   sizeof(GENATEST_STR_SET) / sizeof(GENATEST_STR_SET[0]);
 
+/* Values that are guaranteed to be non-present in GENATEST_STR_SET. */
 const genatest_str_x GENATEST_CUSTOM_STR_1 = "~=str!ngVALUE-+";
 const genatest_str_x GENATEST_CUSTOM_STR_2 = "[CU$TOM STRING]";
 
+/* A shuffled set of arrays. */
 const genatest_buf_x GENATEST_BUF_SET[] = {
   {0,1,2,3}, {0,1,3,2}, {0,2,1,3}, {0,2,3,1}, {0,3,1,2}, {0,3,2,1},
   {1,0,2,3}, {1,0,3,2}, {1,2,0,3}, {1,2,3,0}, {1,3,0,2}, {1,3,2,0},
@@ -58,6 +62,7 @@ const genatest_buf_x GENATEST_BUF_SET[] = {
 const size_t GENATEST_BUF_SET_LEN =
   sizeof(GENATEST_BUF_SET) / sizeof(GENATEST_BUF_SET[0]);
 
+/* Values that are guaranteed to be non-present in GENATEST_BUF_SET. */
 const genatest_buf_x GENATEST_CUSTOM_BUF_1 = {9,4,7,5};
 const genatest_buf_x GENATEST_CUSTOM_BUF_2 =
   {1580840905,2141465707,1026411296,2013971497};

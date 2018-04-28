@@ -74,10 +74,27 @@ MunitResult gtmaptests_2_modify() {
     munit_assert( !gtmap_empty(map_naive) );
   }
 
-  for( i = (int)GENATEST_INT_SET_LEN; i-- > 1; ) {
+  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+    ptr_int = gtmap_naive_add( map_naive, GENATEST_INT_SET[i],
+      GENATEST_CUSTOM_INT_1 );
+    munit_assert_not_null( ptr_int );
+    munit_assert_int( *ptr_int, ==, i );
+    munit_assert_size( gtmap_count(map_naive), ==, GENATEST_INT_SET_LEN );
+    munit_assert( !gtmap_empty(map_naive) );
+  }
+
+  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+    ptr_int = gtmap_naive_put( map_naive, GENATEST_CUSTOM_INT_2, i );
+    munit_assert_not_null( ptr_int );
+    munit_assert_int( *ptr_int, ==, i );
+    munit_assert_size( gtmap_count(map_naive), ==, GENATEST_INT_SET_LEN+1 );
+    munit_assert( !gtmap_empty(map_naive) );
+  }
+
+  for( i = (int)GENATEST_INT_SET_LEN; i-- > 0; ) {
     del_result = gtmap_naive_delete( map_naive, GENATEST_INT_SET[i] );
     munit_assert( del_result );
-    munit_assert_size( gtmap_count(map_naive), ==, i );
+    munit_assert_size( gtmap_count(map_naive), ==, i+1 );
     munit_assert( !gtmap_empty(map_naive) );
   }
 
@@ -103,13 +120,39 @@ MunitResult gtmaptests_2_modify() {
     munit_assert( !gtmap_empty(map_memcmp) );
   }
 
-  for( i = (int)GENATEST_INT_SET_LEN; i-- > 1; ) {
+  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+    genatest_skey_s safe_skey;
+    genatest_set_skey_safe( &safe_skey, GENATEST_INT_SET[i] );
+
+    ptr_svalue = gtmap_memcmp_add( map_memcmp, &safe_skey,
+      &GENATEST_C_SVALUE(GENATEST_CUSTOM_INT_1) );
+    munit_assert_not_null( ptr_svalue );
+    munit_assert_memory_equal( sizeof(genatest_svalue_s), ptr_svalue,
+      &GENATEST_C_SVALUE(i) );
+    munit_assert_size( gtmap_count(map_memcmp), ==, GENATEST_INT_SET_LEN );
+    munit_assert( !gtmap_empty(map_memcmp) );
+  }
+
+  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+    genatest_skey_s safe_skey;
+    genatest_set_skey_safe( &safe_skey, GENATEST_CUSTOM_INT_2 );
+
+    ptr_svalue = gtmap_memcmp_put( map_memcmp, &safe_skey,
+      &GENATEST_C_SVALUE(i) );
+    munit_assert_not_null( ptr_svalue );
+    munit_assert_memory_equal( sizeof(genatest_svalue_s), ptr_svalue,
+      &GENATEST_C_SVALUE(i) );
+    munit_assert_size( gtmap_count(map_memcmp), ==, GENATEST_INT_SET_LEN+1 );
+    munit_assert( !gtmap_empty(map_memcmp) );
+  }
+
+  for( i = (int)GENATEST_INT_SET_LEN; i-- > 0; ) {
     genatest_skey_s safe_skey;
     genatest_set_skey_safe( &safe_skey, GENATEST_INT_SET[i] );
 
     del_result = gtmap_memcmp_delete( map_memcmp, &safe_skey );
     munit_assert( del_result );
-    munit_assert_size( gtmap_count(map_memcmp), ==, i );
+    munit_assert_size( gtmap_count(map_memcmp), ==, i+1 );
     munit_assert( !gtmap_empty(map_memcmp) );
   }
 
@@ -131,11 +174,31 @@ MunitResult gtmaptests_2_modify() {
     munit_assert( !gtmap_empty(map_callback) );
   }
 
-  for( i = (int)GENATEST_INT_SET_LEN; i-- > 1; ) {
+  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+    ptr_svalue = gtmap_callback_add( map_callback,
+      &GENATEST_C_SKEY(GENATEST_INT_SET[i]),
+      &GENATEST_C_SVALUE(GENATEST_CUSTOM_INT_1) );
+    munit_assert_not_null( ptr_svalue );
+    munit_assert_int( ptr_svalue->value, ==, i );
+    munit_assert_size( gtmap_count(map_callback), ==, GENATEST_INT_SET_LEN );
+    munit_assert( !gtmap_empty(map_callback) );
+  }
+
+  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+    ptr_svalue = gtmap_callback_put( map_callback,
+      &GENATEST_C_SKEY(GENATEST_CUSTOM_INT_2),
+      &GENATEST_C_SVALUE(i) );
+    munit_assert_not_null( ptr_svalue );
+    munit_assert_int( ptr_svalue->value, ==, i );
+    munit_assert_size( gtmap_count(map_callback), ==, GENATEST_INT_SET_LEN+1 );
+    munit_assert( !gtmap_empty(map_callback) );
+  }
+
+  for( i = (int)GENATEST_INT_SET_LEN; i-- > 0; ) {
     del_result = gtmap_callback_delete( map_callback,
       &GENATEST_C_SKEY(GENATEST_INT_SET[i]) );
     munit_assert( del_result );
-    munit_assert_size( gtmap_count(map_callback), ==, i );
+    munit_assert_size( gtmap_count(map_callback), ==, i+1 );
     munit_assert( !gtmap_empty(map_callback) );
   }
 
@@ -157,10 +220,28 @@ MunitResult gtmaptests_2_modify() {
     munit_assert( !gtmap_empty(map_string) );
   }
 
-  for( i = (int)GENATEST_STR_SET_LEN; i-- > 1; ) {
+  for( i = 0; i < (int)GENATEST_STR_SET_LEN; ++i ) {
+    ptr_str = gtmap_string_add( map_string, GENATEST_STR_SET[i],
+      GENATEST_CUSTOM_STR_1 );
+    munit_assert_not_null( ptr_str );
+    munit_assert_string_equal( ptr_str, GENATEST_STR_SET[i] );
+    munit_assert_size( gtmap_count(map_string), ==, GENATEST_STR_SET_LEN );
+    munit_assert( !gtmap_empty(map_string) );
+  }
+
+  for( i = 0; i < (int)GENATEST_STR_SET_LEN; ++i ) {
+    ptr_str = gtmap_string_put( map_string, GENATEST_CUSTOM_STR_2,
+      GENATEST_STR_SET[i] );
+    munit_assert_not_null( ptr_str );
+    munit_assert_string_equal( ptr_str, GENATEST_STR_SET[i] );
+    munit_assert_size( gtmap_count(map_string), ==, GENATEST_STR_SET_LEN+1 );
+    munit_assert( !gtmap_empty(map_string) );
+  }
+
+  for( i = (int)GENATEST_STR_SET_LEN; i-- > 0; ) {
     del_result = gtmap_string_delete( map_string, GENATEST_STR_SET[i] );
     munit_assert( del_result );
-    munit_assert_size( gtmap_count(map_string), ==, i );
+    munit_assert_size( gtmap_count(map_string), ==, i+1 );
     munit_assert( !gtmap_empty(map_string) );
   }
 
@@ -183,10 +264,30 @@ MunitResult gtmaptests_2_modify() {
     munit_assert( !gtmap_empty(map_array) );
   }
 
-  for( i = (int)GENATEST_BUF_SET_LEN; i-- > 1; ) {
+  for( i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i ) {
+    ptr_array = gtmap_array_add( map_array, GENATEST_BUF_SET[i],
+      GENATEST_CUSTOM_BUF_1 );
+    munit_assert_not_null( ptr_array );
+    munit_assert_memory_equal( sizeof(genatest_buf_x), ptr_array,
+      GENATEST_BUF_SET[i] );
+    munit_assert_size( gtmap_count(map_array), ==, GENATEST_BUF_SET_LEN );
+    munit_assert( !gtmap_empty(map_array) );
+  }
+
+  for( i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i ) {
+    ptr_array = gtmap_array_put( map_array, GENATEST_CUSTOM_BUF_2,
+      GENATEST_BUF_SET[i] );
+    munit_assert_not_null( ptr_array );
+    munit_assert_memory_equal( sizeof(genatest_buf_x), ptr_array,
+      GENATEST_BUF_SET[i] );
+    munit_assert_size( gtmap_count(map_array), ==, GENATEST_BUF_SET_LEN+1 );
+    munit_assert( !gtmap_empty(map_array) );
+  }
+
+  for( i = (int)GENATEST_BUF_SET_LEN; i-- > 0; ) {
     del_result = gtmap_array_delete( map_array, GENATEST_BUF_SET[i] );
     munit_assert( del_result );
-    munit_assert_size( gtmap_count(map_array), ==, i );
+    munit_assert_size( gtmap_count(map_array), ==, i+1 );
     munit_assert( !gtmap_empty(map_array) );
   }
 
