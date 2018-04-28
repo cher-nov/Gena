@@ -9,7 +9,7 @@ structures that use AVL-tree can be instantiated with the same name. */
   tpValueSize, tpKeyPassBy, tpKeyCompareBy, tpKeyAssignBy ) \
 \
 /********************************************************************/ \
-  static \
+  ZGENA_STATIC_APPROACH_FUNCTION \
   igena_avl_bias \
   i##tpPrefix##_avl_subtree_##tpSurname##_scan( \
     igena_avl_node_p root, \
@@ -40,7 +40,7 @@ structures that use AVL-tree can be instantiated with the same name. */
     return link; \
   }} \
 /********************************************************************/ \
-  static \
+  ZGENA_STATIC_APPROACH_FUNCTION \
   igena_avl_node_p \
   i##tpPrefix##_avl_subtree_##tpSurname##_add( \
     igena_avl_node_p* proot, \
@@ -77,7 +77,7 @@ structures that use AVL-tree can be instantiated with the same name. */
     return new_leaf; \
   }} \
 /********************************************************************/ \
-  static \
+  ZGENA_STATIC_APPROACH_FUNCTION \
   gena_bool \
   i##tpPrefix##_avl_subtree_##tpSurname##_delete( \
     igena_avl_node_p* proot, \

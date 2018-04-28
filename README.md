@@ -113,7 +113,6 @@ For the next code template let's assume that wrapper module is called *gvec_wrap
 
 ***gvec_wrapper.h***
 ```c
-#define GVEC_MODULAR_APPROACH
 #include "genvector.h"
 
 GVEC_H_DECLARE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy );
@@ -127,7 +126,6 @@ GVEC_C_DEFINE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy );
 ```
 
 The arguments for `GVEC_H_DECLARE()` and `GVEC_C_DEFINE()` are the same as for `GVEC_INSTANTIATE()`.
-Please note that modular approach is disabled by default, so you must define `GVEC_MODULAR_APPROACH` before inclusion of the library header.
 
 #### Typesets
 
@@ -136,7 +134,6 @@ To prevent this, *typesets* were introduced. Let's consider them using the modif
 
 ***gvec_wrapper.h***
 ```c
-#define GVEC_MODULAR_APPROACH
 #include "genvector.h"
 
 #define ZZ_GVEC_TYPESET_SOMETHING \
@@ -366,13 +363,6 @@ Returns if a vector specified is empty.
 *Return value:* boolean
 
 ## Library adjustment using optional defines
-
-### Before header inclusion
-
-* `GVEC_MODULAR_APPROACH`
-Read ***Usage / Modular approach*** section above.
-
-### At compile-time
 
 * `GVEC_GROWTH_FACTOR` (1.5 by default)
 Growth factor of vectors storages.

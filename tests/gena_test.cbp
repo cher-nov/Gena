@@ -38,8 +38,7 @@
 					<Add option="-g3" />
 					<Add option="-fprofile-arcs" />
 					<Add option="-ftest-coverage" />
-					<Add option="-DGVEC_MODULAR_APPROACH" />
-					<Add option="-DGTMAP_MODULAR_APPROACH" />
+					<Add option="-DGENATEST_MODULAR_APPROACH" />
 				</Compiler>
 				<Linker>
 					<Add option="-fprofile-arcs" />
@@ -79,8 +78,7 @@
 					<Add option="-Wno-unused-function" />
 					<Add option="-g3" />
 					<Add option="-DGENATEST_CHECK_ONLY_C89" />
-					<Add option="-DGVEC_MODULAR_APPROACH" />
-					<Add option="-DGTMAP_MODULAR_APPROACH" />
+					<Add option="-DGENATEST_MODULAR_APPROACH" />
 				</Compiler>
 			</Target>
 		</Build>

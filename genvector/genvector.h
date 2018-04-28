@@ -13,9 +13,7 @@ typedef void* gvec_h;
 
 /******************************************************************************/
 
-/* Instantiation macros. */
-
-#ifndef GVEC_MODULAR_APPROACH
+/* Instantiation macros, static approach. */
 
 #define \
 GVEC_INSTANTIATE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
@@ -25,25 +23,23 @@ GVEC_INSTANTIATE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
 GVEC_INSTANTIATE_EX( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy, tpAssignBy ) \
   ZZ_GVEC_INSTANTIATE_EX(tpTypeInfo,tpSurname,tpPassBy,tpReturnBy,tpAssignBy)
 
-#else /* GVEC_MODULAR_APPROACH */
-
-#define \
-GVEC_C_DEFINE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
-  ZZ_GVEC_C_DEFINE(tpTypeInfo,tpSurname,tpPassBy,tpReturnBy)
-
-#define \
-GVEC_C_DEFINE_EX( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy, tpAssignBy ) \
-  ZZ_GVEC_C_DEFINE_EX(tpTypeInfo,tpSurname,tpPassBy,tpReturnBy,tpAssignBy)
+/* Instantiation macros, modular approach. */
 
 #define \
 GVEC_H_DECLARE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
   ZZ_GVEC_H_DECLARE(tpTypeInfo,tpSurname,tpPassBy,tpReturnBy)
 
 #define \
+GVEC_C_DEFINE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
+  ZZ_GVEC_C_DEFINE(tpTypeInfo,tpSurname,tpPassBy,tpReturnBy)
+
+#define \
 GVEC_H_DECLARE_EX( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy, tpAssignBy ) \
   ZZ_GVEC_H_DECLARE_EX(tpTypeInfo,tpSurname,tpPassBy,tpReturnBy,tpAssignBy)
 
-#endif /* GVEC_MODULAR_APPROACH */
+#define \
+GVEC_C_DEFINE_EX( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy, tpAssignBy ) \
+  ZZ_GVEC_C_DEFINE_EX(tpTypeInfo,tpSurname,tpPassBy,tpReturnBy,tpAssignBy)
 
 /******************************************************************************/
 

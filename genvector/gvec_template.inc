@@ -2,63 +2,46 @@
   Copyright (c) 2017, Dmitry D. Chernov
 */
 
-/*
-  ZZ_GVEC_FUNC_ONCE is necessary to prevent multiple declarations if the
-  main header was included more than once.
-  ZZ_GVEC_STATIC_TYPEDEF is needed to prevent typedef redefinition with
-  modular approach.
-*/
-
 #define ZZ_GVEC_DEFINE_TYPE( tpTypeInfo, tpUseBy, tpSurname ) \
   typedef ZGENA_ENTRY_OBJECT( tpTypeInfo, tpUseBy, *gvec_##tpSurname##_h )
 
-#ifndef GVEC_MODULAR_APPROACH
+/* Static approach. */
 
-  #define ZZ_GVEC_FUNC_ONCE static GENA_INLINE
-
-  #define ZZ_GVEC_STATIC_TYPEDEF( tpTypeInfo, tpUseBy, tpName ) \
-    ZZ_GVEC_DEFINE_TYPE( tpTypeInfo, tpUseBy, tpName )
-
-  #define ZZ_GVEC_INSTANTIATE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
+#define ZZ_GVEC_INSTANTIATE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
 \
-    ZGVEC_C_DEFINE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy, \
-      GENA_ASSIGN_NAIVE )
+  ZGVEC_DEFINITIONS( ZGENA_APPROACH_STATIC, tpTypeInfo, tpSurname, tpPassBy, \
+    tpReturnBy, GENA_ASSIGN_NAIVE )
 
-  #define ZZ_GVEC_INSTANTIATE_EX( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy, \
-    tpAssignBy ) \
+#define ZZ_GVEC_INSTANTIATE_EX( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy, \
+  tpAssignBy ) \
 \
-    ZGVEC_C_DEFINE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy, tpAssignBy )
+  ZGVEC_DEFINITIONS( ZGENA_APPROACH_STATIC, tpTypeInfo, tpSurname, tpPassBy, \
+    tpReturnBy, tpAssignBy )
 
-#else /* GVEC_MODULAR_APPROACH */
+/* Modular approach. */
 
-  #define ZZ_GVEC_FUNC_ONCE
+#define ZZ_GVEC_H_DECLARE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
+  ZGVEC_DECLARATIONS( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy )
 
-  #define ZZ_GVEC_STATIC_TYPEDEF( tpTypeInfo, tpUseBy, tpName ) \
-    ZGENA_REQUIRE_SEMICOLON_OUTDOOR
-
-  #define ZZ_GVEC_C_DEFINE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
+#define ZZ_GVEC_C_DEFINE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
 \
-    ZGVEC_C_DEFINE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy, \
-      GENA_ASSIGN_NAIVE )
+  ZGVEC_DEFINITIONS( ZGENA_APPROACH_MODULAR, tpTypeInfo, tpSurname, tpPassBy, \
+    tpReturnBy, GENA_ASSIGN_NAIVE )
 
-  #define ZZ_GVEC_C_DEFINE_EX( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy, \
-    tpAssignBy ) \
+#define ZZ_GVEC_H_DECLARE_EX( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy, \
+  tpAssignBy ) \
 \
-    ZGVEC_C_DEFINE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy, tpAssignBy )
+  ZGVEC_DECLARATIONS( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy )
 
-  #define ZZ_GVEC_H_DECLARE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
-    ZGVEC_H_DECLARE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy )
-
-  #define ZZ_GVEC_H_DECLARE_EX( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy, \
-    tpAssignBy ) \
+#define ZZ_GVEC_C_DEFINE_EX( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy, \
+  tpAssignBy ) \
 \
-    ZGVEC_H_DECLARE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy )
-
-#endif /* GVEC_MODULAR_APPROACH */
+  ZGVEC_DEFINITIONS( ZGENA_APPROACH_MODULAR, tpTypeInfo, tpSurname, tpPassBy, \
+    tpReturnBy, tpAssignBy )
 
 /******************************************************************************/
 
-#define ZGVEC_H_DECLARE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
+#define ZGVEC_DECLARATIONS( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
 \
   ZZ_GVEC_DEFINE_TYPE( tpTypeInfo, tpPassBy, tpSurname ); \
   ZZ_GVEC_FUNCTIONS_LIST( \
@@ -71,12 +54,12 @@
 
 /******************************************************************************/
 
-#define ZGVEC_C_DEFINE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy, \
-  tpAssignBy ) \
+#define ZGVEC_DEFINITIONS( tpApproach, tpTypeInfo, tpSurname, tpPassBy, \
+  tpReturnBy, tpAssignBy ) \
 \
-  ZZ_GVEC_STATIC_TYPEDEF( tpTypeInfo, tpReturnBy, tpSurname ); \
+  tpApproach ( ZZ_GVEC_DEFINE_TYPE( tpTypeInfo, tpReturnBy, tpSurname ); ) \
 /********************************************************************/ \
-  ZZ_GVEC_FUNC_ONCE \
+  tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
   gvec_##tpSurname##_h \
   gvec_##tpSurname##_new( \
     size_t min_count \
@@ -88,7 +71,7 @@
     ); \
   }} \
 /********************************************************************/ \
-  ZZ_GVEC_FUNC_ONCE \
+  tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
   gena_bool \
   gvec_##tpSurname##_assign( \
     gvec_##tpSurname##_h* phandle, \
@@ -112,7 +95,7 @@
     return GENA_TRUE; \
   }} \
 /********************************************************************/ \
-  ZZ_GVEC_FUNC_ONCE \
+  tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
   gena_bool \
   gvec_##tpSurname##_resize( \
     gvec_##tpSurname##_h* phandle, \
@@ -137,7 +120,7 @@
     return GENA_TRUE; \
   }} \
 /********************************************************************/ \
-  ZZ_GVEC_FUNC_ONCE \
+  tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
   gena_bool \
   gvec_##tpSurname##_reserve( \
     gvec_##tpSurname##_h* phandle, \
@@ -151,7 +134,7 @@
     return GENA_TRUE; \
   }} \
 /********************************************************************/ \
-  ZZ_GVEC_FUNC_ONCE \
+  tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
   gena_bool \
   gvec_##tpSurname##_shrink( \
     gvec_##tpSurname##_h* phandle \
@@ -164,7 +147,7 @@
     return GENA_TRUE; \
   }} \
 /********************************************************************/ \
-  ZZ_GVEC_FUNC_ONCE \
+  tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
   gena_bool \
   gvec_##tpSurname##_insert( \
     gvec_##tpSurname##_h* phandle, \
@@ -188,7 +171,7 @@
     return GENA_TRUE; \
   }} \
 /********************************************************************/ \
-  ZZ_GVEC_FUNC_ONCE \
+  tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
   gena_bool \
   gvec_##tpSurname##_push( \
     gvec_##tpSurname##_h* phandle, \
@@ -207,7 +190,7 @@
     return GENA_TRUE; \
   }} \
 /********************************************************************/ \
-  ZZ_GVEC_FUNC_ONCE \
+  tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
   ZGENA_ENTRY_VALUE(tpTypeInfo, tpReturnBy) \
   gvec_##tpSurname##_pop( \
     gvec_##tpSurname##_h handle \
@@ -219,7 +202,7 @@
     ); \
   } \
 /********************************************************************/ \
-  ZZ_GVEC_FUNC_ONCE \
+  tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
   ZGENA_ENTRY_TYPE(tpTypeInfo, tpReturnBy) * \
   gvec_##tpSurname##_at( \
     gvec_##tpSurname##_h handle, \
@@ -233,7 +216,7 @@
     ); \
   }} \
 /********************************************************************/ \
-  ZZ_GVEC_FUNC_ONCE \
+  tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
   ZGENA_ENTRY_VALUE(tpTypeInfo, tpReturnBy) \
   gvec_##tpSurname##_first( \
     gvec_##tpSurname##_h handle \
@@ -248,7 +231,7 @@
     ); \
   }} \
 /********************************************************************/ \
-  ZZ_GVEC_FUNC_ONCE \
+  tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
   ZGENA_ENTRY_VALUE(tpTypeInfo, tpReturnBy) \
   gvec_##tpSurname##_last( \
     gvec_##tpSurname##_h handle \

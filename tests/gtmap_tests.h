@@ -1,7 +1,7 @@
 #ifndef ZZ_GTMAP_TESTS_H_IG
 #define ZZ_GTMAP_TESTS_H_IG
 
-#ifdef GTMAP_MODULAR_APPROACH
+#ifdef GENATEST_MODULAR_APPROACH
   #define GTMAPTEST_TYPE "MODULAR"
   #include "gtmap_common/gtmap_modular.h"
 #else

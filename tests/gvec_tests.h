@@ -1,7 +1,7 @@
 #ifndef ZZ_GVEC_TESTS_H_IG
 #define ZZ_GVEC_TESTS_H_IG
 
-#ifdef GVEC_MODULAR_APPROACH
+#ifdef GENATEST_MODULAR_APPROACH
   #define GVECTEST_TYPE "MODULAR"
   #include "gvec_common/gvec_modular.h"
 #else

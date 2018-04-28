@@ -152,6 +152,16 @@ guaranteed to be a valid zero-terminated C string. */
 
 /******************************************************************************/
 
+#define ZGENA_APPROACH_STATIC ZZ_ZGENA_APPROACH_STATIC
+#define ZGENA_APPROACH_MODULAR ZZ_ZGENA_APPROACH_MODULAR
+
+#define ZZ_ZGENA_APPROACH_STATIC(once_code) once_code
+#define ZZ_ZGENA_APPROACH_MODULAR(once_code)
+
+#define ZGENA_STATIC_APPROACH_FUNCTION static GENA_INLINE
+
+/******************************************************************************/
+
 #define GENA_APPLY_TYPESET(macro, typeset) macro typeset
 
 /******************************************************************************/
