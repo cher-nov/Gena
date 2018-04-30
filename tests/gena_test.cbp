@@ -5,7 +5,7 @@
 		<Option title="gena_test" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="munit/;genvector/;tests/;tests/gvec_common/;tests/gtmap_common/;gentreemap/;internals/;internals/avl_tree/;" />
+		<Option virtualFolders="routines/;routines/internal/avl_tree/;routines/internal/;tests/;tests/gtmap_common/;tests/gvec_common/;gentreemap/;genvector/;munit/;" />
 		<Build>
 			<Target title="Test Static (Release)">
 				<Option output="gena_test" prefix_auto="1" extension_auto="1" />
@@ -114,18 +114,21 @@
 		<Unit filename="../genvector/gvec_template.inc">
 			<Option virtualFolder="genvector/" />
 		</Unit>
-		<Unit filename="../internals/avl_tree/avl_template.inc">
-			<Option virtualFolder="internals/avl_tree/" />
+		<Unit filename="../routines/global.h">
+			<Option virtualFolder="routines/" />
 		</Unit>
-		<Unit filename="../internals/avl_tree/avl_tree.c">
+		<Unit filename="../routines/internal/avl_tree/avl_template.inc">
+			<Option virtualFolder="routines/internal/avl_tree/" />
+		</Unit>
+		<Unit filename="../routines/internal/avl_tree/avl_tree.c">
 			<Option compilerVar="CC" />
-			<Option virtualFolder="internals/avl_tree/" />
+			<Option virtualFolder="routines/internal/avl_tree/" />
 		</Unit>
-		<Unit filename="../internals/avl_tree/avl_tree.h">
-			<Option virtualFolder="internals/avl_tree/" />
+		<Unit filename="../routines/internal/avl_tree/avl_tree.h">
+			<Option virtualFolder="routines/internal/avl_tree/" />
 		</Unit>
-		<Unit filename="../internals/coredefs.h">
-			<Option virtualFolder="internals/" />
+		<Unit filename="../routines/internal/common.h">
+			<Option virtualFolder="routines/internal/" />
 		</Unit>
 		<Unit filename="genatest_common.c">
 			<Option compilerVar="CC" />

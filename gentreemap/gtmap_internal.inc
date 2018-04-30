@@ -2,7 +2,7 @@
   Copyright (c) 2017, Dmitry D. Chernov
 */
 
-#include "../internals/avl_tree/avl_tree.h"
+#include "../routines/internal/avl_tree/avl_tree.h"
 
 typedef struct zz_gtmap_s {
   size_t count;

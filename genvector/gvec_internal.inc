@@ -2,7 +2,7 @@
   Copyright (c) 2017, Dmitry D. Chernov
 */
 
-#include "../internals/coredefs.h"
+#include "../routines/internal/common.h"
 
 #define IGVEC_BUFFER(handle) \
   ZGENA_VOIDPTR_SUB( handle, sizeof(igvec_head_s) )

@@ -1,41 +1,13 @@
 /*
-  Copyright (c) 2017, Dmitry D. Chernov
+  Copyright (c) 2018, Dmitry D. Chernov
 */
 
-#ifndef ZZ_GENA_COREDEFS_H_IG
-#define ZZ_GENA_COREDEFS_H_IG
+#ifndef ZZ_ZGENA_COMMON_H_IG
+#define ZZ_ZGENA_COMMON_H_IG
+
+#include "../global.h"
 
 /******************************************************************************/
-
-/* Default includes, used throughout the whole library. */
-
-#include <stddef.h>
-#include <limits.h>
-#include <assert.h>
-
-#if __STDC_VERSION__ < 199901L
-  typedef int gena_bool;
-  #define GENA_TRUE (1)
-  #define GENA_FALSE (0)
-#else
-  #include <stdbool.h>
-  typedef bool gena_bool;
-  #define GENA_TRUE (true)
-  #define GENA_FALSE (false)
-#endif
-
-#if __STDC_VERSION__ < 199901L
-  #define GENA_INLINE
-#else
-  #define GENA_INLINE inline
-#endif
-
-/******************************************************************************/
-
-#define GENA_USE_VALUE ZZ_GENA_VAL__    /* simple type, by value */
-#define GENA_USE_POINTER ZZ_GENA_PTR__  /* simple type, by pointer */
-#define GENA_USE_BUFFER ZZ_GENA_BUF__   /* buffer type (array or string) */
-#define GENA_USE_ARRAY ZZ_GENA_REF__    /* reference-access type (array) */
 
 /* Operators. */
 
@@ -119,10 +91,6 @@
 
 /******************************************************************************/
 
-#define GENA_ASSIGN_NAIVE ZZ_GENA_ASSIGN_NAIVE
-#define GENA_ASSIGN_MEMCPY ZZ_GENA_ASSIGN_MEMCPY
-#define GENA_ASSIGN_STRCPY ZZ_GENA_ASSIGN_STRCPY
-
 #define ZZ_GENA_ASSIGN_NAIVE( ptr_destination, ptr_source, data_size ) \
   ( *(ptr_destination) = *(ptr_source) )
 
@@ -134,10 +102,6 @@
   ( ((char*)(ptr_destination)) [ (data_size)-1 ] = '\0' )
 
 /******************************************************************************/
-
-#define GENA_COMPARE_NAIVE ZZ_GENA_COMPARE_NAIVE
-#define GENA_COMPARE_MEMCMP ZZ_GENA_COMPARE_MEMCMP
-#define GENA_COMPARE_STRCMP ZZ_GENA_COMPARE_STRCMP
 
 #define ZZ_GENA_COMPARE_NAIVE( ptr_entry_data, ptr_user_data, data_size ) \
   ( *(ptr_entry_data) - *(ptr_user_data) )
@@ -162,15 +126,6 @@ guaranteed to be a valid zero-terminated C string. */
 
 /******************************************************************************/
 
-#define GENA_APPLY_TYPESET(macro, typeset) macro typeset
-
-/******************************************************************************/
-
-#define ZGENA_VOIDPTR_ADD(x, a) ( (void*)( (char*)(x) + (a) ) )
-#define ZGENA_VOIDPTR_SUB(x, a) ( (void*)( (char*)(x) - (a) ) )
-
-/******************************************************************************/
-
 #define ZZ_ZGENA_PAIR_1(item1, item2) item1
 #define ZZ_ZGENA_PAIR_2(item1, item2) item2
 
@@ -181,6 +136,11 @@ guaranteed to be a valid zero-terminated C string. */
 
 #define ZZ_ZGENA_MACRO_CONCAT(x, y) x##y
 #define ZGENA_MACRO_CONCAT(x, y) ZZ_ZGENA_MACRO_CONCAT(x, y)
+
+/******************************************************************************/
+
+#define ZGENA_VOIDPTR_ADD(x, a) ( (void*)( (char*)(x) + (a) ) )
+#define ZGENA_VOIDPTR_SUB(x, a) ( (void*)( (char*)(x) - (a) ) )
 
 /******************************************************************************/
 
@@ -196,4 +156,6 @@ guaranteed to be a valid zero-terminated C string. */
 
 #define ZZ_GENA_FUNCTIONS_LIST_END ZGENA_REQUIRE_SEMICOLON_OUTDOOR
 
-#endif /* ZZ_GENA_COREDEFS_H_IG */
+/******************************************************************************/
+
+#endif /* ZZ_ZGENA_COMMON_H_IG */

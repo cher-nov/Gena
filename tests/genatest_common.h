@@ -3,7 +3,7 @@
 
 #include <string.h>
 
-#include "../internals/coredefs.h"
+#include "../routines/internal/common.h"
 
 #define GENATEST_UNUSED(var) (void)var
 

@@ -1,7 +1,11 @@
-#ifndef ZZ_GENA_AVL_TREE_H_IG
-#define ZZ_GENA_AVL_TREE_H_IG
+/*
+  Copyright (c) 2017, Dmitry D. Chernov
+*/
 
-#include "../coredefs.h"
+#ifndef ZZ_IGENA_AVL_TREE_H_IG
+#define ZZ_IGENA_AVL_TREE_H_IG
+
+#include "../common.h"
 
 #define IGENA_AVL_BIAS_LEFT (-1)
 #define IGENA_AVL_BIAS_PARENT (0)
@@ -50,4 +54,4 @@ extern void igena_avl_subtree_free( igena_avl_node_p root );
 
 #include "avl_template.inc"
 
-#endif /* ZZ_GENA_AVL_TREE_H_IG */
+#endif /* ZZ_IGENA_AVL_TREE_H_IG */
