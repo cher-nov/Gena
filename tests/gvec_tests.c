@@ -494,7 +494,7 @@ MunitResult gvectests_3_manage() {
   munit_assert_memory_equal( GENATEST_INT_SET_SIZE, vec_string2,
     GENATEST_STR_SET );
 
-  vec_string1 = gvec_set( &vec_string1, vec_string2 );
+  vec_string1 = gvec_assign( &vec_string1, vec_string2 );
   munit_assert_not_null(vec_string1);
   munit_assert_size( gvec_count(vec_string1), ==, GENATEST_STR_SET_LEN );
   munit_assert( !gvec_empty(vec_string1) );
@@ -514,7 +514,7 @@ MunitResult gvectests_3_manage() {
   vec_array1 = igvec_resize( vec_array1, GENATEST_BUF_SET_LEN );
 
   vec_array2 = gvec_array_new(GENATEST_BUF_SET_LEN);
-  vec_array2 = gvec_set( &vec_array2, vec_array1 );
+  vec_array2 = gvec_assign( &vec_array2, vec_array1 );
   munit_assert_not_null(vec_array2);
   munit_assert_size( gvec_count(vec_array2), ==, GENATEST_BUF_SET_LEN );
   munit_assert( !gvec_empty(vec_array2) );

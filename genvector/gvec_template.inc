@@ -73,7 +73,7 @@
 /********************************************************************/ \
   tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
   gena_bool \
-  gvec_##tpSurname##_assign( \
+  gvec_##tpSurname##_reset( \
     gvec_##tpSurname##_h* phandle, \
     size_t count, \
     const ZGENA_ENTRY_VALUE(tpTypeInfo, tpPassBy) value \

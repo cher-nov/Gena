@@ -45,7 +45,7 @@ GVEC_C_DEFINE_EX( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy, tpAssignBy ) \
 
 /* General-purpose functions. */
 
-extern gvec_h gvec_set( gvec_h handle, gvec_h source );
+extern gvec_h gvec_assign( gvec_h handle, gvec_h source );
 extern gvec_h gvec_copy( gvec_h handle );
 extern void gvec_free( gvec_h handle );
 
@@ -67,7 +67,7 @@ extern gena_bool gvec_empty( gvec_h handle );
 \
 extern gvec_##Surname##_h gvec_##Surname##_new( size_t min_count ); \
 \
-extern gena_bool gvec_##Surname##_assign( gvec_##Surname##_h* phandle, \
+extern gena_bool gvec_##Surname##_reset( gvec_##Surname##_h* phandle, \
   size_t count, const PassType value ); \
 \
 extern gena_bool gvec_##Surname##_resize( gvec_##Surname##_h* phandle, \

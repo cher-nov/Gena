@@ -170,7 +170,7 @@ Create a vector.
 *Return value:* a handle to the new vector, or `NULL` on error
 
 ```c
-gena_bool gvec_NAME_assign( gvec_NAME_h* phandle, size_t count, const PASSVAL value )
+gena_bool gvec_NAME_reset( gvec_NAME_h* phandle, size_t count, const PASSVAL value )
 ```
 Resize a vector to specified count of elements and assign a value to them all.
 
@@ -279,7 +279,7 @@ Get the last element of a vector.
 ### General-purpose functions to manage any vector type
 
 ```c
-gvec_h gvec_set( gvec_h* phandle, gvec_h source )
+gvec_h gvec_assign( gvec_h* phandle, gvec_h source )
 ```
 Copy-assign one vector to another. Sizes of the elements in both arrays must coincide. On error, the destination vector remains untouched.
 
@@ -367,7 +367,7 @@ Returns if a vector specified is empty.
 * `GVEC_GROWTH_FACTOR` (1.5 by default)
 Growth factor of vectors storages.
 
-* `GVEC_CALC_SIZE_MATH`
+* `GVEC_CALCULATE_SIZE_MATH`
 Use math function for size calculation, instead of loop-based.
 
 * `GVEC_INSERT_NO_REALLOC`
