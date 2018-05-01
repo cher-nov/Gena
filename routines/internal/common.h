@@ -103,8 +103,12 @@
 
 /******************************************************************************/
 
+/* NOTE: We can't simply subtract ptr_user_data from ptr_entry_data here
+because values may be unsigned. */
 #define ZZ_GENA_COMPARE_NAIVE( ptr_entry_data, ptr_user_data, data_size ) \
-  ( *(ptr_entry_data) - *(ptr_user_data) )
+  ( (*(ptr_entry_data) < *(ptr_user_data)) ? (-1) \
+  : (*(ptr_entry_data) > *(ptr_user_data)) ? (1) \
+  : (0) )
 
 #define ZZ_GENA_COMPARE_MEMCMP( ptr_entry_data, ptr_user_data, data_size ) \
   ( memcmp( ptr_entry_data, ptr_user_data, data_size ) )
