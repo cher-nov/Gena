@@ -4,17 +4,21 @@
 
 #include "../routines/internal/common.h"
 
-#define IGVEC_BUFFER(handle) \
-  ZGENA_VOIDPTR_SUB( handle, sizeof(igvec_head_s) )
-
-#define IGVEC_HEADER(handle) \
-  ( (igvec_head_p) IGVEC_BUFFER(handle) )
-
 typedef struct {
   size_t count;
   size_t size;
   size_t entry_size;
-} igvec_head_s, *igvec_head_p;
+} igvec_header_s, *igvec_header_p;
+
+/******************************************************************************/
+
+#define IGVEC_BUFFER(handle) \
+  ZGENA_VOIDPTR_SUB( handle, sizeof(igvec_header_s) )
+
+#define IGVEC_HEADER(handle) \
+  ( (igvec_header_p) IGVEC_BUFFER(handle) )
+
+/******************************************************************************/
 
 extern gvec_h igvec_new( size_t min_count, size_t entry_size );
 

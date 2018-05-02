@@ -17,7 +17,7 @@
     ? IGENA_AVL_BIAS_LEFT \
     : IGENA_AVL_BIAS_RIGHT )
 
-static const igena_avl_node_s default_node_c = {
+static const igena_avl_node_s const_default_node = {
   NULL,
   NULL,
   NULL,
@@ -112,18 +112,18 @@ igena_avl_node_p igena_avl_node_create( size_t key_size, size_t value_size ) {
   node = malloc( sizeof(igena_avl_node_s) + key_size + value_size );
   if (node == NULL) { return NULL; }
 
-  *node = default_node_c;
+  *node = const_default_node;
   return node;
 }}
 
 igena_avl_node_p igena_avl_node_attach( igena_avl_node_p node,
-  igena_avl_node_p parent, igena_avl_bias link )
+  igena_avl_node_p parent, igena_avl_bias link ) {
 {
   node->parent = parent;
   if (parent == NULL) { return node; }
   IGENA_AVL_NODE_LINK( parent, link ) = node;
   return rebalance_branch_from_leaf( parent, link, NULL );
-}
+}}
 
 igena_avl_node_p igena_avl_node_detach( igena_avl_node_p node ) {
   const igena_avl_node_p ancestor = node->parent;
@@ -178,7 +178,7 @@ igena_avl_node_p igena_avl_node_detach( igena_avl_node_p node ) {
     if (deputy == NULL) { deputy_bias = ancestor_bias; }
   }
 
-  *node = default_node_c;
+  *node = const_default_node;
   rebalancing = rebalance_branch_from_leaf( successor, deputy_bias, node );
   if (deputy == NULL) { return rebalancing; }
   return (deputy->parent == NULL) ? deputy : rebalancing;

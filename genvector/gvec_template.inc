@@ -236,7 +236,7 @@
   gvec_##tpSurname##_last( \
     gvec_##tpSurname##_h handle \
   ) { \
-    igvec_head_p header; \
+    igvec_header_p header; \
   { \
     assert( handle != NULL ); \
     header = IGVEC_HEADER(handle); \

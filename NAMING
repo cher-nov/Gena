@@ -27,7 +27,7 @@ Macro Arguments:
 
 Variables and Constants:
 
-  *_c - constant value
+  const_* - 'static' constant value
 
 Types:
 
@@ -35,10 +35,10 @@ Types:
   *_e - enum
   *_s - struct
   *_u - union
-  *_p - typed pointer
-  *_ptr - untyped pointer
+  *_p - pointer
   *_f - functional type
+  *_x - opaque type
   *_h - handle type
-  *_x - any other user-defined type
+  *_z - any other user-defined type
 
 

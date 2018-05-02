@@ -11,4 +11,6 @@ typedef struct zz_gtmap_s {
   size_t value_size;
 } igtmap_s;
 
+/******************************************************************************/
+
 extern gtmap_h igtmap_new( size_t key_size, size_t value_size );
