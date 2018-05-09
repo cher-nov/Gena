@@ -75,8 +75,10 @@ extern gena_bool gtmap_empty( gtmap_h handle );
 /* Pseudo-templated functions to be specialized at type instantiation. */
 /* NOTE: Do not call this directly. Instead, use the instantiation macros. */
 
-#define ZZ_GTMAP_FUNCTIONS_LIST( Surname, ValueTypeName, KeyPassType, \
+#define ZZ_GTMAP_DECLARATIONS_LIST( Surname, ValueTypeName, KeyPassType, \
   ValuePassType ) \
+\
+extern const gena_tag_z gvec_##tpSurname##_tag; \
 \
 extern gtmap_##Surname##_h gtmap_##Surname##_new(void); \
 \
@@ -92,7 +94,7 @@ extern gena_bool gtmap_##Surname##_delete( gtmap_##Surname##_h handle, \
 extern ValueTypeName* gtmap_##Surname##_find( gtmap_##Surname##_h handle, \
   const KeyPassType key ); \
 \
-ZZ_GENA_FUNCTIONS_LIST_END
+ZZ_GENA_DECLARATIONS_LIST_END
 
 /******************************************************************************/
 

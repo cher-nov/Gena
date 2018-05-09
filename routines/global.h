@@ -30,6 +30,8 @@
   #define GENA_INLINE inline
 #endif
 
+typedef const char* gena_tag_z;
+
 /******************************************************************************/
 
 /* Instantiation modes. */

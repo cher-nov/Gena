@@ -44,7 +44,7 @@
 #define ZGVEC_DECLARATIONS( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
 \
   ZZ_GVEC_DEFINE_TYPE( tpTypeInfo, tpPassBy, tpSurname ); \
-  ZZ_GVEC_FUNCTIONS_LIST( \
+  ZZ_GVEC_DECLARATIONS_LIST( \
     tpSurname, \
     ZGENA_ENTRY_TYPE(tpTypeInfo, tpReturnBy), \
     ZGENA_ENTRY_VALUE(tpTypeInfo, tpPassBy), \
@@ -58,6 +58,8 @@
   tpReturnBy, tpAssignBy ) \
 \
   tpApproach ( ZZ_GVEC_DEFINE_TYPE( tpTypeInfo, tpReturnBy, tpSurname ); ) \
+  tpApproach ( static ) const gena_tag_z \
+    gvec_##tpSurname##_tag = #tpSurname "_gvec"; \
 /********************************************************************/ \
   tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
   gvec_##tpSurname##_h \
@@ -67,7 +69,8 @@
   { \
     return igvec_new( \
       min_count, \
-      ZGENA_ENTRY_SIZE(tpTypeInfo, tpPassBy) \
+      ZGENA_ENTRY_SIZE(tpTypeInfo, tpPassBy), \
+      gvec_##tpSurname##_tag \
     ); \
   }} \
 /********************************************************************/ \

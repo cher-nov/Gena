@@ -9,8 +9,9 @@ typedef struct zz_gtmap_s {
   igena_avl_node_p tree_root;
   size_t key_size;
   size_t value_size;
+  gena_tag_z tag;
 } igtmap_s;
 
 /******************************************************************************/
 
-extern gtmap_h igtmap_new( size_t key_size, size_t value_size );
+extern gtmap_h igtmap_new( size_t key_size, size_t value_size, gena_tag_z tag );

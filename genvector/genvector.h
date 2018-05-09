@@ -63,7 +63,9 @@ extern gena_bool gvec_empty( gvec_h handle );
 /* Pseudo-templated functions to be specialized at type instantiation. */
 /* NOTE: Do not call this directly. Instead, use the instantiation macros. */
 
-#define ZZ_GVEC_FUNCTIONS_LIST( Surname, TypeName, PassType, ReturnType ) \
+#define ZZ_GVEC_DECLARATIONS_LIST( Surname, TypeName, PassType, ReturnType ) \
+\
+extern const gena_tag_z gvec_##tpSurname##_tag; \
 \
 extern gvec_##Surname##_h gvec_##Surname##_new( size_t min_count ); \
 \
@@ -93,7 +95,7 @@ extern ReturnType gvec_##Surname##_first( gvec_##Surname##_h handle ); \
 \
 extern ReturnType gvec_##Surname##_last( gvec_##Surname##_h handle ); \
 \
-ZZ_GENA_FUNCTIONS_LIST_END
+ZZ_GENA_DECLARATIONS_LIST_END
 
 /******************************************************************************/
 

@@ -8,7 +8,7 @@
 
 /******************************************************************************/
 
-gtmap_h igtmap_new( size_t key_size, size_t value_size ) {
+gtmap_h igtmap_new( size_t key_size, size_t value_size, gena_tag_z tag ) {
   gtmap_h handle;
 {
   handle = malloc( sizeof(igtmap_s) );
@@ -19,6 +19,7 @@ gtmap_h igtmap_new( size_t key_size, size_t value_size ) {
 
   handle->key_size = key_size;
   handle->value_size = value_size;
+  handle->tag = tag;
 
   return handle;
 }}

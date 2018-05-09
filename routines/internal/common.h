@@ -158,7 +158,7 @@ guaranteed to be a valid zero-terminated C string. */
 
 /******************************************************************************/
 
-#define ZZ_GENA_FUNCTIONS_LIST_END ZGENA_REQUIRE_SEMICOLON_OUTDOOR
+#define ZZ_GENA_DECLARATIONS_LIST_END ZGENA_REQUIRE_SEMICOLON_OUTDOOR
 
 /******************************************************************************/
 

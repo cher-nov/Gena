@@ -55,7 +55,7 @@
   tpKeyPassBy, tpValuePassBy ) \
 \
   ZZ_GTMAP_DEFINE_TYPE( tpSurname ); \
-  ZZ_GTMAP_FUNCTIONS_LIST( \
+  ZZ_GTMAP_DECLARATIONS_LIST( \
     tpSurname, \
     ZGENA_ENTRY_TYPE(tpValueTypeInfo, tpValuePassBy), \
     ZGENA_ENTRY_VALUE(tpKeyTypeInfo, tpKeyPassBy), \
@@ -70,6 +70,8 @@
   tpValueAssignBy ) \
 \
   tpApproach ( ZZ_GTMAP_DEFINE_TYPE( tpSurname ); ) \
+  tpApproach ( static ) const gena_tag_z \
+    gtmap_##tpSurname##_tag = #tpSurname "_gtmap"; \
   IGENA_AVL_TREE_INSTANTIATE( gtmap, tpSurname, tpKeyTypeInfo, \
     ZGENA_ENTRY_SIZE(tpValueTypeInfo, tpValuePassBy), tpKeyPassBy, \
     tpKeyCompareBy, tpKeyAssignBy ); \
@@ -82,7 +84,8 @@
   { \
     return igtmap_new( \
       ZGENA_ENTRY_SIZE(tpKeyTypeInfo, tpKeyPassBy), \
-      ZGENA_ENTRY_SIZE(tpValueTypeInfo, tpValuePassBy) \
+      ZGENA_ENTRY_SIZE(tpValueTypeInfo, tpValuePassBy), \
+      gtmap_##tpSurname##_tag \
     ); \
   }} \
 /********************************************************************/ \

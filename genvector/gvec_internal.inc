@@ -8,6 +8,7 @@ typedef struct {
   size_t count;
   size_t size;
   size_t entry_size;
+  gena_tag_z tag;
 } igvec_header_s, *igvec_header_p;
 
 /******************************************************************************/
@@ -20,7 +21,7 @@ typedef struct {
 
 /******************************************************************************/
 
-extern gvec_h igvec_new( size_t min_count, size_t entry_size );
+extern gvec_h igvec_new( size_t min_count, size_t entry_size, gena_tag_z tag );
 
 extern gvec_h igvec_resize( gvec_h handle, size_t new_count );
 extern gvec_h igvec_reserve( gvec_h handle, size_t min_count );

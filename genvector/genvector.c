@@ -72,7 +72,7 @@ static igvec_header_p storage_prepare( gvec_h* phandle, size_t size,
 
 /******************************************************************************/
 
-gvec_h igvec_new( size_t min_count, size_t entry_size ) {
+gvec_h igvec_new( size_t min_count, size_t entry_size, gena_tag_z tag ) {
   gvec_h handle = NULL;
   igvec_header_p header;
   size_t new_size;
@@ -82,6 +82,8 @@ gvec_h igvec_new( size_t min_count, size_t entry_size ) {
   if (header == NULL) { return NULL; }
 
   header->count = 0;
+  header->tag = tag;
+
   return handle;
 }}
 
@@ -153,7 +155,7 @@ gvec_h igvec_insert( gvec_h handle, size_t position, size_t count ) {
   /* This one doesn't use memory relocation and better for many insertions at
   arbitrary positions, in theory. */
   if (new_count > header->size) {
-    dest_gvec = igvec_new( new_count, entry_size );
+    dest_gvec = igvec_new( new_count, entry_size, header->tag );
     if (dest_gvec == NULL) { return NULL; }
     header = IGVEC_HEADER(dest_gvec);
     memmove( dest_gvec, handle, position * entry_size );
@@ -214,7 +216,7 @@ gvec_h gvec_assign( gvec_h handle, gvec_h source ) {
   dest_hdr = IGVEC_HEADER(handle);
   src_hdr = IGVEC_HEADER(source);
 
-  assert( dest_hdr->entry_size == src_hdr->entry_size );
+  assert( dest_hdr->tag == src_hdr->tag );
 
   handle = igvec_resize( handle, src_hdr->count );
   if (handle == NULL) { return NULL; }
