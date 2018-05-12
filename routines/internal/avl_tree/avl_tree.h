@@ -43,12 +43,12 @@ IGENA_AVL_TREE_INSTANTIATE( tpPrefix, tpSurname, tpKeyTypeInfo, tpValueSize, \
 
 /******************************************************************************/
 
-extern igena_avl_node_p igena_avl_node_create( size_t key_size,
-  size_t value_size );
+extern igena_avl_node_p igena_avl_node_create( size_t entry_size );
+extern void igena_avl_subtree_free( igena_avl_node_p root );
+
 extern igena_avl_node_p igena_avl_node_attach( igena_avl_node_p node,
   igena_avl_node_p parent, igena_avl_bias link );
 extern igena_avl_node_p igena_avl_node_detach( igena_avl_node_p node );
-extern void igena_avl_subtree_free( igena_avl_node_p root );
 
 /******************************************************************************/
 

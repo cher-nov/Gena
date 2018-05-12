@@ -106,15 +106,35 @@ static igena_avl_node_p rebalance_branch_from_leaf( igena_avl_node_p parent,
 
 /******************************************************************************/
 
-igena_avl_node_p igena_avl_node_create( size_t key_size, size_t value_size ) {
+igena_avl_node_p igena_avl_node_create( size_t entry_size ) {
   igena_avl_node_p node;
 {
-  node = malloc( sizeof(igena_avl_node_s) + key_size + value_size );
+  node = malloc( sizeof(igena_avl_node_s) + entry_size );
   if (node == NULL) { return NULL; }
 
   *node = const_default_node;
   return node;
 }}
+
+void igena_avl_subtree_free( igena_avl_node_p root ) {
+  igena_avl_node_p next_node;
+{
+  while (root != NULL) {
+    if (root->left != NULL) {
+      next_node = root->left;
+      root->left = NULL;
+    } else if (root->right != NULL) {
+      next_node = root->right;
+      root->right = NULL;
+    } else {
+      next_node = root->parent;
+      free( root );
+    }
+    root = next_node;
+  }
+}}
+
+/******************************************************************************/
 
 igena_avl_node_p igena_avl_node_attach( igena_avl_node_p node,
   igena_avl_node_p parent, igena_avl_bias link ) {
@@ -182,24 +202,4 @@ igena_avl_node_p igena_avl_node_detach( igena_avl_node_p node ) {
   rebalancing = rebalance_branch_from_leaf( successor, deputy_bias, node );
   if (deputy == NULL) { return rebalancing; }
   return (deputy->parent == NULL) ? deputy : rebalancing;
-}}
-
-/******************************************************************************/
-
-void igena_avl_subtree_free( igena_avl_node_p root ) {
-  igena_avl_node_p next_node;
-{
-  while (root != NULL) {
-    if (root->left != NULL) {
-      next_node = root->left;
-      root->left = NULL;
-    } else if (root->right != NULL) {
-      next_node = root->right;
-      root->right = NULL;
-    } else {
-      next_node = root->parent;
-      free( root );
-    }
-    root = next_node;
-  }
 }}

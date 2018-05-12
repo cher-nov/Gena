@@ -58,8 +58,7 @@ structures that use AVL-tree can be instantiated with the same name. */
     if (key_exists) { return scan_node; } \
 \
     new_leaf = igena_avl_node_create( \
-      ZGENA_ENTRY_SIZE(tpKeyTypeInfo, tpKeyPassBy), \
-      tpValueSize \
+      ZGENA_ENTRY_SIZE(tpKeyTypeInfo, tpKeyPassBy) + tpValueSize \
     ); \
 \
     if (new_leaf == NULL) { return NULL; } \
