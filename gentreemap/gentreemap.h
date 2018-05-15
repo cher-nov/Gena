@@ -18,47 +18,53 @@ typedef struct zz_gtmap_s* gtmap_h;
 
 #define \
 GTMAP_INSTANTIATE( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, tpKeyPassBy, \
-  tpValuePassBy, tpKeyCompareBy ) \
+  tpKeyReturnBy, tpValuePassBy, tpValueReturnBy, tpKeyCompareBy ) \
 \
   ZZ_GTMAP_INSTANTIATE(tpKeyTypeInfo,tpValueTypeInfo,tpSurname,tpKeyPassBy,\
-  tpValuePassBy,tpKeyCompareBy)
+  tpKeyReturnBy,tpValuePassBy,tpValueReturnBy,tpKeyCompareBy)
 
 #define \
 GTMAP_INSTANTIATE_EX( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, tpKeyPassBy, \
-  tpValuePassBy, tpKeyCompareBy, tpKeyAssignBy, tpValueAssignBy ) \
+  tpKeyReturnBy, tpValuePassBy, tpValueReturnBy, tpKeyCompareBy, \
+  tpKeyAssignBy, tpValueAssignBy ) \
 \
   ZZ_GTMAP_INSTANTIATE_EX(tpKeyTypeInfo,tpValueTypeInfo,tpSurname,tpKeyPassBy,\
-  tpValuePassBy,tpKeyCompareBy,tpKeyAssignBy,tpValueAssignBy)
+  tpKeyReturnBy,tpValuePassBy,tpValueReturnBy,tpKeyCompareBy,tpKeyAssignBy,\
+  tpValueAssignBy)
 
 /* Instantiation macros, modular approach. */
 
 #define \
 GTMAP_H_DECLARE( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, tpKeyPassBy, \
-  tpValuePassBy, tpKeyCompareBy ) \
+  tpKeyReturnBy, tpValuePassBy, tpValueReturnBy, tpKeyCompareBy ) \
 \
   ZZ_GTMAP_H_DECLARE(tpKeyTypeInfo,tpValueTypeInfo,tpSurname,tpKeyPassBy,\
-  tpValuePassBy,tpKeyCompareBy)
+  tpKeyReturnBy,tpValuePassBy,tpValueReturnBy,tpKeyCompareBy)
 
 #define \
 GTMAP_C_DEFINE( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, tpKeyPassBy, \
-  tpValuePassBy, tpKeyCompareBy ) \
+  tpKeyReturnBy, tpValuePassBy, tpValueReturnBy, tpKeyCompareBy ) \
 \
   ZZ_GTMAP_C_DEFINE(tpKeyTypeInfo,tpValueTypeInfo,tpSurname,tpKeyPassBy,\
-  tpValuePassBy,tpKeyCompareBy)
+  tpKeyReturnBy,tpValuePassBy,tpValueReturnBy,tpKeyCompareBy)
 
 #define \
 GTMAP_H_DECLARE_EX( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, tpKeyPassBy, \
-  tpValuePassBy, tpKeyCompareBy, tpKeyAssignBy, tpValueAssignBy ) \
+  tpKeyReturnBy, tpValuePassBy, tpValueReturnBy, tpKeyCompareBy, \
+  tpKeyAssignBy, tpValueAssignBy ) \
 \
   ZZ_GTMAP_H_DECLARE_EX(tpKeyTypeInfo,tpValueTypeInfo,tpSurname,tpKeyPassBy,\
-  tpValuePassBy,tpKeyCompareBy,tpKeyAssignBy,tpValueAssignBy)
+  tpKeyReturnBy,tpValuePassBy,tpValueReturnBy,tpKeyCompareBy,tpKeyAssignBy,\
+  tpValueAssignBy)
 
 #define \
 GTMAP_C_DEFINE_EX( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, tpKeyPassBy, \
-  tpValuePassBy, tpKeyCompareBy, tpKeyAssignBy, tpValueAssignBy ) \
+  tpKeyReturnBy, tpValuePassBy, tpValueReturnBy, tpKeyCompareBy, \
+  tpKeyAssignBy, tpValueAssignBy ) \
 \
   ZZ_GTMAP_C_DEFINE_EX(tpKeyTypeInfo,tpValueTypeInfo,tpSurname,tpKeyPassBy,\
-  tpValuePassBy,tpKeyCompareBy,tpKeyAssignBy,tpValueAssignBy)
+  tpKeyReturnBy,tpValuePassBy,tpValueReturnBy,tpKeyCompareBy,tpKeyAssignBy,\
+  tpValueAssignBy)
 
 /******************************************************************************/
 
@@ -76,7 +82,7 @@ extern gena_bool gtmap_empty( gtmap_h handle );
 /* NOTE: Do not call this directly. Instead, use the instantiation macros. */
 
 #define ZZ_GTMAP_DECLARATIONS_LIST( Surname, ValueTypeName, KeyPassType, \
-  ValuePassType ) \
+  KeyReturnType, ValuePassType, ValueReturnType ) \
 \
 extern const gena_tag_z gvec_##tpSurname##_tag; \
 \

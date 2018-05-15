@@ -8,66 +8,71 @@
 /* Static approach. */
 
 #define ZZ_GTMAP_INSTANTIATE( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, \
-  tpKeyPassBy, tpValuePassBy, tpKeyCompareBy ) \
+  tpKeyPassBy, tpKeyReturnBy, tpValuePassBy, tpValueReturnBy, tpKeyCompareBy ) \
 \
   ZGTMAP_DEFINITIONS( ZGENA_APPROACH_STATIC, tpKeyTypeInfo, tpValueTypeInfo, \
-    tpSurname, tpKeyPassBy, tpValuePassBy, tpKeyCompareBy, GENA_ASSIGN_NAIVE, \
-    GENA_ASSIGN_NAIVE )
+    tpSurname, tpKeyPassBy, tpKeyReturnBy, tpValuePassBy, tpValueReturnBy, \
+    tpKeyCompareBy, GENA_ASSIGN_NAIVE, GENA_ASSIGN_NAIVE )
 
 #define ZZ_GTMAP_INSTANTIATE_EX( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, \
-  tpKeyPassBy, tpValuePassBy, tpKeyCompareBy, tpKeyAssignBy, tpValueAssignBy ) \
+  tpKeyPassBy, tpKeyReturnBy, tpValuePassBy, tpValueReturnBy, tpKeyCompareBy, \
+  tpKeyAssignBy, tpValueAssignBy ) \
 \
   ZGTMAP_DEFINITIONS( ZGENA_APPROACH_STATIC, tpKeyTypeInfo, tpValueTypeInfo, \
-    tpSurname, tpKeyPassBy, tpValuePassBy, tpKeyCompareBy, tpKeyAssignBy, \
-    tpValueAssignBy )
+    tpSurname, tpKeyPassBy, tpKeyReturnBy, tpValuePassBy, tpValueReturnBy, \
+    tpKeyCompareBy, tpKeyAssignBy, tpValueAssignBy )
 
 /* Modular approach. */
 
 #define ZZ_GTMAP_H_DECLARE( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, \
-  tpKeyPassBy, tpValuePassBy, tpKeyCompareBy ) \
+  tpKeyPassBy, tpKeyReturnBy, tpValuePassBy, tpValueReturnBy, tpKeyCompareBy ) \
 \
   ZGTMAP_DECLARATIONS( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, tpKeyPassBy, \
-    tpValuePassBy )
+    tpKeyReturnBy, tpValuePassBy, tpValueReturnBy )
 
 #define ZZ_GTMAP_C_DEFINE( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, \
-  tpKeyPassBy, tpValuePassBy, tpKeyCompareBy ) \
+  tpKeyPassBy, tpKeyReturnBy, tpValuePassBy, tpValueReturnBy, tpKeyCompareBy ) \
 \
   ZGTMAP_DEFINITIONS( ZGENA_APPROACH_MODULAR, tpKeyTypeInfo, tpValueTypeInfo, \
-    tpSurname, tpKeyPassBy, tpValuePassBy, tpKeyCompareBy, GENA_ASSIGN_NAIVE, \
-    GENA_ASSIGN_NAIVE )
+    tpSurname, tpKeyPassBy, tpKeyReturnBy, tpValuePassBy, tpValueReturnBy, \
+    tpKeyCompareBy, GENA_ASSIGN_NAIVE, GENA_ASSIGN_NAIVE )
 
 #define ZZ_GTMAP_H_DECLARE_EX( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, \
-  tpKeyPassBy, tpValuePassBy, tpKeyCompareBy, tpKeyAssignBy, tpValueAssignBy ) \
+  tpKeyPassBy, tpKeyReturnBy, tpValuePassBy, tpValueReturnBy, tpKeyCompareBy, \
+  tpKeyAssignBy, tpValueAssignBy ) \
 \
   ZGTMAP_DECLARATIONS( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, tpKeyPassBy, \
-    tpValuePassBy )
+    tpKeyReturnBy, tpValuePassBy, tpValueReturnBy )
 
 #define ZZ_GTMAP_C_DEFINE_EX( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, \
-  tpKeyPassBy, tpValuePassBy, tpKeyCompareBy, tpKeyAssignBy, tpValueAssignBy ) \
+  tpKeyPassBy, tpKeyReturnBy, tpValuePassBy, tpValueReturnBy, tpKeyCompareBy, \
+  tpKeyAssignBy, tpValueAssignBy ) \
 \
   ZGTMAP_DEFINITIONS( ZGENA_APPROACH_MODULAR, tpKeyTypeInfo, tpValueTypeInfo, \
-    tpSurname, tpKeyPassBy, tpValuePassBy, tpKeyCompareBy, tpKeyAssignBy, \
-    tpValueAssignBy )
+    tpSurname, tpKeyPassBy, tpKeyReturnBy, tpValuePassBy, tpValueReturnBy, \
+    tpKeyCompareBy, tpKeyAssignBy, tpValueAssignBy )
 
 /******************************************************************************/
 
 #define ZGTMAP_DECLARATIONS( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, \
-  tpKeyPassBy, tpValuePassBy ) \
+  tpKeyPassBy, tpKeyReturnBy, tpValuePassBy, tpValueReturnBy ) \
 \
   ZZ_GTMAP_DEFINE_TYPE( tpSurname ); \
   ZZ_GTMAP_DECLARATIONS_LIST( \
     tpSurname, \
     ZGENA_ENTRY_TYPE(tpValueTypeInfo, tpValuePassBy), \
     ZGENA_ENTRY_VALUE(tpKeyTypeInfo, tpKeyPassBy), \
-    ZGENA_ENTRY_VALUE(tpValueTypeInfo, tpValuePassBy) \
+    ZGENA_ENTRY_VALUE(tpKeyTypeInfo, tpKeyReturnBy), \
+    ZGENA_ENTRY_VALUE(tpValueTypeInfo, tpValuePassBy), \
+    ZGENA_ENTRY_VALUE(tpValueTypeInfo, tpValueReturnBy) \
   ); \
   ZGENA_REQUIRE_SEMICOLON_OUTDOOR
 
 /******************************************************************************/
 
 #define ZGTMAP_DEFINITIONS( tpApproach, tpKeyTypeInfo, tpValueTypeInfo, \
-  tpSurname, tpKeyPassBy, tpValuePassBy, tpKeyCompareBy, tpKeyAssignBy, \
-  tpValueAssignBy ) \
+  tpSurname, tpKeyPassBy, tpKeyReturnBy, tpValuePassBy, tpValueReturnBy, \
+  tpKeyCompareBy, tpKeyAssignBy, tpValueAssignBy ) \
 \
   tpApproach ( ZZ_GTMAP_DEFINE_TYPE( tpSurname ); ) \
   tpApproach ( static ) const gena_tag_z \
