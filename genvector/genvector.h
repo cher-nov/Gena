@@ -16,8 +16,8 @@ typedef void* gvec_h;
 /* Instantiation macros, static approach. */
 
 #define \
-GVEC_INSTANTIATE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
-  ZZ_GVEC_INSTANTIATE(tpTypeInfo,tpSurname,tpPassBy,tpReturnBy)
+GVEC_INSTANTIATE( tpTypeInfo, tpSurname, tpUseBy ) \
+  ZZ_GVEC_INSTANTIATE(tpTypeInfo,tpSurname,tpUseBy)
 
 #define \
 GVEC_INSTANTIATE_EX( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy, tpAssignBy ) \
@@ -26,12 +26,12 @@ GVEC_INSTANTIATE_EX( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy, tpAssignBy ) \
 /* Instantiation macros, modular approach. */
 
 #define \
-GVEC_H_DECLARE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
-  ZZ_GVEC_H_DECLARE(tpTypeInfo,tpSurname,tpPassBy,tpReturnBy)
+GVEC_H_DECLARE( tpTypeInfo, tpSurname, tpUseBy ) \
+  ZZ_GVEC_H_DECLARE(tpTypeInfo,tpSurname,tpUseBy)
 
 #define \
-GVEC_C_DEFINE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
-  ZZ_GVEC_C_DEFINE(tpTypeInfo,tpSurname,tpPassBy,tpReturnBy)
+GVEC_C_DEFINE( tpTypeInfo, tpSurname, tpUseBy ) \
+  ZZ_GVEC_C_DEFINE(tpTypeInfo,tpSurname,tpUseBy)
 
 #define \
 GVEC_H_DECLARE_EX( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy, tpAssignBy ) \

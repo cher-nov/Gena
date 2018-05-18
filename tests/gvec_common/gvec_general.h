@@ -7,11 +7,11 @@
 
 #define ZZ_GVECTEST_TYPESET_INT_VAL \
   ( int, int, \
-    GENA_USE_VALUE, GENA_USE_VALUE )
+    GENA_USE_VALUE )
 
 #define ZZ_GVECTEST_TYPESET_STRUCT_PTR \
   ( genatest_svalue_s, struct, \
-    GENA_USE_POINTER, GENA_USE_POINTER )
+    GENA_USE_POINTER )
 
 #define ZZ_GVECTEST_TYPESET_EX_STRING_BUF \
   ( (char, GENATEST_STR_LEN), string, \

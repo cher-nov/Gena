@@ -17,11 +17,11 @@ typedef struct zz_gtmap_s* gtmap_h;
 /* Instantiation macros, static approach. */
 
 #define \
-GTMAP_INSTANTIATE( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, tpKeyPassBy, \
-  tpKeyReturnBy, tpValuePassBy, tpValueReturnBy, tpKeyCompareBy ) \
+GTMAP_INSTANTIATE( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, tpKeyUseBy, \
+  tpValueUseBy, tpKeyCompareBy ) \
 \
-  ZZ_GTMAP_INSTANTIATE(tpKeyTypeInfo,tpValueTypeInfo,tpSurname,tpKeyPassBy,\
-  tpKeyReturnBy,tpValuePassBy,tpValueReturnBy,tpKeyCompareBy)
+  ZZ_GTMAP_INSTANTIATE(tpKeyTypeInfo,tpValueTypeInfo,tpSurname,tpKeyUseBy,\
+  tpValueUseBy,tpKeyCompareBy)
 
 #define \
 GTMAP_INSTANTIATE_EX( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, tpKeyPassBy, \
@@ -35,18 +35,18 @@ GTMAP_INSTANTIATE_EX( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, tpKeyPassBy, \
 /* Instantiation macros, modular approach. */
 
 #define \
-GTMAP_H_DECLARE( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, tpKeyPassBy, \
-  tpKeyReturnBy, tpValuePassBy, tpValueReturnBy, tpKeyCompareBy ) \
+GTMAP_H_DECLARE( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, tpKeyUseBy, \
+  tpValueUseBy, tpKeyCompareBy ) \
 \
-  ZZ_GTMAP_H_DECLARE(tpKeyTypeInfo,tpValueTypeInfo,tpSurname,tpKeyPassBy,\
-  tpKeyReturnBy,tpValuePassBy,tpValueReturnBy,tpKeyCompareBy)
+  ZZ_GTMAP_H_DECLARE(tpKeyTypeInfo,tpValueTypeInfo,tpSurname,tpKeyUseBy,\
+  tpValueUseBy,tpKeyCompareBy)
 
 #define \
-GTMAP_C_DEFINE( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, tpKeyPassBy, \
-  tpKeyReturnBy, tpValuePassBy, tpValueReturnBy, tpKeyCompareBy ) \
+GTMAP_C_DEFINE( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, tpKeyUseBy, \
+  tpValueUseBy, tpKeyCompareBy ) \
 \
-  ZZ_GTMAP_C_DEFINE(tpKeyTypeInfo,tpValueTypeInfo,tpSurname,tpKeyPassBy,\
-  tpKeyReturnBy,tpValuePassBy,tpValueReturnBy,tpKeyCompareBy)
+  ZZ_GTMAP_C_DEFINE(tpKeyTypeInfo,tpValueTypeInfo,tpSurname,tpKeyUseBy,\
+  tpValueUseBy,tpKeyCompareBy)
 
 #define \
 GTMAP_H_DECLARE_EX( tpKeyTypeInfo, tpValueTypeInfo, tpSurname, tpKeyPassBy, \

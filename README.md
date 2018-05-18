@@ -45,7 +45,7 @@ typedef struct {
 
 #define C_PERSON(name, age) ( (person_s){ .Name=name, .Age=age } )
 
-GVEC_INSTANTIATE( person_s, society, GENA_USE_VALUE, GENA_USE_POINTER );
+GVEC_INSTANTIATE_EX( person_s, society, GENA_USE_VALUE, GENA_USE_POINTER, GENA_ASSIGN_NAIVE );
 
 int main() {
   gvec_society_h family = gvec_society_new(0);
@@ -92,14 +92,13 @@ Let's examine them more closely.
 This approach is good when vector is used only in one translation unit (*module*). It is easier and set by default.
 Just include library header into module source and instantiate vector for types you need, using `GVEC_INSTANTIATE()`:
 ```c
-GVEC_INSTANTIATE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy );
+GVEC_INSTANTIATE( tpTypeInfo, tpSurname, tpUseBy );
 ```
 * *tpTypeInfo* – type for which vector should be instantiated
 * *tpSurname* – unique vector name that will be placed into names of specialized functions, for example: `gvec_mystruct_new()`
-* *tpPassBy* – specifies how values should be passed to specialized functions
-* *tpReturnBy* – specifies how values should be returned from specialized functions
+* *tpUseBy* – specifies how values should be passed to specialized functions and returned from them
 
-Possible values both for *tpPassBy* and *tpReturnBy* are:
+Possible values both for *tpUseBy* are:
 * `GENA_USE_VALUE` – pass/return by value
 * `GENA_USE_POINTER` – pass/return by pointer
 
@@ -115,14 +114,14 @@ For the next code template let's assume that wrapper module is called *gvec_wrap
 ```c
 #include "genvector.h"
 
-GVEC_H_DECLARE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy );
+GVEC_H_DECLARE( tpTypeInfo, tpSurname, tpUseBy );
 ```
 
 ***gvec_wrapper.c***
 ```c
 #include "gvec_wrapper.h"
 
-GVEC_C_DEFINE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy );
+GVEC_C_DEFINE( tpTypeInfo, tpSurname, tpUseBy );
 ```
 
 The arguments for `GVEC_H_DECLARE()` and `GVEC_C_DEFINE()` are the same as for `GVEC_INSTANTIATE()`.
@@ -137,7 +136,7 @@ To prevent this, *typesets* were introduced. Let's consider them using the modif
 #include "genvector.h"
 
 #define ZZ_GVEC_TYPESET_SOMETHING \
-  (tpTypeInfo, tpSurname, tpPassBy, tpReturnBy)
+  (tpTypeInfo, tpSurname, tpUseBy)
 
 GENA_APPLY_TYPESET( GVEC_H_DECLARE, ZZ_GVEC_TYPESET_SOMETHING );
 ```
@@ -155,8 +154,8 @@ GENA_APPLY_TYPESET( GVEC_C_DEFINE, ZZ_GVEC_TYPESET_SOMETHING );
 
 Notation:
 * `NAME`: value of `tpSurname`
-* `PASSVAL`: `tpTypeInfo` if `tpPassBy` is `GENA_USE_VALUE`, and `tpTypeInfo*` otherwise
-* `RETVAL`: `tpTypeInfo` if `tpReturnBy` is `GENA_USE_VALUE`, and `tpTypeInfo*` otherwise
+* `PASSVAL`: `const tpTypeInfo` if `tpUseBy` is `GENA_USE_VALUE`, and `const tpTypeInfo*` otherwise
+* `RETVAL`: `tpTypeInfo` if `tpUseBy` is `GENA_USE_VALUE`, and `tpTypeInfo*` otherwise
 
 ### Specialized functions to manage instantiated vector types
 
@@ -241,8 +240,8 @@ Drop the last element from a vector, and return it.
 * *handle* – a handle to a vector
 
 *Return value:*  (**undefined** if vector is empty)
-* `tpReturnBy` is `GENA_USE_VALUE`: a value of the element
-* `tpReturnBy` is `GENA_USE_POINTER`: a pointer to the element
+* `tpUseBy` is `GENA_USE_VALUE`: a value of the element
+* `tpUseBy` is `GENA_USE_POINTER`: a pointer to the element
 
 ```c
 tpTypeInfo* gvec_NAME_at( gvec_h handle, size_t position )
@@ -262,8 +261,8 @@ Get the first element of a vector.
 * *handle* – a handle to a vector
 
 *Return value:*  (**undefined** if vector is empty)
-* `tpReturnBy` is `GENA_USE_VALUE`: a value of the element
-* `tpReturnBy` is `GENA_USE_POINTER`: a pointer to the element
+* `tpUseBy` is `GENA_USE_VALUE`: a value of the element
+* `tpUseBy` is `GENA_USE_POINTER`: a pointer to the element
 
 ```c
 RETVAL gvec_NAME_last( gvec_NAME_h handle )
@@ -273,8 +272,8 @@ Get the last element of a vector.
 * *handle* – a handle to a vector
 
 *Return value:*  (**undefined** if vector is empty)
-* `tpReturnBy` is `GENA_USE_VALUE`: a value of the element
-* `tpReturnBy` is `GENA_USE_POINTER`: a pointer to the element
+* `tpUseBy` is `GENA_USE_VALUE`: a value of the element
+* `tpUseBy` is `GENA_USE_POINTER`: a pointer to the element
 
 ### General-purpose functions to manage any vector type
 

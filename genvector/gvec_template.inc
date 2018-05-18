@@ -7,10 +7,10 @@
 
 /* Static approach. */
 
-#define ZZ_GVEC_INSTANTIATE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
+#define ZZ_GVEC_INSTANTIATE( tpTypeInfo, tpSurname, tpUseBy ) \
 \
-  ZGVEC_DEFINITIONS( ZGENA_APPROACH_STATIC, tpTypeInfo, tpSurname, tpPassBy, \
-    tpReturnBy, GENA_ASSIGN_NAIVE )
+  ZGVEC_DEFINITIONS( ZGENA_APPROACH_STATIC, tpTypeInfo, tpSurname, tpUseBy, \
+    tpUseBy, GENA_ASSIGN_NAIVE )
 
 #define ZZ_GVEC_INSTANTIATE_EX( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy, \
   tpAssignBy ) \
@@ -20,13 +20,13 @@
 
 /* Modular approach. */
 
-#define ZZ_GVEC_H_DECLARE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
-  ZGVEC_DECLARATIONS( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy )
+#define ZZ_GVEC_H_DECLARE( tpTypeInfo, tpSurname, tpUseBy ) \
+  ZGVEC_DECLARATIONS( tpTypeInfo, tpSurname, tpUseBy, tpUseBy )
 
-#define ZZ_GVEC_C_DEFINE( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy ) \
+#define ZZ_GVEC_C_DEFINE( tpTypeInfo, tpSurname, tpUseBy ) \
 \
-  ZGVEC_DEFINITIONS( ZGENA_APPROACH_MODULAR, tpTypeInfo, tpSurname, tpPassBy, \
-    tpReturnBy, GENA_ASSIGN_NAIVE )
+  ZGVEC_DEFINITIONS( ZGENA_APPROACH_MODULAR, tpTypeInfo, tpSurname, tpUseBy, \
+    tpUseBy, GENA_ASSIGN_NAIVE )
 
 #define ZZ_GVEC_H_DECLARE_EX( tpTypeInfo, tpSurname, tpPassBy, tpReturnBy, \
   tpAssignBy ) \

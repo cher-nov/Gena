@@ -9,20 +9,17 @@
   ( int, int, \
     naive, \
     GENA_USE_VALUE, GENA_USE_VALUE, \
-    GENA_USE_VALUE, GENA_USE_VALUE, \
     GENA_COMPARE_NAIVE )
 
 #define ZZ_GTMAPTEST_TYPESET_MEMCMP_STRUCT_PTR \
   ( genatest_skey_s, genatest_svalue_s, \
     memcmp, \
     GENA_USE_POINTER, GENA_USE_POINTER, \
-    GENA_USE_POINTER, GENA_USE_POINTER, \
     GENA_COMPARE_MEMCMP )
 
 #define ZZ_GTMAPTEST_TYPESET_CALLBACK_STRUCT_PTR \
   ( genatest_skey_s, genatest_svalue_s, \
     callback, \
-    GENA_USE_POINTER, GENA_USE_POINTER, \
     GENA_USE_POINTER, GENA_USE_POINTER, \
     genatest_skey_compare_cb )
 
