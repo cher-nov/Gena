@@ -28,6 +28,7 @@ Macro Arguments:
 Variables and Constants:
 
   const_* - 'static' constant value
+  func_* - functional variable
 
 Types:
 
@@ -39,6 +40,7 @@ Types:
   *_f - functional type
   *_x - opaque type
   *_h - handle type
+  *_o - object type
   *_z - any other user-defined type
 
 

@@ -12,7 +12,7 @@
 #define IGENA_AVL_BIAS_RIGHT (1)
 #define IGENA_AVL_BIAS_SELF INT_MIN  /* special 'null-like' value */
 
-typedef signed int igena_avl_bias;
+typedef ptrdiff_t igena_avl_bias;
 
 typedef struct zz_igena_avl_node_s* igena_avl_node_p;
 typedef struct zz_igena_avl_node_s {
@@ -49,6 +49,9 @@ extern void igena_avl_subtree_free( igena_avl_node_p root );
 extern igena_avl_node_p igena_avl_node_attach( igena_avl_node_p node,
   igena_avl_node_p parent, igena_avl_bias link );
 extern igena_avl_node_p igena_avl_node_detach( igena_avl_node_p node );
+
+extern igena_avl_node_p igena_avl_node_step( igena_avl_node_p node,
+  ptrdiff_t offset );
 
 /******************************************************************************/
 

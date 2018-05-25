@@ -5,8 +5,6 @@
 
 #include "../routines/internal/common.h"
 
-#define GENATEST_UNUSED(var) (void)var
-
 #define GENATEST_STR_LEN (15+1)
 typedef char genatest_str_x[GENATEST_STR_LEN];
 #define GENATEST_BUF_LEN (4)
@@ -31,16 +29,17 @@ static GENA_INLINE void genatest_set_skey_safe( genatest_skey_p key, int x ) {
   key->key = x;
 }
 
-/* NOTE: If you don't use size argument in assignment/comparison methods, a
-compiler may claim about it. To avoid it, GENATEST_UNUSED() macro introduced in
-tests. But there's also another way: you can write an ellipsis (...) instead of
-size argument declaration in the list of arguments. */
+/* NOTE: If you do not use the size argument in the assignment/comparison
+methods, your compiler may complain about it. To avoid this, the library
+provides a special macro GENA_VARIABLE_UNUSED(). But there's also another way:
+you can write an ellipsis (...) instead of size argument declaration in the
+list of arguments. */
 
 static GENA_INLINE int genatest_skey_compare_cb( const genatest_skey_s* a,
   const genatest_skey_s* b, size_t value_size )
 {
   return (a->key) - (b->key);
-  GENATEST_UNUSED(value_size);
+  GENA_VARIABLE_UNUSED(value_size);
 }
 
 /* Yes, genatest_str_assign_cb() / genatest_str_compare_cb() duplicate default
@@ -60,7 +59,7 @@ static GENA_INLINE int genatest_str_compare_cb( const genatest_str_x a,
   const char* b, size_t value_size )
 {
   return GENA_COMPARE_STRCMP( a, b, value_size );
-  GENATEST_UNUSED(value_size);
+  GENA_VARIABLE_UNUSED(value_size);
 }
 
 extern const int GENATEST_INT_SET[];

@@ -3,7 +3,7 @@
 */
 
 #define ZZ_GVEC_DEFINE_TYPE( tpTypeInfo, tpUseBy, tpSurname ) \
-  typedef ZGENA_ENTRY_OBJECT( tpTypeInfo, tpUseBy, *gvec_##tpSurname##_h )
+  typedef ZGENA_ENTRY_ENTITY( tpTypeInfo, tpUseBy, *gvec_##tpSurname##_h )
 
 /* Static approach. */
 
@@ -249,6 +249,41 @@
       tpReturnBy, \
       &handle[ header->count-1 ] \
     ); \
+  }} \
+/********************************************************************/ \
+  tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
+  ZGENA_ENTRY_VALUE(tpTypeInfo, tpReturnBy) \
+  gvec_##tpSurname##_value( \
+    gena_iterator_p object, \
+    ptrdiff_t offset \
+  ) { \
+  { \
+    assert( object != NULL ); \
+    return tpReturnBy##VALUE ZGENA_ENTRY_DATA( \
+      tpTypeInfo, \
+      tpReturnBy, \
+      igena_iterator_entry( object, offset, NULL ) \
+    ); \
+  }} \
+/********************************************************************/ \
+  tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
+  ZGENA_ENTRY_TYPE(tpTypeInfo, tpReturnBy) * \
+  gvec_##tpSurname##_emplace( \
+    gena_iterator_p object, \
+    ptrdiff_t offset, \
+    const ZGENA_ENTRY_VALUE(tpTypeInfo, tpPassBy) value \
+  ) { \
+    ZGENA_ENTRY_ENTITY( tpTypeInfo, tpPassBy, *entry ); \
+  { \
+    assert( object != NULL ); \
+    entry = igena_iterator_entry( object, offset, NULL ); \
+    if (entry == NULL) { return NULL; } \
+    tpAssignBy ( \
+      tpPassBy##DATA entry, \
+      tpPassBy##ADDRESS value, \
+      ZGENA_ENTRY_SIZE(tpTypeInfo, tpPassBy) \
+    ); \
+    return tpReturnBy##DATA entry; \
   }} \
 /********************************************************************/ \
   ZGENA_REQUIRE_SEMICOLON_OUTDOOR

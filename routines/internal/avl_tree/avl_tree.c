@@ -203,3 +203,36 @@ igena_avl_node_p igena_avl_node_detach( igena_avl_node_p node ) {
   if (deputy == NULL) { return rebalancing; }
   return (deputy->parent == NULL) ? deputy : rebalancing;
 }}
+
+/******************************************************************************/
+
+igena_avl_node_p igena_avl_node_step( igena_avl_node_p node,
+  ptrdiff_t offset )
+{
+  igena_avl_node_p next_node;
+  igena_avl_bias search_bias, parent_bias;
+{
+  search_bias = (offset > 0) ? IGENA_AVL_BIAS_RIGHT : IGENA_AVL_BIAS_LEFT;
+
+  while (offset != 0) {
+    next_node = IGENA_AVL_NODE_LINK(node, search_bias);
+
+    if (next_node != NULL) {
+      do {
+        node = next_node;
+        next_node = IGENA_AVL_NODE_LINK(node, -search_bias);
+      } while (next_node != NULL);
+    } else {
+      do {
+        next_node = node->parent;
+        if (next_node == NULL) { return NULL; }
+        parent_bias = SELECT_BIAS( next_node, node );
+        node = next_node;
+      } while (search_bias == parent_bias);
+    }
+
+    offset -= search_bias;
+  }
+
+  return node;
+}}

@@ -5,7 +5,7 @@
 		<Option title="gena_test" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="routines/;routines/internal/avl_tree/;routines/internal/;tests/;tests/gtmap_common/;tests/gvec_common/;gentreemap/;genvector/;munit/;" />
+		<Option virtualFolders="routines/;routines/internal/avl_tree/;routines/internal/;routines/iterator/;tests/;tests/gtmap_common/;tests/gvec_common/;gentreemap/;genvector/;munit/;" />
 		<Build>
 			<Target title="Test Static (Release)">
 				<Option output="gena_test" prefix_auto="1" extension_auto="1" />
@@ -129,6 +129,16 @@
 		</Unit>
 		<Unit filename="../routines/internal/common.h">
 			<Option virtualFolder="routines/internal/" />
+		</Unit>
+		<Unit filename="../routines/iterator/iter_internal.inc">
+			<Option virtualFolder="routines/iterator/" />
+		</Unit>
+		<Unit filename="../routines/iterator/iterator.c">
+			<Option compilerVar="CC" />
+			<Option virtualFolder="routines/iterator/" />
+		</Unit>
+		<Unit filename="../routines/iterator/iterator.h">
+			<Option virtualFolder="routines/iterator/" />
 		</Unit>
 		<Unit filename="genatest_common.c">
 			<Option compilerVar="CC" />

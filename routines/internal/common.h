@@ -77,16 +77,16 @@
   #define ZZ_GENA_REF__ENTRY_DATA( tpTypeInfo ) \
     ZGENA_PAIR_1(tpTypeInfo) *
 
-#define ZGENA_ENTRY_OBJECT( tpTypeInfo, tpUseBy, tpName ) \
-  tpUseBy ## ENTRY_OBJECT( tpTypeInfo, tpName )
+#define ZGENA_ENTRY_ENTITY( tpTypeInfo, tpUseBy, tpName ) \
+  tpUseBy ## ENTRY_ENTITY( tpTypeInfo, tpName )
 
-  #define ZZ_GENA_VAL__ENTRY_OBJECT( tpTypeInfo, tpName ) \
+  #define ZZ_GENA_VAL__ENTRY_ENTITY( tpTypeInfo, tpName ) \
     tpTypeInfo tpName
-  #define ZZ_GENA_PTR__ENTRY_OBJECT( tpTypeInfo, tpName ) \
+  #define ZZ_GENA_PTR__ENTRY_ENTITY( tpTypeInfo, tpName ) \
     tpTypeInfo tpName
-  #define ZZ_GENA_BUF__ENTRY_OBJECT( tpTypeInfo, tpName ) \
+  #define ZZ_GENA_BUF__ENTRY_ENTITY( tpTypeInfo, tpName ) \
     ZGENA_PAIR_1(tpTypeInfo) (tpName) [ ZGENA_PAIR_2(tpTypeInfo) ]
-  #define ZZ_GENA_REF__ENTRY_OBJECT( tpTypeInfo, tpName ) \
+  #define ZZ_GENA_REF__ENTRY_ENTITY( tpTypeInfo, tpName ) \
     ZGENA_PAIR_1(tpTypeInfo) tpName
 
 /******************************************************************************/

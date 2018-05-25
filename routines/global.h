@@ -59,9 +59,13 @@ typedef const char* gena_tag_z;
 
 /******************************************************************************/
 
-/* Support for typesets. */
+/* User-available macros. */
 
-#define GENA_APPLY_TYPESET( macro, typeset ) macro typeset
+#define GENA_APPLY_TYPESET( macro, typeset ) \
+  macro typeset
+
+#define GENA_VARIABLE_UNUSED( variable ) \
+  (void)(variable)
 
 /******************************************************************************/
 

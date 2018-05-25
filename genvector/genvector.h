@@ -7,6 +7,8 @@
 #ifndef ZZ_GENA_GENVECTOR_H_IG
 #define ZZ_GENA_GENVECTOR_H_IG
 
+#include "../routines/iterator/iterator.h"
+
 typedef void* gvec_h;
 
 #include "gvec_internal.inc"
@@ -60,6 +62,15 @@ extern gena_bool gvec_empty( gvec_h handle );
 
 /******************************************************************************/
 
+/* Iterator-related functions. */
+
+extern gena_bool gvec_begin( gvec_h handle, gena_bool reversed,
+  gena_iterator_p OUT_object );
+extern gena_bool gvec_end( gvec_h handle, gena_bool reversed,
+  gena_iterator_p OUT_object );
+
+/******************************************************************************/
+
 /* Pseudo-templated functions to be specialized at type instantiation. */
 /* NOTE: Do not call this directly. Instead, use the instantiation macros. */
 
@@ -94,6 +105,12 @@ extern TypeName* gvec_##Surname##_at( gvec_##Surname##_h handle, \
 extern ReturnType gvec_##Surname##_first( gvec_##Surname##_h handle ); \
 \
 extern ReturnType gvec_##Surname##_last( gvec_##Surname##_h handle ); \
+\
+extern ReturnType gvec_##Surname##_value( gena_iterator_p object, \
+  ptrdiff_t offset ); \
+\
+extern TypeName* gvec_##Surname##_emplace( gena_iterator_p object, \
+  ptrdiff_t offset, const PassType value ); \
 \
 ZZ_GENA_DECLARATIONS_LIST_END
 

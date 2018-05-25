@@ -60,6 +60,7 @@
   ZZ_GTMAP_DEFINE_TYPE( tpSurname ); \
   ZZ_GTMAP_DECLARATIONS_LIST( \
     tpSurname, \
+    ZGENA_ENTRY_TYPE(tpKeyTypeInfo, tpKeyPassBy), \
     ZGENA_ENTRY_TYPE(tpValueTypeInfo, tpValuePassBy), \
     ZGENA_ENTRY_VALUE(tpKeyTypeInfo, tpKeyPassBy), \
     ZGENA_ENTRY_VALUE(tpKeyTypeInfo, tpKeyReturnBy), \
@@ -102,7 +103,7 @@
     const ZGENA_ENTRY_VALUE(tpValueTypeInfo, tpValuePassBy) value \
   ) { \
     igena_avl_node_p new_node; \
-    ZGENA_ENTRY_OBJECT( tpValueTypeInfo, tpValuePassBy, *node_value ); \
+    ZGENA_ENTRY_ENTITY( tpValueTypeInfo, tpValuePassBy, *node_value ); \
     gena_bool key_exists; \
   { \
     assert( handle != NULL ); \
@@ -136,7 +137,7 @@
     const ZGENA_ENTRY_VALUE(tpValueTypeInfo, tpValuePassBy) value \
   ) { \
     igena_avl_node_p key_node; \
-    ZGENA_ENTRY_OBJECT( tpValueTypeInfo, tpValuePassBy, *node_value ); \
+    ZGENA_ENTRY_ENTITY( tpValueTypeInfo, tpValuePassBy, *node_value ); \
     gena_bool key_exists; \
   { \
     assert( handle != NULL ); \
@@ -197,6 +198,83 @@
       IGENA_AVL_NODE_VALUE( scan_node, \
         ZGENA_ENTRY_SIZE(tpKeyTypeInfo, tpKeyPassBy) ) \
     ); \
+  }} \
+/********************************************************************/ \
+  tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
+  ZGENA_ENTRY_VALUE(tpKeyTypeInfo, tpKeyReturnBy) \
+  gtmap_##tpSurname##_key( \
+    gena_iterator_p object, \
+    ptrdiff_t offset \
+  ) { \
+    void* key = NULL; \
+  { \
+    assert( object != NULL ); \
+    igena_iterator_entry( object, offset, &key ); \
+    return tpKeyReturnBy##VALUE ZGENA_ENTRY_DATA( \
+      tpKeyTypeInfo, \
+      tpKeyReturnBy, \
+      key \
+    ); \
+  }} \
+/********************************************************************/ \
+  tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
+  ZGENA_ENTRY_VALUE(tpValueTypeInfo, tpValueReturnBy) \
+  gtmap_##tpSurname##_value( \
+    gena_iterator_p object, \
+    ptrdiff_t offset \
+  ) { \
+  { \
+    assert( object != NULL ); \
+    return tpValueReturnBy##VALUE ZGENA_ENTRY_DATA( \
+      tpValueTypeInfo, \
+      tpValueReturnBy, \
+      igena_iterator_entry( object, offset, NULL ) \
+    ); \
+  }} \
+/********************************************************************/ \
+  tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
+  ZGENA_ENTRY_VALUE(tpValueTypeInfo, tpValueReturnBy) \
+  gtmap_##tpSurname##_entry( \
+    gena_iterator_p object, \
+    ptrdiff_t offset, \
+    ZGENA_ENTRY_VALUE(tpKeyTypeInfo, tpKeyReturnBy) * OUT_key \
+  ) { \
+    void *key = NULL, *value; \
+  { \
+    assert( object != NULL ); \
+    value = igena_iterator_entry( object, offset, &key ); \
+    if (OUT_key != NULL) { \
+      *OUT_key = tpKeyReturnBy##VALUE ZGENA_ENTRY_DATA( \
+        tpKeyTypeInfo, \
+        tpKeyReturnBy, \
+        key \
+      ); \
+    } \
+    return tpValueReturnBy##VALUE ZGENA_ENTRY_DATA( \
+      tpValueTypeInfo, \
+      tpValueReturnBy, \
+      value \
+    ); \
+  }} \
+/********************************************************************/ \
+  tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
+  ZGENA_ENTRY_TYPE(tpValueTypeInfo, tpValueReturnBy) * \
+  gtmap_##tpSurname##_emplace( \
+    gena_iterator_p object, \
+    ptrdiff_t offset, \
+    const ZGENA_ENTRY_VALUE(tpValueTypeInfo, tpValuePassBy) value \
+  ) { \
+    ZGENA_ENTRY_ENTITY( tpValueTypeInfo, tpValuePassBy, *entry ); \
+  { \
+    assert( object != NULL ); \
+    entry = igena_iterator_entry( object, offset, NULL ); \
+    if (entry == NULL) { return NULL; } \
+    tpValueAssignBy ( \
+      tpValuePassBy##DATA entry, \
+      tpValuePassBy##ADDRESS value, \
+      ZGENA_ENTRY_SIZE(tpValueTypeInfo, tpValuePassBy) \
+    ); \
+    return tpValueReturnBy##DATA entry; \
   }} \
 /********************************************************************/ \
   ZGENA_REQUIRE_SEMICOLON_OUTDOOR
