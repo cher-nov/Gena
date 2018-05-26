@@ -131,6 +131,7 @@
   ) { \
     gvec_##tpSurname##_h new_handle; \
   { \
+    assert( phandle != NULL ); \
     new_handle = igvec_reserve( *phandle, min_count ); \
     if (new_handle == NULL) { return GENA_FALSE; } \
     *phandle = new_handle; \
@@ -144,6 +145,7 @@
   ) { \
     gvec_##tpSurname##_h new_handle; \
   { \
+    assert( phandle != NULL ); \
     new_handle = igvec_shrink( *phandle ); \
     if (new_handle == NULL) { return GENA_FALSE; } \
     *phandle = new_handle; \
@@ -161,6 +163,7 @@
     gvec_##tpSurname##_h new_handle; \
     size_t i; \
   { \
+    assert( phandle != NULL ); \
     new_handle = igvec_insert( *phandle, position, count ); \
     if (new_handle == NULL) { return GENA_FALSE; } \
     for(i = 0; i < count; ++i) { \
@@ -181,11 +184,14 @@
     const ZGENA_ENTRY_VALUE(tpTypeInfo, tpPassBy) value \
   ) { \
     gvec_##tpSurname##_h new_handle; \
+    size_t count; \
   { \
-    new_handle = igvec_push(*phandle); \
+    assert( phandle != NULL ); \
+    count = gvec_count(*phandle); \
+    new_handle = igvec_resize( *phandle, count+1 ); \
     if (new_handle == NULL) { return GENA_FALSE; } \
     tpAssignBy ( \
-      tpPassBy##DATA (new_handle + gvec_count(new_handle)-1), \
+      tpPassBy##DATA (new_handle + count), \
       tpPassBy##ADDRESS value, \
       ZGENA_ENTRY_SIZE(tpTypeInfo, tpPassBy) \
     ); \
@@ -198,47 +204,6 @@
   gvec_##tpSurname##_pop( \
     gvec_##tpSurname##_h handle \
   ) { \
-    return tpReturnBy##VALUE ZGENA_ENTRY_DATA( \
-      tpTypeInfo, \
-      tpReturnBy, \
-      igvec_pop( handle ) \
-    ); \
-  } \
-/********************************************************************/ \
-  tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
-  ZGENA_ENTRY_TYPE(tpTypeInfo, tpReturnBy) * \
-  gvec_##tpSurname##_at( \
-    gvec_##tpSurname##_h handle, \
-    size_t position \
-  ) { \
-  { \
-    return tpReturnBy##DATA ZGENA_ENTRY_DATA( \
-      tpTypeInfo, \
-      tpReturnBy, \
-      igvec_at( handle, position ) \
-    ); \
-  }} \
-/********************************************************************/ \
-  tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
-  ZGENA_ENTRY_VALUE(tpTypeInfo, tpReturnBy) \
-  gvec_##tpSurname##_first( \
-    gvec_##tpSurname##_h handle \
-  ) { \
-  { \
-    assert( handle != NULL ); \
-    assert( IGVEC_HEADER(handle)->count > 0 ); \
-    return tpReturnBy##VALUE ZGENA_ENTRY_DATA( \
-      tpTypeInfo, \
-      tpReturnBy, \
-      &handle[0] \
-    ); \
-  }} \
-/********************************************************************/ \
-  tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
-  ZGENA_ENTRY_VALUE(tpTypeInfo, tpReturnBy) \
-  gvec_##tpSurname##_last( \
-    gvec_##tpSurname##_h handle \
-  ) { \
     igvec_header_p header; \
   { \
     assert( handle != NULL ); \
@@ -247,7 +212,7 @@
     return tpReturnBy##VALUE ZGENA_ENTRY_DATA( \
       tpTypeInfo, \
       tpReturnBy, \
-      &handle[ header->count-1 ] \
+      &handle[ --(header->count) ] \
     ); \
   }} \
 /********************************************************************/ \

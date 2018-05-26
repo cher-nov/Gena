@@ -229,31 +229,6 @@ gvec_h igvec_insert( gvec_h handle, size_t position, size_t count ) {
   return dest_gvec;
 }}
 
-gvec_h igvec_push( gvec_h handle ) {
-{
-  assert( handle != NULL );
-  return igvec_resize( handle, gvec_count(handle)+1 );
-}}
-
-void* igvec_pop( gvec_h handle ) {
-  igvec_header_p header;
-{
-  assert( handle != NULL );
-  header = IGVEC_HEADER(handle);
-  assert( header->count > 0 );
-  return ZGENA_VOIDPTR_ADD( handle, --(header->count) * header->entry_size );
-}}
-
-void* igvec_at( gvec_h handle, size_t position ) {
-  igvec_header_p header;
-{
-  assert( handle != NULL );
-  header = IGVEC_HEADER(handle);
-  return (position < header->count)
-    ? ZGENA_VOIDPTR_ADD( handle, position * header->entry_size )
-    : NULL;
-}}
-
 /******************************************************************************/
 
 gvec_h gvec_assign( gvec_h handle, gvec_h source ) {
@@ -312,7 +287,7 @@ void gvec_reduce( gvec_h handle, size_t new_count ) {
   header->count = new_count;
 }}
 
-void gvec_remove( gvec_h handle, size_t position, size_t count ) {
+gena_bool gvec_remove( gvec_h handle, size_t position, size_t count ) {
   igvec_header_p header;
   size_t entry_size, tail_size;
 {
@@ -320,7 +295,7 @@ void gvec_remove( gvec_h handle, size_t position, size_t count ) {
   header = IGVEC_HEADER(handle);
   assert( position+count <= header->count );
 
-  if (count == 0) { return; }
+  if (count == 0) { return GENA_FALSE; }
 
   entry_size = header->entry_size;
   tail_size = (header->count-(position+count)) * entry_size;
@@ -332,11 +307,17 @@ void gvec_remove( gvec_h handle, size_t position, size_t count ) {
   );
 
   header->count -= count;
+  return GENA_TRUE;
 }}
 
-void gvec_drop( gvec_h handle ) {
+gena_bool gvec_drop( gvec_h handle ) {
+  igvec_header_p header;
 {
-  igvec_pop( handle );
+  assert( handle != NULL );
+  header = IGVEC_HEADER(handle);
+  if (header->count == 0) { return GENA_FALSE; }
+  --(header->count);
+  return GENA_TRUE;
 }}
 
 /******************************************************************************/
@@ -396,3 +377,23 @@ gena_bool gvec_end( gvec_h handle, gena_bool reversed,
 
   return GENA_TRUE;
 }}
+
+gena_bool gvec_at( gvec_h handle, size_t position, gena_bool reversed,
+  gena_iterator_p OUT_object )
+{
+  igvec_header_p header;
+  void* entry;
+{
+  assert( handle != NULL );
+  assert( OUT_object != NULL );
+
+  header = IGVEC_HEADER(handle);
+  if (header->count == 0) { return GENA_FALSE; }
+
+  entry = ZGENA_VOIDPTR_ADD( handle, position * header->entry_size );
+  init_iterator( handle, header->tag, header->entry_size, reversed, entry,
+    OUT_object );
+
+  return GENA_TRUE;
+}}
+

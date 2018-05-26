@@ -53,8 +53,8 @@ extern void gvec_free( gvec_h handle );
 
 extern void gvec_clear( gvec_h handle );
 extern void gvec_reduce( gvec_h handle, size_t new_count );
-extern void gvec_remove( gvec_h handle, size_t position, size_t count );
-extern void gvec_drop( gvec_h handle );
+extern gena_bool gvec_remove( gvec_h handle, size_t position, size_t count );
+extern gena_bool gvec_drop( gvec_h handle );
 
 extern size_t gvec_count( gvec_h handle );
 extern size_t gvec_size( gvec_h handle );
@@ -67,6 +67,8 @@ extern gena_bool gvec_empty( gvec_h handle );
 extern gena_bool gvec_begin( gvec_h handle, gena_bool reversed,
   gena_iterator_p OUT_object );
 extern gena_bool gvec_end( gvec_h handle, gena_bool reversed,
+  gena_iterator_p OUT_object );
+extern gena_bool gvec_at( gvec_h handle, size_t position, gena_bool reversed,
   gena_iterator_p OUT_object );
 
 /******************************************************************************/
@@ -98,13 +100,6 @@ extern gena_bool gvec_##Surname##_push( gvec_##Surname##_h* phandle, \
   const PassType value ); \
 \
 extern ReturnType gvec_##Surname##_pop( gvec_##Surname##_h handle ); \
-\
-extern TypeName* gvec_##Surname##_at( gvec_##Surname##_h handle, \
-  size_t position ); \
-\
-extern ReturnType gvec_##Surname##_first( gvec_##Surname##_h handle ); \
-\
-extern ReturnType gvec_##Surname##_last( gvec_##Surname##_h handle ); \
 \
 extern ReturnType gvec_##Surname##_value( gena_iterator_p object, \
   ptrdiff_t offset ); \

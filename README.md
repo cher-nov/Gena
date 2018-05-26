@@ -239,39 +239,7 @@ Drop the last element from a vector, and return it.
 
 * *handle* – a handle to a vector
 
-*Return value:*  (**undefined** if vector is empty)
-* `tpUseBy` is `GENA_USE_VALUE`: a value of the element
-* `tpUseBy` is `GENA_USE_POINTER`: a pointer to the element
-
-```c
-tpTypeInfo* gvec_NAME_at( gvec_h handle, size_t position )
-```
-Get a pointer to the element at specified position in a vector, with bounds checking.
-
-* *handle* – a handle to a vector
-* *position* – a position of the element
-
-*Return value:* a pointer to the element, or `NULL` if `position` is not within the range of a vector
-
-```c
-RETVAL gvec_NAME_first( gvec_NAME_h handle )
-```
-Get the first element of a vector.
-
-* *handle* – a handle to a vector
-
-*Return value:*  (**undefined** if vector is empty)
-* `tpUseBy` is `GENA_USE_VALUE`: a value of the element
-* `tpUseBy` is `GENA_USE_POINTER`: a pointer to the element
-
-```c
-RETVAL gvec_NAME_last( gvec_NAME_h handle )
-```
-Get the last element of a vector.
-
-* *handle* – a handle to a vector
-
-*Return value:*  (**undefined** if vector is empty)
+*Return value:* (**undefined** if vector is empty)
 * `tpUseBy` is `GENA_USE_VALUE`: a value of the element
 * `tpUseBy` is `GENA_USE_POINTER`: a pointer to the element
 
@@ -319,7 +287,7 @@ Reduce a vector to the specified count of elements.
 * *new_count* – a new count of elements in a vector (should not exceed the current count)
 
 ```c
-void gvec_remove( gvec_h handle, size_t position, size_t count )
+gena_bool gvec_remove( gvec_h handle, size_t position, size_t count )
 ```
 Remove elements from a vector.
 
@@ -327,12 +295,16 @@ Remove elements from a vector.
 * *position* – a position of the first element to be removed
 * *count* – a count of elements to be removed
 
+*Return value:* `GENA_TRUE` if operation was performed successfully, `GENA_FALSE` otherwise
+
 ```c
-void gvec_drop( gvec_h handle )
+gena_bool gvec_drop( gvec_h handle )
 ```
 Drop the last element from a vector.
 
 * *handle* – a handle to a vector
+
+*Return value:* `GENA_TRUE` if operation was performed successfully, `GENA_FALSE` otherwise
 
 ```c
 size_t gvec_count( gvec_h handle )
