@@ -45,7 +45,9 @@ structures that use AVL-tree can be instantiated with the same name. */
   i##tpPrefix##_avl_subtree_##tpSurname##_add( \
     igena_avl_node_p* proot, \
     const ZGENA_ENTRY_VALUE(tpKeyTypeInfo, tpKeyPassBy) key, \
-    gena_bool* OUT_key_exists \
+    gena_bool* OUT_key_exists, \
+    igena_avl_node_p* OUT_leftmost, \
+    igena_avl_node_p* OUT_rightmost \
   ) { \
     igena_avl_node_p scan_node, new_root, new_leaf; \
     igena_avl_bias scan_link; \
@@ -73,6 +75,14 @@ structures that use AVL-tree can be instantiated with the same name. */
     new_root = igena_avl_node_attach( new_leaf, scan_node, scan_link ); \
     if (new_root != NULL) { *proot = new_root; } \
 \
+    if ( (OUT_leftmost != NULL) && (scan_link != IGENA_AVL_BIAS_RIGHT) ) { \
+      if (scan_node == *OUT_leftmost) { *OUT_leftmost = new_leaf; } \
+    } \
+\
+    if ( (OUT_rightmost != NULL) && (scan_link != IGENA_AVL_BIAS_LEFT) ) { \
+      if (scan_node == *OUT_rightmost) { *OUT_rightmost = new_leaf; } \
+    } \
+\
     return new_leaf; \
   }} \
 /********************************************************************/ \
@@ -80,17 +90,37 @@ structures that use AVL-tree can be instantiated with the same name. */
   gena_bool \
   i##tpPrefix##_avl_subtree_##tpSurname##_delete( \
     igena_avl_node_p* proot, \
-    const ZGENA_ENTRY_VALUE(tpKeyTypeInfo, tpKeyPassBy) key \
+    const ZGENA_ENTRY_VALUE(tpKeyTypeInfo, tpKeyPassBy) key, \
+    igena_avl_node_p* OUT_leftmost, \
+    igena_avl_node_p* OUT_rightmost \
   ) { \
-    igena_avl_node_p scan_node, new_root; \
+    igena_avl_node_p scan_node, ancestor, new_root; \
     igena_avl_bias scan_link; \
   { \
     scan_link = i##tpPrefix##_avl_subtree_##tpSurname##_scan( \
       *proot, key, &scan_node ); \
     if (scan_link != IGENA_AVL_BIAS_PARENT) { return GENA_FALSE; } \
 \
+    ancestor = scan_node->parent; \
     new_root = igena_avl_node_detach( scan_node ); \
     if (new_root != scan_node) { *proot = new_root; } \
+\
+    if (OUT_leftmost != NULL) { \
+      if (scan_node == *OUT_leftmost) { \
+        *OUT_leftmost = (ancestor == NULL) \
+          ? new_root \
+          : ( (ancestor->left == NULL) ? ancestor : ancestor->left ); \
+      } \
+    } \
+\
+    if (OUT_rightmost != NULL) { \
+      if (scan_node == *OUT_rightmost) { \
+        *OUT_rightmost = (ancestor == NULL) \
+          ? new_root \
+          : ( (ancestor->right == NULL) ? ancestor : ancestor->right ); \
+      } \
+    } \
+\
     igena_avl_subtree_free( scan_node ); \
     return GENA_TRUE; \
   }} \

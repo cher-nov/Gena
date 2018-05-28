@@ -51,7 +51,7 @@ extern igena_avl_node_p igena_avl_node_attach( igena_avl_node_p node,
 extern igena_avl_node_p igena_avl_node_detach( igena_avl_node_p node );
 
 extern igena_avl_node_p igena_avl_node_step( igena_avl_node_p node,
-  ptrdiff_t offset );
+  ptrdiff_t offset, igena_avl_node_p leftmost, igena_avl_node_p rightmost );
 
 /******************************************************************************/
 

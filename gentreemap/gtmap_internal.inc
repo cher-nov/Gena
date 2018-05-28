@@ -7,6 +7,8 @@
 typedef struct zz_gtmap_s {
   size_t count;
   igena_avl_node_p tree_root;
+  igena_avl_node_p tree_leftmost;
+  igena_avl_node_p tree_rightmost;
   size_t key_size;
   size_t value_size;
   gena_tag_z tag;

@@ -109,7 +109,8 @@
     assert( handle != NULL ); \
 \
     new_node = igtmap_avl_subtree_##tpSurname##_add( \
-      &handle->tree_root, key, &key_exists ); \
+      &handle->tree_root, key, &key_exists, &handle->tree_leftmost, \
+      &handle->tree_rightmost ); \
     if (new_node == NULL) { return NULL; } \
 \
     node_value = IGENA_AVL_NODE_VALUE( \
@@ -143,7 +144,8 @@
     assert( handle != NULL ); \
 \
     key_node = igtmap_avl_subtree_##tpSurname##_add( \
-      &handle->tree_root, key, &key_exists ); \
+      &handle->tree_root, key, &key_exists, &handle->tree_leftmost, \
+      &handle->tree_rightmost ); \
     if (key_node == NULL) { return NULL; } \
 \
     node_value = IGENA_AVL_NODE_VALUE( \
@@ -172,7 +174,8 @@
     assert( handle != NULL ); \
 \
     node_deleted = igtmap_avl_subtree_##tpSurname##_delete( \
-      &handle->tree_root, key ); \
+      &handle->tree_root, key, &handle->tree_leftmost, \
+      &handle->tree_rightmost ); \
     if (node_deleted) { --(handle->count); } \
     return node_deleted; \
   }} \

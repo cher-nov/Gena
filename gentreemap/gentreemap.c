@@ -10,8 +10,8 @@
 
 static void* iterator_data( void* handle, void* data, ptrdiff_t offset ) {
 {
-  return igena_avl_node_step( data, offset );
-  GENA_VARIABLE_UNUSED(handle);
+  return igena_avl_node_step( data, offset, ((gtmap_h)handle)->tree_leftmost,
+    ((gtmap_h)handle)->tree_rightmost );
 }}
 
 static void* iterator_key( void* handle, void* data ) {
@@ -51,8 +51,10 @@ gtmap_h igtmap_new( size_t key_size, size_t value_size, gena_tag_z tag ) {
   handle = malloc( sizeof(igtmap_s) );
   if (handle == NULL) { return NULL; }
 
-  handle->tree_root = NULL;
   handle->count = 0;
+  handle->tree_root = NULL;
+  handle->tree_leftmost = NULL;
+  handle->tree_rightmost = NULL;
 
   handle->key_size = key_size;
   handle->value_size = value_size;
@@ -65,8 +67,10 @@ void gtmap_clear( gtmap_h handle ) {
 {
   assert( handle != NULL );
   igena_avl_subtree_free( handle->tree_root );
-  handle->tree_root = NULL;
   handle->count = 0;
+  handle->tree_root = NULL;
+  handle->tree_leftmost = NULL;
+  handle->tree_rightmost = NULL;
 }}
 
 void gtmap_free( gtmap_h handle ) {
@@ -93,43 +97,29 @@ gena_bool gtmap_empty( gtmap_h handle ) {
 /******************************************************************************/
 
 gena_bool gtmap_begin( gtmap_h handle, gena_bool reversed,
-  gena_iterator_p OUT_object )
-{
-  igena_avl_node_p leftmost;
+  gena_iterator_p OUT_object ) {
 {
   assert( handle != NULL );
   assert( OUT_object != NULL );
 
-  if (handle->count == 0) { return GENA_FALSE; }
-
-  leftmost = handle->tree_root;
-  while (leftmost->left != NULL) {
-    leftmost = leftmost->left;
-  };
+  if (handle->tree_leftmost == NULL) { return GENA_FALSE; }
 
   init_iterator( handle, handle->tag, handle->key_size, handle->value_size,
-    reversed, leftmost, OUT_object );
+    reversed, handle->tree_leftmost, OUT_object );
 
   return GENA_TRUE;
 }}
 
 gena_bool gtmap_end( gtmap_h handle, gena_bool reversed,
-  gena_iterator_p OUT_object )
-{
-  igena_avl_node_p rightmost;
+  gena_iterator_p OUT_object ) {
 {
   assert( handle != NULL );
   assert( OUT_object != NULL );
 
-  if (handle->count == 0) { return GENA_FALSE; }
-
-  rightmost = handle->tree_root;
-  while (rightmost->left != NULL) {
-    rightmost = rightmost->right;
-  };
+  if (handle->tree_rightmost == NULL) { return GENA_FALSE; }
 
   init_iterator( handle, handle->tag, handle->key_size, handle->value_size,
-    reversed, rightmost, OUT_object );
+    reversed, handle->tree_rightmost, OUT_object );
 
   return GENA_TRUE;
 }}
