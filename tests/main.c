@@ -33,7 +33,7 @@ static MunitTest tests[] = {
     NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
   { "gvec_2_modify", gvectests_2_modify,
     NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
-  { "gvec_3_manage", gvectests_2_modify,
+  { "gvec_3_manage", gvectests_3_manage,
     NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
 
   { "gtmap_1_create", gtmaptests_1_create,

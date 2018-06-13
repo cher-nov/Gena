@@ -260,6 +260,8 @@ gvec_h gvec_copy( gvec_h handle ) {
   if (dest_hdr == NULL) { return NULL; }
 
   dest_hdr->count = src_hdr->count;
+  dest_hdr->tag = src_hdr->tag;
+
   return memcpy( dest_handle, handle, src_hdr->count * src_hdr->entry_size );
 }}
 
