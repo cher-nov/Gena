@@ -220,6 +220,7 @@
       ); \
     } \
 \
+    ZGENA_ENTRY_ASSERT( tpValueReturnBy, node_value != NULL ); \
     if ( (OUT_key != NULL) && (node_value != NULL) ) { \
       *OUT_key = tpKeyReturnBy##VALUE ZGENA_ENTRY_DATA( \
         tpKeyTypeInfo, \
@@ -248,6 +249,7 @@
       ); \
     } \
 \
+    ZGENA_ENTRY_ASSERT( tpValueReturnBy, node_value != NULL ); \
     if ( (OUT_key != NULL) && (node_value != NULL) ) { \
       *OUT_key = tpKeyReturnBy##VALUE ZGENA_ENTRY_DATA( \
         tpKeyTypeInfo, \
@@ -269,6 +271,7 @@
   { \
     assert( object != NULL ); \
     igena_iterator_entry( object, offset, &key ); \
+    ZGENA_ENTRY_ASSERT( tpKeyReturnBy, key != NULL ); \
     return tpKeyReturnBy##VALUE ZGENA_ENTRY_DATA( \
       tpKeyTypeInfo, \
       tpKeyReturnBy, \
@@ -282,13 +285,12 @@
     gena_iterator_p object, \
     ptrdiff_t offset \
   ) { \
+    ZGENA_ENTRY_ENTITY( tpValueTypeInfo, tpValuePassBy, *value ); \
   { \
     assert( object != NULL ); \
-    return tpValueReturnBy##VALUE ZGENA_ENTRY_DATA( \
-      tpValueTypeInfo, \
-      tpValueReturnBy, \
-      igena_iterator_entry( object, offset, NULL ) \
-    ); \
+    value = igena_iterator_entry( object, offset, NULL ); \
+    ZGENA_ENTRY_ASSERT( tpValueReturnBy, value != NULL ); \
+    return tpValueReturnBy##VALUE value; \
   }} \
 /********************************************************************/ \
   tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
@@ -298,11 +300,13 @@
     ptrdiff_t offset, \
     ZGENA_ENTRY_VALUE(tpKeyTypeInfo, tpKeyReturnBy) * OUT_key \
   ) { \
-    void *key = NULL, *value; \
+    void* key = NULL; \
+    ZGENA_ENTRY_ENTITY( tpValueTypeInfo, tpValuePassBy, *value ); \
   { \
     assert( object != NULL ); \
 \
     value = igena_iterator_entry( object, offset, &key ); \
+    ZGENA_ENTRY_ASSERT( tpValueReturnBy, value != NULL ); \
     if (OUT_key != NULL) { \
       *OUT_key = tpKeyReturnBy##VALUE ZGENA_ENTRY_DATA( \
         tpKeyTypeInfo, \
@@ -311,11 +315,7 @@
       ); \
     } \
 \
-    return tpValueReturnBy##VALUE ZGENA_ENTRY_DATA( \
-      tpValueTypeInfo, \
-      tpValueReturnBy, \
-      value \
-    ); \
+    return tpValueReturnBy##VALUE value; \
   }} \
 /********************************************************************/ \
   tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \

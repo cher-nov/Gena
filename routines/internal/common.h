@@ -89,6 +89,18 @@
   #define ZZ_GENA_REF__ENTRY_ENTITY( tpTypeInfo, tpName ) \
     ZGENA_PAIR_1(tpTypeInfo) tpName
 
+#define ZGENA_ENTRY_ASSERT( tpUseBy, tpExpression ) \
+  tpUseBy ## ENTRY_ASSERT( tpUseBy, tpExpression )
+
+  #define ZZ_GENA_VAL__ENTRY_ASSERT( tpTypeInfo, tpExpression ) \
+    assert( tpExpression )
+  #define ZZ_GENA_PTR__ENTRY_ASSERT( tpTypeInfo, tpExpression ) \
+    ZGENA_STATEMENT_REQUIRE_SEMICOLON
+  #define ZZ_GENA_BUF__ENTRY_ASSERT( tpTypeInfo, tpExpression ) \
+    ZGENA_STATEMENT_REQUIRE_SEMICOLON
+  #define ZZ_GENA_REF__ENTRY_ASSERT( tpTypeInfo, tpExpression ) \
+    ZGENA_STATEMENT_REQUIRE_SEMICOLON
+
 /******************************************************************************/
 
 #define ZZ_GENA_ASSIGN_NAIVE( ptr_destination, ptr_source, data_size ) \
@@ -147,6 +159,9 @@ guaranteed to be a valid zero-terminated C string. */
 #define ZGENA_VOIDPTR_SUB(x, a) ( (void*)( (char*)(x) - (a) ) )
 
 /******************************************************************************/
+
+#define ZGENA_STATEMENT_REQUIRE_SEMICOLON \
+  ((void)0)
 
 #define ZGENA_BLOCK_REQUIRE_SEMICOLON(block) \
   do {block} while(0)

@@ -205,15 +205,13 @@
     gvec_##tpSurname##_h handle \
   ) { \
     igvec_header_p header; \
+    ZGENA_ENTRY_ENTITY( tpTypeInfo, tpPassBy, *entry ) = NULL; \
   { \
     assert( handle != NULL ); \
     header = IGVEC_HEADER(handle); \
-    assert( header->count > 0 ); \
-    return tpReturnBy##VALUE ZGENA_ENTRY_DATA( \
-      tpTypeInfo, \
-      tpReturnBy, \
-      &handle[ --(header->count) ] \
-    ); \
+    ZGENA_ENTRY_ASSERT( tpReturnBy, header->count > 0 ); \
+    if (header->count > 0) { entry = &handle[ --(header->count) ]; } \
+    return tpReturnBy##VALUE entry; \
   }} \
 /********************************************************************/ \
   tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
@@ -222,13 +220,12 @@
     gena_iterator_p object, \
     ptrdiff_t offset \
   ) { \
+    ZGENA_ENTRY_ENTITY( tpTypeInfo, tpPassBy, *entry ); \
   { \
     assert( object != NULL ); \
-    return tpReturnBy##VALUE ZGENA_ENTRY_DATA( \
-      tpTypeInfo, \
-      tpReturnBy, \
-      igena_iterator_entry( object, offset, NULL ) \
-    ); \
+    entry = igena_iterator_entry( object, offset, NULL ); \
+    ZGENA_ENTRY_ASSERT( tpReturnBy, entry != NULL ); \
+    return tpReturnBy##VALUE entry; \
   }} \
 /********************************************************************/ \
   tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \

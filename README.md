@@ -239,9 +239,9 @@ Drop the last element from a vector, and return it.
 
 * *handle* – a handle to a vector
 
-*Return value:* (**undefined** if vector is empty)
-* `tpUseBy` is `GENA_USE_VALUE`: a value of the element
-* `tpUseBy` is `GENA_USE_POINTER`: a pointer to the element
+*Return value:*
+* `tpUseBy` is `GENA_USE_VALUE`: a value of the element (**undefined** if vector is empty)
+* `tpUseBy` is `GENA_USE_POINTER`: a pointer to the element, or `NULL` if vector is empty
 
 ### General-purpose functions to manage any vector type
 
