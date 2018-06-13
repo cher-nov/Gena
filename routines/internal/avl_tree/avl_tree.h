@@ -35,11 +35,11 @@ typedef struct zz_igena_avl_node_s {
 /******************************************************************************/
 
 #define \
-IGENA_AVL_TREE_INSTANTIATE( tpPrefix, tpSurname, tpKeyTypeInfo, tpValueSize, \
-  tpKeyAssignBy, tpKeyCompareBy, tpKeyPassBy ) \
+IGENA_AVL_TREE_INSTANTIATE( tpPrefix, tpSurname, tpKeyTypeInfo, tpKeyAssignBy, \
+  tpKeyCompareBy, tpKeyPassBy, tpValueSize ) \
 \
-  ZZ_IGENA_AVL_TREE_INSTANTIATE(tpPrefix,tpSurname,tpKeyTypeInfo,tpValueSize,\
-  tpKeyAssignBy,tpKeyCompareBy,tpKeyPassBy)
+  ZZ_IGENA_AVL_TREE_INSTANTIATE(tpPrefix,tpSurname,tpKeyTypeInfo,tpKeyAssignBy,\
+  tpKeyCompareBy,tpKeyPassBy,tpValueSize)
 
 /******************************************************************************/
 
@@ -51,7 +51,7 @@ extern igena_avl_node_p igena_avl_node_attach( igena_avl_node_p node,
 extern igena_avl_node_p igena_avl_node_detach( igena_avl_node_p node );
 
 extern igena_avl_node_p igena_avl_node_step( igena_avl_node_p node,
-  ptrdiff_t offset, igena_avl_node_p leftmost, igena_avl_node_p rightmost );
+  ptrdiff_t offset, igena_avl_node_p last_node );
 
 /******************************************************************************/
 

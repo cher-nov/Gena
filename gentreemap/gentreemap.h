@@ -86,6 +86,8 @@ extern gena_bool gtmap_begin( gtmap_h handle, gena_bool reversed,
   gena_iterator_p OUT_object );
 extern gena_bool gtmap_end( gtmap_h handle, gena_bool reversed,
   gena_iterator_p OUT_object );
+extern gena_bool gtmap_at( gtmap_h handle, size_t position, gena_bool reversed,
+  gena_iterator_p OUT_object );
 
 /******************************************************************************/
 
@@ -110,6 +112,12 @@ extern gena_bool gtmap_##Surname##_delete( gtmap_##Surname##_h handle, \
 \
 extern ValueTypeName* gtmap_##Surname##_find( gtmap_##Surname##_h handle, \
   const KeyPassType key ); \
+\
+extern ValueReturnType gtmap_##Surname##_first( gtmap_##Surname##_h handle, \
+  KeyReturnType* OUT_key ); \
+\
+extern ValueReturnType gtmap_##Surname##_last( gtmap_##Surname##_h handle, \
+  KeyReturnType* OUT_key ); \
 \
 extern KeyReturnType gtmap_##Surname##_key( gena_iterator_p object, \
   ptrdiff_t offset ); \

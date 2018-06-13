@@ -6,7 +6,7 @@
 structures that use AVL-tree can be instantiated with the same name. */
 
 #define ZZ_IGENA_AVL_TREE_INSTANTIATE( tpPrefix, tpSurname, tpKeyTypeInfo, \
-  tpValueSize, tpKeyPassBy, tpKeyCompareBy, tpKeyAssignBy ) \
+  tpKeyPassBy, tpKeyCompareBy, tpKeyAssignBy, tpValueSize ) \
 \
 /********************************************************************/ \
   ZGENA_STATIC_APPROACH_FUNCTION \

@@ -9,9 +9,10 @@
 /******************************************************************************/
 
 static void* iterator_data( void* handle, void* data, ptrdiff_t offset ) {
+  const gtmap_h info = handle;
 {
-  return igena_avl_node_step( data, offset, ((gtmap_h)handle)->tree_leftmost,
-    ((gtmap_h)handle)->tree_rightmost );
+  return igena_avl_node_step( data, offset,
+    (offset < 0) ? info->tree_leftmost : info->tree_rightmost );
 }}
 
 static void* iterator_key( void* handle, void* data ) {
@@ -120,6 +121,25 @@ gena_bool gtmap_end( gtmap_h handle, gena_bool reversed,
 
   init_iterator( handle, handle->tag, handle->key_size, handle->value_size,
     reversed, handle->tree_rightmost, OUT_object );
+
+  return GENA_TRUE;
+}}
+
+gena_bool gtmap_at( gtmap_h handle, size_t position, gena_bool reversed,
+  gena_iterator_p OUT_object )
+{
+  igena_avl_node_p node;
+{
+  assert( handle != NULL );
+  assert( OUT_object != NULL );
+
+  if (handle->tree_leftmost == NULL) { return GENA_FALSE; }
+  node = igena_avl_node_step( handle->tree_leftmost, position,
+    handle->tree_rightmost );
+  if (node == NULL) { return GENA_FALSE; }
+
+  init_iterator( handle, handle->tag, handle->key_size, handle->value_size,
+    reversed, node, OUT_object );
 
   return GENA_TRUE;
 }}
