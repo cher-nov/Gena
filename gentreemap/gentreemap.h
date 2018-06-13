@@ -97,7 +97,7 @@ extern gena_bool gtmap_at( gtmap_h handle, size_t position, gena_bool reversed,
 #define ZZ_GTMAP_DECLARATIONS_LIST( Surname, KeyTypeName, ValueTypeName, \
   KeyPassType, KeyReturnType, ValuePassType, ValueReturnType ) \
 \
-extern const gena_tag_z gvec_##tpSurname##_tag; \
+extern const gena_tag_z gtmap_##tpSurname##_tag; \
 \
 extern gtmap_##Surname##_h gtmap_##Surname##_new(void); \
 \
