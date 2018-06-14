@@ -11,6 +11,7 @@ To check it, compile with GENATEST_CHECK_ONLY_C89 defined. */
 
 #include "gvec_tests.h"
 #include "gtmap_tests.h"
+#include "gtset_tests.h"
 
 /******************************************************************************/
 #ifdef GENATEST_CHECK_ONLY_C89
@@ -19,6 +20,7 @@ int main() {
 {
   puts( "genvector: " GVECTEST_TYPE );
   puts( "gentreemap: " GTMAPTEST_TYPE );
+  puts( "gentreeset: " GTSETTEST_TYPE );
   puts( "GENA successfully compiled and seems to be C89 compliant." );
   return EXIT_SUCCESS;
 }}
@@ -43,6 +45,13 @@ static MunitTest tests[] = {
   { "gtmap_3_lookup", gtmaptests_3_lookup,
     NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
 
+  { "gtset_1_create", gtsettests_1_create,
+    NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
+  { "gtset_2_modify", gtsettests_2_modify,
+    NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
+  { "gtset_3_lookup", gtsettests_3_lookup,
+    NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
+
   { NULL, NULL, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL }
 };
 
@@ -55,6 +64,7 @@ int main( int argc, char* const argv[] ) {
   munit_logf( MUNIT_LOG_INFO,
       "\ngenvector: " GVECTEST_TYPE
       "\ngentreemap: " GTMAPTEST_TYPE
+      "\ngentreeset: " GTSETTEST_TYPE
       "\nTest set length: %" MUNIT_SIZE_MODIFIER "u\n",
     GENATEST_INT_SET_LEN );
   return munit_suite_main( &suite, NULL, argc, argv );
