@@ -8,6 +8,7 @@
 #ifndef ZZ_GENA_GENTREEMAP_H_IG
 #define ZZ_GENA_GENTREEMAP_H_IG
 
+#include "../routines/global.h"
 #include "../routines/iterator/iterator.h"
 
 typedef struct zz_gtmap_s* gtmap_h;

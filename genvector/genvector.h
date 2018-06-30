@@ -7,6 +7,7 @@
 #ifndef ZZ_GENA_GENVECTOR_H_IG
 #define ZZ_GENA_GENVECTOR_H_IG
 
+#include "../routines/global.h"
 #include "../routines/iterator/iterator.h"
 
 typedef void* gvec_h;

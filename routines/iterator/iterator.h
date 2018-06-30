@@ -2,8 +2,8 @@
   Copyright (c) 2018, Dmitry D. Chernov
 */
 
-#ifndef ZZ_IGENA_ITERATOR_H_IG
-#define ZZ_IGENA_ITERATOR_H_IG
+#ifndef ZZ_GENA_ITERATOR_H_IG
+#define ZZ_GENA_ITERATOR_H_IG
 
 typedef struct zz_gena_iterator_o* gena_iterator_p;
 
@@ -35,4 +35,4 @@ extern int gena_iterator_compare( gena_iterator_p object, ptrdiff_t offset1,
 
 /******************************************************************************/
 
-#endif /* ZZ_IGENA_ITERATOR_H_IG */
+#endif /* ZZ_GENA_ITERATOR_H_IG */

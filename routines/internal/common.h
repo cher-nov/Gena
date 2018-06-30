@@ -5,7 +5,7 @@
 #ifndef ZZ_ZGENA_COMMON_H_IG
 #define ZZ_ZGENA_COMMON_H_IG
 
-#include "../global.h"
+#include "../shared.h"
 
 /******************************************************************************/
 

@@ -2,35 +2,10 @@
   Copyright (c) 2018, Dmitry D. Chernov
 */
 
-#ifndef ZZ_IGENA_GLOBAL_H_IG
-#define ZZ_IGENA_GLOBAL_H_IG
+#ifndef ZZ_GENA_GLOBAL_H_IG
+#define ZZ_GENA_GLOBAL_H_IG
 
-/******************************************************************************/
-
-/* Default includes and defines, used throughout the whole library. */
-
-#include <stddef.h>
-#include <limits.h>
-#include <assert.h>
-
-#if __STDC_VERSION__ < 199901L
-  typedef int gena_bool;
-  #define GENA_TRUE (1)
-  #define GENA_FALSE (0)
-#else
-  #include <stdbool.h>
-  typedef bool gena_bool;
-  #define GENA_TRUE (true)
-  #define GENA_FALSE (false)
-#endif
-
-#if __STDC_VERSION__ < 199901L
-  #define GENA_INLINE
-#else
-  #define GENA_INLINE inline
-#endif
-
-typedef const char* gena_tag_z;
+#include "internal/common.h"
 
 /******************************************************************************/
 
@@ -64,9 +39,6 @@ typedef const char* gena_tag_z;
 #define GENA_APPLY_TYPESET( macro, typeset ) \
   macro typeset
 
-#define GENA_VARIABLE_UNUSED( variable ) \
-  (void)(variable)
-
 /******************************************************************************/
 
-#endif /* ZZ_IGENA_GLOBAL_H_IG */
+#endif /* ZZ_GENA_GLOBAL_H_IG */

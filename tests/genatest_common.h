@@ -3,7 +3,7 @@
 
 #include <string.h>
 
-#include "../routines/internal/common.h"
+#include "../routines/global.h"
 
 #define GENATEST_STR_LEN (15+1)
 typedef char genatest_str_x[GENATEST_STR_LEN];

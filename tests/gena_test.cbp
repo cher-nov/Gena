@@ -153,6 +153,9 @@
 		<Unit filename="../routines/iterator/iterator.h">
 			<Option virtualFolder="routines/iterator/" />
 		</Unit>
+		<Unit filename="../routines/shared.h">
+			<Option virtualFolder="routines/" />
+		</Unit>
 		<Unit filename="genatest_common.c">
 			<Option compilerVar="CC" />
 			<Option virtualFolder="tests/" />

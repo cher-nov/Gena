@@ -8,6 +8,7 @@
 #ifndef ZZ_GENA_GENTREESET_H_IG
 #define ZZ_GENA_GENTREESET_H_IG
 
+#include "../routines/global.h"
 #include "../routines/iterator/iterator.h"
 
 typedef struct zz_gtset_s* gtset_h;

@@ -2,8 +2,6 @@
   Copyright (c) 2017, Dmitry D. Chernov
 */
 
-#include "../routines/internal/common.h"
-
 typedef struct {
   size_t count;
   size_t size;
