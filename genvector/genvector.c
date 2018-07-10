@@ -43,22 +43,29 @@ static int iterator_compare( void* data1, void* data2 ) {
   return (data1 < data2) ? (-1) : ( (data1 > data2) ? (1) : (0) );
 }}
 
-static GENA_INLINE void init_iterator( void* handle, gena_tag_z tag,
-  size_t entry_size, gena_bool reversed, void* data,
+static GENA_INLINE gena_bool init_iterator( gvec_h handle,
+  gena_bool reversed, size_t position, igvec_header_p header,
   gena_iterator_p OUT_object ) {
 {
+  assert( OUT_object != NULL );
+
+  if (header->count == 0) { return GENA_FALSE; }
+
   OUT_object->internal.func_data = &iterator_data;
   OUT_object->internal.func_key = &iterator_entry;
   OUT_object->internal.func_value = &iterator_entry;
   OUT_object->internal.func_compare = iterator_compare;
 
-  OUT_object->internal.data = data;
+  OUT_object->internal.data = ZGENA_VOIDPTR_ADD( handle,
+    position * header->entry_size );
 
   OUT_object->handle = handle;
-  OUT_object->tag = tag;
-  OUT_object->key_size = entry_size;
-  OUT_object->value_size = entry_size;
+  OUT_object->tag = header->tag;
+  OUT_object->key_size = header->entry_size;
+  OUT_object->value_size = header->entry_size;
   OUT_object->reversed = reversed;
+
+  return GENA_TRUE;
 }}
 
 /******************************************************************************/
@@ -348,54 +355,34 @@ gena_bool gvec_begin( gvec_h handle, gena_bool reversed,
   gena_iterator_p OUT_object )
 {
   igvec_header_p header;
+  size_t position;
 {
   assert( handle != NULL );
-  assert( OUT_object != NULL );
-
   header = IGVEC_HEADER(handle);
-  if (header->count == 0) { return GENA_FALSE; }
-
-  init_iterator( handle, header->tag, header->entry_size, reversed, handle,
-    OUT_object );
-
-  return GENA_TRUE;
+  position = reversed ? (header->count-1) : 0;
+  return init_iterator( handle, reversed, position, header, OUT_object );
 }}
 
 gena_bool gvec_end( gvec_h handle, gena_bool reversed,
   gena_iterator_p OUT_object )
 {
   igvec_header_p header;
-  void* entry;
+  size_t position;
 {
   assert( handle != NULL );
-  assert( OUT_object != NULL );
-
   header = IGVEC_HEADER(handle);
-  if (header->count == 0) { return GENA_FALSE; }
-
-  entry = ZGENA_VOIDPTR_ADD( handle, (header->count-1) * header->entry_size );
-  init_iterator( handle, header->tag, header->entry_size, reversed, entry,
-    OUT_object );
-
-  return GENA_TRUE;
+  position = reversed ? 0 : (header->count-1);
+  return init_iterator( handle, reversed, position, header, OUT_object );
 }}
 
 gena_bool gvec_at( gvec_h handle, size_t position, gena_bool reversed,
   gena_iterator_p OUT_object )
 {
   igvec_header_p header;
-  void* entry;
 {
   assert( handle != NULL );
-  assert( OUT_object != NULL );
-
   header = IGVEC_HEADER(handle);
-  if (header->count == 0) { return GENA_FALSE; }
-
-  entry = ZGENA_VOIDPTR_ADD( handle, position * header->entry_size );
-  init_iterator( handle, header->tag, header->entry_size, reversed, entry,
-    OUT_object );
-
-  return GENA_TRUE;
+  if (reversed) { position = header->count-1 - position; }
+  return init_iterator( handle, reversed, position, header, OUT_object );
 }}
 
