@@ -37,6 +37,8 @@ static MunitTest tests[] = {
     NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
   { "gvec_3_manage", gvectests_3_manage,
     NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
+  { "gvec_4_iterate", gvectests_4_iterate,
+    NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
 
   { "gtmap_1_create", gtmaptests_1_create,
     NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
@@ -44,12 +46,16 @@ static MunitTest tests[] = {
     NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
   { "gtmap_3_lookup", gtmaptests_3_lookup,
     NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
+  { "gtmap_4_iterate", gtmaptests_4_iterate,
+    NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
 
   { "gtset_1_create", gtsettests_1_create,
     NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
   { "gtset_2_modify", gtsettests_2_modify,
     NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
   { "gtset_3_lookup", gtsettests_3_lookup,
+    NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
+  { "gtset_4_iterate", gtsettests_4_iterate,
     NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL },
 
   { NULL, NULL, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL }

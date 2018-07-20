@@ -668,3 +668,589 @@ MunitResult gtmaptests_3_lookup() {
   /********************************************************************/
   return MUNIT_OK;
 }}
+
+/******************************************************************************/
+
+MunitResult gtmaptests_4_iterate() {
+  gtmap_naive_h map_naive;
+  gtmap_callback_h map_struct;
+  gtmap_string_h map_string;
+  gtmap_array_h map_array;
+  gena_iterator_o iter1, iter2, iter3, riter1, riter2, riter3;
+  int key_naive;
+  int* ptr_naive;
+  genatest_skey_p key_struct;
+  genatest_svalue_p ptr_struct;
+  char* key_string;
+  char* ptr_string;
+  int* key_array;
+  int* ptr_array;
+  gena_bool result;
+  int i, k, compare;
+{
+  /********************************************************************/
+  map_naive = gtmap_naive_new();
+
+  munit_assert( !gtmap_begin( map_naive, GENA_FALSE, &iter1 ) );
+  munit_assert( !gtmap_end( map_naive, GENA_FALSE, &iter2 ) );
+  munit_assert( !gtmap_begin( map_naive, GENA_TRUE, &riter1 ) );
+  munit_assert( !gtmap_end( map_naive, GENA_TRUE, &riter2 ) );
+
+  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+    result = gtmap_naive_add( map_naive, i + GENATEST_CUSTOM_INT_1,
+      i + GENATEST_CUSTOM_INT_2 );
+    munit_assert_true( result );
+
+    munit_assert( gtmap_begin( map_naive, GENA_FALSE, &iter1 ) );
+    munit_assert( gtmap_end( map_naive, GENA_FALSE, &iter2 ) );
+    munit_assert( gtmap_begin( map_naive, GENA_TRUE, &riter1 ) );
+    munit_assert( gtmap_end( map_naive, GENA_TRUE, &riter2 ) );
+
+    munit_assert( gena_iterator_front( &iter1, 0 ) );
+    munit_assert( gena_iterator_back( &iter1, i ) );
+
+    munit_assert( gena_iterator_front( &iter2, -i ) );
+    munit_assert( gena_iterator_back( &iter2, 0 ) );
+
+    munit_assert( gena_iterator_front( &riter1, 0 ) );
+    munit_assert( gena_iterator_back( &riter1, i ) );
+
+    munit_assert( gena_iterator_front( &riter2, -i ) );
+    munit_assert( gena_iterator_back( &riter2, 0 ) );
+
+    munit_assert( !gena_iterator_prior( &iter1 ) );
+    munit_assert( !gena_iterator_next( &iter2 ) );
+
+    munit_assert( !gena_iterator_prior( &riter1 ) );
+    munit_assert( !gena_iterator_next( &riter2 ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter2, 0 ) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter1, 0 ) );
+    munit_assert( gena_iterator_equal( &iter1, i, &riter1, 0 ) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter2, -i ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter1, 0 ) != (i > 0) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter2, 0 ) != (i > 0) );
+
+    for( k = 0; k < i; ++k ) {
+      munit_assert_int( gtmap_naive_key( &iter1, 0 ), ==,
+        k + GENATEST_CUSTOM_INT_1 );
+      munit_assert_int( gtmap_naive_value( &iter1, 0 ), ==,
+        k + GENATEST_CUSTOM_INT_2 );
+
+      munit_assert_int( gtmap_naive_key( &riter1, -k ), ==,
+        i + GENATEST_CUSTOM_INT_1 );
+      munit_assert_int( gtmap_naive_value( &riter1, -k ), ==,
+        i + GENATEST_CUSTOM_INT_2 );
+
+      munit_assert_int( gtmap_naive_entry( &iter2, k, &key_naive ), ==,
+        i + GENATEST_CUSTOM_INT_2 );
+      munit_assert_int( key_naive, ==, i + GENATEST_CUSTOM_INT_1 );
+
+      munit_assert_int( gtmap_naive_entry( &riter2, 0, &key_naive ), ==,
+        k + GENATEST_CUSTOM_INT_2 );
+      munit_assert_int( key_naive, ==, k + GENATEST_CUSTOM_INT_1 );
+
+      munit_assert( gena_iterator_next( &iter1 ) );
+      munit_assert( gena_iterator_prior( &iter2 ) );
+
+      munit_assert( gena_iterator_next( &riter1 ) );
+      munit_assert( gena_iterator_prior( &riter2 ) );
+
+      munit_assert( gtmap_at( map_naive, k, GENA_FALSE, &iter3 ) );
+      munit_assert( gtmap_at( map_naive, k, GENA_TRUE, &riter3 ) );
+
+      munit_assert_int( gtmap_naive_key( &iter3, 0 ), ==,
+        k + GENATEST_CUSTOM_INT_1 );
+      munit_assert_int( gtmap_naive_value( &iter3, i-k ), ==,
+        i + GENATEST_CUSTOM_INT_2 );
+
+      munit_assert_int( gtmap_naive_key( &riter3, i-k*2 ), ==,
+        k + GENATEST_CUSTOM_INT_1 );
+      munit_assert_int( gtmap_naive_value( &riter3, 0 ), ==,
+        i-k + GENATEST_CUSTOM_INT_2 );
+    }
+
+    munit_assert( gena_iterator_back( &iter1, 0 ) );
+    munit_assert( gena_iterator_front( &iter1, -i ) );
+
+    munit_assert( gena_iterator_back( &iter2, i ) );
+    munit_assert( gena_iterator_front( &iter2, 0 ) );
+
+    munit_assert( gena_iterator_back( &riter1, 0 ) );
+    munit_assert( gena_iterator_front( &riter1, -i ) );
+
+    munit_assert( gena_iterator_back( &riter2, i ) );
+    munit_assert( gena_iterator_front( &riter2, 0 ) );
+
+    munit_assert( !gena_iterator_next( &iter1 ) );
+    munit_assert( !gena_iterator_prior( &iter2 ) );
+
+    munit_assert( !gena_iterator_next( &riter1 ) );
+    munit_assert( !gena_iterator_prior( &riter2 ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter2, 0 ) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter1, 0 ) );
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter1, -i ) );
+    munit_assert( gena_iterator_equal( &iter2, i, &riter2, 0 ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter1, 0 ) != (i > 0) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter2, 0 ) != (i > 0) );
+  }
+
+  ptr_naive = gtmap_naive_emplace( &iter1, 0, GENATEST_CUSTOM_INT_1 );
+  munit_assert_not_null( ptr_naive );
+  munit_assert_int( *ptr_naive, ==, GENATEST_CUSTOM_INT_1 );
+  munit_assert_int( gtmap_naive_value( &iter2, i-1 ), ==,
+    GENATEST_CUSTOM_INT_1 );
+
+  ptr_naive = gtmap_naive_emplace( &iter2, i-1, GENATEST_CUSTOM_INT_2 );
+  munit_assert_not_null( ptr_naive );
+  munit_assert_int( *ptr_naive, ==, GENATEST_CUSTOM_INT_2 );
+  munit_assert_int( gtmap_naive_value( &iter1, 0 ), ==,
+    GENATEST_CUSTOM_INT_2 );
+
+  ptr_naive = gtmap_naive_emplace( &riter1, -i+1, -GENATEST_CUSTOM_INT_1 );
+  munit_assert_not_null( ptr_naive );
+  munit_assert_int( *ptr_naive, ==, -GENATEST_CUSTOM_INT_1 );
+  munit_assert_int( gtmap_naive_value( &riter2, 0 ), ==,
+    -GENATEST_CUSTOM_INT_1 );
+
+  ptr_naive = gtmap_naive_emplace( &riter2, 0, -GENATEST_CUSTOM_INT_2 );
+  munit_assert_not_null( ptr_naive );
+  munit_assert_int( *ptr_naive, ==, -GENATEST_CUSTOM_INT_2 );
+  munit_assert_int( gtmap_naive_value( &riter1, -i+1 ), ==,
+    -GENATEST_CUSTOM_INT_2 );
+
+  gtmap_free( map_naive );
+
+  /********************************************************************/
+  map_struct = gtmap_callback_new();
+
+  munit_assert( !gtmap_begin( map_struct, GENA_FALSE, &iter1 ) );
+  munit_assert( !gtmap_end( map_struct, GENA_FALSE, &iter2 ) );
+  munit_assert( !gtmap_begin( map_struct, GENA_TRUE, &riter1 ) );
+  munit_assert( !gtmap_end( map_struct, GENA_TRUE, &riter2 ) );
+
+  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+    result = gtmap_callback_add( map_struct, &GENATEST_C_SKEY(i),
+      &GENATEST_C_SVALUE(GENATEST_INT_SET[i]) );
+    munit_assert_true( result );
+
+    munit_assert( gtmap_begin( map_struct, GENA_FALSE, &iter1 ) );
+    munit_assert( gtmap_end( map_struct, GENA_FALSE, &iter2 ) );
+    munit_assert( gtmap_begin( map_struct, GENA_TRUE, &riter1 ) );
+    munit_assert( gtmap_end( map_struct, GENA_TRUE, &riter2 ) );
+
+    munit_assert( gena_iterator_front( &iter1, 0 ) );
+    munit_assert( gena_iterator_back( &iter1, i ) );
+
+    munit_assert( gena_iterator_front( &iter2, -i ) );
+    munit_assert( gena_iterator_back( &iter2, 0 ) );
+
+    munit_assert( gena_iterator_front( &riter1, 0 ) );
+    munit_assert( gena_iterator_back( &riter1, i ) );
+
+    munit_assert( gena_iterator_front( &riter2, -i ) );
+    munit_assert( gena_iterator_back( &riter2, 0 ) );
+
+    munit_assert( !gena_iterator_prior( &iter1 ) );
+    munit_assert( !gena_iterator_next( &iter2 ) );
+
+    munit_assert( !gena_iterator_prior( &riter1 ) );
+    munit_assert( !gena_iterator_next( &riter2 ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter2, 0 ) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter1, 0 ) );
+    munit_assert( gena_iterator_equal( &iter1, i, &riter1, 0 ) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter2, -i ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter1, 0 ) != (i > 0) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter2, 0 ) != (i > 0) );
+
+    for( k = 0; k < i; ++k ) {
+      compare = genatest_skey_compare_cb( gtmap_callback_key( &iter1, 0 ),
+        &GENATEST_C_SKEY(k), sizeof(genatest_skey_s) );
+      munit_assert_int( compare, ==, 0 );
+      munit_assert_memory_equal( sizeof(int), gtmap_callback_value( &iter1, 0 ),
+        &GENATEST_C_SVALUE(GENATEST_INT_SET[k]) );
+
+      compare = genatest_skey_compare_cb( gtmap_callback_key( &riter1, -k ),
+        &GENATEST_C_SKEY(i), sizeof(genatest_skey_s) );
+      munit_assert_int( compare, ==, 0 );
+      munit_assert_memory_equal( sizeof(int),
+        gtmap_callback_value( &riter1, -k ),
+        &GENATEST_C_SVALUE(GENATEST_INT_SET[i]) );
+
+      munit_assert_memory_equal( sizeof(int),
+        gtmap_callback_entry( &iter2, k, &key_struct ),
+        &GENATEST_C_SVALUE(GENATEST_INT_SET[i]) );
+      compare = genatest_skey_compare_cb( key_struct, &GENATEST_C_SKEY(i),
+        sizeof(genatest_skey_s) );
+      munit_assert_int( compare, ==, 0 );
+
+      munit_assert_memory_equal( sizeof(int),
+        gtmap_callback_entry( &riter2, 0, &key_struct ),
+        &GENATEST_C_SVALUE(GENATEST_INT_SET[k]) );
+      compare = genatest_skey_compare_cb( key_struct, &GENATEST_C_SKEY(k),
+        sizeof(genatest_skey_s) );
+      munit_assert_int( compare, ==, 0 );
+
+      munit_assert( gena_iterator_next( &iter1 ) );
+      munit_assert( gena_iterator_prior( &iter2 ) );
+
+      munit_assert( gena_iterator_next( &riter1 ) );
+      munit_assert( gena_iterator_prior( &riter2 ) );
+
+      munit_assert( gtmap_at( map_struct, k, GENA_FALSE, &iter3 ) );
+      munit_assert( gtmap_at( map_struct, k, GENA_TRUE, &riter3 ) );
+
+      compare = genatest_skey_compare_cb( gtmap_callback_key( &iter3, 0 ),
+        &GENATEST_C_SKEY(k), sizeof(genatest_skey_s) );
+      munit_assert_int( compare, ==, 0 );
+      munit_assert_memory_equal( sizeof(int),
+        gtmap_callback_value( &iter3, i-k ),
+        &GENATEST_C_SVALUE(GENATEST_INT_SET[i]) );
+
+      compare = genatest_skey_compare_cb( gtmap_callback_key( &riter3, i-k*2 ),
+        &GENATEST_C_SKEY(k), sizeof(genatest_skey_s) );
+      munit_assert_int( compare, ==, 0 );
+      munit_assert_memory_equal( sizeof(int),
+        gtmap_callback_value( &riter3, 0 ),
+        &GENATEST_C_SVALUE(GENATEST_INT_SET[i-k]) );
+    }
+
+    munit_assert( gena_iterator_back( &iter1, 0 ) );
+    munit_assert( gena_iterator_front( &iter1, -i ) );
+
+    munit_assert( gena_iterator_back( &iter2, i ) );
+    munit_assert( gena_iterator_front( &iter2, 0 ) );
+
+    munit_assert( gena_iterator_back( &riter1, 0 ) );
+    munit_assert( gena_iterator_front( &riter1, -i ) );
+
+    munit_assert( gena_iterator_back( &riter2, i ) );
+    munit_assert( gena_iterator_front( &riter2, 0 ) );
+
+    munit_assert( !gena_iterator_next( &iter1 ) );
+    munit_assert( !gena_iterator_prior( &iter2 ) );
+
+    munit_assert( !gena_iterator_next( &riter1 ) );
+    munit_assert( !gena_iterator_prior( &riter2 ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter2, 0 ) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter1, 0 ) );
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter1, -i ) );
+    munit_assert( gena_iterator_equal( &iter2, i, &riter2, 0 ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter1, 0 ) != (i > 0) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter2, 0 ) != (i > 0) );
+  }
+
+  ptr_struct = gtmap_callback_emplace( &iter1, 0,
+    &GENATEST_C_SVALUE(GENATEST_CUSTOM_INT_1) );
+  munit_assert_not_null( ptr_struct );
+  munit_assert_memory_equal( sizeof(int), gtmap_callback_value( &iter2, i-1 ),
+    &GENATEST_C_SVALUE(GENATEST_CUSTOM_INT_1) );
+
+  ptr_struct = gtmap_callback_emplace( &iter2, i-1,
+    &GENATEST_C_SVALUE(GENATEST_CUSTOM_INT_2) );
+  munit_assert_not_null( ptr_struct );
+  munit_assert_memory_equal( sizeof(int), gtmap_callback_value( &iter1, 0 ),
+    &GENATEST_C_SVALUE(GENATEST_CUSTOM_INT_2) );
+
+  ptr_struct = gtmap_callback_emplace( &riter1, -i+1,
+    &GENATEST_C_SVALUE(-GENATEST_CUSTOM_INT_1) );
+  munit_assert_not_null( ptr_struct );
+  munit_assert_memory_equal( sizeof(int), gtmap_callback_value( &riter2, 0 ),
+    &GENATEST_C_SVALUE(-GENATEST_CUSTOM_INT_1) );
+
+  ptr_struct = gtmap_callback_emplace( &riter2, 0,
+    &GENATEST_C_SVALUE(-GENATEST_CUSTOM_INT_2) );
+  munit_assert_not_null( ptr_struct );
+  munit_assert_memory_equal( sizeof(int), gtmap_callback_value( &riter1, -i+1 ),
+    &GENATEST_C_SVALUE(-GENATEST_CUSTOM_INT_2) );
+
+  gtmap_free( map_struct );
+
+  /********************************************************************/
+  map_string = gtmap_string_new();
+
+  munit_assert( !gtmap_begin( map_string, GENA_FALSE, &iter1 ) );
+  munit_assert( !gtmap_end( map_string, GENA_FALSE, &iter2 ) );
+  munit_assert( !gtmap_begin( map_string, GENA_TRUE, &riter1 ) );
+  munit_assert( !gtmap_end( map_string, GENA_TRUE, &riter2 ) );
+
+  for( i = 0; i < (int)GENATEST_STR_SET_LEN; ++i ) {
+    result = gtmap_string_add( map_string, GENATEST_STR_SET[i],
+      GENATEST_STR_SET[i] );
+    munit_assert_true( result );
+
+    munit_assert( gtmap_begin( map_string, GENA_FALSE, &iter1 ) );
+    munit_assert( gtmap_end( map_string, GENA_FALSE, &iter2 ) );
+    munit_assert( gtmap_begin( map_string, GENA_TRUE, &riter1 ) );
+    munit_assert( gtmap_end( map_string, GENA_TRUE, &riter2 ) );
+
+    munit_assert( gena_iterator_front( &iter1, 0 ) );
+    munit_assert( gena_iterator_back( &iter1, i ) );
+
+    munit_assert( gena_iterator_front( &iter2, -i ) );
+    munit_assert( gena_iterator_back( &iter2, 0 ) );
+
+    munit_assert( gena_iterator_front( &riter1, 0 ) );
+    munit_assert( gena_iterator_back( &riter1, i ) );
+
+    munit_assert( gena_iterator_front( &riter2, -i ) );
+    munit_assert( gena_iterator_back( &riter2, 0 ) );
+
+    munit_assert( !gena_iterator_prior( &iter1 ) );
+    munit_assert( !gena_iterator_next( &iter2 ) );
+
+    munit_assert( !gena_iterator_prior( &riter1 ) );
+    munit_assert( !gena_iterator_next( &riter2 ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter2, 0 ) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter1, 0 ) );
+    munit_assert( gena_iterator_equal( &iter1, i, &riter1, 0 ) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter2, -i ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter1, 0 ) != (i > 0) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter2, 0 ) != (i > 0) );
+
+    for( k = 0; k < i; ++k ) {
+      munit_assert_string_equal( gtmap_string_key( &iter1, 0 ),
+        GENATEST_STR_SET[k] );
+      munit_assert_string_equal( gtmap_string_value( &iter1, 0 ),
+        GENATEST_STR_SET[k] );
+
+      munit_assert_string_equal( gtmap_string_key( &riter1, -k ),
+        GENATEST_STR_SET[i] );
+      munit_assert_string_equal( gtmap_string_value( &riter1, -k ),
+        GENATEST_STR_SET[i] );
+
+      munit_assert_string_equal( gtmap_string_entry( &iter2, k, &key_string ),
+        GENATEST_STR_SET[i] );
+      munit_assert_string_equal( key_string, GENATEST_STR_SET[i] );
+
+      munit_assert_string_equal( gtmap_string_entry( &riter2, 0, &key_string ),
+        GENATEST_STR_SET[k] );
+      munit_assert_string_equal( key_string, GENATEST_STR_SET[k] );
+
+      munit_assert( gena_iterator_next( &iter1 ) );
+      munit_assert( gena_iterator_prior( &iter2 ) );
+
+      munit_assert( gena_iterator_next( &riter1 ) );
+      munit_assert( gena_iterator_prior( &riter2 ) );
+
+      munit_assert( gtmap_at( map_string, k, GENA_FALSE, &iter3 ) );
+      munit_assert( gtmap_at( map_string, k, GENA_TRUE, &riter3 ) );
+
+      munit_assert_string_equal( gtmap_string_key( &iter3, 0 ),
+        GENATEST_STR_SET[k] );
+      munit_assert_string_equal( gtmap_string_value( &iter3, i-k ),
+        GENATEST_STR_SET[i] );
+
+      munit_assert_string_equal( gtmap_string_key( &riter3, i-k*2 ),
+        GENATEST_STR_SET[k] );
+      munit_assert_string_equal( gtmap_string_value( &riter3, 0 ),
+        GENATEST_STR_SET[i-k] );
+    }
+
+    munit_assert( gena_iterator_back( &iter1, 0 ) );
+    munit_assert( gena_iterator_front( &iter1, -i ) );
+
+    munit_assert( gena_iterator_back( &iter2, i ) );
+    munit_assert( gena_iterator_front( &iter2, 0 ) );
+
+    munit_assert( gena_iterator_back( &riter1, 0 ) );
+    munit_assert( gena_iterator_front( &riter1, -i ) );
+
+    munit_assert( gena_iterator_back( &riter2, i ) );
+    munit_assert( gena_iterator_front( &riter2, 0 ) );
+
+    munit_assert( !gena_iterator_next( &iter1 ) );
+    munit_assert( !gena_iterator_prior( &iter2 ) );
+
+    munit_assert( !gena_iterator_next( &riter1 ) );
+    munit_assert( !gena_iterator_prior( &riter2 ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter2, 0 ) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter1, 0 ) );
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter1, -i ) );
+    munit_assert( gena_iterator_equal( &iter2, i, &riter2, 0 ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter1, 0 ) != (i > 0) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter2, 0 ) != (i > 0) );
+  }
+
+  ptr_string = gtmap_string_emplace( &iter1, 0, GENATEST_CUSTOM_STR_1 );
+  munit_assert_not_null( ptr_string );
+  munit_assert_string_equal( ptr_string, GENATEST_CUSTOM_STR_1 );
+  munit_assert_string_equal( gtmap_string_value( &iter2, i-1 ),
+    GENATEST_CUSTOM_STR_1 );
+
+  ptr_string = gtmap_string_emplace( &iter2, i-1, GENATEST_CUSTOM_STR_2 );
+  munit_assert_not_null( ptr_string );
+  munit_assert_string_equal( ptr_string, GENATEST_CUSTOM_STR_2 );
+  munit_assert_string_equal( gtmap_string_value( &iter1, 0 ),
+    GENATEST_CUSTOM_STR_2 );
+
+  ptr_string = gtmap_string_emplace( &riter1, -i+1, GENATEST_CUSTOM_STR_1 );
+  munit_assert_not_null( ptr_string );
+  munit_assert_string_equal( ptr_string, GENATEST_CUSTOM_STR_1 );
+  munit_assert_string_equal( gtmap_string_value( &riter2, 0 ),
+    GENATEST_CUSTOM_STR_1 );
+
+  ptr_string = gtmap_string_emplace( &riter2, 0, GENATEST_CUSTOM_STR_2 );
+  munit_assert_not_null( ptr_string );
+  munit_assert_string_equal( ptr_string, GENATEST_CUSTOM_STR_2 );
+  munit_assert_string_equal( gtmap_string_value( &riter1, -i+1 ),
+    GENATEST_CUSTOM_STR_2 );
+
+  gtmap_free( map_string );
+
+  /********************************************************************/
+  map_array = gtmap_array_new();
+
+  munit_assert( !gtmap_begin( map_array, GENA_FALSE, &iter1 ) );
+  munit_assert( !gtmap_end( map_array, GENA_FALSE, &iter2 ) );
+  munit_assert( !gtmap_begin( map_array, GENA_TRUE, &riter1 ) );
+  munit_assert( !gtmap_end( map_array, GENA_TRUE, &riter2 ) );
+
+  for( i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i ) {
+    result = gtmap_array_add( map_array, GENATEST_BUF_SET[i],
+      GENATEST_BUF_SET[i] );
+    munit_assert_true( result );
+
+    munit_assert( gtmap_begin( map_array, GENA_FALSE, &iter1 ) );
+    munit_assert( gtmap_end( map_array, GENA_FALSE, &iter2 ) );
+    munit_assert( gtmap_begin( map_array, GENA_TRUE, &riter1 ) );
+    munit_assert( gtmap_end( map_array, GENA_TRUE, &riter2 ) );
+
+    munit_assert( gena_iterator_front( &iter1, 0 ) );
+    munit_assert( gena_iterator_back( &iter1, i ) );
+
+    munit_assert( gena_iterator_front( &iter2, -i ) );
+    munit_assert( gena_iterator_back( &iter2, 0 ) );
+
+    munit_assert( gena_iterator_front( &riter1, 0 ) );
+    munit_assert( gena_iterator_back( &riter1, i ) );
+
+    munit_assert( gena_iterator_front( &riter2, -i ) );
+    munit_assert( gena_iterator_back( &riter2, 0 ) );
+
+    munit_assert( !gena_iterator_prior( &iter1 ) );
+    munit_assert( !gena_iterator_next( &iter2 ) );
+
+    munit_assert( !gena_iterator_prior( &riter1 ) );
+    munit_assert( !gena_iterator_next( &riter2 ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter2, 0 ) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter1, 0 ) );
+    munit_assert( gena_iterator_equal( &iter1, i, &riter1, 0 ) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter2, -i ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter1, 0 ) != (i > 0) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter2, 0 ) != (i > 0) );
+
+    for( k = 0; k < i; ++k ) {
+      munit_assert_memory_equal( sizeof(genatest_buf_x),
+        gtmap_array_key( &iter1, 0 ), GENATEST_BUF_SET[k] );
+      munit_assert_memory_equal( sizeof(genatest_buf_x),
+        gtmap_array_value( &iter1, 0 ), GENATEST_BUF_SET[k] );
+
+      munit_assert_memory_equal( sizeof(genatest_buf_x),
+        gtmap_array_key( &riter1, -k ), GENATEST_BUF_SET[i] );
+      munit_assert_memory_equal( sizeof(genatest_buf_x),
+        gtmap_array_value( &riter1, -k ), GENATEST_BUF_SET[i] );
+
+      munit_assert_memory_equal( sizeof(genatest_buf_x),
+        gtmap_array_entry( &iter2, k, &key_array ), GENATEST_BUF_SET[i] );
+      munit_assert_memory_equal( sizeof(genatest_buf_x),
+        key_array, GENATEST_BUF_SET[i] );
+
+      munit_assert_memory_equal( sizeof(genatest_buf_x),
+        gtmap_array_entry( &riter2, 0, &key_array ), GENATEST_BUF_SET[k] );
+      munit_assert_memory_equal( sizeof(genatest_buf_x),
+        key_array, GENATEST_BUF_SET[k] );
+
+      munit_assert( gena_iterator_next( &iter1 ) );
+      munit_assert( gena_iterator_prior( &iter2 ) );
+
+      munit_assert( gena_iterator_next( &riter1 ) );
+      munit_assert( gena_iterator_prior( &riter2 ) );
+
+      munit_assert( gtmap_at( map_array, k, GENA_FALSE, &iter3 ) );
+      munit_assert( gtmap_at( map_array, k, GENA_TRUE, &riter3 ) );
+
+      munit_assert_memory_equal( sizeof(genatest_buf_x),
+        gtmap_array_key( &iter3, 0 ), GENATEST_BUF_SET[k] );
+      munit_assert_memory_equal( sizeof(genatest_buf_x),
+        gtmap_array_value( &iter3, i-k ), GENATEST_BUF_SET[i] );
+
+      munit_assert_memory_equal( sizeof(genatest_buf_x),
+        gtmap_array_key( &riter3, i-k*2 ), GENATEST_BUF_SET[k] );
+      munit_assert_memory_equal( sizeof(genatest_buf_x),
+        gtmap_array_value( &riter3, 0 ), GENATEST_BUF_SET[i-k] );
+    }
+
+    munit_assert( gena_iterator_back( &iter1, 0 ) );
+    munit_assert( gena_iterator_front( &iter1, -i ) );
+
+    munit_assert( gena_iterator_back( &iter2, i ) );
+    munit_assert( gena_iterator_front( &iter2, 0 ) );
+
+    munit_assert( gena_iterator_back( &riter1, 0 ) );
+    munit_assert( gena_iterator_front( &riter1, -i ) );
+
+    munit_assert( gena_iterator_back( &riter2, i ) );
+    munit_assert( gena_iterator_front( &riter2, 0 ) );
+
+    munit_assert( !gena_iterator_next( &iter1 ) );
+    munit_assert( !gena_iterator_prior( &iter2 ) );
+
+    munit_assert( !gena_iterator_next( &riter1 ) );
+    munit_assert( !gena_iterator_prior( &riter2 ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter2, 0 ) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter1, 0 ) );
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter1, -i ) );
+    munit_assert( gena_iterator_equal( &iter2, i, &riter2, 0 ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter1, 0 ) != (i > 0) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter2, 0 ) != (i > 0) );
+  }
+
+  ptr_array = gtmap_array_emplace( &iter1, 0, GENATEST_CUSTOM_BUF_1 );
+  munit_assert_not_null( ptr_array );
+  munit_assert_memory_equal( sizeof(genatest_buf_x), ptr_array,
+    GENATEST_CUSTOM_BUF_1 );
+  munit_assert_memory_equal( sizeof(genatest_buf_x),
+    gtmap_array_value( &iter2, i-1 ), GENATEST_CUSTOM_BUF_1 );
+
+  ptr_array = gtmap_array_emplace( &iter2, i-1, GENATEST_CUSTOM_BUF_2 );
+  munit_assert_not_null( ptr_array );
+  munit_assert_memory_equal( sizeof(genatest_buf_x), ptr_array,
+    GENATEST_CUSTOM_BUF_2 );
+  munit_assert_memory_equal( sizeof(genatest_buf_x),
+    gtmap_array_value( &iter1, 0 ), GENATEST_CUSTOM_BUF_2 );
+
+  ptr_array = gtmap_array_emplace( &riter1, -i+1, GENATEST_CUSTOM_BUF_1 );
+  munit_assert_not_null( ptr_array );
+  munit_assert_memory_equal( sizeof(genatest_buf_x), ptr_array,
+    GENATEST_CUSTOM_BUF_1 );
+  munit_assert_memory_equal( sizeof(genatest_buf_x),
+    gtmap_array_value( &riter2, 0 ), GENATEST_CUSTOM_BUF_1 );
+
+  ptr_array = gtmap_array_emplace( &riter2, 0, GENATEST_CUSTOM_BUF_2 );
+  munit_assert_not_null( ptr_array );
+  munit_assert_memory_equal( sizeof(genatest_buf_x), ptr_array,
+    GENATEST_CUSTOM_BUF_2 );
+  munit_assert_memory_equal( sizeof(genatest_buf_x),
+    gtmap_array_value( &riter1, -i+1 ), GENATEST_CUSTOM_BUF_2 );
+
+  gtmap_free( map_array );
+
+  /********************************************************************/
+  return MUNIT_OK;
+}}

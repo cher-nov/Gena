@@ -16,7 +16,7 @@ const size_t GENATEST_INT_SET_LEN =
 const int GENATEST_CUSTOM_INT_1 = 234;
 const int GENATEST_CUSTOM_INT_2 = 749;
 
-/* A shuffled set of strings with a maximum length of GENATEST_STR_LEN. */
+/* A strcmp-sorted set of strings with a maximum length of GENATEST_STR_LEN. */
 const genatest_str_x GENATEST_STR_SET[] = {
   "a", "ab", "abc", "abcd", "abcde", "abcdef", "abcdefg", "abcdefgh",
   "abcdefghi", "abcdefghij", "abcdefghijk", "abcdefghijkl", "abcdefghijklm",
@@ -51,7 +51,7 @@ const size_t GENATEST_STR_SET_LEN =
 const genatest_str_x GENATEST_CUSTOM_STR_1 = "~=str!ngVALUE-+";
 const genatest_str_x GENATEST_CUSTOM_STR_2 = "[CU$TOM STRING]";
 
-/* A shuffled set of arrays. */
+/* A memcmp-sorted set of arrays. */
 const genatest_buf_x GENATEST_BUF_SET[] = {
   {0,1,2,3}, {0,1,3,2}, {0,2,1,3}, {0,2,3,1}, {0,3,1,2}, {0,3,2,1},
   {1,0,2,3}, {1,0,3,2}, {1,2,0,3}, {1,2,3,0}, {1,3,0,2}, {1,3,2,0},

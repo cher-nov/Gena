@@ -16,6 +16,7 @@
 extern MunitResult gtsettests_1_create();
 extern MunitResult gtsettests_2_modify();
 extern MunitResult gtsettests_3_lookup();
+extern MunitResult gtsettests_4_iterate();
 
 #endif /* GENATEST_CHECK_ONLY_C89 */
 

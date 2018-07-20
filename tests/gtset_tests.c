@@ -479,3 +479,395 @@ MunitResult gtsettests_3_lookup() {
   /********************************************************************/
   return MUNIT_OK;
 }}
+
+MunitResult gtsettests_4_iterate() {
+  gtset_naive_h set_naive;
+  gtset_callback_h set_struct;
+  gtset_string_h set_string;
+  gtset_array_h set_array;
+  gena_iterator_o iter1, iter2, iter3, riter1, riter2, riter3;
+  gena_bool result;
+  int i, k, compare;
+{
+  /********************************************************************/
+  set_naive = gtset_naive_new();
+
+  munit_assert( !gtset_begin( set_naive, GENA_FALSE, &iter1 ) );
+  munit_assert( !gtset_end( set_naive, GENA_FALSE, &iter2 ) );
+  munit_assert( !gtset_begin( set_naive, GENA_TRUE, &riter1 ) );
+  munit_assert( !gtset_end( set_naive, GENA_TRUE, &riter2 ) );
+
+  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+    result = gtset_naive_add( set_naive, i + GENATEST_CUSTOM_INT_1, NULL );
+    munit_assert_true( result );
+
+    munit_assert( gtset_begin( set_naive, GENA_FALSE, &iter1 ) );
+    munit_assert( gtset_end( set_naive, GENA_FALSE, &iter2 ) );
+    munit_assert( gtset_begin( set_naive, GENA_TRUE, &riter1 ) );
+    munit_assert( gtset_end( set_naive, GENA_TRUE, &riter2 ) );
+
+    munit_assert( gena_iterator_front( &iter1, 0 ) );
+    munit_assert( gena_iterator_back( &iter1, i ) );
+
+    munit_assert( gena_iterator_front( &iter2, -i ) );
+    munit_assert( gena_iterator_back( &iter2, 0 ) );
+
+    munit_assert( gena_iterator_front( &riter1, 0 ) );
+    munit_assert( gena_iterator_back( &riter1, i ) );
+
+    munit_assert( gena_iterator_front( &riter2, -i ) );
+    munit_assert( gena_iterator_back( &riter2, 0 ) );
+
+    munit_assert( !gena_iterator_prior( &iter1 ) );
+    munit_assert( !gena_iterator_next( &iter2 ) );
+
+    munit_assert( !gena_iterator_prior( &riter1 ) );
+    munit_assert( !gena_iterator_next( &riter2 ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter2, 0 ) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter1, 0 ) );
+    munit_assert( gena_iterator_equal( &iter1, i, &riter1, 0 ) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter2, -i ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter1, 0 ) != (i > 0) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter2, 0 ) != (i > 0) );
+
+    for( k = 0; k < i; ++k ) {
+      munit_assert_int( gtset_naive_value( &iter1, 0 ), ==,
+        k + GENATEST_CUSTOM_INT_1 );
+      munit_assert_int( gtset_naive_value( &riter1, -k ), ==,
+        i + GENATEST_CUSTOM_INT_1 );
+
+      munit_assert( gena_iterator_next( &iter1 ) );
+      munit_assert( gena_iterator_prior( &iter2 ) );
+
+      munit_assert( gena_iterator_next( &riter1 ) );
+      munit_assert( gena_iterator_prior( &riter2 ) );
+
+      munit_assert( gtset_at( set_naive, k, GENA_FALSE, &iter3 ) );
+      munit_assert( gtset_at( set_naive, k, GENA_TRUE, &riter3 ) );
+
+      munit_assert_int( gtset_naive_value( &iter3, i-k ), ==,
+        i + GENATEST_CUSTOM_INT_1 );
+      munit_assert_int( gtset_naive_value( &riter3, 0 ), ==,
+        i-k + GENATEST_CUSTOM_INT_1 );
+    }
+
+    munit_assert( gena_iterator_back( &iter1, 0 ) );
+    munit_assert( gena_iterator_front( &iter1, -i ) );
+
+    munit_assert( gena_iterator_back( &iter2, i ) );
+    munit_assert( gena_iterator_front( &iter2, 0 ) );
+
+    munit_assert( gena_iterator_back( &riter1, 0 ) );
+    munit_assert( gena_iterator_front( &riter1, -i ) );
+
+    munit_assert( gena_iterator_back( &riter2, i ) );
+    munit_assert( gena_iterator_front( &riter2, 0 ) );
+
+    munit_assert( !gena_iterator_next( &iter1 ) );
+    munit_assert( !gena_iterator_prior( &iter2 ) );
+
+    munit_assert( !gena_iterator_next( &riter1 ) );
+    munit_assert( !gena_iterator_prior( &riter2 ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter2, 0 ) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter1, 0 ) );
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter1, -i ) );
+    munit_assert( gena_iterator_equal( &iter2, i, &riter2, 0 ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter1, 0 ) != (i > 0) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter2, 0 ) != (i > 0) );
+  }
+
+  gtset_free( set_naive );
+
+  /********************************************************************/
+  set_struct = gtset_callback_new();
+
+  munit_assert( !gtset_begin( set_struct, GENA_FALSE, &iter1 ) );
+  munit_assert( !gtset_end( set_struct, GENA_FALSE, &iter2 ) );
+  munit_assert( !gtset_begin( set_struct, GENA_TRUE, &riter1 ) );
+  munit_assert( !gtset_end( set_struct, GENA_TRUE, &riter2 ) );
+
+  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+    result = gtset_callback_add( set_struct, &GENATEST_C_SKEY(i), NULL );
+    munit_assert_true( result );
+
+    munit_assert( gtset_begin( set_struct, GENA_FALSE, &iter1 ) );
+    munit_assert( gtset_end( set_struct, GENA_FALSE, &iter2 ) );
+    munit_assert( gtset_begin( set_struct, GENA_TRUE, &riter1 ) );
+    munit_assert( gtset_end( set_struct, GENA_TRUE, &riter2 ) );
+
+    munit_assert( gena_iterator_front( &iter1, 0 ) );
+    munit_assert( gena_iterator_back( &iter1, i ) );
+
+    munit_assert( gena_iterator_front( &iter2, -i ) );
+    munit_assert( gena_iterator_back( &iter2, 0 ) );
+
+    munit_assert( gena_iterator_front( &riter1, 0 ) );
+    munit_assert( gena_iterator_back( &riter1, i ) );
+
+    munit_assert( gena_iterator_front( &riter2, -i ) );
+    munit_assert( gena_iterator_back( &riter2, 0 ) );
+
+    munit_assert( !gena_iterator_prior( &iter1 ) );
+    munit_assert( !gena_iterator_next( &iter2 ) );
+
+    munit_assert( !gena_iterator_prior( &riter1 ) );
+    munit_assert( !gena_iterator_next( &riter2 ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter2, 0 ) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter1, 0 ) );
+    munit_assert( gena_iterator_equal( &iter1, i, &riter1, 0 ) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter2, -i ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter1, 0 ) != (i > 0) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter2, 0 ) != (i > 0) );
+
+    for( k = 0; k < i; ++k ) {
+      compare = genatest_skey_compare_cb( gtset_callback_value( &iter1, 0 ),
+        &GENATEST_C_SKEY(k), sizeof(genatest_skey_s) );
+      munit_assert_int( compare, ==, 0 );
+
+      compare = genatest_skey_compare_cb( gtset_callback_value( &riter1, -k ),
+        &GENATEST_C_SKEY(i), sizeof(genatest_skey_s) );
+      munit_assert_int( compare, ==, 0 );
+
+      munit_assert( gena_iterator_next( &iter1 ) );
+      munit_assert( gena_iterator_prior( &iter2 ) );
+
+      munit_assert( gena_iterator_next( &riter1 ) );
+      munit_assert( gena_iterator_prior( &riter2 ) );
+
+      munit_assert( gtset_at( set_struct, k, GENA_FALSE, &iter3 ) );
+      munit_assert( gtset_at( set_struct, k, GENA_TRUE, &riter3 ) );
+
+      compare = genatest_skey_compare_cb( gtset_callback_value( &iter3, 0 ),
+        &GENATEST_C_SKEY(k), sizeof(genatest_skey_s) );
+      munit_assert_int( compare, ==, 0 );
+
+      compare = genatest_skey_compare_cb(
+        gtset_callback_value( &riter3, i-k*2 ), &GENATEST_C_SKEY(k),
+        sizeof(genatest_skey_s) );
+      munit_assert_int( compare, ==, 0 );
+    }
+
+    munit_assert( gena_iterator_back( &iter1, 0 ) );
+    munit_assert( gena_iterator_front( &iter1, -i ) );
+
+    munit_assert( gena_iterator_back( &iter2, i ) );
+    munit_assert( gena_iterator_front( &iter2, 0 ) );
+
+    munit_assert( gena_iterator_back( &riter1, 0 ) );
+    munit_assert( gena_iterator_front( &riter1, -i ) );
+
+    munit_assert( gena_iterator_back( &riter2, i ) );
+    munit_assert( gena_iterator_front( &riter2, 0 ) );
+
+    munit_assert( !gena_iterator_next( &iter1 ) );
+    munit_assert( !gena_iterator_prior( &iter2 ) );
+
+    munit_assert( !gena_iterator_next( &riter1 ) );
+    munit_assert( !gena_iterator_prior( &riter2 ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter2, 0 ) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter1, 0 ) );
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter1, -i ) );
+    munit_assert( gena_iterator_equal( &iter2, i, &riter2, 0 ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter1, 0 ) != (i > 0) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter2, 0 ) != (i > 0) );
+  }
+
+  gtset_free( set_struct );
+
+  /********************************************************************/
+  set_string = gtset_string_new();
+
+  munit_assert( !gtset_begin( set_string, GENA_FALSE, &iter1 ) );
+  munit_assert( !gtset_end( set_string, GENA_FALSE, &iter2 ) );
+  munit_assert( !gtset_begin( set_string, GENA_TRUE, &riter1 ) );
+  munit_assert( !gtset_end( set_string, GENA_TRUE, &riter2 ) );
+
+  for( i = 0; i < (int)GENATEST_STR_SET_LEN; ++i ) {
+    result = gtset_string_add( set_string, GENATEST_STR_SET[i], NULL );
+    munit_assert_true( result );
+
+    munit_assert( gtset_begin( set_string, GENA_FALSE, &iter1 ) );
+    munit_assert( gtset_end( set_string, GENA_FALSE, &iter2 ) );
+    munit_assert( gtset_begin( set_string, GENA_TRUE, &riter1 ) );
+    munit_assert( gtset_end( set_string, GENA_TRUE, &riter2 ) );
+
+    munit_assert( gena_iterator_front( &iter1, 0 ) );
+    munit_assert( gena_iterator_back( &iter1, i ) );
+
+    munit_assert( gena_iterator_front( &iter2, -i ) );
+    munit_assert( gena_iterator_back( &iter2, 0 ) );
+
+    munit_assert( gena_iterator_front( &riter1, 0 ) );
+    munit_assert( gena_iterator_back( &riter1, i ) );
+
+    munit_assert( gena_iterator_front( &riter2, -i ) );
+    munit_assert( gena_iterator_back( &riter2, 0 ) );
+
+    munit_assert( !gena_iterator_prior( &iter1 ) );
+    munit_assert( !gena_iterator_next( &iter2 ) );
+
+    munit_assert( !gena_iterator_prior( &riter1 ) );
+    munit_assert( !gena_iterator_next( &riter2 ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter2, 0 ) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter1, 0 ) );
+    munit_assert( gena_iterator_equal( &iter1, i, &riter1, 0 ) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter2, -i ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter1, 0 ) != (i > 0) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter2, 0 ) != (i > 0) );
+
+    for( k = 0; k < i; ++k ) {
+      munit_assert_string_equal( gtset_string_value( &iter1, 0 ),
+        GENATEST_STR_SET[k] );
+      munit_assert_string_equal( gtset_string_value( &riter1, -k ),
+        GENATEST_STR_SET[i] );
+
+      munit_assert( gena_iterator_next( &iter1 ) );
+      munit_assert( gena_iterator_prior( &iter2 ) );
+
+      munit_assert( gena_iterator_next( &riter1 ) );
+      munit_assert( gena_iterator_prior( &riter2 ) );
+
+      munit_assert( gtset_at( set_string, k, GENA_FALSE, &iter3 ) );
+      munit_assert( gtset_at( set_string, k, GENA_TRUE, &riter3 ) );
+
+      munit_assert_string_equal( gtset_string_value( &iter3, i-k ),
+        GENATEST_STR_SET[i] );
+      munit_assert_string_equal( gtset_string_value( &riter3, 0 ),
+        GENATEST_STR_SET[i-k] );
+    }
+
+    munit_assert( gena_iterator_back( &iter1, 0 ) );
+    munit_assert( gena_iterator_front( &iter1, -i ) );
+
+    munit_assert( gena_iterator_back( &iter2, i ) );
+    munit_assert( gena_iterator_front( &iter2, 0 ) );
+
+    munit_assert( gena_iterator_back( &riter1, 0 ) );
+    munit_assert( gena_iterator_front( &riter1, -i ) );
+
+    munit_assert( gena_iterator_back( &riter2, i ) );
+    munit_assert( gena_iterator_front( &riter2, 0 ) );
+
+    munit_assert( !gena_iterator_next( &iter1 ) );
+    munit_assert( !gena_iterator_prior( &iter2 ) );
+
+    munit_assert( !gena_iterator_next( &riter1 ) );
+    munit_assert( !gena_iterator_prior( &riter2 ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter2, 0 ) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter1, 0 ) );
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter1, -i ) );
+    munit_assert( gena_iterator_equal( &iter2, i, &riter2, 0 ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter1, 0 ) != (i > 0) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter2, 0 ) != (i > 0) );
+  }
+
+  gtset_free( set_string );
+
+  /********************************************************************/
+  set_array = gtset_array_new();
+
+  munit_assert( !gtset_begin( set_array, GENA_FALSE, &iter1 ) );
+  munit_assert( !gtset_end( set_array, GENA_FALSE, &iter2 ) );
+  munit_assert( !gtset_begin( set_array, GENA_TRUE, &riter1 ) );
+  munit_assert( !gtset_end( set_array, GENA_TRUE, &riter2 ) );
+
+  for( i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i ) {
+    result = gtset_array_add( set_array, GENATEST_BUF_SET[i], NULL );
+    munit_assert_true( result );
+
+    munit_assert( gtset_begin( set_array, GENA_FALSE, &iter1 ) );
+    munit_assert( gtset_end( set_array, GENA_FALSE, &iter2 ) );
+    munit_assert( gtset_begin( set_array, GENA_TRUE, &riter1 ) );
+    munit_assert( gtset_end( set_array, GENA_TRUE, &riter2 ) );
+
+    munit_assert( gena_iterator_front( &iter1, 0 ) );
+    munit_assert( gena_iterator_back( &iter1, i ) );
+
+    munit_assert( gena_iterator_front( &iter2, -i ) );
+    munit_assert( gena_iterator_back( &iter2, 0 ) );
+
+    munit_assert( gena_iterator_front( &riter1, 0 ) );
+    munit_assert( gena_iterator_back( &riter1, i ) );
+
+    munit_assert( gena_iterator_front( &riter2, -i ) );
+    munit_assert( gena_iterator_back( &riter2, 0 ) );
+
+    munit_assert( !gena_iterator_prior( &iter1 ) );
+    munit_assert( !gena_iterator_next( &iter2 ) );
+
+    munit_assert( !gena_iterator_prior( &riter1 ) );
+    munit_assert( !gena_iterator_next( &riter2 ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter2, 0 ) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter1, 0 ) );
+    munit_assert( gena_iterator_equal( &iter1, i, &riter1, 0 ) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter2, -i ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter1, 0 ) != (i > 0) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter2, 0 ) != (i > 0) );
+
+    for( k = 0; k < i; ++k ) {
+      munit_assert_memory_equal( sizeof(genatest_buf_x),
+        gtset_array_value( &iter1, 0 ), GENATEST_BUF_SET[k] );
+      munit_assert_memory_equal( sizeof(genatest_buf_x),
+        gtset_array_value( &riter1, -k ), GENATEST_BUF_SET[i] );
+
+      munit_assert( gena_iterator_next( &iter1 ) );
+      munit_assert( gena_iterator_prior( &iter2 ) );
+
+      munit_assert( gena_iterator_next( &riter1 ) );
+      munit_assert( gena_iterator_prior( &riter2 ) );
+
+      munit_assert( gtset_at( set_array, k, GENA_FALSE, &iter3 ) );
+      munit_assert( gtset_at( set_array, k, GENA_TRUE, &riter3 ) );
+
+      munit_assert_memory_equal( sizeof(genatest_buf_x),
+        gtset_array_value( &iter3, i-k ), GENATEST_BUF_SET[i] );
+      munit_assert_memory_equal( sizeof(genatest_buf_x),
+        gtset_array_value( &riter3, 0 ), GENATEST_BUF_SET[i-k] );
+    }
+
+    munit_assert( gena_iterator_back( &iter1, 0 ) );
+    munit_assert( gena_iterator_front( &iter1, -i ) );
+
+    munit_assert( gena_iterator_back( &iter2, i ) );
+    munit_assert( gena_iterator_front( &iter2, 0 ) );
+
+    munit_assert( gena_iterator_back( &riter1, 0 ) );
+    munit_assert( gena_iterator_front( &riter1, -i ) );
+
+    munit_assert( gena_iterator_back( &riter2, i ) );
+    munit_assert( gena_iterator_front( &riter2, 0 ) );
+
+    munit_assert( !gena_iterator_next( &iter1 ) );
+    munit_assert( !gena_iterator_prior( &iter2 ) );
+
+    munit_assert( !gena_iterator_next( &riter1 ) );
+    munit_assert( !gena_iterator_prior( &riter2 ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter2, 0 ) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter1, 0 ) );
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter1, -i ) );
+    munit_assert( gena_iterator_equal( &iter2, i, &riter2, 0 ) );
+
+    munit_assert( gena_iterator_equal( &iter1, 0, &riter1, 0 ) != (i > 0) );
+    munit_assert( gena_iterator_equal( &iter2, 0, &riter2, 0 ) != (i > 0) );
+  }
+
+  gtset_free( set_array );
+
+  /********************************************************************/
+  return MUNIT_OK;
+}}
