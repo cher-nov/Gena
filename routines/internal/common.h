@@ -106,10 +106,10 @@
 #define ZZ_GENA_ASSIGN_NAIVE( ptr_destination, ptr_source, data_size ) \
   ( *(ptr_destination) = *(ptr_source) )
 
-#define ZZ_GENA_ASSIGN_MEMCPY( ptr_destination, ptr_source, data_size ) \
+#define ZZ_GENA_ASSIGN_MEMORY( ptr_destination, ptr_source, data_size ) \
   ( memcpy( ptr_destination, ptr_source, data_size ) )
 
-#define ZZ_GENA_ASSIGN_STRCPY( ptr_destination, ptr_source, data_size ) \
+#define ZZ_GENA_ASSIGN_STRING( ptr_destination, ptr_source, data_size ) \
   ( strncpy( (char*)ptr_destination, (const char*)ptr_source, data_size ) ); \
   ( ((char*)(ptr_destination)) [ (data_size)-1 ] = '\0' )
 
@@ -122,12 +122,12 @@ because values may be unsigned. */
   : (*(ptr_entry_data) > *(ptr_user_data)) ? (1) \
   : (0) )
 
-#define ZZ_GENA_COMPARE_MEMCMP( ptr_entry_data, ptr_user_data, data_size ) \
+#define ZZ_GENA_COMPARE_MEMORY( ptr_entry_data, ptr_user_data, data_size ) \
   ( memcmp( ptr_entry_data, ptr_user_data, data_size ) )
 
 /* NOTE: strncmp() is not needed here over strcmp() because ptr_entry_data is
 guaranteed to be a valid zero-terminated C string. */
-#define ZZ_GENA_COMPARE_STRCMP( ptr_entry_data, ptr_user_data, data_size ) \
+#define ZZ_GENA_COMPARE_STRING( ptr_entry_data, ptr_user_data, data_size ) \
   ( strcmp( (const char*)ptr_entry_data, (const char*)ptr_user_data ) )
 
 /******************************************************************************/

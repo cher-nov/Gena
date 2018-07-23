@@ -13,7 +13,7 @@
 #define ZZ_GTSETTEST_TYPESET_MEMCMP_STRUCT_PTR \
   ( genatest_skey_s, memcmp, \
     GENA_USE_POINTER, \
-    GENA_COMPARE_MEMCMP )
+    GENA_COMPARE_MEMORY )
 
 #define ZZ_GTSETTEST_TYPESET_CALLBACK_STRUCT_PTR \
   ( genatest_skey_s, callback, \
@@ -28,6 +28,6 @@
 #define ZZ_GTSETTEST_TYPESET_EX_ARRAY_REF \
   ( (genatest_buf_x, int), array, \
     GENA_USE_ARRAY, GENA_USE_ARRAY, \
-    GENA_COMPARE_MEMCMP, GENA_ASSIGN_MEMCPY )
+    GENA_COMPARE_MEMORY, GENA_ASSIGN_MEMORY )
 
 #endif /* ZZ_GTSET_GENERAL_H_IG */

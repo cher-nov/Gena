@@ -21,16 +21,16 @@
 /* Default assignment approaches. */
 
 #define GENA_ASSIGN_NAIVE ZZ_GENA_ASSIGN_NAIVE
-#define GENA_ASSIGN_MEMCPY ZZ_GENA_ASSIGN_MEMCPY
-#define GENA_ASSIGN_STRCPY ZZ_GENA_ASSIGN_STRCPY
+#define GENA_ASSIGN_MEMORY ZZ_GENA_ASSIGN_MEMORY
+#define GENA_ASSIGN_STRING ZZ_GENA_ASSIGN_STRING
 
 /******************************************************************************/
 
 /* Default comparison approaches. */
 
 #define GENA_COMPARE_NAIVE ZZ_GENA_COMPARE_NAIVE
-#define GENA_COMPARE_MEMCMP ZZ_GENA_COMPARE_MEMCMP
-#define GENA_COMPARE_STRCMP ZZ_GENA_COMPARE_STRCMP
+#define GENA_COMPARE_MEMORY ZZ_GENA_COMPARE_MEMORY
+#define GENA_COMPARE_STRING ZZ_GENA_COMPARE_STRING
 
 /******************************************************************************/
 

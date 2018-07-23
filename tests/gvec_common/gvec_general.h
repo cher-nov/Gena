@@ -21,6 +21,6 @@
 #define ZZ_GVECTEST_TYPESET_EX_ARRAY_REF \
   ( (genatest_buf_x, int), array, \
     GENA_USE_ARRAY, GENA_USE_ARRAY, \
-    GENA_ASSIGN_MEMCPY )
+    GENA_ASSIGN_MEMORY )
 
 #endif /* ZZ_GVEC_GENERAL_H_IG */

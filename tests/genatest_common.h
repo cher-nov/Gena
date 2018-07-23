@@ -43,7 +43,7 @@ static GENA_INLINE int genatest_skey_compare_cb( const genatest_skey_s* a,
 }
 
 /* Yes, genatest_str_assign_cb() / genatest_str_compare_cb() duplicate default
-GENA_ASSIGN_STRCPY / GENA_COMPARE_STRCMP methods. They were introduced just to
+GENA_ASSIGN_STRING / GENA_COMPARE_STRING methods. They were introduced just to
 test invocation of user-defined methods for assignment/comparison. */
 
 /* Both genatest_str_x and char* argument types are provided to show their
@@ -52,13 +52,13 @@ interchangeability in case of writing assignment and comparison methods. */
 static GENA_INLINE void genatest_str_assign_cb( genatest_str_x dest,
   const char* src, size_t value_size )
 {
-  GENA_ASSIGN_STRCPY( dest, src, value_size );
+  GENA_ASSIGN_STRING( dest, src, value_size );
 }
 
 static GENA_INLINE int genatest_str_compare_cb( const genatest_str_x a,
   const char* b, size_t value_size )
 {
-  return GENA_COMPARE_STRCMP( a, b, value_size );
+  return GENA_COMPARE_STRING( a, b, value_size );
   GENA_VARIABLE_UNUSED(value_size);
 }
 

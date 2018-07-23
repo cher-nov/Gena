@@ -15,7 +15,7 @@
   ( genatest_skey_s, genatest_svalue_s, \
     memcmp, \
     GENA_USE_POINTER, GENA_USE_POINTER, \
-    GENA_COMPARE_MEMCMP )
+    GENA_COMPARE_MEMORY )
 
 #define ZZ_GTMAPTEST_TYPESET_CALLBACK_STRUCT_PTR \
   ( genatest_skey_s, genatest_svalue_s, \
@@ -36,7 +36,7 @@
     array, \
     GENA_USE_ARRAY, GENA_USE_ARRAY, \
     GENA_USE_ARRAY, GENA_USE_ARRAY, \
-    GENA_COMPARE_MEMCMP, \
-    GENA_ASSIGN_MEMCPY, GENA_ASSIGN_MEMCPY )
+    GENA_COMPARE_MEMORY, \
+    GENA_ASSIGN_MEMORY, GENA_ASSIGN_MEMORY )
 
 #endif /* ZZ_GTMAP_GENERAL_H_IG */
