@@ -49,10 +49,10 @@ test invocation of user-defined methods for assignment/comparison. */
 /* Both genatest_str_x and char* argument types are provided to show their
 interchangeability in case of writing assignment and comparison methods. */
 
-static GENA_INLINE void genatest_str_assign_cb( genatest_str_x dest,
+static GENA_INLINE char* genatest_str_assign_cb( genatest_str_x dest,
   const char* src, size_t value_size )
 {
-  GENA_ASSIGN_STRING( dest, src, value_size );
+  return GENA_ASSIGN_STRING( dest, src, value_size );
 }
 
 static GENA_INLINE int genatest_str_compare_cb( const genatest_str_x a,

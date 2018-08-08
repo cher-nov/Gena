@@ -109,9 +109,10 @@
 #define ZZ_GENA_ASSIGN_MEMORY( ptr_destination, ptr_source, data_size ) \
   ( memcpy( ptr_destination, ptr_source, data_size ) )
 
-#define ZZ_GENA_ASSIGN_STRING( ptr_destination, ptr_source, data_size ) \
-  ( strncpy( (char*)ptr_destination, (const char*)ptr_source, data_size ) ); \
-  ( ((char*)(ptr_destination)) [ (data_size)-1 ] = '\0' )
+#define ZZ_GENA_ASSIGN_STRING( ptr_destination, ptr_source, data_size ) ( \
+  ((char*)(ptr_destination)) [ (data_size)-1 ] = '\0', \
+  strncpy( (char*)ptr_destination, (const char*)ptr_source, (data_size)-1 ) \
+)
 
 /******************************************************************************/
 
