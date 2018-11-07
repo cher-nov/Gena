@@ -215,12 +215,12 @@ igena_avl_node_p igena_avl_node_step( igena_avl_node_p node, ptrdiff_t offset,
   search_bias = (offset < 0) ? IGENA_AVL_BIAS_LEFT : IGENA_AVL_BIAS_RIGHT;
 
   while (offset != 0) {
-    next_node = IGENA_AVL_NODE_LINK(node, search_bias);
+    next_node = IGENA_AVL_NODE_LINK( node, search_bias );
 
     if (next_node != NULL) {
       do {
         node = next_node;
-        next_node = IGENA_AVL_NODE_LINK(node, -search_bias);
+        next_node = IGENA_AVL_NODE_LINK( node, -search_bias );
       } while (next_node != NULL);
     } else {
       if (node == last_node) { return NULL; }

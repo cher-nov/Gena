@@ -51,7 +51,7 @@
     ZGENA_ENTRY_VALUE(tpTypeInfo, tpPassBy), \
     ZGENA_ENTRY_VALUE(tpTypeInfo, tpReturnBy) \
   ); \
-  ZGENA_REQUIRE_SEMICOLON_OUTDOOR
+  ZGENA_REQUIRE_SEMICOLON_OUTSIDE
 
 /******************************************************************************/
 
@@ -173,4 +173,4 @@
     return tpReturnBy##VALUE value; \
   }} \
 /********************************************************************/ \
-  ZGENA_REQUIRE_SEMICOLON_OUTDOOR
+  ZGENA_REQUIRE_SEMICOLON_OUTSIDE

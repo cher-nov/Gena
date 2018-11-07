@@ -50,7 +50,7 @@
     ZGENA_ENTRY_VALUE(tpTypeInfo, tpPassBy), \
     ZGENA_ENTRY_VALUE(tpTypeInfo, tpReturnBy) \
   ); \
-  ZGENA_REQUIRE_SEMICOLON_OUTDOOR
+  ZGENA_REQUIRE_SEMICOLON_OUTSIDE
 
 /******************************************************************************/
 
@@ -87,7 +87,7 @@
     assert( phandle != NULL ); \
     new_handle = igvec_resize( *phandle, count ); \
     if (new_handle == NULL) { return GENA_FALSE; } \
-    for(i = 0; i < count; ++i) { \
+    for (i = 0; i < count; ++i) { \
       tpAssignBy ( \
         tpPassBy##DATA (new_handle + i), \
         tpPassBy##ADDRESS value, \
@@ -112,7 +112,7 @@
     i = gvec_count(*phandle); \
     new_handle = igvec_resize( *phandle, new_count ); \
     if (new_handle == NULL) { return GENA_FALSE; } \
-    for(; i < new_count; ++i) { \
+    for (; i < new_count; ++i) { \
       tpAssignBy ( \
         tpPassBy##DATA (new_handle + i), \
         tpPassBy##ADDRESS value, \
@@ -166,7 +166,7 @@
     assert( phandle != NULL ); \
     new_handle = igvec_insert( *phandle, position, count ); \
     if (new_handle == NULL) { return GENA_FALSE; } \
-    for(i = 0; i < count; ++i) { \
+    for (i = 0; i < count; ++i) { \
       tpAssignBy ( \
         tpPassBy##DATA (new_handle + position + i), \
         tpPassBy##ADDRESS value, \
@@ -248,4 +248,4 @@
     return tpReturnBy##DATA entry; \
   }} \
 /********************************************************************/ \
-  ZGENA_REQUIRE_SEMICOLON_OUTDOOR
+  ZGENA_REQUIRE_SEMICOLON_OUTSIDE

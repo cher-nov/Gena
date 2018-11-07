@@ -57,7 +57,7 @@ MunitResult gvectests_2_modify() {
   /********************************************************************/
   vec_int = gvec_int_new(0);
 
-  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_INT_SET_LEN; ++i) {
     munit_assert( gvec_int_push( &vec_int, GENATEST_INT_SET[i] ) );
     munit_assert_size( gvec_count(vec_int), ==, i+1 );
     munit_assert_size( gvec_size(vec_int), >=, i+1 );
@@ -66,18 +66,18 @@ MunitResult gvectests_2_modify() {
   }
   storage_size = gvec_size( vec_int );
 
-  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_INT_SET_LEN; ++i) {
     result = gvec_int_insert( &vec_int, i*2, 1, GENATEST_INT_SET[i] );
     munit_assert_true( result );
     munit_assert_size( gvec_count(vec_int), ==, GENATEST_INT_SET_LEN+i+1 );
     munit_assert_size( gvec_size(vec_int), >=, GENATEST_INT_SET_LEN+i+1 );
     munit_assert( !gvec_empty(vec_int) );
-    for( k = 0; k < i*2; k += 2 ) {
+    for (k = 0; k < i*2; k += 2) {
       munit_assert_int( vec_int[k], ==, vec_int[k+1] );
     }
   }
 
-  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_INT_SET_LEN; ++i) {
     gvec_remove( vec_int, i, 1 );
     munit_assert_size( gvec_count(vec_int), ==, GENATEST_INT_SET_LEN*2-i-1 );
     munit_assert( !gvec_empty(vec_int) );
@@ -94,11 +94,11 @@ MunitResult gvectests_2_modify() {
   munit_assert_true( result );
   munit_assert_size( gvec_count(vec_int), ==, GENATEST_INT_SET_LEN*3 );
   munit_assert( !gvec_empty(vec_int) );
-  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_INT_SET_LEN; ++i) {
     munit_assert_int( vec_int[GENATEST_INT_SET_LEN+i], ==,
       GENATEST_CUSTOM_INT_1 );
   }
-  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_INT_SET_LEN; ++i) {
     munit_assert_int( vec_int[GENATEST_INT_SET_LEN*2+i], ==,
       GENATEST_CUSTOM_INT_2 );
   }
@@ -139,7 +139,7 @@ MunitResult gvectests_2_modify() {
   munit_assert_size( gvec_size(vec_struct), >=, GENATEST_INT_SET_LEN );
   storage_size = gvec_size( vec_struct );
 
-  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_INT_SET_LEN; ++i) {
     result = gvec_struct_push( &vec_struct,
       &GENATEST_C_SVALUE(GENATEST_INT_SET[i]) );
     munit_assert_true( result );
@@ -149,20 +149,20 @@ MunitResult gvectests_2_modify() {
       GENATEST_INT_SET );
   }
 
-  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_INT_SET_LEN; ++i) {
     result = gvec_struct_insert( &vec_struct, i*2, 1,
       &GENATEST_C_SVALUE(GENATEST_INT_SET[i]) );
     munit_assert_true( result );
     munit_assert_size( gvec_count(vec_struct), ==, GENATEST_INT_SET_LEN+i+1 );
     munit_assert_size( gvec_size(vec_struct), >=, GENATEST_INT_SET_LEN+i+1 );
     munit_assert( !gvec_empty(vec_struct) );
-    for( k = 0; k < i*2; k += 2 ) {
+    for (k = 0; k < i*2; k += 2) {
       munit_assert_memory_equal( sizeof(int), &vec_struct[k],
         &vec_struct[k+1] );
     }
   }
 
-  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_INT_SET_LEN; ++i) {
     gvec_remove( vec_struct, i, 1 );
     munit_assert_size( gvec_count(vec_struct), ==, GENATEST_INT_SET_LEN*2-i-1 );
     munit_assert( !gvec_empty(vec_struct) );
@@ -181,12 +181,12 @@ MunitResult gvectests_2_modify() {
   munit_assert_true( result );
   munit_assert_size( gvec_count(vec_struct), ==, GENATEST_INT_SET_LEN*3 );
   munit_assert( !gvec_empty(vec_struct) );
-  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_INT_SET_LEN; ++i) {
     munit_assert_memory_equal( sizeof(int),
       &vec_struct[GENATEST_INT_SET_LEN+i],
       &GENATEST_C_SVALUE(GENATEST_CUSTOM_INT_1) );
   }
-  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_INT_SET_LEN; ++i) {
     munit_assert_memory_equal( sizeof(int),
       &vec_struct[GENATEST_INT_SET_LEN*2+i],
       &GENATEST_C_SVALUE(GENATEST_CUSTOM_INT_2) );
@@ -234,25 +234,25 @@ MunitResult gvectests_2_modify() {
   munit_assert_size( gvec_size(vec_string), >=, GENATEST_STR_SET_LEN );
   storage_size = gvec_size( vec_string );
 
-  for( i = 0; i < (int)GENATEST_STR_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_STR_SET_LEN; ++i) {
     munit_assert( gvec_string_push( &vec_string, GENATEST_STR_SET[i] ) );
     munit_assert_size( gvec_count(vec_string), ==, i+1 );
     munit_assert( !gvec_empty(vec_string) );
     munit_assert_string_equal( vec_string[i], GENATEST_STR_SET[i] );
   }
 
-  for( i = 0; i < (int)GENATEST_STR_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_STR_SET_LEN; ++i) {
     result = gvec_string_insert( &vec_string, i*2, 1, GENATEST_STR_SET[i] );
     munit_assert_true( result );
     munit_assert_size( gvec_count(vec_string), ==, GENATEST_STR_SET_LEN+i+1 );
     munit_assert_size( gvec_size(vec_string), >=, GENATEST_STR_SET_LEN+i+1 );
     munit_assert( !gvec_empty(vec_string) );
-    for( k = 0; k < i*2; k += 2 ) {
+    for (k = 0; k < i*2; k += 2) {
       munit_assert_string_equal( vec_string[k], vec_string[k+1] );
     }
   }
 
-  for( i = 0; i < (int)GENATEST_STR_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_STR_SET_LEN; ++i) {
     munit_assert( gvec_remove( vec_string, i, 1 ) );
     munit_assert_size( gvec_count(vec_string), ==, GENATEST_STR_SET_LEN*2-i-1 );
     munit_assert( !gvec_empty(vec_string) );
@@ -270,11 +270,11 @@ MunitResult gvectests_2_modify() {
   munit_assert_true( result );
   munit_assert_size( gvec_count(vec_string), ==, GENATEST_STR_SET_LEN*3 );
   munit_assert( !gvec_empty(vec_string) );
-  for( i = 0; i < (int)GENATEST_STR_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_STR_SET_LEN; ++i) {
     munit_assert_string_equal( vec_string[GENATEST_STR_SET_LEN+i],
       GENATEST_CUSTOM_STR_1 );
   }
-  for( i = 0; i < (int)GENATEST_STR_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_STR_SET_LEN; ++i) {
     munit_assert_string_equal( vec_string[GENATEST_STR_SET_LEN*2+i],
       GENATEST_CUSTOM_STR_2 );
   }
@@ -319,7 +319,7 @@ MunitResult gvectests_2_modify() {
   munit_assert( gvec_array_shrink( &vec_array ) );
   munit_assert_size( gvec_size(vec_array), <, storage_size );
 
-  for( i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i) {
     munit_assert( gvec_array_push( &vec_array, GENATEST_BUF_SET[i] ) );
     munit_assert_size( gvec_count(vec_array), ==, i+1 );
     munit_assert( !gvec_empty(vec_array) );
@@ -327,19 +327,19 @@ MunitResult gvectests_2_modify() {
       GENATEST_BUF_SET[i] );
   }
 
-  for( i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i) {
     result = gvec_array_insert( &vec_array, i*2, 1, GENATEST_BUF_SET[i] );
     munit_assert_true( result );
     munit_assert_size( gvec_count(vec_array), ==, GENATEST_BUF_SET_LEN+i+1 );
     munit_assert_size( gvec_size(vec_array), >=, GENATEST_BUF_SET_LEN+i+1 );
     munit_assert( !gvec_empty(vec_array) );
-    for( k = 0; k < i*2; k += 2 ) {
+    for (k = 0; k < i*2; k += 2) {
       munit_assert_memory_equal( sizeof(genatest_buf_x), &vec_array[k],
         &vec_array[k+1] );
     }
   }
 
-  for( i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i) {
     munit_assert( gvec_remove( vec_array, i, 1 ) );
     munit_assert_size( gvec_count(vec_array), ==, GENATEST_BUF_SET_LEN*2-i-1 );
     munit_assert( !gvec_empty(vec_array) );
@@ -357,12 +357,12 @@ MunitResult gvectests_2_modify() {
   munit_assert_true( result );
   munit_assert_size( gvec_count(vec_array), ==, GENATEST_BUF_SET_LEN*3 );
   munit_assert( !gvec_empty(vec_array) );
-  for( i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i) {
     munit_assert_memory_equal( sizeof(genatest_buf_x),
       &vec_array[GENATEST_BUF_SET_LEN+i],
       GENATEST_CUSTOM_BUF_1 );
   }
-  for( i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i) {
     munit_assert_memory_equal( sizeof(genatest_buf_x),
       &vec_array[GENATEST_BUF_SET_LEN*2+i],
       GENATEST_CUSTOM_BUF_2 );
@@ -499,7 +499,7 @@ MunitResult gvectests_4_iterate() {
   munit_assert( !gvec_begin( vec_int, GENA_TRUE, &riter1 ) );
   munit_assert( !gvec_end( vec_int, GENA_TRUE, &riter2 ) );
 
-  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_INT_SET_LEN; ++i) {
     munit_assert( gvec_int_push( &vec_int, GENATEST_INT_SET[i] ) );
 
     munit_assert( gvec_begin( vec_int, GENA_FALSE, &iter1 ) );
@@ -537,7 +537,7 @@ MunitResult gvectests_4_iterate() {
     munit_assert( gena_iterator_compare( &iter1, i, &iter2, -i ) >= 0 );
     munit_assert( gena_iterator_compare( &riter1, i, &riter2, -i ) <= 0 );
 
-    for( k = 0; k < i; ++k ) {
+    for (k = 0; k < i; ++k) {
       munit_assert_int( gvec_int_value( &iter1, 0 ), ==, GENATEST_INT_SET[k] );
       munit_assert_int( gvec_int_value( &riter2, 0 ), ==, GENATEST_INT_SET[k] );
 
@@ -602,7 +602,7 @@ MunitResult gvectests_4_iterate() {
   munit_assert( !gvec_begin( vec_struct, GENA_TRUE, &riter1 ) );
   munit_assert( !gvec_end( vec_struct, GENA_TRUE, &riter2 ) );
 
-  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_INT_SET_LEN; ++i) {
     result = gvec_struct_push( &vec_struct,
       &GENATEST_C_SVALUE(GENATEST_INT_SET[i]) );
     munit_assert_true( result );
@@ -642,7 +642,7 @@ MunitResult gvectests_4_iterate() {
     munit_assert( gena_iterator_compare( &iter1, i, &iter2, -i ) >= 0 );
     munit_assert( gena_iterator_compare( &riter1, i, &riter2, -i ) <= 0 );
 
-    for( k = 0; k < i; ++k ) {
+    for (k = 0; k < i; ++k) {
       munit_assert_memory_equal( sizeof(int), gvec_struct_value( &iter1, 0 ),
         &GENATEST_C_SVALUE(GENATEST_INT_SET[k]) );
       munit_assert_memory_equal( sizeof(int), gvec_struct_value( &riter2, 0 ),
@@ -709,7 +709,7 @@ MunitResult gvectests_4_iterate() {
   munit_assert( !gvec_begin( vec_string, GENA_TRUE, &riter1 ) );
   munit_assert( !gvec_end( vec_string, GENA_TRUE, &riter2 ) );
 
-  for( i = 0; i < (int)GENATEST_STR_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_STR_SET_LEN; ++i) {
     result = gvec_string_push( &vec_string, GENATEST_STR_SET[i] );
     munit_assert_true( result );
 
@@ -748,7 +748,7 @@ MunitResult gvectests_4_iterate() {
     munit_assert( gena_iterator_compare( &iter1, i, &iter2, -i ) >= 0 );
     munit_assert( gena_iterator_compare( &riter1, i, &riter2, -i ) <= 0 );
 
-    for( k = 0; k < i; ++k ) {
+    for (k = 0; k < i; ++k) {
       munit_assert_string_equal( gvec_string_value( &iter1, 0 ),
         GENATEST_STR_SET[k] );
       munit_assert_string_equal( gvec_string_value( &riter2, 0 ),
@@ -815,7 +815,7 @@ MunitResult gvectests_4_iterate() {
   munit_assert( !gvec_begin( vec_array, GENA_TRUE, &riter1 ) );
   munit_assert( !gvec_end( vec_array, GENA_TRUE, &riter2 ) );
 
-  for( i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i) {
     result = gvec_array_push( &vec_array, GENATEST_BUF_SET[i] );
     munit_assert_true( result );
 
@@ -854,7 +854,7 @@ MunitResult gvectests_4_iterate() {
     munit_assert( gena_iterator_compare( &iter1, i, &iter2, -i ) >= 0 );
     munit_assert( gena_iterator_compare( &riter1, i, &riter2, -i ) <= 0 );
 
-    for( k = 0; k < i; ++k ) {
+    for (k = 0; k < i; ++k) {
       munit_assert_memory_equal( sizeof(genatest_buf_x),
         gvec_array_value( &iter1, 0 ), GENATEST_BUF_SET[k] );
       munit_assert_memory_equal( sizeof(genatest_buf_x),

@@ -167,14 +167,14 @@ guaranteed to be a valid zero-terminated C string. */
 #define ZGENA_BLOCK_REQUIRE_SEMICOLON(block) \
   do {block} while(0)
 
-#define ZGENA_REQUIRE_SEMICOLON_OUTDOOR \
+#define ZGENA_REQUIRE_SEMICOLON_OUTSIDE \
   extern void \
   ZGENA_MACRO_CONCAT( ZZ_GENA_THIS_REQUIRES_A_SEMICOLON_, __LINE__ ) \
   (void)
 
 /******************************************************************************/
 
-#define ZZ_GENA_DECLARATIONS_LIST_END ZGENA_REQUIRE_SEMICOLON_OUTDOOR
+#define ZZ_GENA_DECLARATIONS_LIST_END ZGENA_REQUIRE_SEMICOLON_OUTSIDE
 
 /******************************************************************************/
 

@@ -125,4 +125,4 @@ structures that use AVL-tree can be instantiated with the same name. */
     return GENA_TRUE; \
   }} \
 /********************************************************************/ \
-  ZGENA_REQUIRE_SEMICOLON_OUTDOOR
+  ZGENA_REQUIRE_SEMICOLON_OUTSIDE

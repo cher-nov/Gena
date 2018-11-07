@@ -66,7 +66,7 @@ MunitResult gtsettests_2_modify() {
   /********************************************************************/
   set_naive = gtset_naive_new();
 
-  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_INT_SET_LEN; ++i) {
     munit_assert( gtset_naive_add( set_naive, GENATEST_INT_SET[i], &exists ) );
     munit_assert_false( exists );
     munit_assert( gtset_naive_add( set_naive, GENATEST_INT_SET[i], &exists ) );
@@ -83,7 +83,7 @@ MunitResult gtsettests_2_modify() {
     munit_assert_int( key2_naive, >=, GENATEST_INT_SET[i] );
   }
 
-  for( i = (int)GENATEST_INT_SET_LEN; --i > 0; ) {
+  for (i = (int)GENATEST_INT_SET_LEN; --i > 0;) {
     munit_assert( gtset_naive_delete( set_naive, GENATEST_INT_SET[i] ) );
 
     munit_assert_size( gtset_count(set_naive), ==, i );
@@ -103,7 +103,7 @@ MunitResult gtsettests_2_modify() {
   /********************************************************************/
   set_memcmp = gtset_memcmp_new();
 
-  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_INT_SET_LEN; ++i) {
     genatest_skey_s safe_skey;
     genatest_set_skey_safe( &safe_skey, GENATEST_INT_SET[i] );
 
@@ -128,7 +128,7 @@ MunitResult gtsettests_2_modify() {
     munit_assert_int( compare, >=, 0 );
   }
 
-  for( i = (int)GENATEST_INT_SET_LEN; --i > 0; ) {
+  for (i = (int)GENATEST_INT_SET_LEN; --i > 0;) {
     genatest_skey_s safe_skey;
     genatest_set_skey_safe( &safe_skey, GENATEST_INT_SET[i] );
 
@@ -157,7 +157,7 @@ MunitResult gtsettests_2_modify() {
   /********************************************************************/
   set_callback = gtset_callback_new();
 
-  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_INT_SET_LEN; ++i) {
     munit_assert( gtset_callback_add( set_callback,
       &GENATEST_C_SKEY(GENATEST_INT_SET[i]), &exists ) );
     munit_assert_false( exists );
@@ -186,7 +186,7 @@ MunitResult gtsettests_2_modify() {
     munit_assert_int( compare, >=, 0 );
   }
 
-  for( i = (int)GENATEST_INT_SET_LEN; --i > 0; ) {
+  for (i = (int)GENATEST_INT_SET_LEN; --i > 0;) {
     munit_assert( gtset_callback_delete( set_callback,
       &GENATEST_C_SKEY(GENATEST_INT_SET[i]) ) );
 
@@ -214,7 +214,7 @@ MunitResult gtsettests_2_modify() {
   /********************************************************************/
   set_string = gtset_string_new();
 
-  for( i = 0; i < (int)GENATEST_STR_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_STR_SET_LEN; ++i) {
     munit_assert( gtset_string_add( set_string, GENATEST_STR_SET[i],
       &exists ) );
     munit_assert_false( exists );
@@ -238,7 +238,7 @@ MunitResult gtsettests_2_modify() {
     munit_assert_int( compare, >=, 0 );
   }
 
-  for( i = (int)GENATEST_STR_SET_LEN; --i > 0; ) {
+  for (i = (int)GENATEST_STR_SET_LEN; --i > 0;) {
     munit_assert( gtset_string_delete( set_string, GENATEST_STR_SET[i] ) );
 
     munit_assert_size( gtset_count(set_string), ==, i );
@@ -264,7 +264,7 @@ MunitResult gtsettests_2_modify() {
   /********************************************************************/
   set_array = gtset_array_new();
 
-  for( i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i) {
     munit_assert( gtset_array_add( set_array, GENATEST_BUF_SET[i], &exists ) );
     munit_assert_false( exists );
     munit_assert( gtset_array_add( set_array, GENATEST_BUF_SET[i], &exists ) );
@@ -286,7 +286,7 @@ MunitResult gtsettests_2_modify() {
     munit_assert_int( compare, >=, 0 );
   }
 
-  for( i = (int)GENATEST_BUF_SET_LEN; --i > 0; ) {
+  for (i = (int)GENATEST_BUF_SET_LEN; --i > 0;) {
     munit_assert( gtset_array_delete( set_array, GENATEST_BUF_SET[i] ) );
 
     munit_assert_size( gtset_count(set_array), ==, i );
@@ -330,24 +330,24 @@ MunitResult gtsettests_3_lookup() {
 
   munit_assert( !gtset_naive_check( set_naive, 0 ) );
 
-  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_INT_SET_LEN; ++i) {
     gtset_naive_add( set_naive, GENATEST_INT_SET[i], NULL );
-    for( k = 0; k < (int)GENATEST_INT_SET_LEN; ++k ) {
+    for (k = 0; k < (int)GENATEST_INT_SET_LEN; ++k) {
       exists = gtset_naive_check( set_naive, GENATEST_INT_SET[k] );
       munit_assert( exists == (k <= i) );
     }
   }
 
-  for( i = 0; i < (int)GENATEST_INT_SET_LEN; i += 2 ) {
+  for (i = 0; i < (int)GENATEST_INT_SET_LEN; i += 2) {
     gtset_naive_delete( set_naive, GENATEST_INT_SET[i] );
-    for( k = 0; k <= i; ++k ) {
+    for (k = 0; k <= i; ++k) {
       exists = gtset_naive_check( set_naive, GENATEST_INT_SET[k] );
       munit_assert( exists == (k % 2 != 0) );
     }
   }
 
   gtset_clear( set_naive );
-  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_INT_SET_LEN; ++i) {
     munit_assert( !gtset_naive_check( set_naive, GENATEST_INT_SET[i] ) );
   }
 
@@ -359,20 +359,20 @@ MunitResult gtsettests_3_lookup() {
   genatest_set_skey_safe( &safe_skey, 0 );
   munit_assert( !gtset_memcmp_check( set_memcmp, &safe_skey ) );
 
-  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_INT_SET_LEN; ++i) {
     genatest_set_skey_safe( &safe_skey, GENATEST_INT_SET[i] );
     gtset_memcmp_add( set_memcmp, &safe_skey, NULL );
-    for( k = 0; k < (int)GENATEST_INT_SET_LEN; ++k ) {
+    for (k = 0; k < (int)GENATEST_INT_SET_LEN; ++k) {
       genatest_set_skey_safe( &safe_skey, GENATEST_INT_SET[k] );
       exists = gtset_memcmp_check( set_naive, &safe_skey );
       munit_assert( exists == (k <= i) );
     }
   }
 
-  for( i = 0; i < (int)GENATEST_INT_SET_LEN; i += 2 ) {
+  for (i = 0; i < (int)GENATEST_INT_SET_LEN; i += 2) {
     genatest_set_skey_safe( &safe_skey, GENATEST_INT_SET[i] );
     gtset_memcmp_delete( set_memcmp, &safe_skey );
-    for( k = 0; k <= i; ++k ) {
+    for (k = 0; k <= i; ++k) {
       genatest_set_skey_safe( &safe_skey, GENATEST_INT_SET[k] );
       exists = gtset_memcmp_check( set_memcmp, &safe_skey );
       munit_assert( exists == (k % 2 != 0) );
@@ -380,7 +380,7 @@ MunitResult gtsettests_3_lookup() {
   }
 
   gtset_clear( set_memcmp );
-  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_INT_SET_LEN; ++i) {
     genatest_set_skey_safe( &safe_skey, GENATEST_INT_SET[i] );
     munit_assert( !gtset_memcmp_check( set_memcmp, &safe_skey ) );
   }
@@ -392,20 +392,20 @@ MunitResult gtsettests_3_lookup() {
 
   munit_assert( !gtset_callback_check( set_callback, &GENATEST_C_SKEY(0) ) );
 
-  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_INT_SET_LEN; ++i) {
     gtset_callback_add( set_callback, &GENATEST_C_SKEY(GENATEST_INT_SET[i]),
       NULL );
-    for( k = 0; k < (int)GENATEST_INT_SET_LEN; ++k ) {
+    for (k = 0; k < (int)GENATEST_INT_SET_LEN; ++k) {
       exists = gtset_callback_check( set_callback,
         &GENATEST_C_SKEY(GENATEST_INT_SET[k]) );
       munit_assert( exists == (k <= i) );
     }
   }
 
-  for( i = 0; i < (int)GENATEST_INT_SET_LEN; i += 2 ) {
+  for (i = 0; i < (int)GENATEST_INT_SET_LEN; i += 2) {
     gtset_callback_delete( set_callback,
       &GENATEST_C_SKEY(GENATEST_INT_SET[i]) );
-    for( k = 0; k <= i; ++k ) {
+    for (k = 0; k <= i; ++k) {
       exists = gtset_callback_check( set_callback,
         &GENATEST_C_SKEY(GENATEST_INT_SET[k]) );
       munit_assert( exists == (k % 2 != 0) );
@@ -413,7 +413,7 @@ MunitResult gtsettests_3_lookup() {
   }
 
   gtset_clear( set_callback );
-  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_INT_SET_LEN; ++i) {
     munit_assert( !gtset_callback_check( set_callback,
       &GENATEST_C_SKEY(GENATEST_INT_SET[i]) ) );
   }
@@ -425,24 +425,24 @@ MunitResult gtsettests_3_lookup() {
 
   munit_assert( !gtset_string_check( set_string, "a" ) );
 
-  for( i = 0; i < (int)GENATEST_STR_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_STR_SET_LEN; ++i) {
     gtset_string_add( set_string, GENATEST_STR_SET[i], NULL );
-    for( k = 0; k < (int)GENATEST_INT_SET_LEN; ++k ) {
+    for (k = 0; k < (int)GENATEST_INT_SET_LEN; ++k) {
       exists = gtset_string_check( set_string, GENATEST_STR_SET[k] );
       munit_assert( exists == (k <= i) );
     }
   }
 
-  for( i = 0; i < (int)GENATEST_STR_SET_LEN; i += 2 ) {
+  for (i = 0; i < (int)GENATEST_STR_SET_LEN; i += 2) {
     gtset_string_delete( set_string, GENATEST_STR_SET[i] );
-    for( k = 0; k <= i; ++k ) {
+    for (k = 0; k <= i; ++k) {
       exists = gtset_string_check( set_string, GENATEST_STR_SET[k] );
       munit_assert( exists == (k % 2 != 0) );
     }
   }
 
   gtset_clear( set_string );
-  for( i = 0; i < (int)GENATEST_STR_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_STR_SET_LEN; ++i) {
     munit_assert( !gtset_string_check( set_string, GENATEST_STR_SET[i] ) );
   }
 
@@ -453,24 +453,24 @@ MunitResult gtsettests_3_lookup() {
 
   munit_assert( !gtset_array_check( set_array, (genatest_buf_x){0,0,0,0} ) );
 
-  for( i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i) {
     gtset_array_add( set_array, GENATEST_BUF_SET[i], NULL );
-    for( k = 0; k < (int)GENATEST_INT_SET_LEN; ++k ) {
+    for (k = 0; k < (int)GENATEST_INT_SET_LEN; ++k) {
       exists = gtset_array_check( set_array, GENATEST_BUF_SET[k] );
       munit_assert( exists == (k <= i) );
     }
   }
 
-  for( i = 0; i < (int)GENATEST_BUF_SET_LEN; i += 2 ) {
+  for (i = 0; i < (int)GENATEST_BUF_SET_LEN; i += 2) {
     gtset_array_delete( set_array, GENATEST_BUF_SET[i] );
-    for( k = 0; k <= i; ++k ) {
+    for (k = 0; k <= i; ++k) {
       exists = gtset_array_check( set_array, GENATEST_BUF_SET[k] );
       munit_assert( exists == (k % 2 != 0) );
     }
   }
 
   gtset_clear( set_array );
-  for( i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i) {
     munit_assert( !gtset_array_check( set_array, GENATEST_BUF_SET[i] ) );
   }
 
@@ -497,7 +497,7 @@ MunitResult gtsettests_4_iterate() {
   munit_assert( !gtset_begin( set_naive, GENA_TRUE, &riter1 ) );
   munit_assert( !gtset_end( set_naive, GENA_TRUE, &riter2 ) );
 
-  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_INT_SET_LEN; ++i) {
     result = gtset_naive_add( set_naive, i + GENATEST_CUSTOM_INT_1, NULL );
     munit_assert_true( result );
 
@@ -532,7 +532,7 @@ MunitResult gtsettests_4_iterate() {
     munit_assert( gena_iterator_equal( &iter1, 0, &riter1, 0 ) != (i > 0) );
     munit_assert( gena_iterator_equal( &iter2, 0, &riter2, 0 ) != (i > 0) );
 
-    for( k = 0; k < i; ++k ) {
+    for (k = 0; k < i; ++k) {
       munit_assert_int( gtset_naive_value( &iter1, 0 ), ==,
         k + GENATEST_CUSTOM_INT_1 );
       munit_assert_int( gtset_naive_value( &riter1, -k ), ==,
@@ -590,7 +590,7 @@ MunitResult gtsettests_4_iterate() {
   munit_assert( !gtset_begin( set_struct, GENA_TRUE, &riter1 ) );
   munit_assert( !gtset_end( set_struct, GENA_TRUE, &riter2 ) );
 
-  for( i = 0; i < (int)GENATEST_INT_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_INT_SET_LEN; ++i) {
     result = gtset_callback_add( set_struct, &GENATEST_C_SKEY(i), NULL );
     munit_assert_true( result );
 
@@ -625,7 +625,7 @@ MunitResult gtsettests_4_iterate() {
     munit_assert( gena_iterator_equal( &iter1, 0, &riter1, 0 ) != (i > 0) );
     munit_assert( gena_iterator_equal( &iter2, 0, &riter2, 0 ) != (i > 0) );
 
-    for( k = 0; k < i; ++k ) {
+    for (k = 0; k < i; ++k) {
       compare = genatest_skey_compare_cb( gtset_callback_value( &iter1, 0 ),
         &GENATEST_C_SKEY(k), sizeof(genatest_skey_s) );
       munit_assert_int( compare, ==, 0 );
@@ -690,7 +690,7 @@ MunitResult gtsettests_4_iterate() {
   munit_assert( !gtset_begin( set_string, GENA_TRUE, &riter1 ) );
   munit_assert( !gtset_end( set_string, GENA_TRUE, &riter2 ) );
 
-  for( i = 0; i < (int)GENATEST_STR_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_STR_SET_LEN; ++i) {
     result = gtset_string_add( set_string, GENATEST_STR_SET[i], NULL );
     munit_assert_true( result );
 
@@ -725,7 +725,7 @@ MunitResult gtsettests_4_iterate() {
     munit_assert( gena_iterator_equal( &iter1, 0, &riter1, 0 ) != (i > 0) );
     munit_assert( gena_iterator_equal( &iter2, 0, &riter2, 0 ) != (i > 0) );
 
-    for( k = 0; k < i; ++k ) {
+    for (k = 0; k < i; ++k) {
       munit_assert_string_equal( gtset_string_value( &iter1, 0 ),
         GENATEST_STR_SET[k] );
       munit_assert_string_equal( gtset_string_value( &riter1, -k ),
@@ -783,7 +783,7 @@ MunitResult gtsettests_4_iterate() {
   munit_assert( !gtset_begin( set_array, GENA_TRUE, &riter1 ) );
   munit_assert( !gtset_end( set_array, GENA_TRUE, &riter2 ) );
 
-  for( i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i ) {
+  for (i = 0; i < (int)GENATEST_BUF_SET_LEN; ++i) {
     result = gtset_array_add( set_array, GENATEST_BUF_SET[i], NULL );
     munit_assert_true( result );
 
@@ -818,7 +818,7 @@ MunitResult gtsettests_4_iterate() {
     munit_assert( gena_iterator_equal( &iter1, 0, &riter1, 0 ) != (i > 0) );
     munit_assert( gena_iterator_equal( &iter2, 0, &riter2, 0 ) != (i > 0) );
 
-    for( k = 0; k < i; ++k ) {
+    for (k = 0; k < i; ++k) {
       munit_assert_memory_equal( sizeof(genatest_buf_x),
         gtset_array_value( &iter1, 0 ), GENATEST_BUF_SET[k] );
       munit_assert_memory_equal( sizeof(genatest_buf_x),

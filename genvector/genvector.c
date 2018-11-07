@@ -77,14 +77,14 @@ static GENA_INLINE size_t storage_calculate( size_t current_size,
 {
   size = (current_size > 0) ? current_size : 1;
 
-  #ifdef GVEC_CALCULATE_SIZE_MATH
+# ifdef GVEC_CALCULATE_SIZE_MATH
 
   size = (size_t)pow(
     GVEC_GROWTH_FACTOR,
     ceil( log( size+min_growth ) / log(GVEC_GROWTH_FACTOR) )
   );
 
-  #else
+# else
 
   while (size < current_size+min_growth) {
     /* GROWTH_FACTOR == 1.5: size = (size << 1) - (size >> 1);
@@ -92,7 +92,7 @@ static GENA_INLINE size_t storage_calculate( size_t current_size,
     size = (size_t)ceil( size * GVEC_GROWTH_FACTOR );
   }
 
-  #endif
+# endif
 
   return size;
 }}
@@ -199,14 +199,14 @@ gvec_h igvec_insert( gvec_h handle, size_t position, size_t count ) {
   old_count = header->count;
   new_count = old_count + count;
 
-  #ifndef GVEC_INSERT_NO_REALLOC
+# ifndef GVEC_INSERT_NO_REALLOC
 
   handle = igvec_reserve( handle, new_count );
   if (handle == NULL) { return NULL; }
   header = IGVEC_HEADER(handle);
   dest_gvec = handle;
 
-  #else
+# else
 
   /* This one doesn't use memory relocation and better for many insertions at
   arbitrary positions, in theory. */
@@ -219,7 +219,7 @@ gvec_h igvec_insert( gvec_h handle, size_t position, size_t count ) {
     dest_gvec = handle;
   }
 
-  #endif
+# endif
 
   memmove(
     ZGENA_VOIDPTR_ADD( dest_gvec, (position+count) * entry_size ),
