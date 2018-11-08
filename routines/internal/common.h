@@ -111,7 +111,8 @@
 
 #define ZZ_GENA_ASSIGN_STRING( ptr_destination, ptr_source, data_size ) ( \
   ((char*)(ptr_destination)) [ (data_size)-1 ] = '\0', \
-  strncpy( (char*)ptr_destination, (const char*)ptr_source, (data_size)-1 ) \
+  strncpy( (char*)(ptr_destination), (const char*)(ptr_source), \
+    (data_size)-1 ) \
 )
 
 /******************************************************************************/
@@ -129,7 +130,7 @@ because values may be unsigned. */
 /* NOTE: strncmp() is not needed here over strcmp() because ptr_entry_data is
 guaranteed to be a valid zero-terminated C string. */
 #define ZZ_GENA_COMPARE_STRING( ptr_entry_data, ptr_user_data, data_size ) \
-  ( strcmp( (const char*)ptr_entry_data, (const char*)ptr_user_data ) )
+  ( strcmp( (const char*)(ptr_entry_data), (const char*)(ptr_user_data) ) )
 
 /******************************************************************************/
 
