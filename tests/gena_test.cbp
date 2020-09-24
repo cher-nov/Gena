@@ -5,7 +5,7 @@
 		<Option title="gena_test" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="routines/;routines/internal/avl_tree/;routines/internal/;routines/iterator/;tests/;tests/gtmap_common/;tests/gtset_common/;tests/gvec_common/;gentreemap/;gentreeset/;genvector/;munit/;" />
+		<Option virtualFolders="routines/;routines/internal/avl_tree/;routines/internal/;routines/iterator/;tests/;tests/gtmap_common/;tests/gtset_common/;tests/gvec_common/;gentreemap/;gentreeset/;genvector/;munit/" />
 		<Build>
 			<Target title="Test Static (Release)">
 				<Option output="gena_test" prefix_auto="1" extension_auto="1" />
@@ -25,7 +25,7 @@
 					<Add option="-s" />
 					<Add option="-static-libstdc++" />
 					<Add option="-static-libgcc" />
-					<Add option="-static" />
+					<Add option="-pthread" />
 				</Linker>
 			</Target>
 			<Target title="Test Modular (Debug+gcov)">
@@ -41,6 +41,7 @@
 					<Add option="-DGENATEST_MODULAR_APPROACH" />
 				</Compiler>
 				<Linker>
+					<Add option="-pthread" />
 					<Add option="-fprofile-arcs" />
 					<Add option="-ftest-coverage" />
 				</Linker>
@@ -65,7 +66,6 @@
 					<Add option="-s" />
 					<Add option="-static-libstdc++" />
 					<Add option="-static-libgcc" />
-					<Add option="-static" />
 				</Linker>
 			</Target>
 			<Target title="Check C89 Modular (Debug)">
@@ -88,6 +88,9 @@
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
 		</Compiler>
+		<Linker>
+			<Add option="-static" />
+		</Linker>
 		<Unit filename="../gentreemap/gentreemap.c">
 			<Option compilerVar="CC" />
 			<Option virtualFolder="gentreemap/" />
@@ -262,10 +265,6 @@
 			<Option target="Test Static (Release)" />
 			<Option target="Test Modular (Debug+gcov)" />
 		</Unit>
-		<Extensions>
-			<code_completion />
-			<debugger />
-			<envvars />
-		</Extensions>
+		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
