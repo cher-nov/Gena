@@ -21,8 +21,8 @@ static void* iterator_data( void* handle, void* data, ptrdiff_t offset )
 {
   header = IGVEC_HEADER(handle);
 
-  data_location = ZGENA_VOIDPTR_ADD( data, offset * header->entry_size );
-  last_entry = ZGENA_VOIDPTR_ADD( handle,
+  data_location = ZGENA_VOID_POINTER( data, offset * header->entry_size );
+  last_entry = ZGENA_VOID_POINTER( handle,
     (header->count-1) * header->entry_size );
 
   if ( (data_location < handle) || (data_location > last_entry) ) {
@@ -56,7 +56,7 @@ static GENA_INLINE gena_bool init_iterator( gvec_h handle,
   OUT_object->internal.func_value = &iterator_entry;
   OUT_object->internal.func_compare = iterator_compare;
 
-  OUT_object->internal.data = ZGENA_VOIDPTR_ADD( handle,
+  OUT_object->internal.data = ZGENA_VOID_POINTER( handle,
     position * header->entry_size );
 
   OUT_object->handle = handle;
@@ -100,26 +100,26 @@ static GENA_INLINE size_t storage_calculate( size_t current_size,
 static igvec_header_p storage_prepare( gvec_h* phandle, size_t size,
   size_t entry_size )
 {
-  void* buffer;
+  void* block;
   igvec_header_p header;
 {
   assert( phandle != NULL );
   assert( size > 0 );
   assert( entry_size > 0 );
 
-  buffer = (*phandle == NULL) ? NULL : IGVEC_BUFFER(*phandle);
+  block = (*phandle == NULL) ? NULL : IGVEC_BLOCK(*phandle);
 
-  if (buffer != NULL) {
-    header = (igvec_header_p)buffer;
+  if (block != NULL) {
+    header = (igvec_header_p)block;
     if (size == header->size) { return header; }
   }
 
-  buffer = realloc( buffer, sizeof(igvec_header_s) + size * entry_size );
-  if (buffer == NULL) { return NULL; }
+  block = realloc( block, sizeof(igvec_header_s) + size * entry_size );
+  if (block == NULL) { return NULL; }
 
-  *phandle = ZGENA_VOIDPTR_ADD( buffer, sizeof(igvec_header_s) );
+  *phandle = ZGENA_VOID_POINTER( block, sizeof(igvec_header_s) );
 
-  header = (igvec_header_p)buffer;
+  header = (igvec_header_p)block;
   header->size = size;
   header->entry_size = entry_size;
 
@@ -222,8 +222,8 @@ gvec_h igvec_insert( gvec_h handle, size_t position, size_t count ) {
 # endif
 
   memmove(
-    ZGENA_VOIDPTR_ADD( dest_gvec, (position+count) * entry_size ),
-    ZGENA_VOIDPTR_ADD( handle, position * entry_size ),
+    ZGENA_VOID_POINTER( dest_gvec, (position+count) * entry_size ),
+    ZGENA_VOID_POINTER( handle, position * entry_size ),
     (old_count-position) * entry_size
   );
 
@@ -275,7 +275,7 @@ gvec_h gvec_copy( gvec_h handle ) {
 void gvec_free( gvec_h handle ) {
 {
   if (handle == NULL) { return; }
-  free( IGVEC_BUFFER(handle) );
+  free( IGVEC_BLOCK(handle) );
 }}
 
 /******************************************************************************/
@@ -310,8 +310,8 @@ gena_bool gvec_remove( gvec_h handle, size_t position, size_t count ) {
   tail_size = (header->count-(position+count)) * entry_size;
 
   memmove(
-    ZGENA_VOIDPTR_ADD( handle, position * entry_size ),
-    ZGENA_VOIDPTR_ADD( handle, (position+count) * entry_size ),
+    ZGENA_VOID_POINTER( handle, position * entry_size ),
+    ZGENA_VOID_POINTER( handle, (position+count) * entry_size ),
     tail_size
   );
 

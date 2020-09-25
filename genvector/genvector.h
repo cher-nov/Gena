@@ -75,7 +75,7 @@ extern gena_bool gvec_at( gvec_h handle, size_t position, gena_bool reversed,
 /******************************************************************************/
 
 /* Pseudo-templated functions to be specialized at type instantiation. */
-/* NOTE: Do not call this directly. Instead, use the instantiation macros. */
+/* NOTE: Do not invoke this directly. Instead, use the instantiation macros. */
 
 #define ZZ_GVEC_DECLARATIONS_LIST( Surname, TypeName, PassType, ReturnType ) \
 \

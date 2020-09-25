@@ -93,7 +93,7 @@ extern gena_bool gtmap_at( gtmap_h handle, size_t position, gena_bool reversed,
 /******************************************************************************/
 
 /* Pseudo-templated functions to be specialized at type instantiation. */
-/* NOTE: Do not call this directly. Instead, use the instantiation macros. */
+/* NOTE: Do not invoke this directly. Instead, use the instantiation macros. */
 
 #define ZZ_GTMAP_DECLARATIONS_LIST( Surname, KeyTypeName, ValueTypeName, \
   KeyPassType, KeyReturnType, ValuePassType, ValueReturnType ) \

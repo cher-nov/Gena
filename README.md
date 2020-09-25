@@ -45,7 +45,7 @@ typedef struct {
 
 #define C_PERSON(name, age) ( (person_s){ .Name=name, .Age=age } )
 
-GVEC_INSTANTIATE_EX( person_s, society, GENA_USE_VALUE, GENA_USE_POINTER, GENA_ASSIGN_NAIVE );
+GVEC_INSTANTIATE_EX( person_s, society, GENA_USE_SAMPLE, GENA_USE_ENTITY, GENA_ASSIGN_NAIVE );
 
 int main() {
   gvec_society_h family = gvec_society_new(0);
@@ -99,8 +99,8 @@ GVEC_INSTANTIATE( tpTypeInfo, tpSurname, tpUseBy );
 * *tpUseBy* – specifies how values should be passed to specialized functions and returned from them
 
 Possible values both for *tpUseBy* are:
-* `GENA_USE_VALUE` – pass/return by value
-* `GENA_USE_POINTER` – pass/return by pointer
+* `GENA_USE_SAMPLE` – pass/return by value
+* `GENA_USE_ENTITY` – pass/return by reference
 
 It is also a good practice to place library header inclusion and vector types instantiation in a separate header.
 
@@ -154,8 +154,8 @@ GENA_APPLY_TYPESET( GVEC_C_DEFINE, ZZ_GVEC_TYPESET_SOMETHING );
 
 Notation:
 * `NAME`: value of `tpSurname`
-* `PASSVAL`: `const tpTypeInfo` if `tpUseBy` is `GENA_USE_VALUE`, and `const tpTypeInfo*` otherwise
-* `RETVAL`: `tpTypeInfo` if `tpUseBy` is `GENA_USE_VALUE`, and `tpTypeInfo*` otherwise
+* `PASSVAL`: `const tpTypeInfo` if `tpUseBy` is `GENA_USE_SAMPLE`, and `const tpTypeInfo*` otherwise
+* `RETVAL`: `tpTypeInfo` if `tpUseBy` is `GENA_USE_SAMPLE`, and `tpTypeInfo*` otherwise
 
 ### Specialized functions to manage instantiated vector types
 
@@ -240,8 +240,8 @@ Drop the last element from a vector, and return it.
 * *handle* – a handle to a vector
 
 *Return value:*
-* `tpUseBy` is `GENA_USE_VALUE`: a value of the element (**undefined** if vector is empty)
-* `tpUseBy` is `GENA_USE_POINTER`: a pointer to the element, or `NULL` if vector is empty
+* `tpUseBy` is `GENA_USE_SAMPLE`: a value of the element (**undefined** if vector is empty)
+* `tpUseBy` is `GENA_USE_ENTITY`: a pointer to the element, or `NULL` if vector is empty
 
 ### General-purpose functions to manage any vector type
 

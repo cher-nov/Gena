@@ -11,94 +11,95 @@
 
 /* Operators. */
 
-#define ZZ_GENA_VAL__VALUE *
-#define ZZ_GENA_VAL__ADDRESS &
-#define ZZ_GENA_VAL__DATA
+#define ZZ_GENA_VAL__OBTAIN *
+#define ZZ_GENA_VAL__REFER &
+#define ZZ_GENA_VAL__ACCESS
 
-#define ZZ_GENA_PTR__VALUE
-#define ZZ_GENA_PTR__ADDRESS
-#define ZZ_GENA_PTR__DATA
+#define ZZ_GENA_REF__OBTAIN
+#define ZZ_GENA_REF__REFER
+#define ZZ_GENA_REF__ACCESS
 
-#define ZZ_GENA_BUF__VALUE *
-#define ZZ_GENA_BUF__ADDRESS
-#define ZZ_GENA_BUF__DATA *
+#define ZZ_GENA_PTR__OBTAIN *
+#define ZZ_GENA_PTR__REFER
+#define ZZ_GENA_PTR__ACCESS *
 
-#define ZZ_GENA_REF__VALUE *
-#define ZZ_GENA_REF__ADDRESS
-#define ZZ_GENA_REF__DATA *
+#define ZZ_GENA_ARR__OBTAIN *
+#define ZZ_GENA_ARR__REFER
+#define ZZ_GENA_ARR__ACCESS *
 
 /*
   Support for type info parameters in templates.
-    simple type: typename
-    buffer type: (typename, count)
+    plain type: entity_type
+    buffer type: (entity_type, entity_count)
+    array type: (array_type, entity_type)
 */
 
-#define ZGENA_ENTRY_TYPE( tpTypeInfo, tpUseBy ) \
-  tpUseBy ## ENTRY_TYPE( tpTypeInfo )
+#define ZGENA_DATA_TYPE( tpTypeInfo, tpUseBy ) \
+  tpUseBy ## DATA_TYPE( tpTypeInfo )
 
-  #define ZZ_GENA_VAL__ENTRY_TYPE( tpTypeInfo ) \
+  #define ZZ_GENA_VAL__DATA_TYPE( tpTypeInfo ) \
     tpTypeInfo
-  #define ZZ_GENA_PTR__ENTRY_TYPE( tpTypeInfo ) \
+  #define ZZ_GENA_REF__DATA_TYPE( tpTypeInfo ) \
     tpTypeInfo
-  #define ZZ_GENA_BUF__ENTRY_TYPE( tpTypeInfo ) \
+  #define ZZ_GENA_PTR__DATA_TYPE( tpTypeInfo ) \
     ZGENA_PAIR_1(tpTypeInfo)
-  #define ZZ_GENA_REF__ENTRY_TYPE( tpTypeInfo ) \
+  #define ZZ_GENA_ARR__DATA_TYPE( tpTypeInfo ) \
     ZGENA_PAIR_2(tpTypeInfo)
 
-#define ZGENA_ENTRY_SIZE( tpTypeInfo, tpUseBy ) \
-  tpUseBy ## ENTRY_SIZE( tpTypeInfo )
+#define ZGENA_DATA_SIZE( tpTypeInfo, tpUseBy ) \
+  tpUseBy ## DATA_SIZE( tpTypeInfo )
 
-  #define ZZ_GENA_VAL__ENTRY_SIZE( tpTypeInfo ) \
+  #define ZZ_GENA_VAL__DATA_SIZE( tpTypeInfo ) \
     ( sizeof(tpTypeInfo) )
-  #define ZZ_GENA_PTR__ENTRY_SIZE( tpTypeInfo ) \
+  #define ZZ_GENA_REF__DATA_SIZE( tpTypeInfo ) \
     ( sizeof(tpTypeInfo) )
-  #define ZZ_GENA_BUF__ENTRY_SIZE( tpTypeInfo ) \
+  #define ZZ_GENA_PTR__DATA_SIZE( tpTypeInfo ) \
     ( sizeof(ZGENA_PAIR_1(tpTypeInfo)) * (ZGENA_PAIR_2(tpTypeInfo)) )
-  #define ZZ_GENA_REF__ENTRY_SIZE( tpTypeInfo ) \
+  #define ZZ_GENA_ARR__DATA_SIZE( tpTypeInfo ) \
     ( sizeof(ZGENA_PAIR_1(tpTypeInfo)) )
 
-#define ZGENA_ENTRY_VALUE( tpTypeInfo, tpUseBy ) \
-  ZGENA_ENTRY_TYPE(tpTypeInfo, tpUseBy) tpUseBy##ENTRY_VALUE
+#define ZGENA_DATA_NAKED( tpTypeInfo, tpUseBy ) \
+  ZGENA_DATA_TYPE(tpTypeInfo, tpUseBy) tpUseBy ## DATA_NAKED
 
-  #define ZZ_GENA_VAL__ENTRY_VALUE
-  #define ZZ_GENA_PTR__ENTRY_VALUE *
-  #define ZZ_GENA_BUF__ENTRY_VALUE *
-  #define ZZ_GENA_REF__ENTRY_VALUE *
+  #define ZZ_GENA_VAL__DATA_NAKED
+  #define ZZ_GENA_REF__DATA_NAKED *
+  #define ZZ_GENA_PTR__DATA_NAKED *
+  #define ZZ_GENA_ARR__DATA_NAKED *
 
-#define ZGENA_ENTRY_DATA( tpTypeInfo, tpUseBy, tpPointer ) \
-  ( ( tpUseBy ## ENTRY_DATA(tpTypeInfo) ) (tpPointer) )
+#define ZGENA_DATA_CAST( tpTypeInfo, tpUseBy, tpAddress ) \
+  ( ( tpUseBy ## DATA_CAST(tpTypeInfo) ) (tpAddress) )
 
-  #define ZZ_GENA_VAL__ENTRY_DATA( tpTypeInfo ) \
+  #define ZZ_GENA_VAL__DATA_CAST( tpTypeInfo ) \
     tpTypeInfo*
-  #define ZZ_GENA_PTR__ENTRY_DATA( tpTypeInfo ) \
+  #define ZZ_GENA_REF__DATA_CAST( tpTypeInfo ) \
     tpTypeInfo*
-  #define ZZ_GENA_BUF__ENTRY_DATA( tpTypeInfo ) \
+  #define ZZ_GENA_PTR__DATA_CAST( tpTypeInfo ) \
     ZGENA_PAIR_1(tpTypeInfo) (*) [ ZGENA_PAIR_2(tpTypeInfo) ]
-  #define ZZ_GENA_REF__ENTRY_DATA( tpTypeInfo ) \
+  #define ZZ_GENA_ARR__DATA_CAST( tpTypeInfo ) \
     ZGENA_PAIR_1(tpTypeInfo) *
 
-#define ZGENA_ENTRY_ENTITY( tpTypeInfo, tpUseBy, tpName ) \
-  tpUseBy ## ENTRY_ENTITY( tpTypeInfo, tpName )
+#define ZGENA_DATA_BIND( tpTypeInfo, tpUseBy, tpName ) \
+  tpUseBy ## DATA_BIND( tpTypeInfo, tpName )
 
-  #define ZZ_GENA_VAL__ENTRY_ENTITY( tpTypeInfo, tpName ) \
+  #define ZZ_GENA_VAL__DATA_BIND( tpTypeInfo, tpName ) \
     tpTypeInfo tpName
-  #define ZZ_GENA_PTR__ENTRY_ENTITY( tpTypeInfo, tpName ) \
+  #define ZZ_GENA_REF__DATA_BIND( tpTypeInfo, tpName ) \
     tpTypeInfo tpName
-  #define ZZ_GENA_BUF__ENTRY_ENTITY( tpTypeInfo, tpName ) \
+  #define ZZ_GENA_PTR__DATA_BIND( tpTypeInfo, tpName ) \
     ZGENA_PAIR_1(tpTypeInfo) (tpName) [ ZGENA_PAIR_2(tpTypeInfo) ]
-  #define ZZ_GENA_REF__ENTRY_ENTITY( tpTypeInfo, tpName ) \
+  #define ZZ_GENA_ARR__DATA_BIND( tpTypeInfo, tpName ) \
     ZGENA_PAIR_1(tpTypeInfo) tpName
 
-#define ZGENA_ENTRY_ASSERT( tpUseBy, tpExpression ) \
-  tpUseBy ## ENTRY_ASSERT( tpUseBy, tpExpression )
+#define ZGENA_DATA_VERIFY( tpUseBy, tpAddress ) \
+  tpUseBy ## DATA_VERIFY( tpUseBy, tpAddress )
 
-  #define ZZ_GENA_VAL__ENTRY_ASSERT( tpTypeInfo, tpExpression ) \
-    assert( tpExpression )
-  #define ZZ_GENA_PTR__ENTRY_ASSERT( tpTypeInfo, tpExpression ) \
+  #define ZZ_GENA_VAL__DATA_VERIFY( tpTypeInfo, tpAddress ) \
+    assert( tpAddress != NULL )
+  #define ZZ_GENA_REF__DATA_VERIFY( tpTypeInfo, tpAddress ) \
     ZGENA_STATEMENT_REQUIRE_SEMICOLON
-  #define ZZ_GENA_BUF__ENTRY_ASSERT( tpTypeInfo, tpExpression ) \
+  #define ZZ_GENA_PTR__DATA_VERIFY( tpTypeInfo, tpAddress ) \
     ZGENA_STATEMENT_REQUIRE_SEMICOLON
-  #define ZZ_GENA_REF__ENTRY_ASSERT( tpTypeInfo, tpExpression ) \
+  #define ZZ_GENA_ARR__DATA_VERIFY( tpTypeInfo, tpAddress ) \
     ZGENA_STATEMENT_REQUIRE_SEMICOLON
 
 /******************************************************************************/
@@ -152,25 +153,24 @@ guaranteed to be a valid zero-terminated C string. */
 
 /******************************************************************************/
 
-#define ZZ_ZGENA_MACRO_CONCAT(x, y) x##y
-#define ZGENA_MACRO_CONCAT(x, y) ZZ_ZGENA_MACRO_CONCAT(x, y)
+#define ZZ_ZGENA_MACRO_JOIN(x, y) x##y
+#define ZGENA_MACRO_JOIN(x, y) ZZ_ZGENA_MACRO_JOIN(x, y)
 
 /******************************************************************************/
 
-#define ZGENA_VOIDPTR_ADD(x, a) ( (void*)( (char*)(x) + (a) ) )
-#define ZGENA_VOIDPTR_SUB(x, a) ( (void*)( (char*)(x) - (a) ) )
+#define ZGENA_VOID_POINTER(x, a) ( (void*)( (char*)(x) + (a) ) )
 
 /******************************************************************************/
 
 #define ZGENA_STATEMENT_REQUIRE_SEMICOLON \
   ((void)0)
 
-#define ZGENA_BLOCK_REQUIRE_SEMICOLON(block) \
-  do {block} while(0)
+#define ZGENA_SCOPE_REQUIRE_SEMICOLON(scope) \
+  do {scope} while(0)
 
 #define ZGENA_REQUIRE_SEMICOLON_OUTSIDE \
   extern void \
-  ZGENA_MACRO_CONCAT( ZZ_GENA_THIS_REQUIRES_A_SEMICOLON_, __LINE__ ) \
+  ZGENA_MACRO_JOIN( ZZ_GENA_THIS_REQUIRES_A_SEMICOLON_, __LINE__ ) \
   (void)
 
 /******************************************************************************/

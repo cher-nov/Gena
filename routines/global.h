@@ -11,10 +11,10 @@
 
 /* Instantiation modes. */
 
-#define GENA_USE_VALUE ZZ_GENA_VAL__    /* simple type, by value */
-#define GENA_USE_POINTER ZZ_GENA_PTR__  /* simple type, by pointer */
-#define GENA_USE_BUFFER ZZ_GENA_BUF__   /* buffer type (array or string) */
-#define GENA_USE_ARRAY ZZ_GENA_REF__    /* reference-access type (array) */
+#define GENA_USE_SAMPLE ZZ_GENA_VAL__  /* plain type, by value */
+#define GENA_USE_ENTITY ZZ_GENA_REF__  /* plain type, by reference */
+#define GENA_USE_BUFFER ZZ_GENA_PTR__  /* buffer type (string or array) */
+#define GENA_USE_ARRAY ZZ_GENA_ARR__   /* index-access type (array) */
 
 /******************************************************************************/
 

@@ -47,9 +47,9 @@
   ZZ_GTSET_DEFINE_TYPE( tpSurname ); \
   ZZ_GTSET_DECLARATIONS_LIST( \
     tpSurname, \
-    ZGENA_ENTRY_TYPE(tpTypeInfo, tpPassBy), \
-    ZGENA_ENTRY_VALUE(tpTypeInfo, tpPassBy), \
-    ZGENA_ENTRY_VALUE(tpTypeInfo, tpReturnBy) \
+    ZGENA_DATA_TYPE(tpTypeInfo, tpPassBy), \
+    ZGENA_DATA_NAKED(tpTypeInfo, tpPassBy), \
+    ZGENA_DATA_NAKED(tpTypeInfo, tpReturnBy) \
   ); \
   ZGENA_REQUIRE_SEMICOLON_OUTSIDE
 
@@ -71,7 +71,7 @@
   ) { \
   { \
     return igtset_new( \
-      ZGENA_ENTRY_SIZE(tpTypeInfo, tpPassBy), \
+      ZGENA_DATA_SIZE(tpTypeInfo, tpPassBy), \
       gtset_##tpSurname##_tag \
     ); \
   }} \
@@ -80,7 +80,7 @@
   gena_bool \
   gtset_##tpSurname##_add( \
     gtset_##tpSurname##_h handle, \
-    const ZGENA_ENTRY_VALUE(tpTypeInfo, tpPassBy) value, \
+    const ZGENA_DATA_NAKED(tpTypeInfo, tpPassBy) value, \
     gena_bool* OUT_key_exists \
   ) { \
     igena_avl_node_p new_node; \
@@ -99,7 +99,7 @@
   gena_bool \
   gtset_##tpSurname##_delete( \
     gtset_##tpSurname##_h handle, \
-    const ZGENA_ENTRY_VALUE(tpTypeInfo, tpPassBy) value \
+    const ZGENA_DATA_NAKED(tpTypeInfo, tpPassBy) value \
   ) { \
     gena_bool node_deleted; \
   { \
@@ -115,7 +115,7 @@
   gena_bool \
   gtset_##tpSurname##_check( \
     gtset_##tpSurname##_h handle, \
-    const ZGENA_ENTRY_VALUE(tpTypeInfo, tpPassBy) value \
+    const ZGENA_DATA_NAKED(tpTypeInfo, tpPassBy) value \
   ) { \
     igena_avl_bias scan_bias; \
   { \
@@ -126,11 +126,11 @@
   }} \
 /********************************************************************/ \
   tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
-  ZGENA_ENTRY_VALUE(tpTypeInfo, tpReturnBy) \
+  ZGENA_DATA_NAKED(tpTypeInfo, tpReturnBy) \
   gtset_##tpSurname##_first( \
     gtset_##tpSurname##_h handle \
   ) { \
-    ZGENA_ENTRY_ENTITY( tpTypeInfo, tpPassBy, *entry ) = NULL; \
+    ZGENA_DATA_BIND( tpTypeInfo, tpPassBy, *entry ) = NULL; \
   { \
     assert( handle != NULL ); \
 \
@@ -138,16 +138,16 @@
       entry = IGENA_AVL_NODE_KEY( handle->tree_leftmost ); \
     } \
 \
-    ZGENA_ENTRY_ASSERT( tpReturnBy, entry != NULL ); \
-    return tpReturnBy##VALUE entry; \
+    ZGENA_DATA_VERIFY( tpReturnBy, entry ); \
+    return tpReturnBy##OBTAIN entry; \
   }} \
 /********************************************************************/ \
   tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
-  ZGENA_ENTRY_VALUE(tpTypeInfo, tpReturnBy) \
+  ZGENA_DATA_NAKED(tpTypeInfo, tpReturnBy) \
   gtset_##tpSurname##_last( \
     gtset_##tpSurname##_h handle \
   ) { \
-    ZGENA_ENTRY_ENTITY( tpTypeInfo, tpPassBy, *entry ) = NULL; \
+    ZGENA_DATA_BIND( tpTypeInfo, tpPassBy, *entry ) = NULL; \
   { \
     assert( handle != NULL ); \
 \
@@ -155,22 +155,22 @@
       entry = IGENA_AVL_NODE_KEY( handle->tree_rightmost ); \
     } \
 \
-    ZGENA_ENTRY_ASSERT( tpReturnBy, entry != NULL ); \
-    return tpReturnBy##VALUE entry; \
+    ZGENA_DATA_VERIFY( tpReturnBy, entry ); \
+    return tpReturnBy##OBTAIN entry; \
   }} \
 /********************************************************************/ \
   tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
-  ZGENA_ENTRY_VALUE(tpTypeInfo, tpReturnBy) \
+  ZGENA_DATA_NAKED(tpTypeInfo, tpReturnBy) \
   gtset_##tpSurname##_value( \
     gena_iterator_p object, \
     ptrdiff_t offset \
   ) { \
-    ZGENA_ENTRY_ENTITY( tpTypeInfo, tpPassBy, *value ); \
+    ZGENA_DATA_BIND( tpTypeInfo, tpPassBy, *value ); \
   { \
     assert( object != NULL ); \
     value = igena_iterator_entry( object, offset, NULL ); \
-    ZGENA_ENTRY_ASSERT( tpReturnBy, value != NULL ); \
-    return tpReturnBy##VALUE value; \
+    ZGENA_DATA_VERIFY( tpReturnBy, value ); \
+    return tpReturnBy##OBTAIN value; \
   }} \
 /********************************************************************/ \
   ZGENA_REQUIRE_SEMICOLON_OUTSIDE

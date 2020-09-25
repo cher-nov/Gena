@@ -3,7 +3,7 @@
 */
 
 #define ZZ_GVEC_DEFINE_TYPE( tpTypeInfo, tpUseBy, tpSurname ) \
-  typedef ZGENA_ENTRY_ENTITY( tpTypeInfo, tpUseBy, *gvec_##tpSurname##_h )
+  typedef ZGENA_DATA_BIND( tpTypeInfo, tpUseBy, *gvec_##tpSurname##_h )
 
 /* Static approach. */
 
@@ -46,9 +46,9 @@
   ZZ_GVEC_DEFINE_TYPE( tpTypeInfo, tpPassBy, tpSurname ); \
   ZZ_GVEC_DECLARATIONS_LIST( \
     tpSurname, \
-    ZGENA_ENTRY_TYPE(tpTypeInfo, tpReturnBy), \
-    ZGENA_ENTRY_VALUE(tpTypeInfo, tpPassBy), \
-    ZGENA_ENTRY_VALUE(tpTypeInfo, tpReturnBy) \
+    ZGENA_DATA_TYPE(tpTypeInfo, tpReturnBy), \
+    ZGENA_DATA_NAKED(tpTypeInfo, tpPassBy), \
+    ZGENA_DATA_NAKED(tpTypeInfo, tpReturnBy) \
   ); \
   ZGENA_REQUIRE_SEMICOLON_OUTSIDE
 
@@ -69,7 +69,7 @@
   { \
     return igvec_new( \
       min_count, \
-      ZGENA_ENTRY_SIZE(tpTypeInfo, tpPassBy), \
+      ZGENA_DATA_SIZE(tpTypeInfo, tpPassBy), \
       gvec_##tpSurname##_tag \
     ); \
   }} \
@@ -79,7 +79,7 @@
   gvec_##tpSurname##_reset( \
     gvec_##tpSurname##_h* phandle, \
     size_t count, \
-    const ZGENA_ENTRY_VALUE(tpTypeInfo, tpPassBy) value \
+    const ZGENA_DATA_NAKED(tpTypeInfo, tpPassBy) value \
   ) { \
     gvec_##tpSurname##_h new_handle; \
     size_t i; \
@@ -89,9 +89,9 @@
     if (new_handle == NULL) { return GENA_FALSE; } \
     for (i = 0; i < count; ++i) { \
       tpAssignBy ( \
-        tpPassBy##DATA (new_handle + i), \
-        tpPassBy##ADDRESS value, \
-        ZGENA_ENTRY_SIZE(tpTypeInfo, tpPassBy) \
+        tpPassBy##ACCESS (new_handle + i), \
+        tpPassBy##REFER value, \
+        ZGENA_DATA_SIZE(tpTypeInfo, tpPassBy) \
       ); \
     } \
     *phandle = new_handle; \
@@ -103,7 +103,7 @@
   gvec_##tpSurname##_resize( \
     gvec_##tpSurname##_h* phandle, \
     size_t new_count, \
-    const ZGENA_ENTRY_VALUE(tpTypeInfo, tpPassBy) value \
+    const ZGENA_DATA_NAKED(tpTypeInfo, tpPassBy) value \
   ) { \
     gvec_##tpSurname##_h new_handle; \
     size_t i; \
@@ -114,9 +114,9 @@
     if (new_handle == NULL) { return GENA_FALSE; } \
     for (; i < new_count; ++i) { \
       tpAssignBy ( \
-        tpPassBy##DATA (new_handle + i), \
-        tpPassBy##ADDRESS value, \
-        ZGENA_ENTRY_SIZE(tpTypeInfo, tpPassBy) \
+        tpPassBy##ACCESS (new_handle + i), \
+        tpPassBy##REFER value, \
+        ZGENA_DATA_SIZE(tpTypeInfo, tpPassBy) \
       ); \
     } \
     *phandle = new_handle; \
@@ -158,7 +158,7 @@
     gvec_##tpSurname##_h* phandle, \
     size_t position, \
     size_t count, \
-    const ZGENA_ENTRY_VALUE(tpTypeInfo, tpPassBy) value \
+    const ZGENA_DATA_NAKED(tpTypeInfo, tpPassBy) value \
   ) { \
     gvec_##tpSurname##_h new_handle; \
     size_t i; \
@@ -168,9 +168,9 @@
     if (new_handle == NULL) { return GENA_FALSE; } \
     for (i = 0; i < count; ++i) { \
       tpAssignBy ( \
-        tpPassBy##DATA (new_handle + position + i), \
-        tpPassBy##ADDRESS value, \
-        ZGENA_ENTRY_SIZE(tpTypeInfo, tpPassBy) \
+        tpPassBy##ACCESS (new_handle + position + i), \
+        tpPassBy##REFER value, \
+        ZGENA_DATA_SIZE(tpTypeInfo, tpPassBy) \
       ); \
     } \
     *phandle = new_handle; \
@@ -181,7 +181,7 @@
   gena_bool \
   gvec_##tpSurname##_push( \
     gvec_##tpSurname##_h* phandle, \
-    const ZGENA_ENTRY_VALUE(tpTypeInfo, tpPassBy) value \
+    const ZGENA_DATA_NAKED(tpTypeInfo, tpPassBy) value \
   ) { \
     gvec_##tpSurname##_h new_handle; \
     size_t count; \
@@ -191,61 +191,61 @@
     new_handle = igvec_resize( *phandle, count+1 ); \
     if (new_handle == NULL) { return GENA_FALSE; } \
     tpAssignBy ( \
-      tpPassBy##DATA (new_handle + count), \
-      tpPassBy##ADDRESS value, \
-      ZGENA_ENTRY_SIZE(tpTypeInfo, tpPassBy) \
+      tpPassBy##ACCESS (new_handle + count), \
+      tpPassBy##REFER value, \
+      ZGENA_DATA_SIZE(tpTypeInfo, tpPassBy) \
     ); \
     *phandle = new_handle; \
     return GENA_TRUE; \
   }} \
 /********************************************************************/ \
   tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
-  ZGENA_ENTRY_VALUE(tpTypeInfo, tpReturnBy) \
+  ZGENA_DATA_NAKED(tpTypeInfo, tpReturnBy) \
   gvec_##tpSurname##_pop( \
     gvec_##tpSurname##_h handle \
   ) { \
     igvec_header_p header; \
-    ZGENA_ENTRY_ENTITY( tpTypeInfo, tpPassBy, *entry ) = NULL; \
+    ZGENA_DATA_BIND( tpTypeInfo, tpPassBy, *entry ) = NULL; \
   { \
     assert( handle != NULL ); \
     header = IGVEC_HEADER(handle); \
-    ZGENA_ENTRY_ASSERT( tpReturnBy, header->count > 0 ); \
     if (header->count > 0) { entry = &handle[ --(header->count) ]; } \
-    return tpReturnBy##VALUE entry; \
+    ZGENA_DATA_VERIFY( tpReturnBy, entry ); \
+    return tpReturnBy##OBTAIN entry; \
   }} \
 /********************************************************************/ \
   tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
-  ZGENA_ENTRY_VALUE(tpTypeInfo, tpReturnBy) \
+  ZGENA_DATA_NAKED(tpTypeInfo, tpReturnBy) \
   gvec_##tpSurname##_value( \
     gena_iterator_p object, \
     ptrdiff_t offset \
   ) { \
-    ZGENA_ENTRY_ENTITY( tpTypeInfo, tpPassBy, *entry ); \
+    ZGENA_DATA_BIND( tpTypeInfo, tpPassBy, *entry ); \
   { \
     assert( object != NULL ); \
     entry = igena_iterator_entry( object, offset, NULL ); \
-    ZGENA_ENTRY_ASSERT( tpReturnBy, entry != NULL ); \
-    return tpReturnBy##VALUE entry; \
+    ZGENA_DATA_VERIFY( tpReturnBy, entry ); \
+    return tpReturnBy##OBTAIN entry; \
   }} \
 /********************************************************************/ \
   tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
-  ZGENA_ENTRY_TYPE(tpTypeInfo, tpReturnBy) * \
+  ZGENA_DATA_TYPE(tpTypeInfo, tpReturnBy) * \
   gvec_##tpSurname##_emplace( \
     gena_iterator_p object, \
     ptrdiff_t offset, \
-    const ZGENA_ENTRY_VALUE(tpTypeInfo, tpPassBy) value \
+    const ZGENA_DATA_NAKED(tpTypeInfo, tpPassBy) value \
   ) { \
-    ZGENA_ENTRY_ENTITY( tpTypeInfo, tpPassBy, *entry ); \
+    ZGENA_DATA_BIND( tpTypeInfo, tpPassBy, *entry ); \
   { \
     assert( object != NULL ); \
     entry = igena_iterator_entry( object, offset, NULL ); \
     if (entry == NULL) { return NULL; } \
     tpAssignBy ( \
-      tpPassBy##DATA entry, \
-      tpPassBy##ADDRESS value, \
-      ZGENA_ENTRY_SIZE(tpTypeInfo, tpPassBy) \
+      tpPassBy##ACCESS entry, \
+      tpPassBy##REFER value, \
+      ZGENA_DATA_SIZE(tpTypeInfo, tpPassBy) \
     ); \
-    return tpReturnBy##DATA entry; \
+    return tpReturnBy##ACCESS entry; \
   }} \
 /********************************************************************/ \
   ZGENA_REQUIRE_SEMICOLON_OUTSIDE

@@ -27,10 +27,10 @@ typedef struct zz_igena_avl_node_s {
   ( *(&(node)->parent + (link_bias)) )
 
 #define IGENA_AVL_NODE_KEY(node) \
-  ZGENA_VOIDPTR_ADD( node, sizeof(igena_avl_node_s) )
+  ZGENA_VOID_POINTER( node, sizeof(igena_avl_node_s) )
 
 #define IGENA_AVL_NODE_VALUE(node, key_size) \
-  ZGENA_VOIDPTR_ADD( node, sizeof(igena_avl_node_s) + (key_size) )
+  ZGENA_VOID_POINTER( node, sizeof(igena_avl_node_s) + (key_size) )
 
 /******************************************************************************/
 

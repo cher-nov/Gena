@@ -11,11 +11,11 @@ typedef struct {
 
 /******************************************************************************/
 
-#define IGVEC_BUFFER(handle) \
-  ZGENA_VOIDPTR_SUB( handle, sizeof(igvec_header_s) )
+#define IGVEC_BLOCK(handle) \
+  ZGENA_VOID_POINTER( handle, -sizeof(igvec_header_s) )
 
 #define IGVEC_HEADER(handle) \
-  ( (igvec_header_p) IGVEC_BUFFER(handle) )
+  ( (igvec_header_p) IGVEC_BLOCK(handle) )
 
 /******************************************************************************/
 
