@@ -57,10 +57,12 @@ MunitResult gtmaptests_2_modify() {
   gtmap_string_h map_string;
   gtmap_array_h map_array;
   int *ptr_int, key1_naive, key2_naive;
-  genatest_skey_p key1_skey, key2_skey;
+  const genatest_skey_s *key1_skey, *key2_skey;
   genatest_svalue_p ptr_svalue;
-  char *ptr_str, *key1_str, *key2_str;
-  int *ptr_array, *key1_array, *key2_array;
+  const char *key1_str, *key2_str;
+  char* ptr_str;
+  const int *key1_array, *key2_array;
+  int* ptr_array;
   int i, compare;
 {
   /********************************************************************/
@@ -679,11 +681,11 @@ MunitResult gtmaptests_4_iterate() {
   gena_iterator_o iter1, iter2, iter3, riter1, riter2, riter3;
   int key_naive;
   int* ptr_naive;
-  genatest_skey_p key_struct;
+  const genatest_skey_s* key_struct;
   genatest_svalue_p ptr_struct;
-  char* key_string;
+  const char* key_string;
   char* ptr_string;
-  int* key_array;
+  const int* key_array;
   int* ptr_array;
   gena_bool result;
   int i, k, compare;

@@ -13,7 +13,7 @@ structures that use AVL-tree can be instantiated with the same name. */
   igena_avl_bias \
   i##tpPrefix##_avl_subtree_##tpSurname##_scan( \
     igena_avl_node_p root, \
-    const ZGENA_DATA_NAKED(tpKeyTypeInfo, tpKeyPassBy) key, \
+    ZGENA_DATA_FIXED(tpKeyTypeInfo, tpKeyPassBy) const key, \
     igena_avl_node_p* OUT_final_node \
   ) { \
     igena_avl_node_p final_node = NULL; \
@@ -44,7 +44,7 @@ structures that use AVL-tree can be instantiated with the same name. */
   igena_avl_node_p \
   i##tpPrefix##_avl_subtree_##tpSurname##_add( \
     igena_avl_node_p* proot, \
-    const ZGENA_DATA_NAKED(tpKeyTypeInfo, tpKeyPassBy) key, \
+    ZGENA_DATA_FIXED(tpKeyTypeInfo, tpKeyPassBy) const key, \
     gena_bool* OUT_key_exists, \
     igena_avl_node_p* OUT_leftmost, \
     igena_avl_node_p* OUT_rightmost \
@@ -90,7 +90,7 @@ structures that use AVL-tree can be instantiated with the same name. */
   gena_bool \
   i##tpPrefix##_avl_subtree_##tpSurname##_delete( \
     igena_avl_node_p* proot, \
-    const ZGENA_DATA_NAKED(tpKeyTypeInfo, tpKeyPassBy) key, \
+    ZGENA_DATA_FIXED(tpKeyTypeInfo, tpKeyPassBy) const key, \
     igena_avl_node_p* OUT_leftmost, \
     igena_avl_node_p* OUT_rightmost \
   ) { \

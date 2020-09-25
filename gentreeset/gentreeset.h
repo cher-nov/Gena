@@ -90,13 +90,13 @@ extern const gena_tag_z gtset_##tpSurname##_tag; \
 extern gtset_##Surname##_h gtset_##Surname##_new(void); \
 \
 extern gena_bool gtset_##Surname##_add( gtset_##Surname##_h handle, \
-  const PassType value, gena_bool* OUT_key_exists ); \
+  PassType const value, gena_bool* OUT_key_exists ); \
 \
 extern gena_bool gtset_##Surname##_delete( gtset_##Surname##_h handle, \
-  const PassType value ); \
+  PassType const value ); \
 \
 extern gena_bool gtset_##Surname##_check( gtset_##Surname##_h handle, \
-  const PassType value ); \
+  PassType const value ); \
 \
 extern ReturnType gtset_##Surname##_first( gtset_##Surname##_h handle ); \
 \

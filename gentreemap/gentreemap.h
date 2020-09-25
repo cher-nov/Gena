@@ -103,16 +103,16 @@ extern const gena_tag_z gtmap_##tpSurname##_tag; \
 extern gtmap_##Surname##_h gtmap_##Surname##_new(void); \
 \
 extern ValueTypeName* gtmap_##Surname##_add( gtmap_##Surname##_h handle, \
-  const KeyPassType key, const ValuePassType value ); \
+  KeyPassType const key, ValuePassType const value ); \
 \
 extern ValueTypeName* gtmap_##Surname##_put( gtmap_##Surname##_h handle, \
-  const KeyPassType key, const ValuePassType value ); \
+  KeyPassType const key, ValuePassType const value ); \
 \
 extern gena_bool gtmap_##Surname##_delete( gtmap_##Surname##_h handle, \
-  const KeyPassType key ); \
+  KeyPassType const key ); \
 \
 extern ValueTypeName* gtmap_##Surname##_find( gtmap_##Surname##_h handle, \
-  const KeyPassType key ); \
+  KeyPassType const key ); \
 \
 extern ValueReturnType gtmap_##Surname##_first( gtmap_##Surname##_h handle, \
   KeyReturnType* OUT_key ); \
@@ -130,7 +130,7 @@ extern ValueReturnType gtmap_##Surname##_entry( gena_iterator_p object, \
   ptrdiff_t offset, KeyReturnType* OUT_key ); \
 \
 extern ValueTypeName* gtmap_##Surname##_emplace( gena_iterator_p object, \
-  ptrdiff_t offset, const ValuePassType value ); \
+  ptrdiff_t offset, ValuePassType const value ); \
 \
 ZZ_GENA_DECLARATIONS_LIST_END
 

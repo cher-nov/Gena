@@ -47,7 +47,7 @@
   ZZ_GVEC_DECLARATIONS_LIST( \
     tpSurname, \
     ZGENA_DATA_TYPE(tpTypeInfo, tpReturnBy), \
-    ZGENA_DATA_NAKED(tpTypeInfo, tpPassBy), \
+    ZGENA_DATA_FIXED(tpTypeInfo, tpPassBy), \
     ZGENA_DATA_NAKED(tpTypeInfo, tpReturnBy) \
   ); \
   ZGENA_REQUIRE_SEMICOLON_OUTSIDE
@@ -79,7 +79,7 @@
   gvec_##tpSurname##_reset( \
     gvec_##tpSurname##_h* phandle, \
     size_t count, \
-    const ZGENA_DATA_NAKED(tpTypeInfo, tpPassBy) value \
+    ZGENA_DATA_FIXED(tpTypeInfo, tpPassBy) const value \
   ) { \
     gvec_##tpSurname##_h new_handle; \
     size_t i; \
@@ -103,7 +103,7 @@
   gvec_##tpSurname##_resize( \
     gvec_##tpSurname##_h* phandle, \
     size_t new_count, \
-    const ZGENA_DATA_NAKED(tpTypeInfo, tpPassBy) value \
+    ZGENA_DATA_FIXED(tpTypeInfo, tpPassBy) const value \
   ) { \
     gvec_##tpSurname##_h new_handle; \
     size_t i; \
@@ -158,7 +158,7 @@
     gvec_##tpSurname##_h* phandle, \
     size_t position, \
     size_t count, \
-    const ZGENA_DATA_NAKED(tpTypeInfo, tpPassBy) value \
+    ZGENA_DATA_FIXED(tpTypeInfo, tpPassBy) const value \
   ) { \
     gvec_##tpSurname##_h new_handle; \
     size_t i; \
@@ -181,7 +181,7 @@
   gena_bool \
   gvec_##tpSurname##_push( \
     gvec_##tpSurname##_h* phandle, \
-    const ZGENA_DATA_NAKED(tpTypeInfo, tpPassBy) value \
+    ZGENA_DATA_FIXED(tpTypeInfo, tpPassBy) const value \
   ) { \
     gvec_##tpSurname##_h new_handle; \
     size_t count; \
@@ -233,7 +233,7 @@
   gvec_##tpSurname##_emplace( \
     gena_iterator_p object, \
     ptrdiff_t offset, \
-    const ZGENA_DATA_NAKED(tpTypeInfo, tpPassBy) value \
+    ZGENA_DATA_FIXED(tpTypeInfo, tpPassBy) const value \
   ) { \
     ZGENA_DATA_BIND( tpTypeInfo, tpPassBy, *entry ); \
   { \

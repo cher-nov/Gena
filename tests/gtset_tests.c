@@ -58,9 +58,9 @@ MunitResult gtsettests_2_modify() {
   gtset_array_h set_array;
   gena_bool exists;
   int key1_naive, key2_naive;
-  genatest_skey_p key1_skey, key2_skey;
-  char *key1_str, *key2_str;
-  int *key1_array, *key2_array;
+  const genatest_skey_s *key1_skey, *key2_skey;
+  const char *key1_str, *key2_str;
+  const int *key1_array, *key2_array;
   int i, compare;
 {
   /********************************************************************/

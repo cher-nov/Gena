@@ -84,10 +84,10 @@ extern const gena_tag_z gvec_##tpSurname##_tag; \
 extern gvec_##Surname##_h gvec_##Surname##_new( size_t min_count ); \
 \
 extern gena_bool gvec_##Surname##_reset( gvec_##Surname##_h* phandle, \
-  size_t count, const PassType value ); \
+  size_t count, PassType const value ); \
 \
 extern gena_bool gvec_##Surname##_resize( gvec_##Surname##_h* phandle, \
-  size_t new_count, const PassType value ); \
+  size_t new_count, PassType const value ); \
 \
 extern gena_bool gvec_##Surname##_reserve( gvec_##Surname##_h* phandle, \
   size_t min_count ); \
@@ -95,10 +95,10 @@ extern gena_bool gvec_##Surname##_reserve( gvec_##Surname##_h* phandle, \
 extern gena_bool gvec_##Surname##_shrink( gvec_##Surname##_h* phandle ); \
 \
 extern gena_bool gvec_##Surname##_insert( gvec_##Surname##_h* phandle, \
-  size_t position, size_t count, const PassType value ); \
+  size_t position, size_t count, PassType const value ); \
 \
 extern gena_bool gvec_##Surname##_push( gvec_##Surname##_h* phandle, \
-  const PassType value ); \
+  PassType const value ); \
 \
 extern ReturnType gvec_##Surname##_pop( gvec_##Surname##_h handle ); \
 \
@@ -106,7 +106,7 @@ extern ReturnType gvec_##Surname##_value( gena_iterator_p object, \
   ptrdiff_t offset ); \
 \
 extern TypeName* gvec_##Surname##_emplace( gena_iterator_p object, \
-  ptrdiff_t offset, const PassType value ); \
+  ptrdiff_t offset, PassType const value ); \
 \
 ZZ_GENA_DECLARATIONS_LIST_END
 

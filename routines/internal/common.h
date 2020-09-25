@@ -66,6 +66,14 @@
   #define ZZ_GENA_PTR__DATA_NAKED *
   #define ZZ_GENA_ARR__DATA_NAKED *
 
+#define ZGENA_DATA_FIXED( tpTypeInfo, tpUseBy ) \
+  tpUseBy ## DATA_FIXED ZGENA_DATA_NAKED(tpTypeInfo, tpUseBy)
+
+  #define ZZ_GENA_VAL__DATA_FIXED
+  #define ZZ_GENA_REF__DATA_FIXED const
+  #define ZZ_GENA_PTR__DATA_FIXED const
+  #define ZZ_GENA_ARR__DATA_FIXED const
+
 #define ZGENA_DATA_CAST( tpTypeInfo, tpUseBy, tpAddress ) \
   ( ( tpUseBy ## DATA_CAST(tpTypeInfo) ) (tpAddress) )
 

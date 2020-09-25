@@ -47,9 +47,9 @@
   ZZ_GTSET_DEFINE_TYPE( tpSurname ); \
   ZZ_GTSET_DECLARATIONS_LIST( \
     tpSurname, \
-    ZGENA_DATA_TYPE(tpTypeInfo, tpPassBy), \
-    ZGENA_DATA_NAKED(tpTypeInfo, tpPassBy), \
-    ZGENA_DATA_NAKED(tpTypeInfo, tpReturnBy) \
+    /*const ZGENA_DATA_TYPE(tpTypeInfo, tpReturnBy)*/, \
+    ZGENA_DATA_FIXED(tpTypeInfo, tpPassBy), \
+    ZGENA_DATA_FIXED(tpTypeInfo, tpReturnBy) \
   ); \
   ZGENA_REQUIRE_SEMICOLON_OUTSIDE
 
@@ -80,7 +80,7 @@
   gena_bool \
   gtset_##tpSurname##_add( \
     gtset_##tpSurname##_h handle, \
-    const ZGENA_DATA_NAKED(tpTypeInfo, tpPassBy) value, \
+    ZGENA_DATA_FIXED(tpTypeInfo, tpPassBy) const value, \
     gena_bool* OUT_key_exists \
   ) { \
     igena_avl_node_p new_node; \
@@ -99,7 +99,7 @@
   gena_bool \
   gtset_##tpSurname##_delete( \
     gtset_##tpSurname##_h handle, \
-    const ZGENA_DATA_NAKED(tpTypeInfo, tpPassBy) value \
+    ZGENA_DATA_FIXED(tpTypeInfo, tpPassBy) const value \
   ) { \
     gena_bool node_deleted; \
   { \
@@ -115,7 +115,7 @@
   gena_bool \
   gtset_##tpSurname##_check( \
     gtset_##tpSurname##_h handle, \
-    const ZGENA_DATA_NAKED(tpTypeInfo, tpPassBy) value \
+    ZGENA_DATA_FIXED(tpTypeInfo, tpPassBy) const value \
   ) { \
     igena_avl_bias scan_bias; \
   { \
@@ -126,7 +126,7 @@
   }} \
 /********************************************************************/ \
   tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
-  ZGENA_DATA_NAKED(tpTypeInfo, tpReturnBy) \
+  ZGENA_DATA_FIXED(tpTypeInfo, tpReturnBy) \
   gtset_##tpSurname##_first( \
     gtset_##tpSurname##_h handle \
   ) { \
@@ -143,7 +143,7 @@
   }} \
 /********************************************************************/ \
   tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
-  ZGENA_DATA_NAKED(tpTypeInfo, tpReturnBy) \
+  ZGENA_DATA_FIXED(tpTypeInfo, tpReturnBy) \
   gtset_##tpSurname##_last( \
     gtset_##tpSurname##_h handle \
   ) { \
@@ -160,7 +160,7 @@
   }} \
 /********************************************************************/ \
   tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
-  ZGENA_DATA_NAKED(tpTypeInfo, tpReturnBy) \
+  ZGENA_DATA_FIXED(tpTypeInfo, tpReturnBy) \
   gtset_##tpSurname##_value( \
     gena_iterator_p object, \
     ptrdiff_t offset \

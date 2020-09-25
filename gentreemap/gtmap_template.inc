@@ -60,11 +60,11 @@
   ZZ_GTMAP_DEFINE_TYPE( tpSurname ); \
   ZZ_GTMAP_DECLARATIONS_LIST( \
     tpSurname, \
-    ZGENA_DATA_TYPE(tpKeyTypeInfo, tpKeyPassBy), \
-    ZGENA_DATA_TYPE(tpValueTypeInfo, tpValuePassBy), \
-    ZGENA_DATA_NAKED(tpKeyTypeInfo, tpKeyPassBy), \
-    ZGENA_DATA_NAKED(tpKeyTypeInfo, tpKeyReturnBy), \
-    ZGENA_DATA_NAKED(tpValueTypeInfo, tpValuePassBy), \
+    /*const ZGENA_DATA_TYPE(tpKeyTypeInfo, tpKeyReturnBy)*/, \
+    ZGENA_DATA_TYPE(tpValueTypeInfo, tpValueReturnBy), \
+    ZGENA_DATA_FIXED(tpKeyTypeInfo, tpKeyPassBy), \
+    ZGENA_DATA_FIXED(tpKeyTypeInfo, tpKeyReturnBy), \
+    ZGENA_DATA_FIXED(tpValueTypeInfo, tpValuePassBy), \
     ZGENA_DATA_NAKED(tpValueTypeInfo, tpValueReturnBy) \
   ); \
   ZGENA_REQUIRE_SEMICOLON_OUTSIDE
@@ -99,8 +99,8 @@
   ZGENA_DATA_TYPE(tpValueTypeInfo, tpValueReturnBy) * \
   gtmap_##tpSurname##_add( \
     gtmap_##tpSurname##_h handle, \
-    const ZGENA_DATA_NAKED(tpKeyTypeInfo, tpKeyPassBy) key, \
-    const ZGENA_DATA_NAKED(tpValueTypeInfo, tpValuePassBy) value \
+    ZGENA_DATA_FIXED(tpKeyTypeInfo, tpKeyPassBy) const key, \
+    ZGENA_DATA_FIXED(tpValueTypeInfo, tpValuePassBy) const value \
   ) { \
     igena_avl_node_p new_node; \
     ZGENA_DATA_BIND( tpValueTypeInfo, tpValuePassBy, *node_value ); \
@@ -134,8 +134,8 @@
   ZGENA_DATA_TYPE(tpValueTypeInfo, tpValueReturnBy) * \
   gtmap_##tpSurname##_put( \
     gtmap_##tpSurname##_h handle, \
-    const ZGENA_DATA_NAKED(tpKeyTypeInfo, tpKeyPassBy) key, \
-    const ZGENA_DATA_NAKED(tpValueTypeInfo, tpValuePassBy) value \
+    ZGENA_DATA_FIXED(tpKeyTypeInfo, tpKeyPassBy) const key, \
+    ZGENA_DATA_FIXED(tpValueTypeInfo, tpValuePassBy) const value \
   ) { \
     igena_avl_node_p key_node; \
     ZGENA_DATA_BIND( tpValueTypeInfo, tpValuePassBy, *node_value ); \
@@ -167,7 +167,7 @@
   gena_bool \
   gtmap_##tpSurname##_delete( \
     gtmap_##tpSurname##_h handle, \
-    const ZGENA_DATA_NAKED(tpKeyTypeInfo, tpKeyPassBy) key \
+    ZGENA_DATA_FIXED(tpKeyTypeInfo, tpKeyPassBy) const key \
   ) { \
     gena_bool node_deleted; \
   { \
@@ -184,7 +184,7 @@
   ZGENA_DATA_TYPE(tpValueTypeInfo, tpValueReturnBy) * \
   gtmap_##tpSurname##_find( \
     gtmap_##tpSurname##_h handle, \
-    const ZGENA_DATA_NAKED(tpKeyTypeInfo, tpKeyPassBy) key \
+    ZGENA_DATA_FIXED(tpKeyTypeInfo, tpKeyPassBy) const key \
   ) { \
     igena_avl_node_p scan_node; \
     igena_avl_bias scan_bias; \
@@ -207,7 +207,7 @@
   ZGENA_DATA_NAKED(tpValueTypeInfo, tpValueReturnBy) \
   gtmap_##tpSurname##_first( \
     gtmap_##tpSurname##_h handle, \
-    ZGENA_DATA_NAKED(tpKeyTypeInfo, tpKeyReturnBy) * OUT_key \
+    ZGENA_DATA_FIXED(tpKeyTypeInfo, tpKeyReturnBy) * OUT_key \
   ) { \
     ZGENA_DATA_BIND( tpValueTypeInfo, tpValuePassBy, *node_value ) = NULL; \
   { \
@@ -236,7 +236,7 @@
   ZGENA_DATA_NAKED(tpValueTypeInfo, tpValueReturnBy) \
   gtmap_##tpSurname##_last( \
     gtmap_##tpSurname##_h handle, \
-    ZGENA_DATA_NAKED(tpKeyTypeInfo, tpKeyReturnBy) * OUT_key \
+    ZGENA_DATA_FIXED(tpKeyTypeInfo, tpKeyReturnBy) * OUT_key \
   ) { \
     ZGENA_DATA_BIND( tpValueTypeInfo, tpValuePassBy, *node_value ) = NULL; \
   { \
@@ -262,7 +262,7 @@
   }} \
 /********************************************************************/ \
   tpApproach ( ZGENA_STATIC_APPROACH_FUNCTION ) \
-  ZGENA_DATA_NAKED(tpKeyTypeInfo, tpKeyReturnBy) \
+  ZGENA_DATA_FIXED(tpKeyTypeInfo, tpKeyReturnBy) \
   gtmap_##tpSurname##_key( \
     gena_iterator_p object, \
     ptrdiff_t offset \
@@ -298,7 +298,7 @@
   gtmap_##tpSurname##_entry( \
     gena_iterator_p object, \
     ptrdiff_t offset, \
-    ZGENA_DATA_NAKED(tpKeyTypeInfo, tpKeyReturnBy) * OUT_key \
+    ZGENA_DATA_FIXED(tpKeyTypeInfo, tpKeyReturnBy) * OUT_key \
   ) { \
     void* key = NULL; \
     ZGENA_DATA_BIND( tpValueTypeInfo, tpValuePassBy, *value ); \
@@ -323,7 +323,7 @@
   gtmap_##tpSurname##_emplace( \
     gena_iterator_p object, \
     ptrdiff_t offset, \
-    const ZGENA_DATA_NAKED(tpValueTypeInfo, tpValuePassBy) value \
+    ZGENA_DATA_FIXED(tpValueTypeInfo, tpValuePassBy) const value \
   ) { \
     ZGENA_DATA_BIND( tpValueTypeInfo, tpValuePassBy, *entry ); \
   { \
