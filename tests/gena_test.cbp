@@ -226,6 +226,8 @@
 		<Unit filename="gtset_common/gtset_modular.c">
 			<Option compilerVar="CC" />
 			<Option virtualFolder="tests/gtset_common/" />
+			<Option target="Test Modular (Debug+gcov)" />
+			<Option target="Check C89 Modular (Debug)" />
 		</Unit>
 		<Unit filename="gtset_common/gtset_modular.h">
 			<Option compilerVar="CC" />
