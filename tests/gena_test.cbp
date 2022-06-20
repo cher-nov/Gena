@@ -96,12 +96,15 @@
 			<Option virtualFolder="gentreemap/" />
 		</Unit>
 		<Unit filename="../gentreemap/gentreemap.h">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="gentreemap/" />
 		</Unit>
 		<Unit filename="../gentreemap/gtmap_internal.inc">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="gentreemap/" />
 		</Unit>
 		<Unit filename="../gentreemap/gtmap_template.inc">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="gentreemap/" />
 		</Unit>
 		<Unit filename="../gentreeset/gentreeset.c">
@@ -109,12 +112,15 @@
 			<Option virtualFolder="gentreeset/" />
 		</Unit>
 		<Unit filename="../gentreeset/gentreeset.h">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="gentreeset/" />
 		</Unit>
 		<Unit filename="../gentreeset/gtset_internal.inc">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="gentreeset/" />
 		</Unit>
 		<Unit filename="../gentreeset/gtset_template.inc">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="gentreeset/" />
 		</Unit>
 		<Unit filename="../genvector/genvector.c">
@@ -122,18 +128,23 @@
 			<Option virtualFolder="genvector/" />
 		</Unit>
 		<Unit filename="../genvector/genvector.h">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="genvector/" />
 		</Unit>
 		<Unit filename="../genvector/gvec_internal.inc">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="genvector/" />
 		</Unit>
 		<Unit filename="../genvector/gvec_template.inc">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="genvector/" />
 		</Unit>
 		<Unit filename="../routines/global.h">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="routines/" />
 		</Unit>
 		<Unit filename="../routines/internal/avl_tree/avl_template.inc">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="routines/internal/avl_tree/" />
 		</Unit>
 		<Unit filename="../routines/internal/avl_tree/avl_tree.c">
@@ -141,12 +152,15 @@
 			<Option virtualFolder="routines/internal/avl_tree/" />
 		</Unit>
 		<Unit filename="../routines/internal/avl_tree/avl_tree.h">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="routines/internal/avl_tree/" />
 		</Unit>
 		<Unit filename="../routines/internal/common.h">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="routines/internal/" />
 		</Unit>
 		<Unit filename="../routines/iterator/iter_internal.inc">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="routines/iterator/" />
 		</Unit>
 		<Unit filename="../routines/iterator/iterator.c">
@@ -154,9 +168,11 @@
 			<Option virtualFolder="routines/iterator/" />
 		</Unit>
 		<Unit filename="../routines/iterator/iterator.h">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="routines/iterator/" />
 		</Unit>
 		<Unit filename="../routines/shared.h">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="routines/" />
 		</Unit>
 		<Unit filename="genatest_common.c">
@@ -166,11 +182,13 @@
 			<Option target="Test Modular (Debug+gcov)" />
 		</Unit>
 		<Unit filename="genatest_common.h">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="tests/" />
 			<Option target="Test Static (Release)" />
 			<Option target="Test Modular (Debug+gcov)" />
 		</Unit>
 		<Unit filename="gtmap_common/gtmap_general.h">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="tests/gtmap_common/" />
 		</Unit>
 		<Unit filename="gtmap_common/gtmap_modular.c">
@@ -180,11 +198,13 @@
 			<Option target="Check C89 Modular (Debug)" />
 		</Unit>
 		<Unit filename="gtmap_common/gtmap_modular.h">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="tests/gtmap_common/" />
 			<Option target="Test Modular (Debug+gcov)" />
 			<Option target="Check C89 Modular (Debug)" />
 		</Unit>
 		<Unit filename="gtmap_common/gtmap_static.h">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="tests/gtmap_common/" />
 			<Option target="Test Static (Release)" />
 			<Option target="Check C89 Static (Release)" />
@@ -196,9 +216,11 @@
 			<Option target="Test Modular (Debug+gcov)" />
 		</Unit>
 		<Unit filename="gtmap_tests.h">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="tests/" />
 		</Unit>
 		<Unit filename="gtset_common/gtset_general.h">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="tests/gtset_common/" />
 		</Unit>
 		<Unit filename="gtset_common/gtset_modular.c">
@@ -206,9 +228,11 @@
 			<Option virtualFolder="tests/gtset_common/" />
 		</Unit>
 		<Unit filename="gtset_common/gtset_modular.h">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="tests/gtset_common/" />
 		</Unit>
 		<Unit filename="gtset_common/gtset_static.h">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="tests/gtset_common/" />
 		</Unit>
 		<Unit filename="gtset_tests.c">
@@ -218,11 +242,13 @@
 			<Option target="Test Modular (Debug+gcov)" />
 		</Unit>
 		<Unit filename="gtset_tests.h">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="tests/" />
 			<Option target="Test Static (Release)" />
 			<Option target="Test Modular (Debug+gcov)" />
 		</Unit>
 		<Unit filename="gvec_common/gvec_general.h">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="tests/gvec_common/" />
 		</Unit>
 		<Unit filename="gvec_common/gvec_modular.c">
@@ -232,11 +258,13 @@
 			<Option target="Check C89 Modular (Debug)" />
 		</Unit>
 		<Unit filename="gvec_common/gvec_modular.h">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="tests/gvec_common/" />
 			<Option target="Test Modular (Debug+gcov)" />
 			<Option target="Check C89 Modular (Debug)" />
 		</Unit>
 		<Unit filename="gvec_common/gvec_static.h">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="tests/gvec_common/" />
 			<Option target="Test Static (Release)" />
 			<Option target="Check C89 Static (Release)" />
@@ -248,6 +276,7 @@
 			<Option target="Test Modular (Debug+gcov)" />
 		</Unit>
 		<Unit filename="gvec_tests.h">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="tests/" />
 		</Unit>
 		<Unit filename="main.c">
@@ -261,6 +290,7 @@
 			<Option target="Test Modular (Debug+gcov)" />
 		</Unit>
 		<Unit filename="munit/munit.h">
+			<Option compilerVar="CC" />
 			<Option virtualFolder="munit/" />
 			<Option target="Test Static (Release)" />
 			<Option target="Test Modular (Debug+gcov)" />
